@@ -1,74 +1,39 @@
 @import "./tokens.css";
 
-/* Reset et règles d'accessibilité globales */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-html {
-  font-family: var(--font-sans);
-  font-size: 16px;
-  line-height: var(--line-height-base);
-  color: var(--color-text);
-  background-color: var(--color-surface);
-  text-rendering: optimizeLegibility;
-  -webkit-text-size-adjust: 100%;
-  scroll-behavior: smooth;
-}
-
-body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Anneaux de focus accessibles (WCAG 2.1 AA) */
-:focus-visible {
-  outline: 3px solid var(--color-primary-dark);
-  outline-offset: 2px;
-}
-
-/* Désactivation des animations si l'utilisateur le demande */
-@media (prefers-reduced-motion: reduce) {
+@layer base {
   html {
-    scroll-behavior: auto;
+    font-family: var(--font-sans);
+    color: var(--color-text);
+    background-color: var(--color-surface);
+    text-rendering: optimizeLegibility;
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
   }
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+
+  body {
+    min-height: 100vh;
   }
-}
 
-/* Typographie et liens */
-h1, h2, h3, h4, h5, h6 {
-  color: var(--color-text);
-  font-weight: 700;
-  line-height: 1.25;
-}
+  /* Anneaux de focus accessibles (WCAG 2.1 AA) */
+  :focus-visible {
+    outline: 3px solid var(--color-primary-dark);
+    outline-offset: 2px;
+  }
 
-a {
-  color: var(--color-primary);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  transition: color var(--transition-fast);
-}
-
-a:hover {
-  color: var(--color-primary-dark);
-}
-
-/* Boutons accessibles */
-button, input, select, textarea {
-  font: inherit;
-}
-
-/* Images responsives */
-img, svg {
-  display: block;
-  max-width: 100%;
-  height: auto;
+  /* Désactivation des animations si l'utilisateur le demande */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
