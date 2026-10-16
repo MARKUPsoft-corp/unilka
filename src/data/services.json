@@ -1,0 +1,82 @@
+[
+  {
+    "id": "residentiel",
+    "slug": "nettoyage-residentiel",
+    "title": "Nettoyage résidentiel",
+    "headline": "Nettoyage résidentiel à Montréal et environs",
+    "shortDescription": "Maison, appartement, condo ou logement : profitez pleinement de votre espace.",
+    "fullDescription": "Nous prenons soin de votre maison, appartement, condo ou logement afin de vous permettre de profiter pleinement de votre espace. Chaque intervention peut être adaptée selon vos besoins et l'état de votre logement.",
+    "icon": "home",
+    "features": [
+      "Nettoyage de la cuisine",
+      "Nettoyage des salles de bain",
+      "Époussetage des surfaces",
+      "Nettoyage des planchers",
+      "Nettoyage des chambres et des espaces communs",
+      "Nettoyage des fenêtres intérieures",
+      "Nettoyage des surfaces et des appareils",
+      "Grand ménage",
+      "Nettoyage avant ou après un déménagement",
+      "Entretien régulier"
+    ],
+    "housingTypes": ["Appartements", "Condos", "Maisons", "Duplex", "Autres types de logements"],
+    "windowNote": "Le nettoyage des fenêtres intérieures est inclus dans nos services. Pour les fenêtres extérieures, nous évaluons chaque situation avant de vous proposer une solution."
+  },
+  {
+    "id": "commercial",
+    "slug": "nettoyage-commercial",
+    "title": "Nettoyage commercial",
+    "headline": "Nettoyage commercial à Montréal et environs",
+    "shortDescription": "Bureaux, commerces et locaux professionnels : un environnement de travail propre pour vos équipes et vos clients.",
+    "fullDescription": "Un environnement de travail propre contribue à offrir une meilleure expérience aux employés, aux clients et aux visiteurs. Nous pouvons établir un horaire d'entretien régulier afin de maintenir vos locaux propres en tout temps.",
+    "icon": "building",
+    "features": [
+      "Bureaux",
+      "Commerces",
+      "Locaux professionnels",
+      "Petites entreprises",
+      "Espaces communs",
+      "Immeubles et espaces locatifs",
+      "Locaux après travaux ou rénovation"
+    ],
+    "housingTypes": ["Bureaux", "Commerces", "Locaux professionnels", "Immeubles locatifs"],
+    "windowNote": "Interventions possibles pendant ou en dehors de vos heures d'ouverture selon vos contraintes d'horaires."
+  },
+  {
+    "id": "specialise",
+    "slug": "nettoyage-specialise",
+    "title": "Nettoyage spécialisé",
+    "headline": "Nettoyage spécialisé : canapés, tapis, matelas et véhicules",
+    "shortDescription": "Canapés, tapis, matelas, intérieur de véhicules et surfaces particulièrement sales.",
+    "fullDescription": "Certains espaces et certaines surfaces nécessitent une attention particulière. Nous proposons des services spécialisés pour différents types de nettoyage en profondeur.",
+    "icon": "sparkle",
+    "features": [
+      "Nettoyage de canapés et fauteuils",
+      "Nettoyage de tapis et carpettes",
+      "Nettoyage de matelas",
+      "Nettoyage intérieur de véhicules",
+      "Nettoyage de surfaces particulièrement sales",
+      "Nettoyage après une longue période d'inoccupation"
+    ],
+    "housingTypes": ["Mobilier textile", "Tapis et moquettes", "Véhicules personnels et utilitaires"],
+    "windowNote": "Les résultats dépendent du type de matériau et de l'état de la surface. Nous évaluons chaque situation avant d'intervenir."
+  },
+  {
+    "id": "regulier",
+    "slug": "entretien-regulier",
+    "title": "Entretien régulier",
+    "headline": "Entretien régulier à tarif forfaitaire",
+    "shortDescription": "Une fréquence adaptée à vos besoins, avec un tarif forfaitaire proposé après évaluation.",
+    "fullDescription": "Vous souhaitez maintenir votre maison ou votre entreprise propre sans avoir à vous soucier de réserver un service à chaque fois ? Notre service d'entretien régulier vous permet de bénéficier d'un nettoyage selon une fréquence adaptée à vos besoins.",
+    "icon": "calendar",
+    "features": [
+      "Chaque semaine",
+      "Toutes les deux semaines",
+      "Toutes les trois semaines",
+      "Une fois par mois",
+      "Selon vos besoins"
+    ],
+    "housingTypes": ["Résidentiel régulier", "Commercial régulier", "Gestionnaires d'immeubles"],
+    "windowNote": "Après l'évaluation de vos besoins, nous vous proposons un tarif forfaitaire sans mauvaise surprise."
+  }
+]

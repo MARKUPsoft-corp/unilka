@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StepService from '../../components/forms/submission/StepService.astro';
+import StepLocation from '../../components/forms/submission/StepLocation.astro';
+import StepResidential from '../../components/forms/submission/StepResidential.astro';
+import StepCommercial from '../../components/forms/submission/StepCommercial.astro';
+import StepSpecialized from '../../components/forms/submission/StepSpecialized.astro';
+import StepDescriptionPhotos from '../../components/forms/submission/StepDescriptionPhotos.astro';
+import StepContact from '../../components/forms/submission/StepContact.astro';
+
+const pageTitle = "Demande de soumission de nettoyage — unilka";
+const pageDescription = "Remplissez notre formulaire pour obtenir une soumission personnalisée de nettoyage résidentiel, commercial ou spécialisé à Montréal et environs.";
+
+const breadcrumbs = [
+  { label: "Demander une soumission", href: "/soumission/" }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
+
+  <!-- EN-TÊTE DU FORMULAIRE -->
+  <section class="bg-brand-surface-subtle py-12 lg:py-16 border-b border-brand-primary-light/60">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-text tracking-tight">
+        Demander une soumission
+      </h1>
+      <p class="text-base sm:text-lg text-brand-muted leading-relaxed max-w-2xl mx-auto">
+        Besoin d'un nettoyage ? Obtenez une évaluation de vos besoins en quelques étapes. Remplissez notre formulaire et fournissez-nous les informations nécessaires afin que nous puissions mieux comprendre votre situation et vous proposer une solution adaptée. Toutes les informations resteront confidentielles.
+      </p>
+      <p class="text-xs font-semibold text-brand-muted uppercase tracking-wider">
+        * champ obligatoire
+      </p>
+    </div>
+  </section>
+
+  <!-- CONTENEUR DU FORMULAIRE -->
+  <section class="py-12 sm:py-16 bg-brand-surface-subtle/50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- RÉSUMÉ D'ERREURS ACCESSIBLE (Section 9.3) -->
+      <div
+        id="error-summary"
+        tabindex="-1"
+        class="hidden mb-8 p-6 rounded-2xl bg-red-50 border-2 border-brand-error text-brand-error shadow-sm focus:outline-none focus:ring-4 focus:ring-red-200"
+        role="alert"
+        aria-labelledby="error-summary-heading"
+      >
+        <h2 id="error-summary-heading" class="text-lg font-bold text-brand-error mb-2 flex items-center gap-2">
+          <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+          <span>Veuillez corriger les éléments suivants :</span>
+        </h2>
+        <ul id="error-summary-list" class="list-disc pl-6 space-y-1 text-sm font-medium"></ul>
+      </div>
+
+      <!-- FORMULAIRE MODULAIRE -->
+      <form id="submission-form" novalidate class="space-y-8">
+        <StepService />
+        <StepLocation />
+        <StepResidential />
+        <StepCommercial />
+        <StepSpecialized />
+        <StepDescriptionPhotos />
+        <StepContact />
+      </form>
+
+    </div>
+  </section>
+
+</BaseLayout>
+
+<script>
+  import { initSubmissionForm } from '../../scripts/submission-form.js';
+  initSubmissionForm();
+</script>

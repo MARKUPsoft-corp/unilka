@@ -1,0 +1,124 @@
+---
+// Section 4 : Expérience et compétences (champs conditionnels)
+---
+<fieldset class="p-6 sm:p-8 bg-white rounded-2xl border border-brand-primary-light/80 shadow-xs space-y-6">
+  <legend class="text-xl font-bold text-brand-text flex items-center gap-2">
+    <span class="w-7 h-7 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center shrink-0">3</span>
+    <span>Expérience et compétences</span>
+  </legend>
+
+  <!-- Déjà travaillé dans ce domaine ? -->
+  <div class="space-y-3">
+    <label class="block text-sm font-bold text-brand-text">
+      Avez-vous déjà travaillé dans ce domaine ? <span class="text-brand-error" aria-hidden="true">*</span>
+    </label>
+    <div class="flex gap-4">
+      <label class="flex items-center gap-2 text-sm text-brand-text cursor-pointer">
+        <input type="radio" name="hasExperience" value="Oui" id="exp-yes" class="w-4 h-4 text-brand-primary" required />
+        <span>Oui</span>
+      </label>
+      <label class="flex items-center gap-2 text-sm text-brand-text cursor-pointer">
+        <input type="radio" name="hasExperience" value="Non" id="exp-no" checked class="w-4 h-4 text-brand-primary" />
+        <span>Non</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Bloc détails d'expérience (affiché seulement si Oui) -->
+  <div id="cand-experienceDetailsBlock" class="hidden space-y-4 pt-4 border-t border-brand-primary-light/60">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label for="cand-yearsExp" class="block text-sm font-bold text-brand-text mb-1.5">
+          Nombre d'années d'expérience <span class="text-brand-error" aria-hidden="true">*</span>
+        </label>
+        <select
+          id="cand-yearsExp"
+          name="experienceYears"
+          class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text bg-white"
+        >
+          <option value="Moins d'un an">Moins d'un an</option>
+          <option value="1 à 2 ans">1 à 2 ans</option>
+          <option value="3 à 5 ans">3 à 5 ans</option>
+          <option value="Plus de 5 ans">Plus de 5 ans</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="cand-expType" class="block text-sm font-bold text-brand-text mb-1.5">
+          Type d'expérience
+        </label>
+        <input
+          type="text"
+          id="cand-expType"
+          name="experienceType"
+          placeholder="Ex. Résidentiel, hôtels, bureaux"
+          class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
+        />
+      </div>
+    </div>
+
+    <div>
+      <label for="cand-tasks" class="block text-sm font-bold text-brand-text mb-1.5">
+        Principales tâches réalisées
+      </label>
+      <textarea
+        id="cand-tasks"
+        name="tasksDone"
+        rows="3"
+        maxlength="800"
+        placeholder="Décrivez vos missions précédentes..."
+        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
+      ></textarea>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label for="cand-employer" class="block text-sm font-bold text-brand-text mb-1.5">
+          Dernier employeur, si applicable
+        </label>
+        <input
+          type="text"
+          id="cand-employer"
+          name="lastEmployer"
+          placeholder="Nom de l'entreprise"
+          class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-bold text-brand-text mb-2">
+          Références professionnelles disponibles
+        </label>
+        <div class="flex gap-4 pt-1">
+          <label class="flex items-center gap-2 text-sm text-brand-text cursor-pointer">
+            <input type="radio" name="hasReferences" value="Oui" class="w-4 h-4 text-brand-primary" />
+            <span>Oui</span>
+          </label>
+          <label class="flex items-center gap-2 text-sm text-brand-text cursor-pointer">
+            <input type="radio" name="hasReferences" value="Non" checked class="w-4 h-4 text-brand-primary" />
+            <span>Non</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Compétences (Toujours visible) -->
+  <div class="pt-4 border-t border-brand-primary-light/60">
+    <div class="flex items-center justify-between mb-1.5">
+      <label for="cand-skills" class="block text-sm font-bold text-brand-text">
+        Quelles sont vos principales compétences ?
+      </label>
+      <span id="char-count-candSkills" class="text-xs text-brand-muted">0 / 800</span>
+    </div>
+    <textarea
+      id="cand-skills"
+      name="mainSkills"
+      rows="3"
+      maxlength="800"
+      placeholder="Ex. Sens du détail, ponctualité, utilisation sécuritaire des produits..."
+      class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
+    ></textarea>
+  </div>
+
+</fieldset>

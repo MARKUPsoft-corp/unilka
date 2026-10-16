@@ -1,0 +1,92 @@
+---
+// Étape 3B : Détails commerciaux (conditionnel)
+---
+<fieldset id="block-commercial" class="hidden p-6 sm:p-8 bg-white rounded-2xl border border-brand-primary-light/80 shadow-xs space-y-6">
+  <legend class="text-xl font-bold text-brand-text flex items-center gap-2">
+    <span class="w-7 h-7 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center shrink-0">3</span>
+    <span>Détails commerciaux</span>
+  </legend>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <!-- Type de local -->
+    <div>
+      <label for="commercialType" class="block text-sm font-bold text-brand-text mb-1.5">
+        Type de local <span class="text-brand-error" aria-hidden="true">*</span>
+      </label>
+      <select
+        id="commercialType"
+        name="commercialType"
+        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text bg-white"
+      >
+        <option value="Bureau">Bureau</option>
+        <option value="Commerce">Commerce</option>
+        <option value="Local professionnel">Local professionnel</option>
+        <option value="Petite entreprise">Petite entreprise</option>
+        <option value="Espaces communs">Espaces communs</option>
+        <option value="Immeuble ou espaces locatifs">Immeuble ou espaces locatifs</option>
+        <option value="Local après travaux ou rénovation">Local après travaux ou rénovation</option>
+        <option value="Autre">Autre</option>
+      </select>
+    </div>
+
+    <!-- Superficie approximative -->
+    <div>
+      <label for="commercialArea" class="block text-sm font-bold text-brand-text mb-1.5">
+        Superficie approximative
+      </label>
+      <select
+        id="commercialArea"
+        name="commercialArea"
+        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text bg-white"
+      >
+        <option value="">Non spécifié</option>
+        <option value="Moins de 600 pi²">Moins de 600 pi²</option>
+        <option value="600 à 1 000 pi²">600 à 1 000 pi²</option>
+        <option value="1 000 à 1 500 pi²">1 000 à 1 500 pi²</option>
+        <option value="1 500 à 2 500 pi²">1 500 à 2 500 pi²</option>
+        <option value="Plus de 2 500 pi²">Plus de 2 500 pi²</option>
+        <option value="Je ne sais pas">Je ne sais pas</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Moment d'intervention souhaité -->
+  <div class="space-y-2 pt-3 border-t border-brand-primary-light/60">
+    <label class="block text-sm font-bold text-brand-text">
+      Moment d'intervention souhaité
+    </label>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+      {[
+        "Pendant les heures d'ouverture",
+        "En dehors des heures d'ouverture",
+        "Peu importe / à discuter"
+      ].map((time, idx) => (
+        <label class="flex items-center gap-2.5 p-3 rounded-lg border border-brand-primary-light text-xs sm:text-sm font-medium cursor-pointer hover:bg-brand-surface-subtle has-[:checked]:bg-brand-primary-light/50 has-[:checked]:border-brand-primary">
+          <input type="radio" name="commercialTiming" value={time} checked={idx === 1} class="w-4 h-4 text-brand-primary" />
+          <span>{time}</span>
+        </label>
+      ))}
+    </div>
+  </div>
+
+  <!-- État actuel du local -->
+  <div class="space-y-2 pt-3 border-t border-brand-primary-light/60">
+    <label class="block text-sm font-bold text-brand-text">
+      État actuel du local <span class="text-brand-error" aria-hidden="true">*</span>
+    </label>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      {[
+        "Entretien régulier",
+        "Nettoyage standard",
+        "Nettoyage en profondeur",
+        "Local très sale nécessitant une intervention importante"
+      ].map((state, idx) => (
+        <label class="flex items-center gap-2.5 p-3 rounded-lg border border-brand-primary-light text-xs sm:text-sm font-medium cursor-pointer hover:bg-brand-surface-subtle has-[:checked]:bg-brand-primary-light/50 has-[:checked]:border-brand-primary">
+          <input type="radio" name="commercialCondition" value={state} checked={idx === 0} class="w-4 h-4 text-brand-primary" />
+          <span>{state}</span>
+        </label>
+      ))}
+    </div>
+  </div>
+
+</fieldset>

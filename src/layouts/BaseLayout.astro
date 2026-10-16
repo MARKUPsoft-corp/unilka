@@ -1,0 +1,90 @@
+---
+import SkipLink from '../components/common/SkipLink.astro';
+import Header from '../components/common/Header.astro';
+import Footer from '../components/common/Footer.astro';
+import Breadcrumb from '../components/common/Breadcrumb.astro';
+import config from '../data/site-config.json';
+import '../styles/global.css';
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+  breadcrumbs?: BreadcrumbItem[];
+}
+
+const {
+  title,
+  description,
+  noindex = false,
+  breadcrumbs
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, config.business.siteUrl || 'https://unilka.ca');
+const showBreadcrumbs = breadcrumbs && breadcrumbs.length > 0 && Astro.url.pathname !== '/';
+
+// Schéma JSON-LD LocalBusiness pour le SEO local sans faux avis
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "name": "unilka",
+  "url": config.business.siteUrl,
+  "description": description,
+  "areaServed": config.zones.regions.map(r => r.name),
+  "address": {
+    "@type": "PostalAddress",
+    "addressRegion": "QC",
+    "addressCountry": "CA"
+  }
+};
+---
+
+<!DOCTYPE html>
+<html lang="fr-CA">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Titre et Métadonnées SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    
+    {noindex ? (
+      <meta name="robots" content="noindex, nofollow" />
+    ) : (
+      <meta name="robots" content="index, follow" />
+    )}
+
+    <!-- Favicon SVG -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Open Graph / Réseaux Sociaux -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_CA" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:site_name" content="unilka" />
+
+    <!-- Données structurées JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+  </head>
+  <body class="bg-white text-brand-text flex flex-col min-h-screen selection:bg-brand-primary-light selection:text-brand-primary-dark">
+    <SkipLink />
+    <Header currentPath={Astro.url.pathname} />
+
+    {showBreadcrumbs && <Breadcrumb items={breadcrumbs} />}
+
+    <main id="main-content" class="flex-1 focus:outline-none">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

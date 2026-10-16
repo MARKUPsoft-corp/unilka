@@ -1,0 +1,45 @@
+---
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav aria-label="Fil d'Ariane" class="bg-brand-surface-subtle border-b border-brand-primary-light/60 py-2.5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <ol class="flex items-center flex-wrap gap-1.5 text-xs text-brand-muted" role="list">
+      <li class="flex items-center">
+        <a href="/" class="text-brand-muted hover:text-brand-primary no-underline transition-colors flex items-center gap-1">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
+          </svg>
+          <span>Accueil</span>
+        </a>
+      </li>
+
+      {items.map((item, index) => {
+        const isLast = index === items.length - 1;
+        return (
+          <li class="flex items-center gap-1.5">
+            <span class="text-brand-muted/60 select-none" aria-hidden="true">/</span>
+            {isLast || !item.href ? (
+              <span class="font-semibold text-brand-text truncate max-w-[200px] sm:max-w-none" aria-current="page">
+                {item.label}
+              </span>
+            ) : (
+              <a href={item.href} class="text-brand-muted hover:text-brand-primary no-underline transition-colors">
+                {item.label}
+              </a>
+            )}
+          </li>
+        );
+      })}
+    </ol>
+  </div>
+</nav>

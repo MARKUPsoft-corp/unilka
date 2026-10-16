@@ -1,0 +1,17 @@
+# Dépendances et builds
+node_modules/
+dist/
+.astro/
+.vercel/
+
+# Environnement et secrets
+.env
+.env.*
+!.env.example
+
+# Fichiers système et IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log

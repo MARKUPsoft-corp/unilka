@@ -1,0 +1,23 @@
+---
+interface Props {
+  question: string;
+  answer: string;
+  open?: boolean;
+}
+
+const { question, answer, open = false } = Astro.props;
+---
+
+<details class="group bg-white border border-brand-primary-light/80 rounded-xl overflow-hidden transition-all duration-200" open={open}>
+  <summary class="flex items-center justify-between gap-4 p-5 sm:p-6 cursor-pointer list-none select-none font-bold text-base sm:text-lg text-brand-text hover:text-brand-primary focus-visible:outline-2 focus-visible:outline-brand-primary-dark">
+    <span>{question}</span>
+    <span class="w-7 h-7 rounded-full bg-brand-primary-light text-brand-primary flex items-center justify-center shrink-0 transition-transform duration-200 group-open:rotate-180" aria-hidden="true">
+      <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+      </svg>
+    </span>
+  </summary>
+  <div class="px-5 sm:px-6 pb-6 pt-1 text-sm sm:text-base text-brand-muted leading-relaxed border-t border-brand-primary-light/40">
+    <p>{answer}</p>
+  </div>
+</details>

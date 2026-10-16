@@ -1,0 +1,72 @@
+---
+// Section 5 : Disponibilités et horaires du candidat
+---
+<fieldset class="p-6 sm:p-8 bg-white rounded-2xl border border-brand-primary-light/80 shadow-xs space-y-6">
+  <legend class="text-xl font-bold text-brand-text flex items-center gap-2">
+    <span class="w-7 h-7 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center shrink-0">4</span>
+    <span>Disponibilités</span>
+  </legend>
+
+  <!-- Jours disponibles (Obligatoire >= 1) -->
+  <div class="space-y-3">
+    <label class="block text-sm font-bold text-brand-text">
+      Jours disponibles <span class="text-brand-error" aria-hidden="true">*</span>
+    </label>
+    <div class="flex flex-wrap gap-2">
+      {["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"].map((day) => (
+        <label class="flex items-center gap-2 px-3 py-2 rounded-lg border border-brand-primary-light text-xs sm:text-sm font-medium cursor-pointer hover:bg-brand-surface-subtle has-[:checked]:bg-brand-primary-light/50 has-[:checked]:border-brand-primary">
+          <input type="checkbox" name="availableDays" value={day} checked={["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"].includes(day)} class="w-4 h-4 text-brand-primary rounded" />
+          <span>{day}</span>
+        </label>
+      ))}
+    </div>
+    <span id="cand-availableDays-error" class="hidden text-xs text-brand-error" role="alert">Veuillez choisir au moins une option.</span>
+  </div>
+
+  <!-- Plages de la journée (Obligatoire >= 1) -->
+  <div class="space-y-3 pt-4 border-t border-brand-primary-light/60">
+    <label class="block text-sm font-bold text-brand-text">
+      Moments de la journée <span class="text-brand-error" aria-hidden="true">*</span>
+    </label>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+      {["Matin", "Après-midi", "Soir", "Flexible"].map((time, idx) => (
+        <label class="flex items-center gap-2.5 p-3 rounded-lg border border-brand-primary-light text-xs sm:text-sm font-medium cursor-pointer hover:bg-brand-surface-subtle has-[:checked]:bg-brand-primary-light/50 has-[:checked]:border-brand-primary">
+          <input type="checkbox" name="availableTimes" value={time} checked={idx === 3} class="w-4 h-4 text-brand-primary rounded" />
+          <span>{time}</span>
+        </label>
+      ))}
+    </div>
+    <span id="cand-availableTimes-error" class="hidden text-xs text-brand-error" role="alert">Veuillez choisir au moins une option.</span>
+  </div>
+
+  <!-- Heures et Date de début -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-brand-primary-light/60">
+    <div>
+      <label for="cand-hours" class="block text-sm font-bold text-brand-text mb-1.5">
+        Nombre d'heures souhaitées par semaine
+      </label>
+      <input
+        type="number"
+        id="cand-hours"
+        name="desiredHours"
+        min="1"
+        max="60"
+        placeholder="Ex. 25"
+        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
+      />
+    </div>
+
+    <div>
+      <label for="cand-startDate" class="block text-sm font-bold text-brand-text mb-1.5">
+        Date à laquelle vous pouvez commencer
+      </label>
+      <input
+        type="date"
+        id="cand-startDate"
+        name="startDate"
+        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
+      />
+    </div>
+  </div>
+
+</fieldset>

@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AccordionItem from '../components/ui/AccordionItem.astro';
+import CtaBanner from '../components/ui/CtaBanner.astro';
+import faqData from '../data/faq.json';
+
+const pageTitle = "Questions fréquentes — unilka";
+const pageDescription = "Réponses aux questions sur nos services, les soumissions, les zones desservies et les inscriptions des candidats.";
+
+const breadcrumbs = [
+  { label: "Questions fréquentes", href: "/faq/" }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
+
+  <!-- EN-TÊTE -->
+  <section class="bg-brand-surface-subtle py-12 lg:py-16 border-b border-brand-primary-light/60">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-text tracking-tight">
+        Questions fréquentes
+      </h1>
+      <p class="text-base sm:text-lg text-brand-muted leading-relaxed max-w-2xl mx-auto">
+        Trouvez ici toutes les réponses à vos interrogations sur nos interventions de nettoyage, les tarifs forfaitaires et le recrutement.
+      </p>
+    </div>
+  </section>
+
+  <!-- ACCORDÉONS FAQ -->
+  <section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      
+      <!-- GROUPE 1 : CLIENTS -->
+      <div class="space-y-6">
+        <div class="flex items-center gap-3 pb-2 border-b-2 border-brand-primary-light">
+          <div class="w-8 h-8 rounded-lg bg-brand-primary text-white flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </div>
+          <h2 class="text-2xl font-extrabold text-brand-text">
+            Pour les clients
+          </h2>
+        </div>
+
+        <div class="space-y-3">
+          {faqData.clients.map((item, index) => (
+            <AccordionItem
+              question={item.question}
+              answer={item.answer}
+              open={index === 0}
+            />
+          ))}
+        </div>
+      </div>
+
+      <!-- GROUPE 2 : CANDIDATS -->
+      <div class="space-y-6">
+        <div class="flex items-center gap-3 pb-2 border-b-2 border-brand-primary-light">
+          <div class="w-8 h-8 rounded-lg bg-brand-accent text-brand-text flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h2 class="text-2xl font-extrabold text-brand-text">
+            Pour les candidats
+          </h2>
+        </div>
+
+        <div class="space-y-3">
+          {faqData.candidats.map((item) => (
+            <AccordionItem
+              question={item.question}
+              answer={item.answer}
+            />
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BANDE FINALE -->
+  <CtaBanner
+    title="Vous avez une autre question ?"
+    description="Remplissez notre formulaire de soumission ou contactez-nous directement pour nous faire part de vos besoins."
+    ctaText="Obtenir une soumission"
+    ctaLink="/soumission/"
+  />
+
+</BaseLayout>

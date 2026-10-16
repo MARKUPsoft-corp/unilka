@@ -1,0 +1,41 @@
+---
+import config from '../../data/site-config.json';
+
+const trustItems = [
+  { confirmed: config.trust.insured, label: "Entreprise assurée" },
+  { confirmed: config.trust.bonded, label: "Personnel cautionné" },
+  { confirmed: config.trust.backgroundChecked, label: "Vérification des antécédents de notre personnel" },
+  { confirmed: config.trust.ecoProducts, label: "Produits d'entretien écologiques" },
+  { confirmed: config.trust.trainedStaff, label: "Personnel formé aux techniques d'entretien et à l'utilisation sécuritaire des produits" }
+].filter(item => item.confirmed);
+
+const hasAnyTrustItem = trustItems.length > 0;
+---
+
+{hasAnyTrustItem && (
+  <section class="bg-brand-primary-light/50 border border-brand-primary/20 rounded-2xl p-6 sm:p-8 my-10" aria-labelledby="trust-block-title">
+    <div class="max-w-4xl mx-auto">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-8 h-8 rounded-full bg-brand-primary text-white flex items-center justify-center shrink-0">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+        </div>
+        <h2 id="trust-block-title" class="text-xl sm:text-2xl font-bold text-brand-text">
+          Votre tranquillité d'esprit
+        </h2>
+      </div>
+
+      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4" role="list">
+        {trustItems.map((item) => (
+          <li class="flex items-center gap-3 text-sm font-medium text-brand-text bg-white px-4 py-3 rounded-lg border border-brand-primary-light shadow-2xs">
+            <svg class="w-5 h-5 text-brand-success shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+            <span>{item.label}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}

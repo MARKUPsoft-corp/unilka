@@ -1,0 +1,135 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CtaBanner from '../../components/ui/CtaBanner.astro';
+
+const pageTitle = "Entretien ménager régulier à tarif forfaitaire — unilka";
+const pageDescription = "Entretien régulier de votre maison ou entreprise : chaque semaine, aux 2 ou 3 semaines, ou chaque mois. Tarif forfaitaire après évaluation.";
+
+const breadcrumbs = [
+  { label: "Services", href: "/services/" },
+  { label: "Entretien régulier", href: "/services/entretien-regulier/" }
+];
+
+const frequencies = [
+  "Chaque semaine",
+  "Toutes les deux semaines",
+  "Toutes les trois semaines",
+  "Une fois par mois",
+  "Selon vos besoins"
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
+
+  <!-- HERO SERVICE -->
+  <section class="bg-brand-surface-subtle py-12 lg:py-16 border-b border-brand-primary-light/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <div class="lg:col-span-7 space-y-4">
+          <span class="inline-block px-3 py-1 rounded-md bg-brand-primary-light text-brand-primary text-xs font-bold uppercase tracking-wider">
+            Formule récurrente
+          </span>
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-text tracking-tight">
+            Entretien régulier à tarif forfaitaire
+          </h1>
+          <p class="text-base sm:text-lg text-brand-muted leading-relaxed">
+            Vous souhaitez maintenir votre maison ou votre entreprise propre sans avoir à vous soucier de réserver un service à chaque fois ? Notre service d'entretien régulier vous permet de bénéficier d'un nettoyage selon une fréquence adaptée à vos besoins.
+          </p>
+          <div class="pt-2 flex flex-wrap gap-3">
+            <a
+              href="/soumission/"
+              class="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md shadow-sm transition-colors no-underline"
+            >
+              Obtenir une soumission
+            </a>
+            <a
+              href="/services/"
+              class="inline-flex items-center justify-center px-4 py-3 text-sm font-semibold text-brand-text hover:text-brand-primary no-underline"
+            >
+              &larr; Retour aux services
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 flex justify-center">
+          <img
+            src="/illustrations/regular.svg"
+            alt="Illustration entretien régulier unilka"
+            width="320"
+            height="240"
+            class="w-full max-w-sm h-auto bg-white p-4 rounded-2xl border border-brand-primary-light/80 shadow-xs"
+          />
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENU PRINCIPAL -->
+  <section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <!-- Fréquences possibles -->
+      <div class="space-y-6">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-text tracking-tight">
+          Fréquences possibles
+        </h2>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" role="list">
+          {frequencies.map((freq) => (
+            <li class="flex items-center gap-3 p-3.5 rounded-lg bg-brand-surface-subtle border border-brand-primary-light/60 text-sm font-semibold text-brand-text">
+              <svg class="w-5 h-5 text-brand-primary shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+              </svg>
+              <span>{freq}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Un tarif forfaitaire adapté -->
+      <div class="space-y-3 pt-6 border-t border-brand-primary-light/60">
+        <h2 class="text-xl sm:text-2xl font-bold text-brand-text">
+          Un tarif forfaitaire adapté à votre situation
+        </h2>
+        <p class="text-base text-brand-muted leading-relaxed">
+          Après l'évaluation de vos besoins, nous pouvons vous proposer un tarif forfaitaire adapté à votre situation.
+        </p>
+      </div>
+
+      <!-- 3 étapes de mise en place -->
+      <div class="space-y-6 pt-6 border-t border-brand-primary-light/60">
+        <h2 class="text-xl sm:text-2xl font-bold text-brand-text">
+          Mise en place de votre service
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-5 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/60 space-y-2">
+            <span class="text-xs font-bold text-brand-primary uppercase tracking-wider">Étape 1</span>
+            <h3 class="font-bold text-brand-text text-base">Évaluation de vos besoins</h3>
+            <p class="text-xs text-brand-muted">Nous prenons le temps de comprendre la superficie, vos priorités et la fréquence souhaitée.</p>
+          </div>
+          <div class="p-5 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/60 space-y-2">
+            <span class="text-xs font-bold text-brand-primary uppercase tracking-wider">Étape 2</span>
+            <h3 class="font-bold text-brand-text text-base">Proposition d'un forfait</h3>
+            <p class="text-xs text-brand-muted">Un tarif clair, sans frais cachés, pour un entretien prévisible et serein.</p>
+          </div>
+          <div class="p-5 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/60 space-y-2">
+            <span class="text-xs font-bold text-brand-primary uppercase tracking-wider">Étape 3</span>
+            <h3 class="font-bold text-brand-text text-base">Mise en place du calendrier</h3>
+            <p class="text-xs text-brand-muted">Votre créneau d'intervention régulier est bloqué avec notre équipe dévouée.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BANDE FINALE -->
+  <CtaBanner
+    title="Prêt à automatiser votre ménage ?"
+    description="Demandez une soumission dès aujourd'hui pour planifier votre entretien régulier."
+    ctaText="Obtenir une soumission"
+    ctaLink="/soumission/"
+  />
+
+</BaseLayout>

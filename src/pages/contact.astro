@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import config from '../data/site-config.json';
+
+const pageTitle = "Nous joindre — unilka";
+const pageDescription = "Contactez unilka ou demandez directement une soumission de nettoyage à Montréal et environs.";
+
+const breadcrumbs = [
+  { label: "Nous joindre", href: "/contact/" }
+];
+
+const hasDirectContact = Boolean(config.business.phone || config.business.email || config.business.address || config.business.openingHours);
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
+
+  <!-- EN-TÊTE -->
+  <section class="bg-brand-surface-subtle py-12 lg:py-16 border-b border-brand-primary-light/60">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-text tracking-tight">
+        Nous joindre
+      </h1>
+      <p class="text-base sm:text-lg text-brand-muted leading-relaxed max-w-2xl mx-auto">
+        Le moyen le plus rapide de nous joindre est de remplir notre formulaire de demande de service.
+      </p>
+      <div class="pt-2">
+        <a
+          href="/soumission/"
+          class="inline-flex items-center justify-center px-6 py-3.5 text-base font-bold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md shadow-sm transition-colors no-underline"
+        >
+          Obtenir une soumission
+        </a>
+      </div>
+      {config.business.responseDelay && (
+        <p class="text-xs text-brand-muted pt-2">
+          Nous répondons généralement dans un délai de {config.business.responseDelay}.
+        </p>
+      )}
+    </div>
+  </section>
+
+  <!-- CONTENU DE CONTACT -->
+  <section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <!-- Blocs coordonnées conditionnels (affichés UNIQUEMENT si fournis) -->
+      {hasDirectContact ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {config.business.phone && (
+            <div class="p-6 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/70 space-y-2">
+              <h2 class="text-base font-bold text-brand-text flex items-center gap-2">
+                <svg class="w-5 h-5 text-brand-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                <span>Téléphone</span>
+              </h2>
+              <p class="text-sm">
+                <a href={`tel:${config.business.phone.replace(/[^0-9+]/g, '')}`} class="font-semibold text-brand-primary hover:underline">
+                  {config.business.phone}
+                </a>
+              </p>
+            </div>
+          )}
+
+          {config.business.email && (
+            <div class="p-6 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/70 space-y-2">
+              <h2 class="text-base font-bold text-brand-text flex items-center gap-2">
+                <svg class="w-5 h-5 text-brand-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <span>Courriel</span>
+              </h2>
+              <p class="text-sm">
+                <a href={`mailto:${config.business.email}`} class="font-semibold text-brand-primary hover:underline">
+                  {config.business.email}
+                </a>
+              </p>
+            </div>
+          )}
+
+          {config.business.address && (
+            <div class="p-6 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/70 space-y-2">
+              <h2 class="text-base font-bold text-brand-text flex items-center gap-2">
+                <svg class="w-5 h-5 text-brand-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span>Adresse</span>
+              </h2>
+              <p class="text-sm text-brand-muted">
+                {config.business.address}
+              </p>
+            </div>
+          )}
+
+          {config.business.openingHours && (
+            <div class="p-6 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/70 space-y-2">
+              <h2 class="text-base font-bold text-brand-text flex items-center gap-2">
+                <svg class="w-5 h-5 text-brand-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Heures d'ouverture</span>
+              </h2>
+              <p class="text-sm text-brand-muted">
+                {config.business.openingHours}
+              </p>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div class="p-8 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/80 text-center space-y-3">
+          <h2 class="text-xl font-bold text-brand-text">
+            Formulaire de contact en ligne
+          </h2>
+          <p class="text-sm text-brand-muted max-w-lg mx-auto">
+            Pour toute demande de tarif ou information sur nos disponibilités, nous vous invitons à utiliser directement notre formulaire de soumission en ligne.
+          </p>
+          <div class="pt-2">
+            <a href="/soumission/" class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md no-underline">
+              Demander une soumission &rarr;
+            </a>
+          </div>
+        </div>
+      )}
+
+      <!-- Bloc Vous cherchez un emploi ? -->
+      <div class="p-8 rounded-2xl bg-brand-primary-light/40 border border-brand-primary/20 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div class="space-y-1 text-center sm:text-left">
+          <h2 class="text-lg sm:text-xl font-bold text-brand-text">
+            Vous cherchez un emploi ?
+          </h2>
+          <p class="text-sm text-brand-muted">
+            Découvrez nos opportunités de missions et créez votre profil en quelques minutes.
+          </p>
+        </div>
+        <div class="shrink-0">
+          <a
+            href="/carrieres/"
+            class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-brand-primary bg-white hover:bg-brand-primary-light border border-brand-primary-light rounded-md transition-colors no-underline"
+          >
+            Espace Carrières &rarr;
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</BaseLayout>

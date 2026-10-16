@@ -1,0 +1,46 @@
+---
+// Étape 3C : Détails spécialisés (conditionnel)
+---
+<fieldset id="block-specialized" class="hidden p-6 sm:p-8 bg-white rounded-2xl border border-brand-primary-light/80 shadow-xs space-y-6">
+  <legend class="text-xl font-bold text-brand-text flex items-center gap-2">
+    <span class="w-7 h-7 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center shrink-0">3</span>
+    <span>Détails spécialisés</span>
+  </legend>
+
+  <div class="space-y-3">
+    <label class="block text-sm font-bold text-brand-text">
+      Que souhaitez-vous faire nettoyer ? <span class="text-brand-error" aria-hidden="true">*</span>
+    </label>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+      {[
+        "Canapés et fauteuils",
+        "Tapis et carpettes",
+        "Matelas",
+        "Intérieur de véhicule",
+        "Surface particulièrement sale",
+        "Lieu inoccupé depuis longtemps"
+      ].map((item) => (
+        <label class="flex items-center gap-2.5 p-3 rounded-lg border border-brand-primary-light text-xs sm:text-sm font-medium cursor-pointer hover:bg-brand-surface-subtle has-[:checked]:bg-brand-primary-light/50 has-[:checked]:border-brand-primary">
+          <input type="checkbox" name="specializedItems" value={item} class="w-4 h-4 text-brand-primary rounded" />
+          <span>{item}</span>
+        </label>
+      ))}
+    </div>
+    <span id="specializedItems-error" class="hidden text-xs text-brand-error" role="alert">Veuillez choisir au moins une option.</span>
+  </div>
+
+  <div>
+    <label for="specializedDetails" class="block text-sm font-bold text-brand-text mb-1.5">
+      Combien d'éléments ? Dimensions, tailles ou type de véhicule
+    </label>
+    <input
+      type="text"
+      id="specializedDetails"
+      name="specializedDetails"
+      maxlength="200"
+      placeholder="Ex. 1 canapé 3 places en tissu, 1 tapis 8x10, VUS compact"
+      class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
+    />
+  </div>
+
+</fieldset>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" fill="none" class="w-full h-auto">
+  <rect width="320" height="240" rx="16" fill="#E3F4F5"/>
+  <line x1="20" y1="210" x2="300" y2="210" stroke="#0E7C86" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Tapis propre au sol avec motifs géométriques -->
+  <rect x="50" y="195" width="220" height="15" rx="3" fill="#D1E5E7" stroke="#0E7C86" stroke-width="1.5"/>
+  <line x1="60" y1="202" x2="260" y2="202" stroke="#FFB703" stroke-width="2" stroke-dasharray="8 6"/>
+
+  <!-- Fauteuil confortable nettoyé à neuf -->
+  <rect x="90" y="110" width="140" height="80" rx="16" fill="#0E7C86"/>
+  <rect x="110" y="70" width="100" height="60" rx="12" fill="#0A5A62"/>
+  <rect x="75" y="125" width="28" height="60" rx="8" fill="#0A5A62"/>
+  <rect x="217" y="125" width="28" height="60" rx="8" fill="#0A5A62"/>
+
+  <!-- Pieds du fauteuil -->
+  <rect x="105" y="190" width="8" height="15" rx="2" fill="#0B2A2E"/>
+  <rect x="207" y="190" width="8" height="15" rx="2" fill="#0B2A2E"/>
+
+  <!-- Vapeur de nettoyage en profondeur et bulles -->
+  <path d="M140 50C140 40 150 35 150 25" stroke="#0E7C86" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="3 3"/>
+  <path d="M160 55C160 45 170 38 170 28" stroke="#0E7C86" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="3 3"/>
+  <path d="M180 50C180 40 190 35 190 25" stroke="#0E7C86" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="3 3"/>
+
+  <!-- Étincelle de finition -->
+  <path d="M70 65L72 73L80 75L72 77L70 85L68 77L60 75L68 73Z" fill="#FFB703"/>
+  <path d="M250 80L252 87L259 89L252 91L250 98L248 91L241 89L248 87Z" fill="#FFB703"/>
+</svg>

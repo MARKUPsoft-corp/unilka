@@ -1,0 +1,62 @@
+{
+  "clients": [
+    {
+      "question": "Comment obtenir une soumission ?",
+      "answer": "Remplissez notre formulaire de demande de service. Plus vos informations sont précises, plus notre soumission sera juste. Notre équipe analysera votre demande et communiquera avec vous pour confirmer les détails du service."
+    },
+    {
+      "question": "Combien coûte un nettoyage ?",
+      "answer": "Le prix dépend de la superficie, de l'état des lieux, des services choisis et de la fréquence. Après évaluation de vos besoins, nous vous proposons une soumission personnalisée, avec un tarif forfaitaire pour l'entretien régulier."
+    },
+    {
+      "question": "Dans quels secteurs intervenez-vous ?",
+      "answer": "Nous desservons la région de Montréal et plusieurs secteurs environnants. La disponibilité varie selon la ville, le type de service et la distance. Indiquez votre ville ou votre code postal dans le formulaire et nous vous confirmerons."
+    },
+    {
+      "question": "Puis-je joindre des photos à ma demande ?",
+      "answer": "Oui, c'est facultatif. Jusqu'à 3 photos peuvent nous aider à mieux évaluer l'état des lieux."
+    },
+    {
+      "question": "Quelles fréquences proposez-vous ?",
+      "answer": "Une seule fois, chaque semaine, toutes les deux semaines, toutes les trois semaines, une fois par mois, ou selon vos besoins."
+    },
+    {
+      "question": "Qui fournit les produits et l'équipement ?",
+      "answer": "Précisez vos attentes dans votre demande. Nous confirmons avec vous, au moment de la soumission, ce qui est fourni."
+    },
+    {
+      "question": "Y a-t-il des situations que vous ne pouvez pas traiter ?",
+      "answer": "Certaines situations (par exemple une moisissure importante, des punaises de lit ou des risques biologiques) nécessitent des services spécialisés que nous n'offrons pas. Si vous avez un doute, décrivez votre situation et nous vous dirons honnêtement si nous pouvons vous aider."
+    },
+    {
+      "question": "Comment reporter ou annuler un service ?",
+      "answer": "Prévenez-nous le plus tôt possible. Les conditions applicables sont précisées dans votre soumission."
+    },
+    {
+      "question": "Mes renseignements sont-ils confidentiels ?",
+      "answer": "Oui. Les informations que vous nous transmettez servent uniquement à répondre à votre demande. Consultez notre politique de confidentialité pour plus de détails."
+    }
+  ],
+  "candidats": [
+    {
+      "question": "Comment m'inscrire ?",
+      "answer": "Remplissez le formulaire d'inscription. Il prend environ 5 minutes."
+    },
+    {
+      "question": "Faut-il de l'expérience ?",
+      "answer": "Non. Que vous ayez déjà de l'expérience ou que vous souhaitiez apprendre et développer vos compétences, nous vous invitons à vous inscrire."
+    },
+    {
+      "question": "L'inscription garantit-elle un emploi ou une mission ?",
+      "answer": "Non. Votre candidature est évaluée selon nos besoins et les opportunités disponibles. Après votre inscription et votre sélection, un entretien permet de mieux comprendre votre expérience, vos compétences et vos objectifs."
+    },
+    {
+      "question": "Y a-t-il des formations ?",
+      "answer": "Des formations pourront être proposées, notamment dans le domaine du nettoyage domestique et de l'entretien ménager."
+    },
+    {
+      "question": "Quels types de travail sont possibles ?",
+      "answer": "Selon les besoins du moment : missions ponctuelles, temps partiel, temps plein, contrats temporaires ou opportunités à plus long terme."
+    }
+  ]
+}

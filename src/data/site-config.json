@@ -1,0 +1,55 @@
+{
+  "business": {
+    "name": "unilka",
+    "legalName": "",
+    "neq": "",
+    "slogan": "La propreté qui fait toute la différence.",
+    "subSlogan": "Nous prenons soin de votre espace, vous profitez de votre temps.",
+    "siteUrl": "https://unilka.ca",
+    "phone": "",
+    "email": "",
+    "formRecipientEmail": "",
+    "address": "",
+    "openingHours": "",
+    "responseDelay": "1 jour ouvrable"
+  },
+  "privacy": {
+    "dpoName": "",
+    "dpoEmail": "",
+    "retentionClients": "24 mois",
+    "retentionCandidates": "12 mois"
+  },
+  "zones": {
+    "regions": [
+      {
+        "id": "montreal",
+        "name": "Montréal",
+        "description": "Montréal et ses différents arrondissements."
+      },
+      {
+        "id": "longueuil-rive-sud",
+        "name": "Longueuil et Rive-Sud",
+        "description": "Longueuil et plusieurs secteurs de la Rive-Sud."
+      },
+      {
+        "id": "lanaudiere",
+        "name": "Lanaudière",
+        "description": "Plusieurs municipalités et secteurs de la région de Lanaudière."
+      }
+    ],
+    "cities": []
+  },
+  "trust": {
+    "insured": false,
+    "bonded": false,
+    "backgroundChecked": false,
+    "ecoProducts": false,
+    "trainedStaff": false
+  },
+  "social": {
+    "googleBusiness": "",
+    "facebook": "",
+    "instagram": "",
+    "linkedin": ""
+  }
+}

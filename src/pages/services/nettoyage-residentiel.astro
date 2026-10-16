@@ -1,0 +1,163 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CtaBanner from '../../components/ui/CtaBanner.astro';
+
+const pageTitle = "Nettoyage résidentiel à Montréal — unilka";
+const pageDescription = "Ménage de maison, condo ou appartement, grand ménage et nettoyage avant ou après déménagement à Montréal et environs. Demandez une soumission.";
+
+const breadcrumbs = [
+  { label: "Services", href: "/services/" },
+  { label: "Nettoyage résidentiel", href: "/services/nettoyage-residentiel/" }
+];
+
+const checklistItems = [
+  "Nettoyage de la cuisine",
+  "Nettoyage des salles de bain",
+  "Époussetage des surfaces",
+  "Nettoyage des planchers",
+  "Nettoyage des chambres et des espaces communs",
+  "Nettoyage des fenêtres intérieures",
+  "Nettoyage des surfaces et des appareils",
+  "Grand ménage",
+  "Nettoyage avant ou après un déménagement",
+  "Entretien régulier"
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
+
+  <!-- HERO SERVICE -->
+  <section class="bg-brand-surface-subtle py-12 lg:py-16 border-b border-brand-primary-light/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <div class="lg:col-span-7 space-y-4">
+          <span class="inline-block px-3 py-1 rounded-md bg-brand-primary-light text-brand-primary text-xs font-bold uppercase tracking-wider">
+            Service résidentiel
+          </span>
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-text tracking-tight">
+            Nettoyage résidentiel à Montréal et environs
+          </h1>
+          <p class="text-base sm:text-lg text-brand-muted leading-relaxed">
+            Nous prenons soin de votre maison, appartement, condo ou logement afin de vous permettre de profiter pleinement de votre espace.
+          </p>
+          <div class="pt-2 flex flex-wrap gap-3">
+            <a
+              href="/soumission/"
+              class="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md shadow-sm transition-colors no-underline"
+            >
+              Obtenir une soumission
+            </a>
+            <a
+              href="/services/"
+              class="inline-flex items-center justify-center px-4 py-3 text-sm font-semibold text-brand-text hover:text-brand-primary no-underline"
+            >
+              &larr; Retour aux services
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 flex justify-center">
+          <img
+            src="/illustrations/residential.svg"
+            alt="Illustration nettoyage résidentiel unilka"
+            width="320"
+            height="240"
+            class="w-full max-w-sm h-auto bg-white p-4 rounded-2xl border border-brand-primary-light/80 shadow-xs"
+          />
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENU PRINCIPAL -->
+  <section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <!-- Ce que nos services peuvent comprendre -->
+      <div class="space-y-6">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-text tracking-tight">
+          Ce que nos services peuvent comprendre
+        </h2>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3" role="list">
+          {checklistItems.map((item) => (
+            <li class="flex items-center gap-3 p-3 rounded-lg bg-brand-surface-subtle border border-brand-primary-light/60 text-sm font-medium text-brand-text">
+              <svg class="w-5 h-5 text-brand-success shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="text-sm text-brand-muted italic">
+          Chaque intervention peut être adaptée selon vos besoins et l'état de votre logement.
+        </p>
+      </div>
+
+      <!-- Pour quels types de logements ? -->
+      <div class="space-y-3 pt-6 border-t border-brand-primary-light/60">
+        <h2 class="text-xl sm:text-2xl font-bold text-brand-text">
+          Pour quels types de logements ?
+        </h2>
+        <p class="text-base text-brand-muted leading-relaxed">
+          Appartements, condos, maisons, duplex et autres types de logements.
+        </p>
+      </div>
+
+      <!-- L'état de votre logement -->
+      <div class="space-y-3 pt-6 border-t border-brand-primary-light/60">
+        <h2 class="text-xl sm:text-2xl font-bold text-brand-text">
+          L'état de votre logement
+        </h2>
+        <p class="text-base text-brand-muted leading-relaxed">
+          Pour vous proposer une soumission juste, nous vous demandons d'indiquer l'état actuel de votre logement : entretien régulier, nettoyage standard, nettoyage en profondeur, ou logement très sale nécessitant une intervention importante. Vous pouvez aussi joindre quelques photos.
+        </p>
+      </div>
+
+      <!-- Et les fenêtres ? -->
+      <div class="space-y-3 pt-6 border-t border-brand-primary-light/60">
+        <h2 class="text-xl sm:text-2xl font-bold text-brand-text">
+          Et les fenêtres ?
+        </h2>
+        <p class="text-base text-brand-muted leading-relaxed">
+          Le nettoyage des fenêtres intérieures est inclus dans nos services. Pour les fenêtres extérieures, nous évaluons chaque situation avant de vous proposer une solution.
+        </p>
+      </div>
+
+      <!-- Déroulement en 3 étapes -->
+      <div class="space-y-6 pt-6 border-t border-brand-primary-light/60">
+        <h2 class="text-xl sm:text-2xl font-bold text-brand-text">
+          Comment ça fonctionne
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-5 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/60 space-y-2">
+            <span class="text-xs font-bold text-brand-primary uppercase tracking-wider">Étape 1</span>
+            <h3 class="font-bold text-brand-text text-base">Vous décrivez votre besoin</h3>
+            <p class="text-xs text-brand-muted">Dans notre formulaire en ligne avec l'état des lieux et vos dates souhaitées.</p>
+          </div>
+          <div class="p-5 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/60 space-y-2">
+            <span class="text-xs font-bold text-brand-primary uppercase tracking-wider">Étape 2</span>
+            <h3 class="font-bold text-brand-text text-base">Nous confirmons les détails</h3>
+            <p class="text-xs text-brand-muted">Notre équipe étudie votre demande et vous transmet une soumission adaptée.</p>
+          </div>
+          <div class="p-5 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/60 space-y-2">
+            <span class="text-xs font-bold text-brand-primary uppercase tracking-wider">Étape 3</span>
+            <h3 class="font-bold text-brand-text text-base">Nous intervenons</h3>
+            <p class="text-xs text-brand-muted">À la date convenue, avec soin, rigueur et professionnalisme.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BANDE FINALE -->
+  <CtaBanner
+    title="Prêt à profiter de votre temps ?"
+    description="Obtenez une évaluation de vos besoins résidentiels en quelques étapes."
+    ctaText="Obtenir une soumission"
+    ctaLink="/soumission/"
+  />
+
+</BaseLayout>

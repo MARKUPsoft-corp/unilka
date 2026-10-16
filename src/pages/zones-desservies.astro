@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RegionCard from '../components/cards/RegionCard.astro';
+import config from '../data/site-config.json';
+
+const pageTitle = "Zones desservies : Montréal, Rive-Sud, Lanaudière — unilka";
+const pageDescription = "unilka offre ses services de nettoyage à Montréal, Longueuil et la Rive-Sud, ainsi que dans Lanaudière. Vérifiez la disponibilité dans votre secteur.";
+
+const breadcrumbs = [
+  { label: "Zones desservies", href: "/zones-desservies/" }
+];
+
+const hasCities = config.zones.cities && config.zones.cities.length > 0;
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
+
+  <!-- EN-TÊTE -->
+  <section class="bg-brand-surface-subtle py-12 lg:py-16 border-b border-brand-primary-light/60">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-text tracking-tight">
+        Où offrons-nous nos services ?
+      </h1>
+      <p class="text-base sm:text-lg text-brand-muted leading-relaxed max-w-2xl mx-auto">
+        Nous offrons nos services de nettoyage dans la région de Montréal et dans plusieurs secteurs environnants.
+      </p>
+    </div>
+  </section>
+
+  <!-- CARTES DES ZONES -->
+  <section class="py-16 bg-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <div class="space-y-6">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-text tracking-tight text-center">
+          Régions desservies
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {config.zones.regions.map((region) => (
+            <RegionCard name={region.name} description={region.description} />
+          ))}
+        </div>
+      </div>
+
+      <!-- VILLES DESSERVIES (Conditionnel : affiché UNIQUEMENT si le propriétaire a renseigné des villes) -->
+      {hasCities && (
+        <div class="space-y-4 pt-8 border-t border-brand-primary-light/60">
+          <h2 class="text-xl sm:text-2xl font-bold text-brand-text">
+            Villes desservies
+          </h2>
+          <div class="flex flex-wrap gap-2">
+            {config.zones.cities.map((city: string) => (
+              <span class="px-3 py-1.5 rounded-md bg-brand-surface-subtle border border-brand-primary-light text-sm font-medium text-brand-text">
+                {city}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <!-- Encadré précision -->
+      <div class="p-6 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/80 text-sm text-brand-muted leading-relaxed">
+        <p>
+          La disponibilité du service peut varier selon la ville, le type de service et la distance.
+        </p>
+      </div>
+
+      <!-- Encadré d'action pour vérifier le secteur -->
+      <div class="p-8 rounded-2xl bg-brand-primary-light/50 border border-brand-primary/20 text-center space-y-5">
+        <h2 class="text-xl sm:text-2xl font-bold text-brand-text">
+          Vous ne savez pas si nous desservons votre secteur ?
+        </h2>
+        <p class="text-sm sm:text-base text-brand-muted max-w-2xl mx-auto leading-relaxed">
+          Envoyez-nous votre ville ou votre code postal dans le formulaire de demande et nous vous confirmerons la disponibilité.
+        </p>
+        <div>
+          <a
+            href="/soumission/"
+            class="inline-flex items-center justify-center px-6 py-3.5 text-base font-bold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md shadow-sm transition-colors no-underline"
+          >
+            Vérifier mon secteur
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</BaseLayout>

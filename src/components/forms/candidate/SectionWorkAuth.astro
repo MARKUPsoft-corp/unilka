@@ -1,0 +1,77 @@
+---
+// Section 2 & 3 : Autorisation légale et type de travail recherché
+---
+<fieldset class="p-6 sm:p-8 bg-white rounded-2xl border border-brand-primary-light/80 shadow-xs space-y-6">
+  <legend class="text-xl font-bold text-brand-text flex items-center gap-2">
+    <span class="w-7 h-7 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center shrink-0">2</span>
+    <span>Autorisation & Type de travail</span>
+  </legend>
+
+  <!-- Autorisation de travail (Obligatoire) -->
+  <div class="space-y-3">
+    <label class="block text-sm font-bold text-brand-text">
+      Êtes-vous légalement autorisé(e) à travailler au Canada ? <span class="text-brand-error" aria-hidden="true">*</span>
+    </label>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      {[
+        { value: "Oui", label: "Oui" },
+        { value: "Non", label: "Non" },
+        { value: "Je dois vérifier ma situation", label: "Je dois vérifier ma situation" }
+      ].map((opt, idx) => (
+        <label class="flex items-center gap-2.5 p-3 rounded-lg border border-brand-primary-light text-sm font-medium cursor-pointer hover:bg-brand-surface-subtle has-[:checked]:bg-brand-primary-light/50 has-[:checked]:border-brand-primary">
+          <input type="radio" name="workAuth" value={opt.value} checked={idx === 0} class="w-4 h-4 text-brand-primary" required />
+          <span>{opt.label}</span>
+        </label>
+      ))}
+    </div>
+  </div>
+
+  <!-- Situation actuelle (Obligatoire) -->
+  <div class="space-y-3 pt-4 border-t border-brand-primary-light/60">
+    <label class="block text-sm font-bold text-brand-text">
+      Quelle est votre situation actuelle ? <span class="text-brand-error" aria-hidden="true">*</span>
+    </label>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+      {[
+        "À la recherche d'un emploi",
+        "En emploi et je cherche un emploi complémentaire",
+        "Étudiant(e)",
+        "Travailleur(se) autonome",
+        "Autre"
+      ].map((sit, idx) => (
+        <label class="flex items-center gap-2.5 p-3 rounded-lg border border-brand-primary-light text-xs sm:text-sm font-medium cursor-pointer hover:bg-brand-surface-subtle has-[:checked]:bg-brand-primary-light/50 has-[:checked]:border-brand-primary">
+          <input type="radio" name="currentSituation" value={sit} id={`sit-${idx}`} checked={idx === 0} class="w-4 h-4 text-brand-primary" required />
+          <span>{sit}</span>
+        </label>
+      ))}
+    </div>
+    <div id="cand-situationOtherContainer" class="hidden max-w-sm pt-1">
+      <label for="cand-situationOther" class="block text-xs font-semibold text-brand-text mb-1">Précisez votre situation</label>
+      <input type="text" id="cand-situationOther" name="currentSituationOther" class="w-full px-3 py-2 rounded-lg border border-brand-primary-light text-sm text-brand-text" />
+    </div>
+  </div>
+
+  <!-- Type de travail recherché (Obligatoire >= 1) -->
+  <div class="space-y-3 pt-4 border-t border-brand-primary-light/60">
+    <label class="block text-sm font-bold text-brand-text">
+      Type de travail recherché <span class="text-brand-error" aria-hidden="true">*</span>
+    </label>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+      {[
+        "Job ponctuel",
+        "Travail à temps partiel",
+        "Travail à temps plein",
+        "Emploi permanent",
+        "Contrat temporaire",
+        "Je suis ouvert(e) à plusieurs possibilités"
+      ].map((job, idx) => (
+        <label class="flex items-center gap-2.5 p-3 rounded-lg border border-brand-primary-light text-xs sm:text-sm font-medium cursor-pointer hover:bg-brand-surface-subtle has-[:checked]:bg-brand-primary-light/50 has-[:checked]:border-brand-primary">
+          <input type="checkbox" name="desiredWorkTypes" value={job} checked={idx === 1} class="w-4 h-4 text-brand-primary rounded" />
+          <span>{job}</span>
+        </label>
+      ))}
+    </div>
+    <span id="cand-desiredWorkTypes-error" class="hidden text-xs text-brand-error" role="alert">Veuillez choisir au moins une option.</span>
+  </div>
+
+</fieldset>

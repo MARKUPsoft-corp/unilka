@@ -1,0 +1,133 @@
+---
+// Étape 4 : Vos coordonnées et consentement
+---
+<fieldset class="p-6 sm:p-8 bg-white rounded-2xl border border-brand-primary-light/80 shadow-xs space-y-6">
+  <legend class="text-xl font-bold text-brand-text flex items-center gap-2">
+    <span class="w-7 h-7 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center shrink-0">5</span>
+    <span>Vos coordonnées</span>
+  </legend>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <!-- Prénom (Obligatoire) -->
+    <div>
+      <label for="firstName" class="block text-sm font-bold text-brand-text mb-1.5">
+        Prénom <span class="text-brand-error" aria-hidden="true">*</span>
+      </label>
+      <input
+        type="text"
+        id="firstName"
+        name="firstName"
+        required
+        autocomplete="given-name"
+        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
+      />
+      <span id="firstName-error" class="hidden text-xs text-brand-error mt-1" role="alert">Ce champ est obligatoire.</span>
+    </div>
+
+    <!-- Nom (Facultatif) -->
+    <div>
+      <label for="lastName" class="block text-sm font-bold text-brand-text mb-1.5">
+        Nom
+      </label>
+      <input
+        type="text"
+        id="lastName"
+        name="lastName"
+        autocomplete="family-name"
+        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
+      />
+    </div>
+
+    <!-- Numéro de téléphone -->
+    <div>
+      <label for="phone" class="block text-sm font-bold text-brand-text mb-1.5">
+        Numéro de téléphone
+      </label>
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        autocomplete="tel"
+        placeholder="514 555 0123"
+        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
+      />
+      <span id="phone-error" class="hidden text-xs text-brand-error mt-1" role="alert">Veuillez saisir un numéro de téléphone valide (ex. 514 555 0123).</span>
+    </div>
+
+    <!-- Adresse courriel -->
+    <div>
+      <label for="email" class="block text-sm font-bold text-brand-text mb-1.5">
+        Adresse courriel
+      </label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        autocomplete="email"
+        placeholder="nom@exemple.ca"
+        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
+      />
+      <span id="email-error" class="hidden text-xs text-brand-error mt-1" role="alert">Veuillez saisir une adresse courriel valide.</span>
+    </div>
+  </div>
+
+  <!-- Message d'erreur commun téléphone/courriel -->
+  <div id="contact-required-error" class="hidden text-xs text-brand-error font-medium p-3 bg-red-50 border border-red-200 rounded-lg" role="alert">
+    Veuillez indiquer un numéro de téléphone ou une adresse courriel.
+  </div>
+
+  <!-- Préférence de contact -->
+  <div class="space-y-2 pt-3 border-t border-brand-primary-light/60">
+    <label class="block text-sm font-bold text-brand-text">
+      Comment préférez-vous être joint(e) ?
+    </label>
+    <div class="flex flex-wrap gap-4">
+      {["Téléphone", "Courriel", "Peu importe"].map((pref, idx) => (
+        <label class="flex items-center gap-2 text-sm text-brand-text cursor-pointer">
+          <input type="radio" name="preferredContact" value={pref} checked={idx === 2} class="w-4 h-4 text-brand-primary" />
+          <span>{pref}</span>
+        </label>
+      ))}
+    </div>
+  </div>
+
+  <!-- Consentement obligatoire (Loi 25) -->
+  <div class="pt-4 border-t border-brand-primary-light/60">
+    <label class="flex items-start gap-3 cursor-pointer">
+      <input
+        type="checkbox"
+        id="consent"
+        name="consent"
+        required
+        class="w-5 h-5 text-brand-primary border-brand-primary-light rounded focus:ring-brand-primary shrink-0 mt-0.5"
+      />
+      <span class="text-xs sm:text-sm text-brand-muted leading-relaxed">
+        J'accepte que unilka utilise ces renseignements pour répondre à ma demande, conformément à la <a href="/confidentialite/" class="text-brand-primary font-semibold underline" target="_blank" rel="noopener">politique de confidentialité</a>. <span class="text-brand-error" aria-hidden="true">*</span>
+      </span>
+    </label>
+    <span id="consent-error" class="hidden text-xs text-brand-error mt-1.5 block" role="alert">
+      Vous devez accepter pour envoyer le formulaire.
+    </span>
+  </div>
+
+  <!-- Bouton d'envoi & note de rassurance -->
+  <div class="pt-6 border-t border-brand-primary-light/60 space-y-3">
+    <button
+      type="submit"
+      id="submit-button"
+      class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md shadow-md transition-all duration-150 transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary-dark"
+    >
+      <span id="submit-button-text">Envoyer ma demande</span>
+      <span id="submit-button-spinner" class="hidden ml-2">
+        <svg class="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      </span>
+    </button>
+    <p class="text-xs text-brand-muted">
+      Notre équipe analysera votre demande et communiquera avec vous pour confirmer les détails du service.
+    </p>
+  </div>
+
+</fieldset>

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 380" fill="none" class="w-full h-auto max-w-lg mx-auto">
+  <!-- Fond doux -->
+  <rect width="500" height="380" rx="20" fill="#E3F4F5"/>
+  
+  <!-- Plancher stylisé -->
+  <path d="M0 310L500 310L500 380L0 380Z" fill="#D1E5E7"/>
+  <line x1="80" y1="310" x2="30" y2="380" stroke="#0E7C86" stroke-opacity="0.15" stroke-width="2"/>
+  <line x1="220" y1="310" x2="190" y2="380" stroke="#0E7C86" stroke-opacity="0.15" stroke-width="2"/>
+  <line x1="360" y1="310" x2="350" y2="380" stroke="#0E7C86" stroke-opacity="0.15" stroke-width="2"/>
+
+  <!-- Fenêtre lumineuse avec lumière du jour -->
+  <rect x="70" y="50" width="130" height="170" rx="8" fill="#FFFFFF" stroke="#0E7C86" stroke-width="4"/>
+  <line x1="135" y1="50" x2="135" y2="220" stroke="#0E7C86" stroke-width="3"/>
+  <line x1="70" y1="135" x2="200" y2="135" stroke="#0E7C86" stroke-width="3"/>
+  
+  <!-- Reflets de soleil dans la vitre -->
+  <path d="M85 65L120 65L90 120L75 120Z" fill="#FFB703" fill-opacity="0.25"/>
+  <path d="M150 65L185 65L145 140L135 140Z" fill="#FFB703" fill-opacity="0.25"/>
+
+  <!-- Plante verte purifiante -->
+  <path d="M90 280L130 280L122 310L98 310Z" fill="#0A5A62"/>
+  <path d="M110 280C95 240 65 245 80 220C100 240 108 260 110 280Z" fill="#1B7F4B"/>
+  <path d="M110 280C125 240 155 245 140 220C120 240 112 260 110 280Z" fill="#1B7F4B"/>
+
+  <!-- Canapé / Mobilier net et soigné -->
+  <rect x="230" y="180" width="210" height="100" rx="14" fill="#0E7C86"/>
+  <rect x="250" y="150" width="170" height="60" rx="10" fill="#0A5A62"/>
+  <rect x="220" y="210" width="30" height="70" rx="8" fill="#0A5A62"/>
+  <rect x="410" y="210" width="30" height="70" rx="8" fill="#0A5A62"/>
+  <!-- Pieds canapé -->
+  <rect x="240" y="280" width="10" height="30" rx="3" fill="#0B2A2E"/>
+  <rect x="410" y="280" width="10" height="30" rx="3" fill="#0B2A2E"/>
+
+  <!-- Table basse avec livre -->
+  <rect x="260" y="260" width="90" height="12" rx="4" fill="#FFFFFF"/>
+  <line x1="280" y1="272" x2="275" y2="310" stroke="#0B2A2E" stroke-width="3"/>
+  <line x1="330" y1="272" x2="335" y2="310" stroke="#0B2A2E" stroke-width="3"/>
+
+  <!-- Bulles de fraîcheur -->
+  <circle cx="280" cy="90" r="14" fill="#FFFFFF" fill-opacity="0.7" stroke="#0E7C86" stroke-width="2"/>
+  <circle cx="283" cy="86" r="4" fill="#FFFFFF"/>
+  <circle cx="320" cy="70" r="20" fill="#FFFFFF" fill-opacity="0.7" stroke="#0E7C86" stroke-width="2.5"/>
+  <circle cx="325" cy="65" r="6" fill="#FFFFFF"/>
+  <circle cx="355" cy="110" r="10" fill="#FFFFFF" fill-opacity="0.7" stroke="#0E7C86" stroke-width="1.5"/>
+
+  <!-- Étincelles de propreté unilka (jaune #FFB703) -->
+  <path d="M370 40L373 53L386 56L373 59L370 72L367 59L354 56L367 53Z" fill="#FFB703"/>
+  <path d="M225 100L227 108L235 110L227 112L225 120L223 112L215 110L223 108Z" fill="#FFB703"/>
+  <path d="M440 140L442 147L449 149L442 151L440 158L438 151L431 149L438 147Z" fill="#FFB703"/>
+</svg>

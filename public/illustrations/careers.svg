@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" fill="none" class="w-full h-auto">
+  <rect width="320" height="240" rx="16" fill="#E3F4F5"/>
+  <line x1="20" y1="210" x2="300" y2="210" stroke="#0E7C86" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Deux profils professionnels / équipe unie -->
+  <!-- Personne 1 (gauche) -->
+  <circle cx="120" cy="85" r="24" fill="#0A5A62"/>
+  <path d="M75 165C75 135 95 125 120 125C145 125 165 135 165 165V180H75V165Z" fill="#0E7C86"/>
+  
+  <!-- Personne 2 (droite) -->
+  <circle cx="200" cy="85" r="24" fill="#0E7C86"/>
+  <path d="M155 165C155 135 175 125 200 125C225 125 245 135 245 165V180H155V165Z" fill="#0A5A62"/>
+
+  <!-- Badge de réussite / partenariat au centre -->
+  <circle cx="160" cy="140" r="18" fill="#FFFFFF" stroke="#0E7C86" stroke-width="3"/>
+  <path d="M152 140L158 145L169 134" stroke="#1B7F4B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Étoiles / Étincelles d'opportunité -->
+  <path d="M160 35L163 45L173 48L163 51L160 61L157 51L147 48L157 45Z" fill="#FFB703"/>
+  <path d="M55 70L57 76L63 78L57 80L55 86L53 80L47 78L53 76Z" fill="#FFB703"/>
+  <path d="M265 80L267 86L273 88L267 90L265 96L263 90L257 88L263 86Z" fill="#FFB703"/>
+</svg>

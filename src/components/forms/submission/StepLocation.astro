@@ -1,0 +1,64 @@
+---
+// Étape 2 : Localisation de l'espace à nettoyer
+---
+<fieldset class="p-6 sm:p-8 bg-white rounded-2xl border border-brand-primary-light/80 shadow-xs space-y-6">
+  <legend class="text-xl font-bold text-brand-text flex items-center gap-2">
+    <span class="w-7 h-7 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center shrink-0">2</span>
+    <span>Où se situe l'espace ?</span>
+  </legend>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <!-- Ville (Obligatoire) -->
+    <div>
+      <label for="city" class="block text-sm font-bold text-brand-text mb-1.5">
+        Ville <span class="text-brand-error" aria-hidden="true">*</span>
+      </label>
+      <input
+        type="text"
+        id="city"
+        name="city"
+        required
+        autocomplete="address-level2"
+        placeholder="Ex. Montréal, Longueuil, Terrebonne"
+        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
+      />
+      <span id="city-error" class="hidden text-xs text-brand-error mt-1" role="alert">Ce champ est obligatoire.</span>
+    </div>
+
+    <!-- Code postal canadien (Obligatoire) -->
+    <div>
+      <label for="postalCode" class="block text-sm font-bold text-brand-text mb-1.5">
+        Code postal <span class="text-brand-error" aria-hidden="true">*</span>
+      </label>
+      <input
+        type="text"
+        id="postalCode"
+        name="postalCode"
+        required
+        autocomplete="postal-code"
+        placeholder="Ex. H2X 1Y4"
+        maxlength="7"
+        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text uppercase"
+      />
+      <p class="text-xs text-brand-muted mt-1">Il nous permet de confirmer rapidement que nous desservons votre secteur.</p>
+      <span id="postalCode-error" class="hidden text-xs text-brand-error mt-1" role="alert">Veuillez saisir un code postal valide (ex. H2X 1Y4).</span>
+    </div>
+  </div>
+
+  <!-- Adresse complète (Facultatif) -->
+  <div>
+    <label for="address" class="block text-sm font-bold text-brand-text mb-1.5">
+      Adresse complète
+    </label>
+    <input
+      type="text"
+      id="address"
+      name="address"
+      autocomplete="street-address"
+      placeholder="Numéro civique, rue, appartement"
+      class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
+    />
+    <p class="text-xs text-brand-muted mt-1">Facultatif à cette étape, nécessaire pour confirmer la soumission.</p>
+  </div>
+
+</fieldset>

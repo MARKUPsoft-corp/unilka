@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CtaBanner from '../../components/ui/CtaBanner.astro';
+
+const pageTitle = "Nettoyage commercial à Montréal — unilka";
+const pageDescription = "Entretien de bureaux, commerces et locaux professionnels, y compris après travaux ou rénovation. Soumission personnalisée à Montréal et environs.";
+
+const breadcrumbs = [
+  { label: "Services", href: "/services/" },
+  { label: "Nettoyage commercial", href: "/services/nettoyage-commercial/" }
+];
+
+const commercialClients = [
+  "Bureaux",
+  "Commerces",
+  "Locaux professionnels",
+  "Petites entreprises",
+  "Espaces communs",
+  "Immeubles et espaces locatifs",
+  "Locaux après travaux ou rénovation"
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
+
+  <!-- HERO SERVICE -->
+  <section class="bg-brand-surface-subtle py-12 lg:py-16 border-b border-brand-primary-light/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <div class="lg:col-span-7 space-y-4">
+          <span class="inline-block px-3 py-1 rounded-md bg-brand-primary-light text-brand-primary text-xs font-bold uppercase tracking-wider">
+            Service commercial & professionnel
+          </span>
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-text tracking-tight">
+            Nettoyage commercial à Montréal et environs
+          </h1>
+          <p class="text-base sm:text-lg text-brand-muted leading-relaxed">
+            Un environnement de travail propre contribue à offrir une meilleure expérience aux employés, aux clients et aux visiteurs.
+          </p>
+          <div class="pt-2 flex flex-wrap gap-3">
+            <a
+              href="/soumission/"
+              class="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md shadow-sm transition-colors no-underline"
+            >
+              Obtenir une soumission
+            </a>
+            <a
+              href="/services/"
+              class="inline-flex items-center justify-center px-4 py-3 text-sm font-semibold text-brand-text hover:text-brand-primary no-underline"
+            >
+              &larr; Retour aux services
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 flex justify-center">
+          <img
+            src="/illustrations/commercial.svg"
+            alt="Illustration nettoyage commercial unilka"
+            width="320"
+            height="240"
+            class="w-full max-w-sm h-auto bg-white p-4 rounded-2xl border border-brand-primary-light/80 shadow-xs"
+          />
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENU PRINCIPAL -->
+  <section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <!-- Types de locaux -->
+      <div class="space-y-6">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-text tracking-tight">
+          Nous proposons des services de nettoyage pour
+        </h2>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3" role="list">
+          {commercialClients.map((client) => (
+            <li class="flex items-center gap-3 p-3.5 rounded-lg bg-brand-surface-subtle border border-brand-primary-light/60 text-sm font-semibold text-brand-text">
+              <svg class="w-5 h-5 text-brand-primary shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span>{client}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Un horaire d'entretien adapté -->
+      <div class="space-y-3 pt-6 border-t border-brand-primary-light/60">
+        <h2 class="text-xl sm:text-2xl font-bold text-brand-text">
+          Un horaire d'entretien adapté
+        </h2>
+        <p class="text-base text-brand-muted leading-relaxed">
+          Nous pouvons établir un horaire d'entretien régulier afin de maintenir vos locaux propres en tout temps. Précisez vos contraintes d'horaire dans votre demande : nous vous indiquerons ce que nous pouvons vous offrir.
+        </p>
+      </div>
+
+      <!-- Propriétaires et gestionnaires d'immeubles -->
+      <div class="space-y-3 pt-6 border-t border-brand-primary-light/60">
+        <h2 class="text-xl sm:text-2xl font-bold text-brand-text">
+          Propriétaires et gestionnaires d'immeubles
+        </h2>
+        <p class="text-base text-brand-muted leading-relaxed">
+          Entre deux locataires ou après des travaux, nous vous aidons à remettre vos espaces en état.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BANDE FINALE -->
+  <CtaBanner
+    title="Besoin d'un entretien commercial ?"
+    description="Obtenez une soumission adaptée à votre local et à vos horaires d'exploitation."
+    ctaText="Obtenir une soumission"
+    ctaLink="/soumission/"
+  />
+
+</BaseLayout>

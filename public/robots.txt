@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /soumission/merci/
+Disallow: /carrieres/merci/
+Disallow: /404
+
+Sitemap: https://unilka.ca/sitemap-index.xml

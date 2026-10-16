@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CtaBanner from '../../components/ui/CtaBanner.astro';
+import services from '../../data/services.json';
+
+const pageTitle = "Services de nettoyage à Montréal — unilka";
+const pageDescription = "Résidentiel, commercial, spécialisé et entretien régulier : découvrez les services de nettoyage unilka à Montréal et environs.";
+
+const breadcrumbs = [
+  { label: "Services", href: "/services/" }
+];
+const illustrationMap: Record<string, string> = {
+  residentiel: "/illustrations/residential.svg",
+  commercial: "/illustrations/commercial.svg",
+  specialise: "/illustrations/specialized.svg",
+  regulier: "/illustrations/regular.svg"
+};
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
+
+  <!-- EN-TÊTE DE PAGE -->
+  <section class="bg-brand-surface-subtle py-12 lg:py-16 border-b border-brand-primary-light/60">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-text tracking-tight">
+        Nos services de nettoyage
+      </h1>
+      <p class="text-base sm:text-lg text-brand-muted leading-relaxed max-w-2xl mx-auto">
+        Que vous ayez besoin d'un entretien régulier, d'un grand nettoyage ou d'un service spécialisé, notre équipe vous offre un résultat impeccable. Chaque intervention est adaptée à votre espace et à vos besoins.
+      </p>
+    </div>
+  </section>
+
+  <!-- LISTE DÉTAILLÉE DES 4 SERVICES -->
+  <section class="py-16 lg:py-20 bg-white" aria-label="Liste de nos services">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 lg:space-y-24">
+      {services.map((service, index) => {
+        const isReversed = index % 2 === 1;
+        const illustration = illustrationMap[service.id] || "/illustrations/hero-clean.svg";
+
+        return (
+          <article class={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center ${isReversed ? 'lg:flex-row-reverse' : ''}`}>
+            
+            <!-- Illustration -->
+            <div class={`lg:col-span-5 ${isReversed ? 'lg:order-2' : ''}`}>
+              <div class="bg-brand-surface-subtle p-6 rounded-2xl border border-brand-primary-light/60 shadow-xs flex justify-center">
+                <img
+                  src={illustration}
+                  alt={`Illustration du service ${service.title}`}
+                  width="320"
+                  height="240"
+                  class="w-full max-w-sm h-auto"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
+            <!-- Contenu -->
+            <div class={`lg:col-span-7 space-y-5 ${isReversed ? 'lg:order-1' : ''}`}>
+              <div class="inline-block px-3 py-1 rounded-md bg-brand-primary-light text-brand-primary text-xs font-bold uppercase tracking-wider">
+                Famille {index + 1} sur 4
+              </div>
+              
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-text tracking-tight">
+                {service.title}
+              </h2>
+
+              <p class="text-base text-brand-muted leading-relaxed">
+                {service.fullDescription}
+              </p>
+
+              <!-- Points clés -->
+              <div class="space-y-2 pt-2">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-brand-text">
+                  Ce que nous prenons en charge :
+                </h3>
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-brand-muted" role="list">
+                  {service.features.slice(0, 6).map((f) => (
+                    <li class="flex items-center gap-2">
+                      <svg class="w-4 h-4 text-brand-success shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                      </svg>
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <!-- CTA En savoir plus -->
+              <div class="pt-3 flex flex-wrap items-center gap-4">
+                <a
+                  href={`/services/${service.slug}/`}
+                  class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-bold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md transition-colors no-underline"
+                >
+                  Découvrir ce service
+                </a>
+                <a
+                  href="/soumission/"
+                  class="inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-brand-text hover:text-brand-primary no-underline"
+                >
+                  Demander une soumission &rarr;
+                </a>
+              </div>
+            </div>
+
+          </article>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- BANDE FINALE CTA -->
+  <CtaBanner
+    title="Besoin d'un nettoyage ?"
+    description="Obtenez une évaluation de vos besoins en quelques étapes."
+    ctaText="Obtenir une soumission"
+    ctaLink="/soumission/"
+  />
+
+</BaseLayout>

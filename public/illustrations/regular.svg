@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" fill="none" class="w-full h-auto">
+  <rect width="320" height="240" rx="16" fill="#E3F4F5"/>
+  <line x1="20" y1="210" x2="300" y2="210" stroke="#0E7C86" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Calendrier d'entretien régulier -->
+  <rect x="75" y="45" width="170" height="150" rx="14" fill="#FFFFFF" stroke="#0E7C86" stroke-width="3.5"/>
+  <rect x="75" y="45" width="170" height="42" rx="12" fill="#0E7C86"/>
+  <!-- Anneaux du calendrier -->
+  <rect x="110" y="35" width="12" height="22" rx="4" fill="#0A5A62"/>
+  <rect x="198" y="35" width="12" height="22" rx="4" fill="#0A5A62"/>
+
+  <!-- Grille de jours réguliers avec coches -->
+  <circle cx="115" cy="115" r="14" fill="#E3F4F5"/>
+  <circle cx="160" cy="115" r="14" fill="#0E7C86"/>
+  <circle cx="205" cy="115" r="14" fill="#E3F4F5"/>
+
+  <circle cx="115" cy="155" r="14" fill="#E3F4F5"/>
+  <circle cx="160" cy="155" r="14" fill="#E3F4F5"/>
+  <circle cx="205" cy="155" r="14" fill="#0E7C86"/>
+
+  <!-- Coche de validation sur le jour programmé -->
+  <path d="M153 115L158 120L168 109" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M198 155L203 160L213 149" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Horloge de ponctualité discrète -->
+  <circle cx="260" cy="70" r="18" fill="#FFFFFF" stroke="#0A5A62" stroke-width="2.5"/>
+  <path d="M260 59V70L268 74" stroke="#0E7C86" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Étincelle de tranquillité -->
+  <path d="M55 75L57 83L65 85L57 87L55 95L53 87L45 85L53 83Z" fill="#FFB703"/>
+</svg>

@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionIdentity from '../../components/forms/candidate/SectionIdentity.astro';
+import SectionWorkAuth from '../../components/forms/candidate/SectionWorkAuth.astro';
+import SectionExperience from '../../components/forms/candidate/SectionExperience.astro';
+import SectionAvailability from '../../components/forms/candidate/SectionAvailability.astro';
+import SectionMobility from '../../components/forms/candidate/SectionMobility.astro';
+import SectionConsent from '../../components/forms/candidate/SectionConsent.astro';
+
+const pageTitle = "Formulaire d'inscription des candidats — unilka Carrières";
+const pageDescription = "Rejoignez l'équipe ou le réseau de préposé(e)s à l'entretien ménager unilka. Remplissez votre candidature en ligne simplement et en toute confidentialité.";
+
+const breadcrumbs = [
+  { label: "Carrières", href: "/carrieres/" },
+  { label: "Formulaire d'inscription", href: "/carrieres/inscription/" }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
+
+  <!-- EN-TÊTE DU FORMULAIRE -->
+  <section class="bg-brand-surface-subtle py-12 lg:py-16 border-b border-brand-primary-light/60">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-text tracking-tight">
+        Formulaire d'inscription des candidats
+      </h1>
+      <p class="text-base sm:text-lg text-brand-muted leading-relaxed max-w-2xl mx-auto">
+        Remplissez ce formulaire pour postuler et rejoindre notre réseau. Vos informations nous permettent d'évaluer vos disponibilités et de vous contacter lorsqu'une opportunité correspond à vos critères. Vos renseignements sont traités de manière strictement confidentielle (Loi 25).
+      </p>
+      <p class="text-xs font-semibold text-brand-muted uppercase tracking-wider">
+        * champ obligatoire
+      </p>
+    </div>
+  </section>
+
+  <!-- CONTENEUR DU FORMULAIRE -->
+  <section class="py-12 sm:py-16 bg-brand-surface-subtle/50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- RÉSUMÉ D'ERREURS ACCESSIBLE -->
+      <div
+        id="cand-error-summary"
+        tabindex="-1"
+        class="hidden mb-8 p-6 rounded-2xl bg-red-50 border-2 border-brand-error text-brand-error shadow-sm focus:outline-none focus:ring-4 focus:ring-red-200"
+        role="alert"
+        aria-labelledby="cand-error-summary-heading"
+      >
+        <h2 id="cand-error-summary-heading" class="text-lg font-bold text-brand-error mb-2 flex items-center gap-2">
+          <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+          <span>Veuillez corriger les éléments suivants :</span>
+        </h2>
+        <ul id="cand-error-summary-list" class="list-disc pl-6 space-y-1 text-sm font-medium"></ul>
+      </div>
+
+      <!-- FORMULAIRE MODULAIRE CANDIDAT -->
+      <form id="candidate-form" novalidate class="space-y-8">
+        <SectionIdentity />
+        <SectionWorkAuth />
+        <SectionExperience />
+        <SectionAvailability />
+        <SectionMobility />
+        <SectionConsent />
+      </form>
+
+    </div>
+  </section>
+
+</BaseLayout>
+
+<script>
+  import { initCandidateForm } from '../../scripts/candidate-form.js';
+  initCandidateForm();
+</script>

@@ -1,0 +1,142 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const pageTitle = "Emplois en nettoyage à Montréal — unilka";
+const pageDescription = "Rejoignez l'équipe unilka : missions ponctuelles, temps partiel ou temps plein, avec possibilités de formation. Inscrivez-vous en ligne.";
+
+const breadcrumbs = [
+  { label: "Carrières & Emplois", href: "/carrieres/" }
+];
+
+const benefits = [
+  {
+    title: "Des horaires adaptés à votre situation",
+    description: "Que vous soyez disponible quelques heures par semaine ou que vous recherchiez un emploi à temps plein, nous cherchons à vous proposer des opportunités qui correspondent à vos disponibilités."
+  },
+  {
+    title: "Des missions ponctuelles ou plus durables",
+    description: "Selon votre situation : missions ponctuelles, travail à temps partiel, contrats temporaires ou opportunités à plus long terme."
+  },
+  {
+    title: "Des possibilités de formation",
+    description: "Nous souhaitons vous aider à développer vos compétences. Des formations pourront être proposées, notamment dans le domaine du nettoyage domestique et de l'entretien ménager, afin de vous permettre d'acquérir de nouvelles connaissances et de mieux vous préparer aux missions."
+  },
+  {
+    title: "Un accompagnement professionnel",
+    description: "Après votre inscription et votre sélection, un entretien permettra de mieux comprendre votre expérience, vos compétences et vos objectifs."
+  },
+  {
+    title: "Développez votre expérience",
+    description: "Chaque mission peut être une occasion de développer votre expérience professionnelle, d'acquérir de nouvelles compétences et de construire progressivement votre parcours."
+  },
+  {
+    title: "Des opportunités adaptées à votre profil",
+    description: "Nous prenons en compte votre secteur géographique, vos disponibilités, vos compétences et le type de travail que vous recherchez."
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
+
+  <!-- HERO CARRIÈRES -->
+  <section class="bg-brand-surface-subtle py-12 lg:py-16 border-b border-brand-primary-light/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <div class="lg:col-span-7 space-y-4">
+          <span class="inline-block px-3 py-1 rounded-md bg-brand-accent/20 text-brand-text text-xs font-bold uppercase tracking-wider">
+            Recrutement & Missions
+          </span>
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-text tracking-tight">
+            Rejoignez notre équipe et construisez votre avenir professionnel
+          </h1>
+          <p class="text-base sm:text-lg text-brand-muted leading-relaxed">
+            Vous êtes à la recherche d'un emploi, d'un job ponctuel, d'un revenu complémentaire ou d'une opportunité professionnelle stable ? Notre entreprise vous offre la possibilité de trouver des missions et des emplois adaptés à votre profil, à vos compétences et à vos disponibilités.
+          </p>
+          <div class="pt-2">
+            <a
+              href="/carrieres/inscription/"
+              class="inline-flex items-center justify-center px-6 py-3.5 text-base font-bold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md shadow-sm transition-colors no-underline"
+            >
+              Je m'inscris maintenant
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 flex justify-center">
+          <img
+            src="/illustrations/careers.svg"
+            alt="Équipe professionnelle unilka"
+            width="320"
+            height="240"
+            class="w-full max-w-sm h-auto bg-white p-4 rounded-2xl border border-brand-primary-light/80 shadow-xs"
+          />
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- POURQUOI TRAVAILLER AVEC NOUS -->
+  <section class="py-16 bg-white" aria-labelledby="why-work-title">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <h2 id="why-work-title" class="text-2xl sm:text-3xl font-extrabold text-brand-text tracking-tight">
+          Pourquoi travailler avec nous ?
+        </h2>
+        <p class="text-base text-brand-muted">
+          Nous valorisons votre engagement, votre ponctualité et votre volonté de bien faire.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {benefits.map((benefit, index) => (
+          <div class="bg-brand-surface-subtle border border-brand-primary-light/70 rounded-xl p-6 space-y-3">
+            <div class="w-8 h-8 rounded-full bg-brand-primary-light text-brand-primary font-bold text-sm flex items-center justify-center shrink-0">
+              {index + 1}
+            </div>
+            <h3 class="text-lg font-bold text-brand-text">
+              {benefit.title}
+            </h3>
+            <p class="text-sm text-brand-muted leading-relaxed">
+              {benefit.description}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <!-- Encadré d'avertissement réglementaire -->
+      <div class="p-6 rounded-xl bg-amber-50 border border-amber-200 text-sm text-brand-text flex items-start gap-3">
+        <svg class="w-5 h-5 text-amber-600 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+        </svg>
+        <p class="leading-relaxed">
+          <span class="font-bold">Information importante :</span> L'inscription ne garantit pas automatiquement l'obtention d'un emploi ou d'une mission. Les candidatures sont évaluées selon les besoins et les opportunités disponibles.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BANDE FINALE D'INSCRIPTION -->
+  <section class="bg-brand-primary text-white py-14" aria-labelledby="ready-to-start-title">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
+      <h2 id="ready-to-start-title" class="text-2xl sm:text-3xl font-extrabold text-white">
+        Vous êtes prêt(e) à commencer ?
+      </h2>
+      <p class="text-base sm:text-lg text-brand-primary-light max-w-2xl mx-auto leading-relaxed">
+        Que vous ayez déjà de l'expérience ou que vous souhaitiez apprendre et développer vos compétences, nous vous invitons à vous inscrire. Créez votre profil dès aujourd'hui et faites-nous connaître vos compétences et vos disponibilités.
+      </p>
+      <div class="pt-3">
+        <a
+          href="/carrieres/inscription/"
+          class="inline-flex items-center justify-center px-6 py-3.5 text-base font-bold text-brand-text bg-brand-accent hover:bg-[#e0a102] rounded-md shadow-md transition-all no-underline"
+        >
+          Je m'inscris maintenant
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

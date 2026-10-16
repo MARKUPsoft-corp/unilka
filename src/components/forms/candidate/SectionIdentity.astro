@@ -1,0 +1,170 @@
+---
+// Section 1 : Informations personnelles du candidat
+---
+<fieldset class="p-6 sm:p-8 bg-white rounded-2xl border border-brand-primary-light/80 shadow-xs space-y-6">
+  <legend class="text-xl font-bold text-brand-text flex items-center gap-2">
+    <span class="w-7 h-7 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center shrink-0">1</span>
+    <span>Informations personnelles</span>
+  </legend>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <!-- Prénom -->
+    <div>
+      <label for="cand-firstName" class="block text-sm font-bold text-brand-text mb-1.5">
+        Prénom <span class="text-brand-error" aria-hidden="true">*</span>
+      </label>
+      <input
+        type="text"
+        id="cand-firstName"
+        name="firstName"
+        required
+        autocomplete="given-name"
+        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
+      />
+      <span id="cand-firstName-error" class="hidden text-xs text-brand-error mt-1" role="alert">Ce champ est obligatoire.</span>
+    </div>
+
+    <!-- Nom -->
+    <div>
+      <label for="cand-lastName" class="block text-sm font-bold text-brand-text mb-1.5">
+        Nom <span class="text-brand-error" aria-hidden="true">*</span>
+      </label>
+      <input
+        type="text"
+        id="cand-lastName"
+        name="lastName"
+        required
+        autocomplete="family-name"
+        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
+      />
+      <span id="cand-lastName-error" class="hidden text-xs text-brand-error mt-1" role="alert">Ce champ est obligatoire.</span>
+    </div>
+
+    <!-- Téléphone -->
+    <div>
+      <label for="cand-phone" class="block text-sm font-bold text-brand-text mb-1.5">
+        Numéro de téléphone <span class="text-brand-error" aria-hidden="true">*</span>
+      </label>
+      <input
+        type="tel"
+        id="cand-phone"
+        name="phone"
+        required
+        autocomplete="tel"
+        placeholder="514 555 0123"
+        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
+      />
+      <span id="cand-phone-error" class="hidden text-xs text-brand-error mt-1" role="alert">Veuillez saisir un numéro de téléphone valide.</span>
+    </div>
+
+    <!-- Courriel -->
+    <div>
+      <label for="cand-email" class="block text-sm font-bold text-brand-text mb-1.5">
+        Adresse courriel <span class="text-brand-error" aria-hidden="true">*</span>
+      </label>
+      <input
+        type="email"
+        id="cand-email"
+        name="email"
+        required
+        autocomplete="email"
+        placeholder="candidat@exemple.ca"
+        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
+      />
+      <span id="cand-email-error" class="hidden text-xs text-brand-error mt-1" role="alert">Veuillez saisir une adresse courriel valide.</span>
+    </div>
+
+    <!-- Ville -->
+    <div>
+      <label for="cand-city" class="block text-sm font-bold text-brand-text mb-1.5">
+        Ville de résidence <span class="text-brand-error" aria-hidden="true">*</span>
+      </label>
+      <input
+        type="text"
+        id="cand-city"
+        name="city"
+        required
+        placeholder="Ex. Montréal, Laval, Longueuil"
+        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
+      />
+      <span id="cand-city-error" class="hidden text-xs text-brand-error mt-1" role="alert">Ce champ est obligatoire.</span>
+    </div>
+
+    <!-- Adresse (Facultative) -->
+    <div>
+      <label for="cand-address" class="block text-sm font-bold text-brand-text mb-1.5">
+        Adresse (facultatif)
+      </label>
+      <input
+        type="text"
+        id="cand-address"
+        name="address"
+        placeholder="Rue ou quartier"
+        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
+      />
+      <p class="text-xs text-brand-muted mt-1">Facultatif. Nous avons surtout besoin de votre ville pour évaluer les déplacements.</p>
+    </div>
+  </div>
+
+  <!-- J'ai 18 ans ou plus (Remplace la date de naissance - D10) -->
+  <div class="pt-3 border-t border-brand-primary-light/60">
+    <label class="flex items-center gap-3 cursor-pointer">
+      <input
+        type="checkbox"
+        id="cand-isAdult"
+        name="isAdult"
+        required
+        class="w-5 h-5 text-brand-primary border-brand-primary-light rounded focus:ring-brand-primary shrink-0"
+      />
+      <span class="text-sm font-bold text-brand-text">
+        J'ai 18 ans ou plus <span class="text-brand-error" aria-hidden="true">*</span>
+      </span>
+    </label>
+    <span id="cand-isAdult-error" class="hidden text-xs text-brand-error mt-1 block" role="alert">Ce champ est obligatoire.</span>
+  </div>
+
+  <!-- Langues parlées -->
+  <div class="space-y-3 pt-3 border-t border-brand-primary-light/60">
+    <label class="block text-sm font-bold text-brand-text">
+      Langue(s) parlée(s) <span class="text-brand-error" aria-hidden="true">*</span>
+    </label>
+    <div class="flex flex-wrap gap-3">
+      {["Français", "Anglais", "Autre"].map((lang) => (
+        <label class="flex items-center gap-2 px-3 py-2 rounded-lg border border-brand-primary-light text-sm cursor-pointer hover:bg-brand-surface-subtle has-[:checked]:bg-brand-primary-light/50 has-[:checked]:border-brand-primary">
+          <input
+            type="checkbox"
+            name="languages"
+            value={lang}
+            id={`lang-${lang}`}
+            class="w-4 h-4 text-brand-primary rounded"
+            checked={lang === 'Français'}
+          />
+          <span>{lang}</span>
+        </label>
+      ))}
+    </div>
+    <div id="cand-langOtherContainer" class="hidden max-w-sm pt-1">
+      <label for="cand-langOther" class="block text-xs font-semibold text-brand-text mb-1">Précisez la ou les autres langues</label>
+      <input type="text" id="cand-langOther" name="languageOther" placeholder="Ex. Espagnol, Arabe, Créole" class="w-full px-3 py-2 rounded-lg border border-brand-primary-light text-sm text-brand-text" />
+    </div>
+    <span id="cand-languages-error" class="hidden text-xs text-brand-error" role="alert">Veuillez choisir au moins une option.</span>
+  </div>
+
+  <!-- Langue préférée -->
+  <div class="max-w-sm pt-3 border-t border-brand-primary-light/60">
+    <label for="cand-prefLang" class="block text-sm font-bold text-brand-text mb-1.5">
+      Langue préférée pour les communications <span class="text-brand-error" aria-hidden="true">*</span>
+    </label>
+    <select
+      id="cand-prefLang"
+      name="preferredLanguage"
+      required
+      class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text bg-white"
+    >
+      <option value="Français">Français</option>
+      <option value="Anglais">Anglais</option>
+      <option value="Autre">Autre</option>
+    </select>
+  </div>
+
+</fieldset>

@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CtaBanner from '../../components/ui/CtaBanner.astro';
+
+const pageTitle = "Nettoyage de canapés, tapis et matelas — unilka";
+const pageDescription = "Nettoyage de canapés, tapis, matelas et intérieur de véhicules à Montréal et environs. Décrivez votre besoin, nous vous proposons une solution.";
+
+const breadcrumbs = [
+  { label: "Services", href: "/services/" },
+  { label: "Nettoyage spécialisé", href: "/services/nettoyage-specialise/" }
+];
+
+const specializedItems = [
+  "Nettoyage de canapés et fauteuils",
+  "Nettoyage de tapis et carpettes",
+  "Nettoyage de matelas",
+  "Nettoyage intérieur de véhicules",
+  "Nettoyage de surfaces particulièrement sales",
+  "Nettoyage après une longue période d'inoccupation"
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
+
+  <!-- HERO SERVICE -->
+  <section class="bg-brand-surface-subtle py-12 lg:py-16 border-b border-brand-primary-light/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <div class="lg:col-span-7 space-y-4">
+          <span class="inline-block px-3 py-1 rounded-md bg-brand-primary-light text-brand-primary text-xs font-bold uppercase tracking-wider">
+            Intervention spécialisée
+          </span>
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-text tracking-tight">
+            Nettoyage spécialisé : canapés, tapis, matelas et véhicules
+          </h1>
+          <p class="text-base sm:text-lg text-brand-muted leading-relaxed">
+            Certains espaces et certaines surfaces nécessitent une attention particulière. Nous proposons des services spécialisés pour différents types de nettoyage.
+          </p>
+          <div class="pt-2 flex flex-wrap gap-3">
+            <a
+              href="/soumission/"
+              class="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md shadow-sm transition-colors no-underline"
+            >
+              Obtenir une soumission
+            </a>
+            <a
+              href="/services/"
+              class="inline-flex items-center justify-center px-4 py-3 text-sm font-semibold text-brand-text hover:text-brand-primary no-underline"
+            >
+              &larr; Retour aux services
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 flex justify-center">
+          <img
+            src="/illustrations/specialized.svg"
+            alt="Illustration nettoyage spécialisé unilka"
+            width="320"
+            height="240"
+            class="w-full max-w-sm h-auto bg-white p-4 rounded-2xl border border-brand-primary-light/80 shadow-xs"
+          />
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENU PRINCIPAL -->
+  <section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <!-- Liste de nos services spécialisés -->
+      <div class="space-y-6">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-text tracking-tight">
+          Nos services spécialisés peuvent inclure
+        </h2>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3" role="list">
+          {specializedItems.map((item) => (
+            <li class="flex items-center gap-3 p-3.5 rounded-lg bg-brand-surface-subtle border border-brand-primary-light/60 text-sm font-medium text-brand-text">
+              <svg class="w-5 h-5 text-brand-primary shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Encadré besoin particulier -->
+      <div class="p-6 rounded-xl bg-brand-primary-light/50 border border-brand-primary/20 space-y-2">
+        <h3 class="font-bold text-brand-text text-base flex items-center gap-2">
+          <span class="text-brand-primary text-lg" aria-hidden="true">✦</span>
+          <span>Vous avez un besoin particulier ?</span>
+        </h3>
+        <p class="text-sm text-brand-muted leading-relaxed">
+          Décrivez-nous votre situation et nous vous indiquerons la meilleure solution.
+        </p>
+      </div>
+
+      <!-- Précision technique -->
+      <div class="space-y-3 pt-6 border-t border-brand-primary-light/60">
+        <p class="text-sm text-brand-muted leading-relaxed">
+          Les résultats dépendent du type de matériau et de l'état de la surface. Nous évaluons chaque situation avant d'intervenir.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BANDE FINALE -->
+  <CtaBanner
+    title="Besoin d'un nettoyage spécialisé ?"
+    description="Décrivez-nous votre meuble, tapis ou véhicule pour recevoir une évaluation sur-mesure."
+    ctaText="Obtenir une soumission"
+    ctaLink="/soumission/"
+  />
+
+</BaseLayout>

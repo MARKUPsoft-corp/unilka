@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import config from '../data/site-config.json';
+
+const pageTitle = "Mentions légales — unilka";
+const pageDescription = "Mentions légales et conditions d'utilisation du site unilka.";
+
+const breadcrumbs = [
+  { label: "Mentions légales", href: "/mentions-legales/" }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
+
+  <section class="py-12 lg:py-16 bg-white">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      
+      <div class="space-y-3 pb-6 border-b border-brand-primary-light/80">
+        <h1 class="text-3xl sm:text-4xl font-black text-brand-text tracking-tight">
+          Mentions légales
+        </h1>
+        <p class="text-xs text-brand-muted">
+          Conditions d'utilisation et informations légales applicables au site unilka.
+        </p>
+      </div>
+
+      <div class="space-y-8 text-brand-text leading-relaxed text-sm sm:text-base">
+        
+        <!-- Éditeur du site -->
+        <section class="space-y-3">
+          <h2 class="text-xl font-bold text-brand-text">1. Éditeur du site</h2>
+          <p class="text-brand-muted">
+            Le présent site est édité par l'entreprise <strong>{config.business.legalName || config.business.name}</strong>, exploitée sous la marque <strong>unilka</strong>.
+          </p>
+          {config.business.neq && (
+            <p class="text-brand-muted">
+              Numéro d'entreprise du Québec (NEQ) : <strong>{config.business.neq}</strong>.
+            </p>
+          )}
+          {config.business.email && (
+            <p class="text-brand-muted">
+              Courriel de contact : <a href={`mailto:${config.business.email}`} class="text-brand-primary">{config.business.email}</a>.
+            </p>
+          )}
+        </section>
+
+        <!-- Hébergement -->
+        <section class="space-y-3">
+          <h2 class="text-xl font-bold text-brand-text">2. Hébergement</h2>
+          <p class="text-brand-muted">
+            Le site est hébergé sur l'infrastructure cloud de <strong>Vercel Inc.</strong>, située au 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis (<a href="https://vercel.com" target="_blank" rel="noopener noreferrer" class="text-brand-primary">vercel.com</a>).
+          </p>
+        </section>
+
+        <!-- Propriété intellectuelle -->
+        <section class="space-y-3">
+          <h2 class="text-xl font-bold text-brand-text">3. Propriété intellectuelle</h2>
+          <p class="text-brand-muted">
+            L'ensemble des contenus figurant sur ce site (textes, graphismes, logotype, illustrations vectorielles et icônes) sont la propriété exclusive de unilka ou font l'objet d'une autorisation d'utilisation. Toute reproduction, distribution ou diffusion, intégrale ou partielle, sans accord écrit préalable est interdite.
+          </p>
+        </section>
+
+        <!-- Nature des informations et soumissions -->
+        <section class="space-y-3">
+          <h2 class="text-xl font-bold text-brand-text">4. Nature des informations et soumissions</h2>
+          <p class="text-brand-muted">
+            Les contenus présentés sur ce site le sont à titre informatif. Une demande de soumission ou une estimation formulée via ce site ne constitue pas un engagement contractuel ferme. Une soumission ne devient contractuelle qu'après confirmation écrite et acceptation formelle par les deux parties.
+          </p>
+        </section>
+
+        <!-- Limitation de responsabilité -->
+        <section class="space-y-3">
+          <h2 class="text-xl font-bold text-brand-text">5. Limitation de responsabilité</h2>
+          <p class="text-brand-muted">
+            unilka apporte le plus grand soin à la mise à jour des informations présentées sur le site. Toutefois, nous ne saurions être tenus responsables d'éventuelles omissions, inexactitudes ou indisponibilités temporaires du service.
+          </p>
+        </section>
+
+        <!-- Liens externes -->
+        <section class="space-y-3">
+          <h2 class="text-xl font-bold text-brand-text">6. Liens externes</h2>
+          <p class="text-brand-muted">
+            Le site peut contenir des liens vers des sites tiers. unilka n'exerce aucun contrôle sur le contenu de ces sites et décline toute responsabilité quant à leurs pratiques.
+          </p>
+        </section>
+
+        <!-- Droit applicable -->
+        <section class="space-y-3">
+          <h2 class="text-xl font-bold text-brand-text">7. Droit applicable et juridiction</h2>
+          <p class="text-brand-muted">
+            Les présentes mentions légales sont régies par les lois applicables dans la province de Québec et les lois du Canada. Tout litige relatif à l'interprétation ou à l'exécution des présentes sera soumis à la compétence exclusive des tribunaux du district judiciaire de Montréal, Québec.
+          </p>
+        </section>
+
+      </div>
+
+    </div>
+  </section>
+
+</BaseLayout>

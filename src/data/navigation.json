@@ -1,0 +1,46 @@
+{
+  "mainNav": [
+    {
+      "label": "Accueil",
+      "href": "/"
+    },
+    {
+      "label": "Services",
+      "href": "/services/",
+      "children": [
+        { "label": "Nettoyage résidentiel", "href": "/services/nettoyage-residentiel/" },
+        { "label": "Nettoyage commercial", "href": "/services/nettoyage-commercial/" },
+        { "label": "Nettoyage spécialisé", "href": "/services/nettoyage-specialise/" },
+        { "label": "Entretien régulier", "href": "/services/entretien-regulier/" }
+      ]
+    },
+    {
+      "label": "Zones desservies",
+      "href": "/zones-desservies/"
+    },
+    {
+      "label": "À propos",
+      "href": "/a-propos/"
+    },
+    {
+      "label": "FAQ",
+      "href": "/faq/"
+    },
+    {
+      "label": "Contact",
+      "href": "/contact/"
+    }
+  ],
+  "secondaryNav": {
+    "label": "Emplois",
+    "href": "/carrieres/"
+  },
+  "primaryCta": {
+    "label": "Obtenir une soumission",
+    "href": "/soumission/"
+  },
+  "legalNav": [
+    { "label": "Politique de confidentialité", "href": "/confidentialite/" },
+    { "label": "Mentions légales", "href": "/mentions-legales/" }
+  ]
+}

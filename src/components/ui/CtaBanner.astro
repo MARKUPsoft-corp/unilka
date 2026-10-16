@@ -1,0 +1,42 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  ctaText?: string;
+  ctaLink?: string;
+}
+
+const {
+  title = "Besoin d'un nettoyage ?",
+  description = "Obtenez une évaluation de vos besoins en quelques étapes. Notre équipe analyse votre demande et vous transmet une soumission personnalisée.",
+  ctaText = "Obtenir une soumission",
+  ctaLink = "/soumission/"
+} = Astro.props;
+---
+
+<section class="bg-brand-primary text-white py-12 lg:py-16 relative overflow-hidden" aria-labelledby="cta-banner-title">
+  <!-- Décoration d'arrière-plan discrète sans image lourde -->
+  <div class="absolute inset-0 opacity-10 pointer-events-none" aria-hidden="true">
+    <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <circle cx="90" cy="10" r="30" fill="currentColor" />
+      <circle cx="10" cy="90" r="25" fill="currentColor" />
+    </svg>
+  </div>
+
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-6">
+    <h2 id="cta-banner-title" class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
+      {title}
+    </h2>
+    <p class="text-base sm:text-lg text-brand-primary-light max-w-2xl mx-auto leading-relaxed">
+      {description}
+    </p>
+    <div class="pt-2">
+      <a
+        href={ctaLink}
+        class="inline-flex items-center justify-center px-6 py-3.5 text-base font-bold text-brand-text bg-brand-accent hover:bg-[#e0a102] rounded-md shadow-md transition-all duration-150 transform hover:-translate-y-0.5 active:translate-y-0 no-underline hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+      >
+        {ctaText}
+      </a>
+    </div>
+  </div>
+</section>

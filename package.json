@@ -1,0 +1,21 @@
+{
+  "name": "unilka",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "node test/qa-scenarios.test.js && npx tsx test/api-endpoints.test.ts",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@astrojs/tailwind": "^6.0.0",
+    "@astrojs/vercel": "^8.0.0",
+    "astro": "^5.0.0",
+    "tailwindcss": "^3.4.17"
+  }
+}

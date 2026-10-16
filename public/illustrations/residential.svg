@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" fill="none" class="w-full h-auto">
+  <rect width="320" height="240" rx="16" fill="#E3F4F5"/>
+  <!-- Sol -->
+  <line x1="30" y1="205" x2="290" y2="205" stroke="#0E7C86" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- Maison principale -->
+  <path d="M70 115L160 50L250 115V205H70V115Z" fill="#FFFFFF" stroke="#0E7C86" stroke-width="3.5" stroke-linejoin="round"/>
+  
+  <!-- Toit et cheminée -->
+  <path d="M55 120L160 42L265 120" stroke="#0A5A62" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="205" y="60" width="22" height="40" fill="#0E7C86" stroke="#0A5A62" stroke-width="3"/>
+  
+  <!-- Porte -->
+  <rect x="135" y="145" width="45" height="60" rx="4" fill="#0E7C86"/>
+  <circle cx="170" cy="175" r="3" fill="#FFB703"/>
+
+  <!-- Fenêtres avec reflets -->
+  <rect x="90" y="130" width="30" height="35" rx="3" fill="#E3F4F5" stroke="#0A5A62" stroke-width="2"/>
+  <rect x="195" y="130" width="30" height="35" rx="3" fill="#E3F4F5" stroke="#0A5A62" stroke-width="2"/>
+  <circle cx="160" cy="95" r="14" fill="#E3F4F5" stroke="#0A5A62" stroke-width="2"/>
+
+  <!-- Étincelle de propreté -->
+  <path d="M260 50L262 58L270 60L262 62L260 70L258 62L250 60L258 58Z" fill="#FFB703"/>
+  <circle cx="75" cy="80" r="8" fill="#FFFFFF" fill-opacity="0.8" stroke="#0E7C86" stroke-width="1.5"/>
+</svg>

@@ -1,0 +1,85 @@
+---
+interface Props {
+  id: string;
+  slug: string;
+  title: string;
+  shortDescription: string;
+  icon?: string;
+  features?: string[];
+  showFeatures?: boolean;
+}
+
+const {
+  slug,
+  title,
+  shortDescription,
+  icon = "sparkle",
+  features = [],
+  showFeatures = false
+} = Astro.props;
+---
+
+<article class="bg-white rounded-xl border border-brand-primary-light/80 p-6 sm:p-7 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between group hover:-translate-y-1">
+  <div class="space-y-4">
+    <!-- Icône illustrée -->
+    <div class="w-12 h-12 rounded-lg bg-brand-primary-light text-brand-primary flex items-center justify-center shrink-0 group-hover:bg-brand-primary group-hover:text-white transition-colors duration-200">
+      {icon === 'home' && (
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+      )}
+      {icon === 'building' && (
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        </svg>
+      )}
+      {icon === 'calendar' && (
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      )}
+      {icon !== 'home' && icon !== 'building' && icon !== 'calendar' && (
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+        </svg>
+      )}
+    </div>
+
+    <!-- Titre et résumé -->
+    <div>
+      <h3 class="text-xl font-bold text-brand-text group-hover:text-brand-primary transition-colors">
+        <a href={`/services/${slug}/`} class="no-underline text-inherit focus:outline-none">
+          {title}
+        </a>
+      </h3>
+      <p class="mt-2 text-sm text-brand-muted leading-relaxed">
+        {shortDescription}
+      </p>
+    </div>
+
+    <!-- Liste d'inclusions (optionnelle) -->
+    {showFeatures && features.length > 0 && (
+      <ul class="pt-2 space-y-1.5 text-xs text-brand-muted border-t border-brand-primary-light/60" role="list">
+        {features.slice(0, 4).map((f) => (
+          <li class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-brand-success shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            <span>{f}</span>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+
+  <!-- Bouton d'action -->
+  <div class="pt-6 mt-4 border-t border-brand-primary-light/40 flex items-center justify-between">
+    <a
+      href={`/services/${slug}/`}
+      class="text-sm font-semibold text-brand-primary hover:text-brand-primary-dark no-underline flex items-center gap-1 group-hover:translate-x-1 transition-all"
+    >
+      <span>En savoir plus</span>
+      <span aria-hidden="true">&rarr;</span>
+    </a>
+  </div>
+</article>

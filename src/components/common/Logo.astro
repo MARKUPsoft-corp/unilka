@@ -1,0 +1,57 @@
+---
+interface Props {
+  variant?: 'default' | 'inverted';
+  size?: 'sm' | 'md' | 'lg';
+  showLink?: boolean;
+}
+
+const { variant = 'default', size = 'md', showLink = true } = Astro.props;
+
+const isLight = variant === 'inverted';
+const textColor = isLight ? '#FFFFFF' : '#0E7C86';
+const sparkColor = '#FFB703';
+
+const textSizes = {
+  sm: 'text-xl',
+  md: 'text-2xl md:text-3xl',
+  lg: 'text-3xl md:text-4xl'
+}[size];
+
+const sparkSizes = {
+  sm: 'w-2.5 h-2.5 -top-2.5',
+  md: 'w-3.5 h-3.5 -top-3.5',
+  lg: 'w-5 h-5 -top-5'
+}[size];
+---
+
+{showLink ? (
+  <a
+    href="/"
+    class="inline-flex items-center no-underline group focus-visible:outline-2 focus-visible:outline-brand-primary-dark rounded-md px-1 py-0.5"
+    aria-label="unilka — Retour à l'accueil"
+  >
+    <span class={`font-extrabold tracking-tight lowercase select-none flex items-center leading-none ${textSizes}`} style={`color: ${textColor};`}>
+      unilka
+      <svg
+        class={`relative left-0.5 fill-current shrink-0 transition-transform duration-200 group-hover:scale-110 group-hover:rotate-12 ${sparkSizes}`}
+        viewBox="0 0 24 24"
+        style={`color: ${sparkColor};`}
+        aria-hidden="true"
+      >
+        <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+      </svg>
+    </span>
+  </a>
+) : (
+  <span class={`font-extrabold tracking-tight lowercase select-none inline-flex items-center leading-none ${textSizes}`} style={`color: ${textColor};`}>
+    unilka
+    <svg
+      class={`relative left-0.5 fill-current shrink-0 ${sparkSizes}`}
+      viewBox="0 0 24 24"
+      style={`color: ${sparkColor};`}
+      aria-hidden="true"
+    >
+      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+    </svg>
+  </span>
+)}
