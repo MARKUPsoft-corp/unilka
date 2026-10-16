@@ -1,239 +1,83 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ServiceCard from '../components/cards/ServiceCard.astro';
-import FeatureCard from '../components/cards/FeatureCard.astro';
-import StepCard from '../components/cards/StepCard.astro';
-import TrustBlock from '../components/cards/TrustBlock.astro';
+import HeroConcierge from '../components/home/HeroConcierge.astro';
+import ApproachStatement from '../components/home/ApproachStatement.astro';
+import ServicesBento from '../components/home/ServicesBento.astro';
+import PillarsOfExcellence from '../components/home/PillarsOfExcellence.astro';
+import ProcessConcierge from '../components/home/ProcessConcierge.astro';
 import CtaBanner from '../components/ui/CtaBanner.astro';
-import services from '../data/services.json';
-import config from '../data/site-config.json';
 
-const pageTitle = "unilka — Nettoyage professionnel à Montréal et environs";
-const pageDescription = "Nettoyage résidentiel, commercial et spécialisé à Montréal et environs. Entretien régulier à tarif forfaitaire. Demandez une soumission en ligne.";
+const pageTitle = "unilka — Entretien ménager & Nettoyage haut de gamme à Montréal";
+const pageDescription = "Service d'entretien ménager haut de gamme à Montréal, Longueuil et Lanaudière. Résidences privées, bureaux et formules régulières. Devis personnalisé sous 24h.";
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
   
-  <!-- HERO SECTION -->
-  <section class="relative bg-brand-surface-subtle overflow-hidden pt-8 pb-16 lg:py-24 border-b border-brand-primary-light/60">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-        
-        <!-- Texte & CTA du Hero -->
-        <div class="lg:col-span-7 space-y-6">
-          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-primary-light text-brand-primary text-xs font-bold uppercase tracking-wider">
-            <span class="w-2 h-2 rounded-full bg-brand-accent"></span>
-            <span>Montréal, Rive-Sud & Lanaudière</span>
-          </div>
+  <!-- 1. HERO CONCIERGERIE & MODULE INTERACTIF -->
+  <HeroConcierge />
 
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-text tracking-tight leading-[1.15]">
-            Nettoyage professionnel à Montréal et environs
-          </h1>
+  <!-- 2. PHILOSOPHIE & 3 ENGAGEMENTS D'EXCELLENCE -->
+  <ApproachStatement />
 
-          <p class="text-xl sm:text-2xl font-bold text-brand-primary">
-            {config.business.slogan}
-          </p>
+  <!-- 3. BENTO GRID ÉDITORIAL DES SERVICES -->
+  <ServicesBento />
 
-          <p class="text-base sm:text-lg text-brand-muted leading-relaxed max-w-2xl">
-            Nous offrons des services de nettoyage professionnels adaptés aux besoins des particuliers, des entreprises et des propriétaires. Entretien régulier, grand ménage ou service spécialisé : notre équipe vous offre un résultat impeccable, avec professionnalisme et efficacité.
-          </p>
+  <!-- 4. LES STANDARDS D'EXCELLENCE (4 PILIERS NUMÉROTÉS) -->
+  <PillarsOfExcellence />
 
-          <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            <a
-              href="/soumission/"
-              class="inline-flex items-center justify-center px-6 py-3.5 text-base font-bold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md shadow-sm transition-all duration-150 no-underline text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary-dark"
-            >
-              Obtenir une soumission
-            </a>
-            <a
-              href="/services/"
-              class="inline-flex items-center justify-center px-6 py-3.5 text-base font-semibold text-brand-text bg-white hover:bg-brand-primary-light border border-brand-primary-light rounded-md transition-all duration-150 no-underline text-center"
-            >
-              Voir nos services
-            </a>
-          </div>
-        </div>
+  <!-- 5. PARCOURS DE SOUMISSION SANS ENGAGEMENT -->
+  <ProcessConcierge />
 
-        <!-- Illustration vectorielle Hero -->
-        <div class="lg:col-span-5 flex justify-center">
-          <img
-            src="/illustrations/hero-clean.svg"
-            alt="Intérieur propre et soigné illustrant les services professionnels unilka"
-            width="500"
-            height="380"
-            class="w-full max-w-md lg:max-w-none h-auto drop-shadow-sm"
-            loading="eager"
-          />
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- NOTRE APPROCHE -->
-  <section class="py-16 lg:py-20 bg-white" aria-labelledby="approach-title">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-      <h2 id="approach-title" class="text-2xl sm:text-3xl font-extrabold text-brand-text tracking-tight">
-        {config.business.subSlogan}
-      </h2>
-      <p class="text-base sm:text-lg text-brand-muted leading-relaxed">
-        Chez unilka, nous croyons qu'un espace propre et bien entretenu contribue directement au confort, au bien-être et à la qualité de vie. Notre objectif est simple : vous faire gagner du temps et vous offrir un environnement propre, sain et agréable.
-      </p>
-    </div>
-  </section>
-
-  <!-- NOS SERVICES (4 CARTES) -->
-  <section class="py-16 lg:py-20 bg-brand-surface-subtle border-y border-brand-primary-light/60" aria-labelledby="services-title">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-3">
-        <h2 id="services-title" class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-text tracking-tight">
-          Des services adaptés à chaque espace
-        </h2>
-        <p class="text-base text-brand-muted">
-          Résidentiel, commercial, spécialisé ou entretien récurrent : découvrez notre gamme complète d'interventions.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-        {services.map((service) => (
-          <ServiceCard
-            id={service.id}
-            slug={service.slug}
-            title={service.title}
-            shortDescription={service.shortDescription}
-            icon={service.icon}
-            features={service.features}
-            showFeatures={true}
-          />
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- CE QUI NOUS DISTINGUE -->
-  <section class="py-16 lg:py-20 bg-white" aria-labelledby="features-title">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-3">
-        <h2 id="features-title" class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-text tracking-tight">
-          Ce qui nous distingue
-        </h2>
-        <p class="text-base text-brand-muted">
-          Les principes fondamentaux qui guident chacune de nos interventions au quotidien.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <FeatureCard
-          title="Un service professionnel"
-          description="Nous accordons une grande importance à la qualité de chaque intervention. Notre objectif est de vous offrir un service professionnel, organisé et adapté à vos attentes."
-          icon="check-shield"
-        />
-        <FeatureCard
-          title="Des personnes sérieuses et compétentes"
-          description="Nous travaillons avec des personnes sérieuses et compétentes afin de vous offrir une expérience de nettoyage sécuritaire et satisfaisante."
-          icon="users"
-        />
-        <FeatureCard
-          title="Promptitude et efficacité"
-          description="Nous respectons les horaires convenus et nous nous efforçons d'effectuer chaque intervention avec efficacité, sans compromettre la qualité du travail."
-          icon="clock"
-        />
-        <FeatureCard
-          title="Un service personnalisé"
-          description="Chaque client et chaque espace sont différents. C'est pourquoi nous prenons le temps de comprendre vos besoins afin de vous proposer une solution adaptée."
-          icon="sparkles"
-        />
-      </div>
-
-      <!-- BLOC DE CONFIANCE (conditionnel : s'affiche uniquement si confirmé) -->
-      <TrustBlock />
-    </div>
-  </section>
-
-  <!-- COMMENT ÇA SE PASSE (4 ÉTAPES) -->
-  <section class="py-16 lg:py-20 bg-brand-surface-subtle border-t border-brand-primary-light/60" aria-labelledby="steps-title">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-3">
-        <h2 id="steps-title" class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-text tracking-tight">
-          Obtenir une soumission en 4 étapes
-        </h2>
-        <p class="text-base text-brand-muted">
-          Une démarche simple, rapide et sans engagement pour planifier votre nettoyage.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StepCard
-          stepNumber={1}
-          title="Vous remplissez le formulaire"
-          description="Quelques minutes suffisent. Vous pouvez joindre des photos si vous le souhaitez."
-        />
-        <StepCard
-          stepNumber={2}
-          title="Nous analysons votre demande"
-          description="Notre équipe communique avec vous pour confirmer les détails du service."
-        />
-        <StepCard
-          stepNumber={3}
-          title="Vous recevez une soumission personnalisée"
-          description="Adaptée à votre espace, à son état et à la fréquence souhaitée."
-        />
-        <StepCard
-          stepNumber={4}
-          title="Nous intervenons"
-          description="À la date convenue, avec le souci du détail."
-        />
-      </div>
-    </div>
-  </section>
-
-  <!-- OÙ INTERVENONS-NOUS ? -->
-  <section class="py-16 bg-white" aria-labelledby="zones-title">
+  <!-- 6. ZONES DESSERVIES (MONTRÉAL, RIVE-SUD, LANAUDIÈRE) -->
+  <section class="py-20 lg:py-24 bg-white" aria-labelledby="zones-title">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-      <h2 id="zones-title" class="text-2xl sm:text-3xl font-extrabold text-brand-text tracking-tight">
+      <span class="text-xs font-bold uppercase tracking-widest text-brand-primary">Territoires d'Intervention</span>
+      <h2 id="zones-title" class="text-3xl sm:text-4xl font-black text-brand-navy tracking-tight">
         Où intervenons-nous ?
       </h2>
       <p class="text-base sm:text-lg text-brand-muted max-w-2xl mx-auto leading-relaxed">
-        Nous desservons Montréal, Longueuil et la Rive-Sud, ainsi que Lanaudière. La disponibilité peut varier selon la ville, le type de service et la distance.
+        Nous desservons activement Montréal, Longueuil et la Rive-Sud, ainsi que plusieurs secteurs de Lanaudière. La disponibilité s'adapte selon la distance et la nature des services demandés.
       </p>
-      <div>
+      <div class="pt-2">
         <a
           href="/zones-desservies/"
-          class="inline-flex items-center justify-center px-5 py-3 text-sm font-semibold text-brand-primary bg-brand-primary-light hover:bg-brand-primary hover:text-white rounded-md transition-colors no-underline"
+          class="inline-flex items-center justify-center px-6 py-3.5 text-sm font-bold text-brand-navy bg-brand-surface-subtle hover:bg-brand-primary-light border border-brand-primary-light rounded-lg transition-all duration-150 no-underline"
         >
-          Voir les zones desservies &rarr;
+          <span>Consulter les zones desservies</span>
+          <span class="ml-2" aria-hidden="true">→</span>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- BANDE EMPLOIS (PUBLIC B) -->
-  <section class="py-12 bg-brand-surface-subtle border-t border-brand-primary-light/60" aria-labelledby="careers-banner-title">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+  <!-- 7. SECTION CARRIÈRES / RECRUTEMENT -->
+  <section class="py-14 bg-brand-navy text-white" aria-labelledby="careers-banner-title">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
       <div class="space-y-2 text-center md:text-left">
-        <h2 id="careers-banner-title" class="text-xl sm:text-2xl font-bold text-brand-text">
-          Vous cherchez un emploi ou un revenu complémentaire ?
+        <span class="text-xs font-bold uppercase tracking-widest text-brand-accent">Rejoindre l'équipe</span>
+        <h2 id="careers-banner-title" class="text-xl sm:text-2xl font-bold text-white">
+          Vous cherchez une opportunité d'emploi valorisante ?
         </h2>
-        <p class="text-sm text-brand-muted">
-          Rejoignez notre équipe : missions ponctuelles, temps partiel ou temps plein selon vos disponibilités.
+        <p class="text-sm text-white/70 max-w-xl">
+          Nous recrutons des préposé(e)s sérieux et rigoureux : missions régulières, flexibilité d'horaires et respect de votre travail.
         </p>
       </div>
       <div class="shrink-0">
         <a
           href="/carrieres/"
-          class="inline-flex items-center justify-center px-5 py-3 text-sm font-semibold text-brand-primary bg-white hover:bg-brand-primary-light border border-brand-primary-light rounded-md shadow-2xs transition-all no-underline"
+          class="inline-flex items-center justify-center px-6 py-3.5 text-sm font-bold text-brand-navy bg-white hover:bg-brand-gold-light rounded-lg shadow-sm transition-all duration-150 no-underline"
         >
-          Voir les opportunités
+          <span>Postuler en ligne &rarr;</span>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- BANDE FINALE CTA SOUISSION -->
+  <!-- 8. BANDEAU DE CONVERSION FINAL -->
   <CtaBanner
-    title="Besoin d'un nettoyage ?"
-    description="Obtenez une évaluation de vos besoins en quelques étapes."
-    ctaText="Obtenir une soumission"
+    title="Prêt(e) à retrouver la sérénité d'un intérieur irréprochable ?"
+    description="Quelques minutes suffisent pour nous faire part de vos besoins. Vous recevrez une proposition personnalisée sous 24h."
+    ctaText="Demander une soumission"
     ctaLink="/soumission/"
   />
 
