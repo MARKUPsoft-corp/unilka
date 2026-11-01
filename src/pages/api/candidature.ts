@@ -63,16 +63,39 @@ export const POST: APIRoute = async ({ request }) => {
       const { db } = await import('../../lib/firebase');
       const { collection, addDoc } = await import('firebase/firestore');
 
+      const availabilityStr = [
+        data.desiredHours,
+        Array.isArray(data.availableDays) ? data.availableDays.join(', ') : data.availableDays
+      ].filter(Boolean).join(' • ') || 'Temps plein';
+
+      const experienceStr = data.hasExperience === 'Oui'
+        ? `${data.experienceYears || '1+ an'} (${data.experienceType || 'Entretien'})`
+        : 'Débutant motivé';
+
+      const transportStr = Array.isArray(data.transportModes)
+        ? data.transportModes.join(', ')
+        : (data.transportModes || 'Voiture personnelle');
+
+      const trainingStr = Array.isArray(data.trainingTopics)
+        ? data.trainingTopics.join(', ')
+        : (data.trainingTopics || 'Protocoles Unilka');
+
       const docRef = await addDoc(collection(db, 'candidates'), {
+        name: `${data.firstName} ${data.lastName}`.trim(),
         candidateName: `${data.firstName} ${data.lastName}`.trim(),
         firstName: data.firstName,
         lastName: data.lastName,
         city: data.city,
         phone: data.phone,
         email: data.email,
-        workAuth: data.workAuth,
-        experience: data.hasExperience || 'Non renseigné',
-        status: 'nouveau',
+        workAuth: data.workAuth || 'Citoyen / Résident permanent',
+        availability: availabilityStr,
+        experience: experienceStr,
+        transport: transportStr,
+        trainingWish: trainingStr,
+        loi25Consent: true,
+        status: 'Nouveau profil',
+        statusColor: 'bg-amber-100 text-amber-900 border-amber-200',
         createdAt: new Date().toISOString()
       });
       candidateId = docRef.id;

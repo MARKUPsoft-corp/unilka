@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import AdminLayout from '../../layouts/AdminLayout.astro';
 import AdminIcon from '../../components/admin/AdminIcon.astro';
 
@@ -65,7 +67,7 @@ const activeStaff = [
   }
 ];
 
-const pendingCandidates = [
+const defaultCandidates = [
   {
     id: "CAN-108",
     name: "Marie-Claire Kabore",
@@ -112,9 +114,49 @@ const pendingCandidates = [
     trainingWish: "Produits éco-certifiés Unilka",
     loi25Consent: true,
     status: "Enquête antécédents",
-    statusColor: "bg-purple-100 text-purple-800 border-purple-200"
   }
 ];
+
+let liveCandidates: any[] = [];
+try {
+  const { db } = await import('../../lib/firebase');
+  const { collection, getDocs, query, orderBy, limit } = await import('firebase/firestore');
+
+  const q = query(collection(db, 'candidates'), orderBy('createdAt', 'desc'), limit(50));
+  const snap = await getDocs(q);
+  liveCandidates = snap.docs.map(doc => {
+    const data = doc.data();
+    const d = data.createdAt ? new Date(data.createdAt) : new Date();
+    const formattedDate = d.toLocaleDateString('fr-CA', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    return {
+      id: `CAN-${doc.id.substring(0, 5).toUpperCase()}`,
+      name: data.candidateName || data.name || `${data.firstName || ''} ${data.lastName || ''}`.trim() || 'Candidat Unilka',
+      date: formattedDate,
+      phone: data.phone || '',
+      email: data.email || '',
+      city: data.city || 'Grand Montréal',
+      workAuth: data.workAuth || 'Citoyenne canadienne / Résidente',
+      availability: data.availability || 'Temps plein',
+      experience: data.experience || 'Entretien',
+      transport: data.transport || 'Voiture personnelle',
+      trainingWish: data.trainingWish || 'Protocoles sanitaires Unilka',
+      loi25Consent: true,
+      status: data.status || 'Nouveau profil',
+      statusColor: data.statusColor || 'bg-amber-100 text-amber-900 border-amber-200'
+    };
+  });
+} catch (err: any) {
+  console.warn('[Admin Equipe] Chargement candidats Firestore échoué (mode démo actif) :', err?.message);
+}
+
+const pendingCandidates = liveCandidates.length > 0 ? [...liveCandidates, ...defaultCandidates] : defaultCandidates;
 ---
 
 <AdminLayout title="Équipe & Candidats" activeNav="equipe">

@@ -28,6 +28,34 @@ async function testEndpoints() {
   assert.strictEqual(data1.redirectUrl, '/soumission/merci/');
   console.log('✓ Soumission nominale acceptée avec statut 200.');
 
+  // Test Soumission avec photo Cloudinary
+  console.log('\n[API 1b] Soumission avec photo Cloudinary...');
+  const samplePhoto = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+  const reqPhoto = new Request('http://localhost/api/soumission', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      serviceType: 'residentiel',
+      frequency: 'hebdo',
+      city: 'Montréal',
+      postalCode: 'H2X 1Y4',
+      firstName: 'Camille',
+      lastName: 'Bergeron',
+      phone: '514 555 9876',
+      email: 'camille@unilka-test.ca',
+      consent: true,
+      photos: [
+        { name: 'salon-test.jpg', size: 1024, data: samplePhoto }
+      ]
+    })
+  });
+  const resPhoto = await handleSoumission({ request: reqPhoto } as any);
+  const dataPhoto = await resPhoto.json();
+  assert.strictEqual(resPhoto.status, 200);
+  assert.strictEqual(dataPhoto.success, true);
+  assert.ok(dataPhoto.submissionId, 'Un ID de soumission doit être retourné');
+  console.log('✓ Soumission avec photo Cloudinary traitée avec succès ID :', dataPhoto.submissionId);
+
   // Test Soumission : Spécialisé sans description ou sans case
   console.log('\n[API 2] Soumission spécialisée incomplète...');
   const req2 = new Request('http://localhost/api/soumission', {
@@ -119,6 +147,10 @@ async function testEndpoints() {
   console.log('✓ Candidature sans consentement Loi 25 rejetée avec statut 400.');
 
   console.log('\nToutes les vérifications API ont réussi avec succès !');
+  process.exit(0);
 }
 
-testEndpoints();
+testEndpoints().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

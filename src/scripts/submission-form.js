@@ -450,7 +450,11 @@ export function initSubmissionForm() {
     try {
       const formData = new FormData(form);
       const payload = Object.fromEntries(formData.entries());
-      payload.photos = selectedPhotos.map(p => ({ name: p.name, size: p.size }));
+      payload.photos = selectedPhotos.map(p => ({
+        name: p.name,
+        size: p.size,
+        data: p.dataUrl
+      }));
 
       const res = await fetch('/api/soumission', {
         method: 'POST',

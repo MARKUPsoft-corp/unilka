@@ -1,8 +1,10 @@
 ---
+export const prerender = false;
+
 import AdminLayout from '../../layouts/AdminLayout.astro';
 import AdminIcon from '../../components/admin/AdminIcon.astro';
 
-const submissions = [
+const defaultSubmissions = [
   {
     id: "SOU-1042",
     date: "27 oct. 2026, 14:15",
@@ -124,6 +126,59 @@ const submissions = [
     photoLabel: ""
   }
 ];
+
+let liveSubmissions: any[] = [];
+try {
+  const { db } = await import('../../lib/firebase');
+  const { collection, getDocs, query, orderBy, limit } = await import('firebase/firestore');
+
+  const q = query(collection(db, 'submissions'), orderBy('createdAt', 'desc'), limit(50));
+  const snap = await getDocs(q);
+  liveSubmissions = snap.docs.map(doc => {
+    const data = doc.data();
+    const d = data.createdAt ? new Date(data.createdAt) : new Date();
+    const formattedDate = d.toLocaleDateString('fr-CA', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    const hasPhotos = Boolean(data.hasPhotos || (Array.isArray(data.photos) && data.photos.length > 0));
+    const photoUrl = data.photoUrl || (Array.isArray(data.photos) && data.photos[0]?.url) || '';
+
+    return {
+      id: `SOU-${doc.id.substring(0, 5).toUpperCase()}`,
+      date: formattedDate,
+      client: data.client || `${data.firstName || ''} ${data.lastName || ''}`.trim() || 'Client',
+      email: data.email || '',
+      phone: data.phone || '',
+      service: data.service || 'Nettoyage résidentiel',
+      serviceType: data.serviceType || 'Grand ménage',
+      location: data.location || (data.city ? `${data.city}, QC` : 'Montréal'),
+      postalCode: data.postalCode || '',
+      surface: data.surface || 'Non spécifiée',
+      frequency: data.frequency || 'Ponctuel',
+      estimatedPrice: data.estimatedPrice || 'Sur devis',
+      status: data.status || 'À traiter',
+      statusColor: data.statusColor || 'bg-amber-100 text-amber-900 border-amber-200',
+      notes: data.notes || '',
+      hasPhotos,
+      photoUrl,
+      photoLabel: data.photoLabel || (hasPhotos ? 'Photo(s) téléversée(s)' : '')
+    };
+  });
+} catch (err: any) {
+  console.warn('[Admin Soumissions] Chargement Firestore en direct échoué (mode démo actif) :', err?.message);
+}
+
+const submissions = liveSubmissions.length > 0 ? [...liveSubmissions, ...defaultSubmissions] : defaultSubmissions;
+
+const countAll = submissions.length;
+const countPending = submissions.filter(s => s.status === 'À traiter' || s.status === 'Nouveau' || s.status === 'nouveau').length;
+const countSent = submissions.filter(s => s.status === 'Devis envoyé').length;
+const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' || s.status === 'Confirmé').length;
 ---
 
 <AdminLayout title="Soumissions & Devis" activeNav="soumissions">
@@ -170,28 +225,28 @@ const submissions = [
           data-filter="all"
           class="filter-tab px-4 py-2 rounded-full text-xs font-extrabold bg-[#0E7C86] text-white transition-all shadow-xs"
         >
-          Toutes (18)
+          Toutes ({countAll})
         </button>
         <button
           type="button"
           data-filter="À traiter"
           class="filter-tab px-4 py-2 rounded-full text-xs font-bold bg-[#F5FAFA] text-[#0B2A2E] hover:bg-[#E3F4F5] border border-[#0E7C86]/15 transition-all"
         >
-          À traiter (4)
+          À traiter ({countPending})
         </button>
         <button
           type="button"
           data-filter="Devis envoyé"
           class="filter-tab px-4 py-2 rounded-full text-xs font-bold bg-[#F5FAFA] text-[#0B2A2E] hover:bg-[#E3F4F5] border border-[#0E7C86]/15 transition-all"
         >
-          Devis envoyé (6)
+          Devis envoyé ({countSent})
         </button>
         <button
           type="button"
           data-filter="Confirmé & Payé"
           class="filter-tab px-4 py-2 rounded-full text-xs font-bold bg-[#F5FAFA] text-[#0B2A2E] hover:bg-[#E3F4F5] border border-[#0E7C86]/15 transition-all"
         >
-          Confirmées & Payées (5)
+          Confirmées & Payées ({countConfirmed})
         </button>
       </div>
 

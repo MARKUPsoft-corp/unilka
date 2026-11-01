@@ -61,24 +61,96 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     let submissionId: string | null = null;
+    const uploadedPhotos: Array<{ url: string; publicId: string; name: string }> = [];
+
+    // Téléversement sécurisé des photos sur Cloudinary si fournies
+    if (Array.isArray(data.photos) && data.photos.length > 0) {
+      try {
+        const { uploadPhoto } = await import('../../lib/cloudinary');
+        for (let i = 0; i < Math.min(data.photos.length, 3); i++) {
+          const item = data.photos[i];
+          const photoData = typeof item === 'string' ? item : item?.data;
+          const photoName = typeof item === 'object' && item?.name ? item.name : `photo-${i + 1}.jpg`;
+
+          if (photoData && typeof photoData === 'string' && photoData.startsWith('data:image/')) {
+            try {
+              const res = await uploadPhoto(photoData, 'unilka/soumissions', photoName);
+              uploadedPhotos.push({
+                url: res.url,
+                publicId: res.publicId,
+                name: photoName
+              });
+              console.log(`[unilka Cloudinary] Photo ${i + 1} téléversée :`, res.url);
+            } catch (pErr: any) {
+              console.warn(`[unilka Cloudinary Warning] Échec photo ${i + 1} :`, pErr?.message);
+            }
+          }
+        }
+      } catch (cloudErr: any) {
+        console.warn("[unilka Cloudinary Warning] Module Cloudinary non disponible :", cloudErr?.message);
+      }
+    }
+
+    // Libellés lisibles pour l'interface d'administration
+    const serviceLabelMap: Record<string, string> = {
+      residentiel: "Nettoyage résidentiel",
+      commercial: "Nettoyage commercial",
+      specialise: "Nettoyage spécialisé"
+    };
+    const freqLabelMap: Record<string, string> = {
+      hebdo: "Hebdomadaire",
+      bihebdo: "Bimensuel (aux 2 semaines)",
+      mensuel: "Mensuel",
+      ponctuel: "Ponctuel"
+    };
+
+    const serviceDisplay = serviceLabelMap[data.serviceType] || data.serviceType;
+    const frequencyDisplay = freqLabelMap[data.frequency] || data.frequency;
+
+    let surfaceDisplay = "";
+    if (data.serviceType === 'residentiel') {
+      const area = data.residentialArea ? `${data.residentialArea} pi²` : "";
+      const rooms = data.bedrooms ? `${data.bedrooms} ch` : "";
+      const baths = data.bathrooms ? `${data.bathrooms} sdb` : "";
+      const roomDetails = [rooms, baths].filter(Boolean).join(", ");
+      surfaceDisplay = [area, roomDetails ? `(${roomDetails})` : ""].filter(Boolean).join(" ");
+    } else if (data.serviceType === 'commercial') {
+      surfaceDisplay = [
+        data.commercialArea ? `${data.commercialArea} pi²` : "",
+        data.commercialType ? `(${data.commercialType})` : ""
+      ].filter(Boolean).join(" ");
+    } else {
+      surfaceDisplay = data.specializedItems || "Prestation sur mesure";
+    }
 
     try {
       const { db } = await import('../../lib/firebase');
       const { collection, addDoc } = await import('firebase/firestore');
 
       const docRef = await addDoc(collection(db, 'submissions'), {
+        service: serviceDisplay,
         serviceType: data.serviceType,
-        frequency: data.frequency,
+        frequency: frequencyDisplay,
+        frequencyCode: data.frequency,
         city: data.city,
         postalCode: data.postalCode,
-        clientName: `${data.firstName} ${data.lastName || ''}`.trim(),
+        location: `${data.city}, QC`,
+        address: data.address || '',
+        surface: surfaceDisplay || 'Non spécifiée',
+        client: `${data.firstName} ${data.lastName || ''}`.trim(),
         firstName: data.firstName,
         lastName: data.lastName || '',
         email: data.email || '',
         phone: data.phone || '',
-        notes: data.notes || '',
-        photos: data.photos || [],
-        status: 'nouveau',
+        preferredContact: data.preferredContact || 'courriel',
+        notes: data.description || data.comments || data.notes || '',
+        hasPhotos: uploadedPhotos.length > 0,
+        photoUrl: uploadedPhotos[0]?.url || '',
+        photoLabel: uploadedPhotos.length > 0 ? `${uploadedPhotos.length} photo(s) téléversée(s)` : '',
+        photos: uploadedPhotos,
+        status: 'À traiter',
+        statusColor: 'bg-amber-100 text-amber-900 border-amber-200',
+        estimatedPrice: 'Sur devis',
         createdAt: new Date().toISOString()
       });
       submissionId = docRef.id;
@@ -87,14 +159,13 @@ export const POST: APIRoute = async ({ request }) => {
       console.warn("[unilka Firestore Warning] Sauvegarde locale/offline :", dbErr?.message);
     }
 
-    console.log("[unilka API] Nouvelle demande de soumission reçue :", {
+    console.log("[unilka API] Demande de soumission traitée :", {
       id: submissionId,
-      service: data.serviceType,
+      service: serviceDisplay,
       city: data.city,
-      postalCode: data.postalCode,
       client: `${data.firstName} ${data.lastName || ''}`,
       contact: data.email || data.phone,
-      photosCount: data.photos ? (Array.isArray(data.photos) ? data.photos.length : 1) : 0,
+      photosUploaded: uploadedPhotos.length,
       timestamp: new Date().toISOString()
     });
 

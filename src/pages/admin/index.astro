@@ -1,9 +1,11 @@
 ---
+export const prerender = false;
+
 import AdminLayout from '../../layouts/AdminLayout.astro';
 import AdminIcon from '../../components/admin/AdminIcon.astro';
 import AdminCharts from '../../components/admin/AdminCharts.astro';
 
-const pendingSubmissions = [
+const defaultPendingSubmissions = [
   {
     id: "SOU-1042",
     client: "Alexandre Tremblay",
@@ -61,6 +63,47 @@ const pendingSubmissions = [
     hasPhotos: true
   }
 ];
+
+let livePendingSubmissions: any[] = [];
+try {
+  const { db } = await import('../../lib/firebase');
+  const { collection, getDocs, query, orderBy, limit } = await import('firebase/firestore');
+
+  const q = query(collection(db, 'submissions'), orderBy('createdAt', 'desc'), limit(10));
+  const snap = await getDocs(q);
+  livePendingSubmissions = snap.docs.map(doc => {
+    const data = doc.data();
+    const d = data.createdAt ? new Date(data.createdAt) : new Date();
+    const formattedDate = d.toLocaleDateString('fr-CA', {
+      day: 'numeric',
+      month: 'short',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    const hasPhotos = Boolean(data.hasPhotos || (Array.isArray(data.photos) && data.photos.length > 0));
+    const image = data.photoUrl || (Array.isArray(data.photos) && data.photos[0]?.url) || '/images/service-regular.jpg';
+
+    return {
+      id: `SOU-${doc.id.substring(0, 5).toUpperCase()}`,
+      client: data.client || `${data.firstName || ''} ${data.lastName || ''}`.trim() || 'Client',
+      email: data.email || '',
+      phone: data.phone || '',
+      service: `${data.service || 'Nettoyage résidentiel'} (${data.frequency || 'Ponctuel'})`,
+      location: data.location || (data.city ? `${data.city}, QC` : 'Montréal'),
+      dateDesired: formattedDate,
+      surface: data.surface || 'Non spécifiée',
+      status: data.status === 'À traiter' ? 'Nouveau' : (data.status || 'Nouveau'),
+      statusColor: data.statusColor || 'bg-amber-100 text-amber-900 border-amber-200',
+      image,
+      hasPhotos
+    };
+  });
+} catch (err: any) {
+  console.warn('[Admin Dashboard] Chargement Firestore échoué (mode démo actif) :', err?.message);
+}
+
+const pendingSubmissions = livePendingSubmissions.length > 0 ? [...livePendingSubmissions, ...defaultPendingSubmissions] : defaultPendingSubmissions;
 
 const todaysMissions = [
   {
