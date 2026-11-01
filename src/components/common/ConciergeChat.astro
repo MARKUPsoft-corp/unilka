@@ -2,12 +2,19 @@
 // Widget Chatbot Concierge Virtuel propulsé par Google Gemini
 ---
 
-<div id="concierge-chat-root" class="fixed bottom-6 right-6 z-50 font-sans" data-concierge-chat>
-  <!-- BOUTON D'OUVERTURE DU CHAT -->
+<!-- TOILE DE FOND (BACKDROP) FLOU POUR FERMETURE AU CLIC EXTÉRIEUR -->
+<div
+  id="chat-backdrop"
+  class="fixed inset-0 bg-[#0B2A2E]/45 backdrop-blur-[2.5px] z-40 hidden opacity-0 transition-opacity duration-300 pointer-events-auto"
+  aria-hidden="true"
+></div>
+
+<div id="concierge-chat-root" class="font-sans" data-concierge-chat>
+  <!-- BOUTON D'OUVERTURE DU CHAT FLOTTANT -->
   <button
     id="chat-toggle-btn"
     type="button"
-    class="flex items-center gap-3 px-4 py-3 bg-[#0B2A2E] hover:bg-[#0E7C86] text-white rounded-full shadow-[0_12px_32px_rgba(11,42,46,0.22)] border border-[#0E7C86]/30 transition-all duration-300 hover:scale-105 active:scale-95 group focus:outline-none focus:ring-2 focus:ring-[#0E7C86] focus:ring-offset-2"
+    class="fixed bottom-5 sm:bottom-6 right-5 sm:right-6 z-40 flex items-center gap-3 px-4 py-3 bg-[#0B2A2E] hover:bg-[#0E7C86] text-white rounded-full shadow-[0_12px_32px_rgba(11,42,46,0.28)] border border-[#0E7C86]/30 transition-all duration-300 hover:scale-105 active:scale-95 group focus:outline-none focus:ring-2 focus:ring-[#0E7C86] focus:ring-offset-2"
     aria-label="Ouvrir le concierge virtuel unilka"
     aria-expanded="false"
   >
@@ -28,34 +35,35 @@
     </div>
   </button>
 
-  <!-- FENÊTRE DE CONVERSATION -->
+  <!-- FENÊTRE DE CONVERSATION (AGRANDIE SUR MOBILE ET PC) -->
   <div
     id="chat-window"
-    class="hidden opacity-0 scale-95 transition-all duration-300 origin-bottom-right fixed sm:absolute bottom-4 sm:bottom-16 right-4 sm:right-0 w-[calc(100vw-2rem)] sm:w-[390px] h-[550px] max-h-[calc(100vh-3rem)] bg-white rounded-3xl shadow-[0_24px_50px_rgba(11,42,46,0.25)] border border-[#0E7C86]/20 flex flex-col overflow-hidden"
+    class="hidden opacity-0 scale-95 transition-all duration-300 origin-bottom-right fixed inset-x-2.5 bottom-2.5 top-12 z-50 sm:inset-auto sm:bottom-20 sm:right-6 sm:w-[480px] sm:h-[680px] sm:max-h-[min(720px,calc(100vh-6.5rem))] bg-white rounded-3xl shadow-[0_24px_60px_rgba(11,42,46,0.35)] border border-[#0E7C86]/25 flex flex-col overflow-hidden"
     role="dialog"
     aria-labelledby="chat-title"
   >
-    <!-- EN-TÊTE -->
-    <div class="px-5 py-4 bg-[#0B2A2E] text-white flex items-center justify-between border-b border-[#0E7C86]/25 shrink-0">
+    <!-- EN-TÊTE LUXE ET INTENDANCE -->
+    <div class="px-5 py-4 bg-[#0B2A2E] text-white flex items-center justify-between border-b border-[#0E7C86]/25 shrink-0 select-none">
       <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-full bg-[#0E7C86]/30 border border-[#0E7C86]/50 flex items-center justify-center text-[#C5A880] font-bold text-sm">
+        <div class="w-10 h-10 rounded-full bg-[#0E7C86]/30 border border-[#0E7C86]/50 flex items-center justify-center text-[#C5A880] font-bold text-sm shrink-0">
           U
         </div>
         <div>
           <h3 id="chat-title" class="text-sm font-bold tracking-tight text-white flex items-center gap-2">
             <span>Concierge unilka</span>
-            <span class="text-[10px] px-2 py-0.5 rounded-full bg-[#0E7C86]/30 text-emerald-300 font-normal">IA Active</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-[#0E7C86]/30 text-emerald-300 font-medium">IA Active</span>
           </h3>
-          <p class="text-[11px] text-white/60">Assistance & Devis personnalisés</p>
+          <p class="text-[11px] text-white/60">Assistance & Devis en temps réel</p>
         </div>
       </div>
       
-      <!-- Bouton Réduire / Fermer -->
+      <!-- Bouton Fermer -->
       <button
         id="chat-close-btn"
         type="button"
-        class="w-8 h-8 rounded-full hover:bg-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors"
+        class="w-9 h-9 rounded-full bg-white/5 hover:bg-white/15 flex items-center justify-center text-white/80 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#0E7C86]"
         aria-label="Fermer la conversation"
+        title="Fermer (Échap ou clic extérieur)"
       >
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -63,38 +71,38 @@
       </button>
     </div>
 
-    <!-- ZONE DE MESSAGES DÉROULANTE -->
-    <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3.5 bg-[#FAFDFD] text-xs sm:text-sm">
+    <!-- ZONE DE MESSAGES DÉROULANTE (ESPACÉE ET AÉRÉE) -->
+    <div id="chat-messages" class="flex-1 p-4 sm:p-5 overflow-y-auto space-y-4 bg-[#FAFDFD] text-sm">
       <!-- Message d'accueil automatique -->
-      <div class="flex items-start gap-2.5">
-        <div class="w-7 h-7 rounded-full bg-[#0E7C86] text-white flex items-center justify-center shrink-0 text-xs font-bold mt-0.5">
+      <div class="flex items-start gap-3">
+        <div class="w-8 h-8 rounded-full bg-[#0E7C86] text-white flex items-center justify-center shrink-0 text-xs font-bold mt-0.5 shadow-sm">
           U
         </div>
-        <div class="p-3.5 rounded-2xl rounded-tl-sm bg-white border border-[#0E7C86]/15 shadow-sm text-[#0B2A2E] leading-relaxed max-w-[85%]">
+        <div class="p-4 rounded-2xl rounded-tl-sm bg-white border border-[#0E7C86]/15 shadow-sm text-[#0B2A2E] leading-relaxed max-w-[88%]">
           <p class="font-semibold text-xs text-[#0E7C86] mb-1">Conciergerie unilka</p>
-          <p>Bonjour ! Je suis l'assistant d'unilka. Comment puis-je vous accompagner dans votre projet d'entretien à Montréal et ses environs ?</p>
+          <p>Bonjour ! Je suis le concierge virtuel d'unilka. Comment puis-je vous renseigner sur nos standards hôteliers ou préparer une estimation sur-mesure pour votre résidence ou espace commercial ?</p>
         </div>
       </div>
 
       <!-- Suggestions rapides -->
-      <div id="quick-prompts" class="pt-1 flex flex-wrap gap-1.5 pl-9">
-        <button type="button" class="quick-btn text-xs px-3 py-1.5 rounded-full bg-white hover:bg-[#E3F4F5] border border-[#0E7C86]/20 text-[#0E7C86] font-medium transition-colors">
+      <div id="quick-prompts" class="pt-1 flex flex-wrap gap-1.5 pl-11">
+        <button type="button" class="quick-btn text-xs px-3.5 py-1.5 rounded-full bg-white hover:bg-[#E3F4F5] border border-[#0E7C86]/20 text-[#0E7C86] font-medium transition-colors shadow-2xs">
           Quels sont vos tarifs ?
         </button>
-        <button type="button" class="quick-btn text-xs px-3 py-1.5 rounded-full bg-white hover:bg-[#E3F4F5] border border-[#0E7C86]/20 text-[#0E7C86] font-medium transition-colors">
+        <button type="button" class="quick-btn text-xs px-3.5 py-1.5 rounded-full bg-white hover:bg-[#E3F4F5] border border-[#0E7C86]/20 text-[#0E7C86] font-medium transition-colors shadow-2xs">
           Quelles zones desservez-vous ?
         </button>
-        <button type="button" class="quick-btn text-xs px-3 py-1.5 rounded-full bg-white hover:bg-[#E3F4F5] border border-[#0E7C86]/20 text-[#0E7C86] font-medium transition-colors">
+        <button type="button" class="quick-btn text-xs px-3.5 py-1.5 rounded-full bg-white hover:bg-[#E3F4F5] border border-[#0E7C86]/20 text-[#0E7C86] font-medium transition-colors shadow-2xs">
           Estimer un grand ménage
         </button>
-        <button type="button" class="quick-btn text-xs px-3 py-1.5 rounded-full bg-white hover:bg-[#E3F4F5] border border-[#0E7C86]/20 text-[#0E7C86] font-medium transition-colors">
+        <button type="button" class="quick-btn text-xs px-3.5 py-1.5 rounded-full bg-white hover:bg-[#E3F4F5] border border-[#0E7C86]/20 text-[#0E7C86] font-medium transition-colors shadow-2xs">
           Nettoyage commercial
         </button>
       </div>
     </div>
 
     <!-- INDICATEUR DE CHARGEMENT / SAISIE -->
-    <div id="chat-typing" class="hidden px-6 py-2 bg-[#FAFDFD] text-[11px] text-[#5A7175] flex items-center gap-2">
+    <div id="chat-typing" class="hidden px-6 py-2.5 bg-[#FAFDFD] text-xs text-[#5A7175] flex items-center gap-2 border-t border-[#0E7C86]/5">
       <div class="flex items-center gap-1">
         <span class="w-1.5 h-1.5 rounded-full bg-[#0E7C86] animate-bounce"></span>
         <span class="w-1.5 h-1.5 rounded-full bg-[#0E7C86] animate-bounce [animation-delay:0.2s]"></span>
@@ -104,18 +112,18 @@
     </div>
 
     <!-- FORMULAIRE DE SAISIE -->
-    <form id="chat-form" class="p-3 bg-white border-t border-[#0E7C86]/15 flex items-center gap-2">
+    <form id="chat-form" class="p-3 sm:p-4 bg-white border-t border-[#0E7C86]/15 flex items-center gap-2 shrink-0">
       <input
         id="chat-input"
         type="text"
-        placeholder="Posez une question (FR / EN)..."
-        class="flex-1 px-4 py-2.5 rounded-full bg-[#F3F8F8] border border-transparent focus:border-[#0E7C86] focus:bg-white text-xs sm:text-sm text-[#0B2A2E] placeholder-[#5A7175]/60 focus:outline-none transition-all"
+        placeholder="Posez votre question (ex: tarif pour un condo 4 1/2)..."
+        class="flex-1 px-4 py-3 rounded-full bg-[#F3F8F8] border border-transparent focus:border-[#0E7C86] focus:bg-white text-sm text-[#0B2A2E] placeholder-[#5A7175]/60 focus:outline-none transition-all shadow-inner"
         autocomplete="off"
         required
       />
       <button
         type="submit"
-        class="w-10 h-10 rounded-full bg-[#0B2A2E] hover:bg-[#0E7C86] text-white flex items-center justify-center shrink-0 shadow-sm transition-transform active:scale-90 disabled:opacity-50"
+        class="w-11 h-11 rounded-full bg-[#0B2A2E] hover:bg-[#0E7C86] text-white flex items-center justify-center shrink-0 shadow-sm transition-transform active:scale-90 disabled:opacity-50"
         aria-label="Envoyer"
       >
         <svg class="w-4 h-4 transform rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -134,13 +142,14 @@
     const toggleBtn = document.getElementById('chat-toggle-btn');
     const closeBtn = document.getElementById('chat-close-btn');
     const chatWindow = document.getElementById('chat-window');
+    const backdrop = document.getElementById('chat-backdrop');
     const form = document.getElementById('chat-form') as HTMLFormElement;
     const input = document.getElementById('chat-input') as HTMLInputElement;
     const messagesContainer = document.getElementById('chat-messages');
     const typingIndicator = document.getElementById('chat-typing');
     const quickPrompts = document.getElementById('quick-prompts');
 
-    if (!toggleBtn || !chatWindow || !form || !input || !messagesContainer) return;
+    if (!toggleBtn || !chatWindow || !form || !input || !messagesContainer || !backdrop) return;
 
     let isOpen = false;
     let history: Array<{ role: 'user' | 'assistant'; content: string }> = [];
@@ -162,23 +171,66 @@
       toggleBtn?.setAttribute('aria-expanded', String(isOpen));
       
       if (isOpen) {
+        backdrop?.classList.remove('hidden');
         chatWindow?.classList.remove('hidden');
         requestAnimationFrame(() => {
+          backdrop?.classList.remove('opacity-0');
+          backdrop?.classList.add('opacity-100');
           chatWindow?.classList.remove('opacity-0', 'scale-95');
           chatWindow?.classList.add('opacity-100', 'scale-100');
           input?.focus();
         });
       } else {
+        backdrop?.classList.remove('opacity-100');
+        backdrop?.classList.add('opacity-0');
         chatWindow?.classList.remove('opacity-100', 'scale-100');
         chatWindow?.classList.add('opacity-0', 'scale-95');
         setTimeout(() => {
-          if (!isOpen) chatWindow?.classList.add('hidden');
-        }, 300);
+          if (!isOpen) {
+            chatWindow?.classList.add('hidden');
+            backdrop?.classList.add('hidden');
+          }
+        }, 280);
       }
     }
 
-    toggleBtn.addEventListener('click', () => toggleChat());
-    closeBtn?.addEventListener('click', () => toggleChat(false));
+    // Ouverture / Fermeture sur le bouton toggle
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleChat();
+    });
+
+    // Fermeture sur le bouton croix
+    closeBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleChat(false);
+    });
+
+    // Fermeture immédiate sur clic de la toile de fond (backdrop)
+    backdrop.addEventListener('click', () => {
+      toggleChat(false);
+    });
+
+    // Fermeture sur tout clic en dehors de la fenêtre
+    document.addEventListener('pointerdown', (e) => {
+      if (!isOpen) return;
+      const target = e.target as Node;
+      if (
+        chatWindow && 
+        !chatWindow.contains(target) && 
+        toggleBtn && 
+        !toggleBtn.contains(target)
+      ) {
+        toggleChat(false);
+      }
+    });
+
+    // Fermeture avec la touche Échap
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        toggleChat(false);
+      }
+    });
 
     // Clic sur les suggestions rapides
     document.querySelectorAll('.quick-btn').forEach(btn => {
@@ -191,11 +243,13 @@
       });
     });
 
-    // Formattage markdown basique (gras, liens)
+    // Formattage markdown basique (gras, liens, listes à puces)
     function formatMessageText(text: string) {
       let html = text
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-[#0E7C86] font-semibold underline hover:text-[#0B2A2E]">$1</a>')
+        .replace(/^\s*[\*\-]\s+(.*)$/gm, '<li class="ml-4 list-disc">$1</li>')
+        .replace(/\n\n/g, '<div class="h-2"></div>')
         .replace(/\n/g, '<br/>');
       return html;
     }
@@ -206,17 +260,17 @@
       if (role === 'user') {
         msgDiv.className = 'flex justify-end';
         msgDiv.innerHTML = `
-          <div class="p-3.5 rounded-2xl rounded-tr-sm bg-[#0B2A2E] text-white shadow-sm leading-relaxed max-w-[85%]">
+          <div class="p-3.5 sm:p-4 rounded-2xl rounded-tr-sm bg-[#0B2A2E] text-white shadow-sm leading-relaxed max-w-[88%] text-sm">
             ${formatMessageText(text)}
           </div>
         `;
       } else {
-        msgDiv.className = 'flex items-start gap-2.5';
+        msgDiv.className = 'flex items-start gap-3';
         msgDiv.innerHTML = `
-          <div class="w-7 h-7 rounded-full bg-[#0E7C86] text-white flex items-center justify-center shrink-0 text-xs font-bold mt-0.5">
+          <div class="w-8 h-8 rounded-full bg-[#0E7C86] text-white flex items-center justify-center shrink-0 text-xs font-bold mt-0.5 shadow-sm">
             U
           </div>
-          <div class="p-3.5 rounded-2xl rounded-tl-sm bg-white border border-[#0E7C86]/15 shadow-sm text-[#0B2A2E] leading-relaxed max-w-[85%]">
+          <div class="p-3.5 sm:p-4 rounded-2xl rounded-tl-sm bg-white border border-[#0E7C86]/15 shadow-sm text-[#0B2A2E] leading-relaxed max-w-[88%] text-sm">
             <p class="font-semibold text-xs text-[#0E7C86] mb-1">Conciergerie unilka</p>
             <div>${formatMessageText(text)}</div>
           </div>
@@ -235,6 +289,8 @@
       if (!message) return;
 
       input.value = '';
+      if (quickPrompts) quickPrompts.style.display = 'none';
+
       // Snapshot des échanges précédents avant ce nouveau message
       const historyToSend = [...history];
 
