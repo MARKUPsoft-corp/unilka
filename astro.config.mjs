@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // Configuration Astro pour unilka
 export default defineConfig({
-  site: 'https://unilka.ca',
+  site: 'https://www.unilka.ca',
   output: 'static',
   adapter: vercel({
     webAnalytics: { enabled: false }
@@ -18,6 +18,7 @@ export default defineConfig({
       filter: (page) =>
         !page.includes('/soumission/merci') &&
         !page.includes('/carrieres/merci') &&
+        !page.includes('/admin') &&
         !page.includes('/404')
     })
   ]

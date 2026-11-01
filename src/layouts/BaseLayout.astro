@@ -26,22 +26,84 @@ const {
   breadcrumbs
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, config.business.siteUrl || 'https://unilka.ca');
+const canonicalURL = new URL(Astro.url.pathname, config.business.siteUrl || 'https://www.unilka.ca');
 const showBreadcrumbs = breadcrumbs && breadcrumbs.length > 0 && Astro.url.pathname !== '/';
 
-// Schéma JSON-LD LocalBusiness pour le SEO local sans faux avis
+// Données structurées enrichies Schema.org pour Google Sitelinks & Knowledge Panel
 const schemaData = {
   "@context": "https://schema.org",
-  "@type": "HomeAndConstructionBusiness",
-  "name": "unilka",
-  "url": config.business.siteUrl,
-  "description": description,
-  "areaServed": config.zones.regions.map(r => r.name),
-  "address": {
-    "@type": "PostalAddress",
-    "addressRegion": "QC",
-    "addressCountry": "CA"
-  }
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://www.unilka.ca/#website",
+      "url": "https://www.unilka.ca/",
+      "name": "unilka",
+      "alternateName": "unilka Montréal",
+      "description": "Conciergerie et entretien ménager haut de gamme à Montréal, Rive-Sud et Lanaudière.",
+      "inLanguage": "fr-CA"
+    },
+    {
+      "@type": "HomeAndConstructionBusiness",
+      "@id": "https://www.unilka.ca/#business",
+      "name": "unilka",
+      "url": "https://www.unilka.ca/",
+      "logo": "https://www.unilka.ca/favicon.svg",
+      "image": "https://www.unilka.ca/favicon.svg",
+      "description": description,
+      "priceRange": "$$",
+      "currenciesAccepted": "CAD",
+      "paymentAccepted": "Virement Interac, Carte de crédit",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Montréal",
+        "addressRegion": "QC",
+        "addressCountry": "CA"
+      },
+      "areaServed": [
+        { "@type": "AdministrativeArea", "name": "Montréal" },
+        { "@type": "AdministrativeArea", "name": "Rive-Sud de Montréal" },
+        { "@type": "AdministrativeArea", "name": "Lanaudière" }
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Prestations d'entretien et de conciergerie",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Nettoyage Résidentiel Prestige",
+              "url": "https://www.unilka.ca/services/nettoyage-residentiel/"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Nettoyage Commercial & Espaces Corporatifs",
+              "url": "https://www.unilka.ca/services/nettoyage-commercial/"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Nettoyage Spécialisé & Après Rénovation",
+              "url": "https://www.unilka.ca/services/nettoyage-specialise/"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Entretien Régulier Hôtelier 5 Étoiles",
+              "url": "https://www.unilka.ca/services/entretien-regulier/"
+            }
+          }
+        ]
+      }
+    }
+  ]
 };
 ---
 
