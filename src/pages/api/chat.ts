@@ -100,12 +100,9 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    // Appel au SDK Google Gemini avec le modèle officiel gemini-flash-latest
+    // Liste de modèles prioritaires avec basculement automatique en cas de surcharge 503
+    const candidateModels = ['gemini-3.5-flash', 'gemini-flash-lite-latest', 'gemini-flash-latest'];
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-flash-latest',
-      systemInstruction: SYSTEM_INSTRUCTION
-    });
 
     // Formatage de l'historique de discussion
     const formattedHistory = history.slice(-6).map((item: any) => ({
@@ -113,32 +110,61 @@ export const POST: APIRoute = async ({ request }) => {
       parts: [{ text: item.content }]
     }));
 
-    const chat = model.startChat({
-      history: formattedHistory,
-      generationConfig: {
-        maxOutputTokens: 500,
-        temperature: 0.7,
-      }
-    });
+    let lastError: any = null;
 
-    const result = await chat.sendMessage(message);
-    const responseText = result.response.text();
+    for (const modelName of candidateModels) {
+      try {
+        const model = genAI.getGenerativeModel({
+          model: modelName,
+          systemInstruction: SYSTEM_INSTRUCTION
+        });
+
+        const chat = model.startChat({
+          history: formattedHistory,
+          generationConfig: {
+            maxOutputTokens: 500,
+            temperature: 0.7,
+          }
+        });
+
+        const result = await chat.sendMessage(message);
+        const responseText = result.response.text();
+
+        return new Response(JSON.stringify({
+          reply: responseText,
+          provider: `gemini (${modelName})`
+        }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      } catch (err: any) {
+        lastError = err;
+        console.warn(`Modèle ${modelName} indisponible, tentative avec le suivant...`, err.message);
+      }
+    }
+
+    // Si tous les modèles Gemini sont temporairement surchargés (ex. 503),
+    // on répond gracieusement avec le moteur d'estimation intelligent au lieu d'un message d'erreur
+    console.error("Tous les modèles Gemini ont échoué, activation du fallback gracieux:", lastError?.message);
+    const gracefulReply = getSmartFallbackResponse(message);
 
     return new Response(JSON.stringify({
-      reply: responseText,
-      provider: 'gemini'
+      reply: gracefulReply,
+      provider: 'smart-fallback',
+      notice: 'Réponse servie par le moteur de secours intelligent suite à une forte affluence sur les serveurs Google.'
     }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     });
 
   } catch (error: any) {
-    console.error("Erreur Gemini API:", error);
+    console.error("Erreur critique chat API:", error);
+    const safeReply = getSmartFallbackResponse("bonjour");
     return new Response(JSON.stringify({
-      reply: "Je vous prie de m'excuser, une brève interruption technique est survenue. N'hésitez pas à nous joindre directement ou à remplir notre [formulaire de soumission express](/soumission/).",
-      error: error.message
+      reply: safeReply,
+      provider: 'emergency-fallback'
     }), {
-      status: 200, // On retourne 200 pour que le chatbot puisse afficher le message d'amabilité au visiteur
+      status: 200,
       headers: { 'Content-Type': 'application/json' }
     });
   }
