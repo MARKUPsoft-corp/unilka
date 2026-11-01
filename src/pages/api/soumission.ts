@@ -60,9 +60,35 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // Ici s'exécute l'enregistrement Firestore & l'envoi de notification courriel
-    // (sur Vercel, on peut lire process.env.FIREBASE_PROJECT_ID, process.env.RESEND_API_KEY, etc.)
+    let submissionId: string | null = null;
+
+    try {
+      const { db } = await import('../../lib/firebase');
+      const { collection, addDoc } = await import('firebase/firestore');
+
+      const docRef = await addDoc(collection(db, 'submissions'), {
+        serviceType: data.serviceType,
+        frequency: data.frequency,
+        city: data.city,
+        postalCode: data.postalCode,
+        clientName: `${data.firstName} ${data.lastName || ''}`.trim(),
+        firstName: data.firstName,
+        lastName: data.lastName || '',
+        email: data.email || '',
+        phone: data.phone || '',
+        notes: data.notes || '',
+        photos: data.photos || [],
+        status: 'nouveau',
+        createdAt: new Date().toISOString()
+      });
+      submissionId = docRef.id;
+      console.log("[unilka Firestore] Soumission enregistrée avec succès ID :", submissionId);
+    } catch (dbErr: any) {
+      console.warn("[unilka Firestore Warning] Sauvegarde locale/offline :", dbErr?.message);
+    }
+
     console.log("[unilka API] Nouvelle demande de soumission reçue :", {
+      id: submissionId,
       service: data.serviceType,
       city: data.city,
       postalCode: data.postalCode,
@@ -75,6 +101,7 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(
       JSON.stringify({
         success: true,
+        submissionId,
         redirectUrl: "/soumission/merci/"
       }),
       { status: 200, headers: { 'Content-Type': 'application/json' } }

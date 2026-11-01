@@ -57,7 +57,32 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
+    let candidateId: string | null = null;
+
+    try {
+      const { db } = await import('../../lib/firebase');
+      const { collection, addDoc } = await import('firebase/firestore');
+
+      const docRef = await addDoc(collection(db, 'candidates'), {
+        candidateName: `${data.firstName} ${data.lastName}`.trim(),
+        firstName: data.firstName,
+        lastName: data.lastName,
+        city: data.city,
+        phone: data.phone,
+        email: data.email,
+        workAuth: data.workAuth,
+        experience: data.hasExperience || 'Non renseigné',
+        status: 'nouveau',
+        createdAt: new Date().toISOString()
+      });
+      candidateId = docRef.id;
+      console.log("[unilka Firestore] Candidature enregistrée avec succès ID :", candidateId);
+    } catch (dbErr: any) {
+      console.warn("[unilka Firestore Warning] Sauvegarde candidature locale/offline :", dbErr?.message);
+    }
+
     console.log("[unilka API] Nouvelle candidature reçue :", {
+      id: candidateId,
       candidate: `${data.firstName} ${data.lastName}`,
       city: data.city,
       phone: data.phone,
@@ -70,6 +95,7 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(
       JSON.stringify({
         success: true,
+        candidateId,
         redirectUrl: "/carrieres/merci/"
       }),
       { status: 200, headers: { 'Content-Type': 'application/json' } }
