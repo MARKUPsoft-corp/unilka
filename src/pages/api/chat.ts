@@ -101,7 +101,14 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // Liste de modèles prioritaires avec basculement automatique en cas de surcharge 503
-    const candidateModels = ['gemini-3.5-flash', 'gemini-flash-lite-latest', 'gemini-flash-latest'];
+    // gemini-3.5-flash-lite et flash-lite-latest offrent une latence ultra-faible (~1s) et une disponibilité maximale
+    const candidateModels = [
+      'gemini-3.5-flash-lite',
+      'gemini-flash-lite-latest',
+      'gemini-3.1-flash-lite',
+      'gemini-3.5-flash',
+      'gemini-3.8-flash'
+    ];
     const genAI = new GoogleGenerativeAI(apiKey);
 
     // Formatage de l'historique de discussion
@@ -122,7 +129,7 @@ export const POST: APIRoute = async ({ request }) => {
         const chat = model.startChat({
           history: formattedHistory,
           generationConfig: {
-            maxOutputTokens: 500,
+            maxOutputTokens: 800,
             temperature: 0.7,
           }
         });
