@@ -1,5 +1,6 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.PUBLIC_FIREBASE_API_KEY || (import.meta.env && import.meta.env.PUBLIC_FIREBASE_API_KEY) || "AIzaSyAPEPho8eLLArr1WnkxsjA4s_UByRzXaf4",
@@ -14,5 +15,8 @@ const firebaseConfig = {
 // Singleton pour éviter les ré-initialisations multiples
 export const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+export const auth = getAuth(app);
+export const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: 'select_account' });
 
 export default db;
