@@ -1,109 +1,209 @@
 ---
-// Parcours de Soumission Conciergerie en 4 étapes
+// Section 03 — Parcours Concierge en 4 étapes
+// Style architectural & éditorial inspiré d'Offcut, 100% charte Unilka
 ---
 
-<section class="py-20 lg:py-28 bg-brand-surface-subtle border-b border-brand-primary-light/60">
+<section class="py-20 lg:py-28 bg-[#F5FAFA] border-b border-[#0E7C86]/12 relative" aria-labelledby="concierge-process-title">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
     
-    <div class="text-center max-w-3xl mx-auto space-y-4">
-      <span class="text-xs font-bold uppercase tracking-widest text-brand-primary">
-        Simplicité & Transparence
-      </span>
-      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-navy tracking-tight">
-        Votre demande de soumission en 4 étapes.
-      </h2>
-      <p class="text-base sm:text-lg text-brand-muted leading-relaxed">
-        Une démarche fluide, rapide et sans engagement pour organiser votre nettoyage.
-      </p>
+    <!-- EN-TÊTE ÉDITORIAL -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div class="space-y-4 max-w-2xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-[#0E7C86]/20 shadow-2xs">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#0E7C86]"></span>
+          <span class="text-[11px] sm:text-xs font-bold uppercase tracking-[0.14em] text-[#0E7C86]">
+            03 / 04 — Démarche Concierge
+          </span>
+        </div>
+        <h2 id="concierge-process-title" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B2A2E] tracking-[-0.025em] leading-[1.12]">
+          Votre soumission en quatre étapes limpides.
+        </h2>
+        <p class="text-base sm:text-lg text-[#3D5A5E] leading-[1.75]">
+          De votre premier contact à la première intervention, chaque geste est pensé pour vous libérer du temps sans jamais vous contraindre.
+        </p>
+      </div>
+
+      <div class="hidden md:flex flex-col items-end text-right space-y-1 shrink-0">
+        <span class="text-xs font-bold uppercase tracking-wider text-[#0B2A2E]">Délai moyen d'estimation</span>
+        <span class="text-2xl font-black text-[#0E7C86] tracking-tight">Moins de 24h</span>
+        <span class="text-[11px] text-[#3D5A5E]">Gratuit & sans aucun engagement</span>
+      </div>
     </div>
 
-    <!-- Grille des 4 étapes avec ligne de connexion visuelle -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <!-- GRILLE DES 4 ÉTAPES -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
       
-      <!-- Étape 1 -->
-      <div class="bg-white p-7 rounded-2xl border border-brand-primary-light/80 shadow-xs flex flex-col justify-between space-y-4 relative">
-        <div class="flex items-center justify-between">
-          <span class="w-10 h-10 rounded-full bg-brand-navy text-white text-sm font-bold flex items-center justify-center">
-            1
-          </span>
-          <span class="text-[11px] font-bold uppercase tracking-wider text-brand-muted">3 minutes</span>
+      <!-- Étape 01 -->
+      <div class="step-card group">
+        <div class="flex items-center justify-between mb-6">
+          <span class="step-number">01</span>
+          <span class="step-badge">3 minutes</span>
         </div>
-        <div>
-          <h3 class="text-base font-bold text-brand-navy mb-2">
-            Vous remplissez le formulaire
+        <div class="space-y-2">
+          <span class="text-[11px] font-bold uppercase tracking-widest text-[#0E7C86]">Initialisation</span>
+          <h3 class="text-lg font-extrabold text-[#0B2A2E] group-hover:text-[#0E7C86] transition-colors">
+            Évaluation en ligne
           </h3>
-          <p class="text-xs sm:text-sm text-brand-muted leading-relaxed">
-            Quelques minutes suffisent. Vous pouvez joindre des photos si vous le souhaitez.
+          <p class="text-xs sm:text-sm text-[#3D5A5E] leading-relaxed">
+            Renseignez votre secteur (Montréal, Rive-Sud ou Lanaudière), la typologie des pièces et vos attentes prioritaires.
           </p>
+        </div>
+        <div class="step-footer">
+          <span class="step-dot"></span>
+          <span>Formulaire interactif simple</span>
         </div>
       </div>
 
-      <!-- Étape 2 -->
-      <div class="bg-white p-7 rounded-2xl border border-brand-primary-light/80 shadow-xs flex flex-col justify-between space-y-4 relative">
-        <div class="flex items-center justify-between">
-          <span class="w-10 h-10 rounded-full bg-brand-primary text-white text-sm font-bold flex items-center justify-center">
-            2
-          </span>
-          <span class="text-[11px] font-bold uppercase tracking-wider text-brand-muted">Sous 24h</span>
+      <!-- Étape 02 -->
+      <div class="step-card group">
+        <div class="flex items-center justify-between mb-6">
+          <span class="step-number">02</span>
+          <span class="step-badge">Sous 24h</span>
         </div>
-        <div>
-          <h3 class="text-base font-bold text-brand-navy mb-2">
-            Nous analysons votre demande
+        <div class="space-y-2">
+          <span class="text-[11px] font-bold uppercase tracking-widest text-[#0E7C86]">Calibration</span>
+          <h3 class="text-lg font-extrabold text-[#0B2A2E] group-hover:text-[#0E7C86] transition-colors">
+            Devis sur-mesure
           </h3>
-          <p class="text-xs sm:text-sm text-brand-muted leading-relaxed">
-            Notre équipe communique avec vous pour confirmer les détails du service.
+          <p class="text-xs sm:text-sm text-[#3D5A5E] leading-relaxed">
+            Nous calibrons le temps d'intervention nécessaire et vous envoyons un devis clair et détaillé au dollar près, sans surprise.
           </p>
+        </div>
+        <div class="step-footer">
+          <span class="step-dot"></span>
+          <span>Tarif transparent et fixe</span>
         </div>
       </div>
 
-      <!-- Étape 3 -->
-      <div class="bg-white p-7 rounded-2xl border border-brand-primary-light/80 shadow-xs flex flex-col justify-between space-y-4 relative">
-        <div class="flex items-center justify-between">
-          <span class="w-10 h-10 rounded-full bg-brand-primary text-white text-sm font-bold flex items-center justify-center">
-            3
-          </span>
-          <span class="text-[11px] font-bold uppercase tracking-wider text-brand-muted">Sur-mesure</span>
+      <!-- Étape 03 -->
+      <div class="step-card group">
+        <div class="flex items-center justify-between mb-6">
+          <span class="step-number">03</span>
+          <span class="step-badge">À votre choix</span>
         </div>
-        <div>
-          <h3 class="text-base font-bold text-brand-navy mb-2">
-            Vous recevez une soumission
+        <div class="space-y-2">
+          <span class="text-[11px] font-bold uppercase tracking-widest text-[#0E7C86]">Planification</span>
+          <h3 class="text-lg font-extrabold text-[#0B2A2E] group-hover:text-[#0E7C86] transition-colors">
+            Créneau & Accord
           </h3>
-          <p class="text-xs sm:text-sm text-brand-muted leading-relaxed">
-            Adaptée à votre espace, à son état et à la fréquence souhaitée, sans surprise.
+          <p class="text-xs sm:text-sm text-[#3D5A5E] leading-relaxed">
+            Vous sélectionnez la date et le créneau idéal selon votre agenda. Aucun contrat à long terme requis pour démarrer.
           </p>
+        </div>
+        <div class="step-footer">
+          <span class="step-dot"></span>
+          <span>Zéro contrat contraignant</span>
         </div>
       </div>
 
-      <!-- Étape 4 -->
-      <div class="bg-white p-7 rounded-2xl border border-brand-primary-light/80 shadow-xs flex flex-col justify-between space-y-4 relative">
-        <div class="flex items-center justify-between">
-          <span class="w-10 h-10 rounded-full bg-brand-accent text-brand-navy text-sm font-black flex items-center justify-center">
-            4
-          </span>
-          <span class="text-[11px] font-bold uppercase tracking-wider text-brand-muted">Jour J</span>
+      <!-- Étape 04 -->
+      <div class="step-card group">
+        <div class="flex items-center justify-between mb-6">
+          <span class="step-number">04</span>
+          <span class="step-badge text-[#0E7C86] bg-[#E3F4F5] border-[#0E7C86]/25">Jour J</span>
         </div>
-        <div>
-          <h3 class="text-base font-bold text-brand-navy mb-2">
-            Nous intervenons
+        <div class="space-y-2">
+          <span class="text-[11px] font-bold uppercase tracking-widest text-[#0E7C86]">Exécution</span>
+          <h3 class="text-lg font-extrabold text-[#0B2A2E] group-hover:text-[#0E7C86] transition-colors">
+            Intervention & Sérénité
           </h3>
-          <p class="text-xs sm:text-sm text-brand-muted leading-relaxed">
-            À la date convenue, avec le souci du détail et le respect de votre espace.
+          <p class="text-xs sm:text-sm text-[#3D5A5E] leading-relaxed">
+            Nos préposés qualifiés interviennent en toute discrétion avec nos produits écologiques. Vous profitez d'un intérieur impeccable.
           </p>
+        </div>
+        <div class="step-footer">
+          <span class="step-dot bg-[#FFB703]"></span>
+          <span>Contrôle qualité systématique</span>
         </div>
       </div>
 
     </div>
 
-    <!-- Call to action d'étape -->
-    <div class="text-center pt-4">
-      <a
-        href="/soumission/"
-        class="inline-flex items-center justify-center px-8 py-4 text-sm font-bold text-white bg-brand-navy hover:bg-brand-primary rounded-lg shadow-sm transition-all duration-150 no-underline active:scale-95"
-      >
-        <span>Initier ma demande de soumission</span>
-        <span class="ml-2" aria-hidden="true">→</span>
-      </a>
+    <!-- BANDEAU CTA CONCIERGE -->
+    <div class="bg-white rounded-2xl border border-[#0E7C86]/15 p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+      <div class="space-y-2 text-center md:text-left">
+        <h4 class="text-lg sm:text-xl font-extrabold text-[#0B2A2E] tracking-tight">
+          Prêt(e) à recevoir votre soumission personnalisée ?
+        </h4>
+        <p class="text-xs sm:text-sm text-[#3D5A5E] max-w-xl">
+          Remplissez votre demande en 3 minutes. Aucun paiement n'est exigé et notre proposition est 100% gratuite.
+        </p>
+      </div>
+
+      <div class="shrink-0 flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+        <a
+          href="/soumission/"
+          class="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 text-[15px] font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full shadow-sm hover:shadow-md transition-all duration-200 no-underline hover:-translate-y-0.5 active:translate-y-0"
+        >
+          <span>Démarrer ma soumission</span>
+          <span class="ml-2" aria-hidden="true">↗</span>
+        </a>
+      </div>
     </div>
 
   </div>
 </section>
+
+<style>
+  .step-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(14, 124, 134, 0.12);
+    border-radius: 20px;
+    padding: 1.75rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+  }
+
+  .step-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px -8px rgba(14, 124, 134, 0.1);
+    border-color: rgba(14, 124, 134, 0.3);
+  }
+
+  .step-number {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: rgba(14, 124, 134, 0.25);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    transition: color 0.2s ease;
+  }
+
+  .step-card:hover .step-number {
+    color: #0E7C86;
+  }
+
+  .step-badge {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    background: #F5FAFA;
+    color: #0B2A2E;
+    border: 1px solid rgba(14, 124, 134, 0.12);
+  }
+
+  .step-footer {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(14, 124, 134, 0.08);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #3D5A5E;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .step-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: #0E7C86;
+    flex-shrink: 0;
+  }
+</style>

@@ -1,218 +1,310 @@
 ---
 // Étape 3A : Détails résidentiels (conditionnel)
 ---
-<fieldset id="block-residential" class="p-6 sm:p-8 bg-white rounded-2xl border border-brand-primary-light/80 shadow-xs space-y-6">
-  <legend class="text-xl font-bold text-brand-text flex items-center gap-2">
-    <span class="w-7 h-7 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center shrink-0">3</span>
-    <span>Détails résidentiels</span>
-  </legend>
+<fieldset id="block-residential" class="relative bg-white rounded-3xl border border-[#0E7C86]/20 p-6 sm:p-10 shadow-[0_12px_40px_rgba(11,42,46,0.06)] space-y-8 overflow-hidden">
+  
+  <!-- Accent décoratif d'arrière-plan -->
+  <div class="absolute -top-24 -right-24 w-64 h-64 bg-gradient-to-br from-[#E3F4F5]/60 to-transparent rounded-full blur-2xl pointer-events-none" aria-hidden="true"></div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-    <!-- Type de logement -->
-    <div>
-      <label for="housingType" class="block text-sm font-bold text-brand-text mb-1.5">
-        Type de logement <span class="text-brand-error" aria-hidden="true">*</span>
-      </label>
-      <select
-        id="housingType"
-        name="housingType"
-        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text bg-white"
-      >
-        <option value="Appartement">Appartement</option>
-        <option value="Condo">Condo</option>
-        <option value="Maison">Maison</option>
-        <option value="Duplex">Duplex</option>
-        <option value="Autre">Autre</option>
-      </select>
+  <!-- En-tête éditorial de l'étape -->
+  <div class="relative border-b border-[#0E7C86]/12 pb-6 space-y-2">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E3F4F5] border border-[#0E7C86]/20 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[#0A5A62]">
+      <span class="w-2 h-2 rounded-full bg-[#0E7C86]"></span>
+      <span>Étape 03 • Configuration de votre résidence</span>
     </div>
+    
+    <legend class="text-2xl sm:text-3xl font-extrabold text-[#0B2A2E] tracking-tight block">
+      Décrivez votre lieu de vie
+    </legend>
+    
+    <p class="text-sm sm:text-base text-[#3D5A5E] leading-relaxed max-w-2xl">
+      Ces indications permettent à nos concierges de dimensionner précisément l'équipe nécessaire et le matériel d'aspiration et de désinfection adapté.
+    </p>
+  </div>
 
-    <!-- Précisez si Autre -->
-    <div id="housingTypeOtherContainer" class="hidden">
-      <label for="housingTypeOther" class="block text-sm font-bold text-brand-text mb-1.5">
-        Précisez le type de logement <span class="text-brand-error" aria-hidden="true">*</span>
+  <!-- 1. GRILLE TYPOLOGIE DU LOGEMENT -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    
+    <!-- Type de logement -->
+    <div class="space-y-1.5 sm:col-span-2 lg:col-span-1">
+      <label for="housingType" class="text-xs font-black uppercase tracking-wider text-[#0B2A2E] block">
+        Type d'habitation <span class="text-[#0E7C86]">*</span>
       </label>
-      <input
-        type="text"
-        id="housingTypeOther"
-        name="housingTypeOther"
-        placeholder="Précisez votre type d'habitation"
-        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
-      />
+      <div class="relative group">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#0E7C86]/70 group-focus-within:text-[#0E7C86]">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+        </div>
+        <select
+          id="housingType"
+          name="housingType"
+          class="w-full pl-9 pr-8 py-3 rounded-xl bg-[#F8FCFC] border border-[#0E7C86]/20 text-xs sm:text-sm font-semibold text-[#0B2A2E] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#0E7C86]/12 focus:border-[#0E7C86] transition-all appearance-none shadow-2xs"
+        >
+          <option value="Appartement">Appartement</option>
+          <option value="Condo">Condo</option>
+          <option value="Maison">Maison unifamiliale</option>
+          <option value="Duplex">Duplex / Triplex</option>
+          <option value="Autre">Autre configuration</option>
+        </select>
+        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#0E7C86]/70">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+        </div>
+      </div>
     </div>
 
     <!-- Chambres -->
-    <div>
-      <label for="bedrooms" class="block text-sm font-bold text-brand-text mb-1.5">
-        Nombre de chambres
+    <div class="space-y-1.5">
+      <label for="bedrooms" class="text-xs font-black uppercase tracking-wider text-[#0B2A2E] block">
+        Chambres
       </label>
-      <select
-        id="bedrooms"
-        name="bedrooms"
-        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text bg-white"
-      >
-        <option value="">Non spécifié</option>
-        <option value="Studio / aucune">Studio / aucune</option>
-        <option value="1">1 chambre</option>
-        <option value="2">2 chambres</option>
-        <option value="3">3 chambres</option>
-        <option value="4">4 chambres</option>
-        <option value="5 ou plus">5 chambres ou plus</option>
-      </select>
+      <div class="relative group">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#0E7C86]/70 group-focus-within:text-[#0E7C86]">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+          </svg>
+        </div>
+        <select
+          id="bedrooms"
+          name="bedrooms"
+          class="w-full pl-9 pr-8 py-3 rounded-xl bg-[#F8FCFC] border border-[#0E7C86]/20 text-xs sm:text-sm font-semibold text-[#0B2A2E] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#0E7C86]/12 focus:border-[#0E7C86] transition-all appearance-none shadow-2xs"
+        >
+          <option value="">Non spécifié</option>
+          <option value="Studio / aucune">Studio / 0 ch.</option>
+          <option value="1">1 chambre</option>
+          <option value="2">2 chambres</option>
+          <option value="3">3 chambres</option>
+          <option value="4">4 chambres</option>
+          <option value="5 ou plus">5 chambres +</option>
+        </select>
+        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#0E7C86]/70">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+        </div>
+      </div>
     </div>
 
     <!-- Salles de bain -->
-    <div>
-      <label for="bathrooms" class="block text-sm font-bold text-brand-text mb-1.5">
-        Nombre de salles de bain
+    <div class="space-y-1.5">
+      <label for="bathrooms" class="text-xs font-black uppercase tracking-wider text-[#0B2A2E] block">
+        Salles de bain
       </label>
-      <select
-        id="bathrooms"
-        name="bathrooms"
-        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text bg-white"
-      >
-        <option value="">Non spécifié</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4 ou plus">4 ou plus</option>
-      </select>
+      <div class="relative group">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#0E7C86]/70 group-focus-within:text-[#0E7C86]">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8" />
+          </svg>
+        </div>
+        <select
+          id="bathrooms"
+          name="bathrooms"
+          class="w-full pl-9 pr-8 py-3 rounded-xl bg-[#F8FCFC] border border-[#0E7C86]/20 text-xs sm:text-sm font-semibold text-[#0B2A2E] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#0E7C86]/12 focus:border-[#0E7C86] transition-all appearance-none shadow-2xs"
+        >
+          <option value="">Non spécifié</option>
+          <option value="1">1 SDB</option>
+          <option value="2">2 SDB</option>
+          <option value="3">3 SDB</option>
+          <option value="4 ou plus">4 SDB ou +</option>
+        </select>
+        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#0E7C86]/70">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+        </div>
+      </div>
     </div>
 
     <!-- Superficie -->
-    <div>
-      <label for="residentialArea" class="block text-sm font-bold text-brand-text mb-1.5">
-        Superficie approximative
+    <div class="space-y-1.5">
+      <label for="residentialArea" class="text-xs font-black uppercase tracking-wider text-[#0B2A2E] block">
+        Superficie
       </label>
-      <select
-        id="residentialArea"
-        name="residentialArea"
-        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text bg-white"
-      >
-        <option value="">Non spécifié</option>
-        <option value="Moins de 600 pi²">Moins de 600 pi²</option>
-        <option value="600 à 1 000 pi²">600 à 1 000 pi²</option>
-        <option value="1 000 à 1 500 pi²">1 000 à 1 500 pi²</option>
-        <option value="1 500 à 2 500 pi²">1 500 à 2 500 pi²</option>
-        <option value="Plus de 2 500 pi²">Plus de 2 500 pi²</option>
-        <option value="Je ne sais pas">Je ne sais pas</option>
-      </select>
+      <div class="relative group">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#0E7C86]/70 group-focus-within:text-[#0E7C86]">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+          </svg>
+        </div>
+        <select
+          id="residentialArea"
+          name="residentialArea"
+          class="w-full pl-9 pr-8 py-3 rounded-xl bg-[#F8FCFC] border border-[#0E7C86]/20 text-xs sm:text-sm font-semibold text-[#0B2A2E] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#0E7C86]/12 focus:border-[#0E7C86] transition-all appearance-none shadow-2xs"
+        >
+          <option value="">Non spécifié</option>
+          <option value="Moins de 600 pi²">&lt; 600 pi²</option>
+          <option value="600 à 1 000 pi²">600 à 1 000 pi²</option>
+          <option value="1 000 à 1 500 pi²">1 000 à 1 500 pi²</option>
+          <option value="1 500 à 2 500 pi²">1 500 à 2 500 pi²</option>
+          <option value="Plus de 2 500 pi²">&gt; 2 500 pi²</option>
+          <option value="Je ne sais pas">À évaluer</option>
+        </select>
+        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#0E7C86]/70">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+        </div>
+      </div>
     </div>
+
   </div>
 
-  <!-- Pièces à nettoyer -->
-  <div class="space-y-2 pt-3 border-t border-brand-primary-light/60">
-    <label class="block text-sm font-bold text-brand-text">
-      Quelles pièces souhaitez-vous faire nettoyer ?
+  <!-- Précisez si Autre -->
+  <div id="housingTypeOtherContainer" class="hidden pt-2">
+    <label for="housingTypeOther" class="text-xs font-black uppercase tracking-wider text-[#0B2A2E] block mb-1.5">
+      Précisez le type d'habitation <span class="text-[#0E7C86]">*</span>
     </label>
-    <div class="flex flex-wrap gap-2 sm:gap-3">
+    <input
+      type="text"
+      id="housingTypeOther"
+      name="housingTypeOther"
+      placeholder="Précisez votre type d'habitation (ex. chalet, loft ouvert...)"
+      class="w-full px-4 py-3 rounded-xl bg-[#F8FCFC] border border-[#0E7C86]/20 text-sm font-semibold text-[#0B2A2E] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#0E7C86]/12 focus:border-[#0E7C86] transition-all shadow-2xs"
+    />
+  </div>
+
+  <!-- 2. PIÈCES PRIORITAIRES -->
+  <div class="space-y-3 pt-4 border-t border-[#0E7C86]/12">
+    <div class="flex items-center justify-between">
+      <label class="text-xs font-black uppercase tracking-wider text-[#0B2A2E]">
+        Pièces à inclure dans la formule
+      </label>
+      <span class="text-[11px] text-[#3D5A5E]/70">Plusieurs choix possibles</span>
+    </div>
+    
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
       {["Cuisine", "Salon", "Bureau", "Escaliers"].map((room) => (
-        <label class="flex items-center gap-2 px-3 py-2 rounded-lg border border-brand-primary-light text-xs sm:text-sm cursor-pointer hover:bg-brand-surface-subtle has-[:checked]:bg-brand-primary-light/50 has-[:checked]:border-brand-primary">
-          <input type="checkbox" name="residentialRooms" value={room} class="w-4 h-4 text-brand-primary rounded" />
+        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-[#0E7C86]/20 bg-[#F8FCFC] text-xs sm:text-sm font-semibold text-[#0B2A2E] cursor-pointer hover:bg-white hover:border-[#0E7C86]/40 transition-all shadow-2xs group has-[:checked]:border-[#0E7C86] has-[:checked]:bg-[#E3F4F5] has-[:checked]:text-[#0A5A62]">
+          <input type="checkbox" name="residentialRooms" value={room} class="w-4 h-4 text-[#0E7C86] rounded border-[#0E7C86]/40 focus:ring-[#0E7C86]" />
           <span>{room}</span>
         </label>
       ))}
     </div>
   </div>
 
-  <!-- Nettoyage général -->
-  <div class="space-y-2 pt-3 border-t border-brand-primary-light/60">
-    <label class="block text-sm font-bold text-brand-text">
-      Nettoyage général
-    </label>
-    <div class="flex flex-wrap gap-2 sm:gap-3">
+  <!-- 3. TÂCHES DE NETTOYAGE GÉNÉRAL -->
+  <div class="space-y-3 pt-4 border-t border-[#0E7C86]/12">
+    <div class="flex items-center justify-between">
+      <label class="text-xs font-black uppercase tracking-wider text-[#0B2A2E]">
+        Protocole de nettoyage général
+      </label>
+      <span class="text-[11px] text-[#3D5A5E]/70">Cochez vos priorités</span>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
       {["Aspirateur", "Lavage des planchers", "Époussetage des portes", "Nettoyage des plinthes", "Nettoyage de miroirs", "Désinfection des surfaces"].map((task) => (
-        <label class="flex items-center gap-2 px-3 py-2 rounded-lg border border-brand-primary-light text-xs sm:text-sm cursor-pointer hover:bg-brand-surface-subtle has-[:checked]:bg-brand-primary-light/50 has-[:checked]:border-brand-primary">
-          <input type="checkbox" name="generalTasks" value={task} class="w-4 h-4 text-brand-primary rounded" />
+        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-[#0E7C86]/20 bg-[#F8FCFC] text-xs sm:text-sm font-semibold text-[#0B2A2E] cursor-pointer hover:bg-white hover:border-[#0E7C86]/40 transition-all shadow-2xs group has-[:checked]:border-[#0E7C86] has-[:checked]:bg-[#E3F4F5] has-[:checked]:text-[#0A5A62]">
+          <input type="checkbox" name="generalTasks" value={task} class="w-4 h-4 text-[#0E7C86] rounded border-[#0E7C86]/40 focus:ring-[#0E7C86]" />
           <span>{task}</span>
         </label>
       ))}
     </div>
   </div>
 
-  <!-- Cuisine détaillée -->
-  <div class="space-y-2 pt-3 border-t border-brand-primary-light/60">
-    <label class="block text-sm font-bold text-brand-text">
-      Cuisine
-    </label>
-    <div class="flex flex-wrap gap-2 sm:gap-3">
-      {["Nettoyage extérieur des électroménagers", "Intérieur du frigo", "Intérieur du four", "Four à micro-ondes", "Armoires", "Comptoir et évier"].map((task) => (
-        <label class="flex items-center gap-2 px-3 py-2 rounded-lg border border-brand-primary-light text-xs sm:text-sm cursor-pointer hover:bg-brand-surface-subtle has-[:checked]:bg-brand-primary-light/50 has-[:checked]:border-brand-primary">
-          <input type="checkbox" name="kitchenTasks" value={task} class="w-4 h-4 text-brand-primary rounded" />
-          <span>{task}</span>
-        </label>
-      ))}
+  <!-- 4. OPTIONS CUISINE & SALLE DE BAIN -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-[#0E7C86]/12">
+    
+    <!-- Cuisine -->
+    <div class="space-y-3">
+      <label class="text-xs font-black uppercase tracking-wider text-[#0B2A2E] block">
+        Cuisine & électroménagers
+      </label>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {["Nettoyage extérieur électros", "Intérieur du frigo", "Intérieur du four", "Four micro-ondes", "Armoires intérieures", "Comptoirs et évier"].map((task) => (
+          <label class="flex items-center gap-2 p-2.5 rounded-lg border border-[#0E7C86]/20 bg-[#F8FCFC] text-xs font-semibold text-[#0B2A2E] cursor-pointer hover:bg-white transition-all has-[:checked]:border-[#0E7C86] has-[:checked]:bg-[#E3F4F5] has-[:checked]:text-[#0A5A62]">
+            <input type="checkbox" name="kitchenTasks" value={task} class="w-3.5 h-3.5 text-[#0E7C86] rounded border-[#0E7C86]/40 focus:ring-[#0E7C86]" />
+            <span class="truncate">{task}</span>
+          </label>
+        ))}
+      </div>
     </div>
+
+    <!-- Salle de bain -->
+    <div class="space-y-3">
+      <label class="text-xs font-black uppercase tracking-wider text-[#0B2A2E] block">
+        Salle de bain & sanitaires
+      </label>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {["Nettoyage complet", "Douche anticalcaire", "Baignoire", "Toilette détartrée", "Lavabo & robinetterie", "Miroirs lustrés"].map((task) => (
+          <label class="flex items-center gap-2 p-2.5 rounded-lg border border-[#0E7C86]/20 bg-[#F8FCFC] text-xs font-semibold text-[#0B2A2E] cursor-pointer hover:bg-white transition-all has-[:checked]:border-[#0E7C86] has-[:checked]:bg-[#E3F4F5] has-[:checked]:text-[#0A5A62]">
+            <input type="checkbox" name="bathroomTasks" value={task} class="w-3.5 h-3.5 text-[#0E7C86] rounded border-[#0E7C86]/40 focus:ring-[#0E7C86]" />
+            <span class="truncate">{task}</span>
+          </label>
+        ))}
+      </div>
+    </div>
+
   </div>
 
-  <!-- Salle de bain -->
-  <div class="space-y-2 pt-3 border-t border-brand-primary-light/60">
-    <label class="block text-sm font-bold text-brand-text">
-      Salle de bain
-    </label>
-    <div class="flex flex-wrap gap-2 sm:gap-3">
-      {["Nettoyage complet", "Douche", "Baignoire", "Toilette", "Lavabo", "Miroirs"].map((task) => (
-        <label class="flex items-center gap-2 px-3 py-2 rounded-lg border border-brand-primary-light text-xs sm:text-sm cursor-pointer hover:bg-brand-surface-subtle has-[:checked]:bg-brand-primary-light/50 has-[:checked]:border-brand-primary">
-          <input type="checkbox" name="bathroomTasks" value={task} class="w-4 h-4 text-brand-primary rounded" />
-          <span>{task}</span>
-        </label>
-      ))}
+  <!-- 5. FENÊTRES & COMPTEUR -->
+  <div class="space-y-3 pt-4 border-t border-[#0E7C86]/12">
+    <div class="flex items-center justify-between">
+      <label class="text-xs font-black uppercase tracking-wider text-[#0B2A2E]">
+        Nettoyage des vitres & fenêtres
+      </label>
+      <span class="text-[11px] text-[#3D5A5E]/70">Facultatif</span>
     </div>
-  </div>
 
-  <!-- Fenêtres & Nombre -->
-  <div class="space-y-3 pt-3 border-t border-brand-primary-light/60">
-    <label class="block text-sm font-bold text-brand-text">
-      Fenêtres
-    </label>
-    <div class="flex flex-wrap gap-2 sm:gap-3">
-      {["Intérieures", "Extérieures (sur évaluation)", "Vitres et cadres", "Portes vitrées"].map((win) => (
-        <label class="flex items-center gap-2 px-3 py-2 rounded-lg border border-brand-primary-light text-xs sm:text-sm cursor-pointer hover:bg-brand-surface-subtle has-[:checked]:bg-brand-primary-light/50 has-[:checked]:border-brand-primary">
-          <input type="checkbox" name="windowTasks" value={win} class="w-4 h-4 text-brand-primary rounded" />
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+      {["Intérieures", "Extérieures (sur devis)", "Vitres et cadres", "Portes vitrées"].map((win) => (
+        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-[#0E7C86]/20 bg-[#F8FCFC] text-xs sm:text-sm font-semibold text-[#0B2A2E] cursor-pointer hover:bg-white transition-all shadow-2xs has-[:checked]:border-[#0E7C86] has-[:checked]:bg-[#E3F4F5] has-[:checked]:text-[#0A5A62]">
+          <input type="checkbox" name="windowTasks" value={win} class="w-4 h-4 text-[#0E7C86] rounded border-[#0E7C86]/40 focus:ring-[#0E7C86]" />
           <span>{win}</span>
         </label>
       ))}
     </div>
-    <div class="max-w-xs pt-1">
-      <label for="windowCount" class="block text-xs font-medium text-brand-muted mb-1">Nombre approximatif de fenêtres</label>
-      <input type="number" id="windowCount" name="windowCount" min="0" max="200" placeholder="0" class="w-32 px-3 py-1.5 rounded-lg border border-brand-primary-light text-sm text-brand-text" />
+
+    <div class="flex items-center gap-3 pt-1">
+      <label for="windowCount" class="text-xs font-semibold text-[#3D5A5E]">Nombre approximatif de fenêtres :</label>
+      <input
+        type="number"
+        id="windowCount"
+        name="windowCount"
+        min="0"
+        max="200"
+        placeholder="0"
+        class="w-24 px-3 py-1.5 rounded-lg bg-[#F8FCFC] border border-[#0E7C86]/20 text-sm font-bold text-[#0B2A2E] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0E7C86]"
+      />
     </div>
   </div>
 
-  <!-- Animaux -->
-  <div class="space-y-2 pt-3 border-t border-brand-primary-light/60">
-    <label class="block text-sm font-bold text-brand-text">
-      Y a-t-il des animaux à la maison ?
-    </label>
-    <div class="flex gap-4">
-      <label class="flex items-center gap-2 text-sm text-brand-text cursor-pointer">
-        <input type="radio" name="pets" value="Non" checked class="w-4 h-4 text-brand-primary" />
-        <span>Non</span>
+  <!-- 6. ANIMAUX & ÉTAT ACTUEL -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-[#0E7C86]/12">
+    
+    <!-- Animaux -->
+    <div class="space-y-2.5">
+      <label class="text-xs font-black uppercase tracking-wider text-[#0B2A2E] block">
+        Présence d'animaux de compagnie ?
       </label>
-      <label class="flex items-center gap-2 text-sm text-brand-text cursor-pointer">
-        <input type="radio" name="pets" value="Oui" class="w-4 h-4 text-brand-primary" />
-        <span>Oui</span>
-      </label>
-    </div>
-  </div>
-
-  <!-- État actuel du logement (Obligatoire) -->
-  <div class="space-y-2 pt-3 border-t border-brand-primary-light/60">
-    <label class="block text-sm font-bold text-brand-text">
-      État actuel du logement <span class="text-brand-error" aria-hidden="true">*</span>
-    </label>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-      {[
-        "Entretien régulier",
-        "Besoin de nettoyage standard",
-        "Besoin de nettoyage en profondeur",
-        "Logement très sale nécessitant une intervention importante"
-      ].map((state, idx) => (
-        <label class="flex items-center gap-2.5 p-3 rounded-lg border border-brand-primary-light text-xs sm:text-sm font-medium cursor-pointer hover:bg-brand-surface-subtle has-[:checked]:bg-brand-primary-light/50 has-[:checked]:border-brand-primary">
-          <input type="radio" name="residentialCondition" value={state} checked={idx === 1} class="w-4 h-4 text-brand-primary" />
-          <span>{state}</span>
+      <div class="grid grid-cols-2 gap-3">
+        <label class="flex items-center gap-3 p-3 rounded-xl border border-[#0E7C86]/20 bg-[#F8FCFC] cursor-pointer hover:bg-white transition-all has-[:checked]:border-[#0E7C86] has-[:checked]:bg-[#E3F4F5] has-[:checked]:text-[#0A5A62] text-xs sm:text-sm font-bold text-[#0B2A2E]">
+          <input type="radio" name="pets" value="Non" checked class="w-4 h-4 text-[#0E7C86]" />
+          <span>Non</span>
         </label>
-      ))}
+        <label class="flex items-center gap-3 p-3 rounded-xl border border-[#0E7C86]/20 bg-[#F8FCFC] cursor-pointer hover:bg-white transition-all has-[:checked]:border-[#0E7C86] has-[:checked]:bg-[#E3F4F5] has-[:checked]:text-[#0A5A62] text-xs sm:text-sm font-bold text-[#0B2A2E]">
+          <input type="radio" name="pets" value="Oui" class="w-4 h-4 text-[#0E7C86]" />
+          <span>Oui (chats/chiens)</span>
+        </label>
+      </div>
     </div>
+
+    <!-- État actuel du logement -->
+    <div class="space-y-2.5">
+      <label class="text-xs font-black uppercase tracking-wider text-[#0B2A2E] block">
+        État actuel des lieux <span class="text-[#0E7C86]">*</span>
+      </label>
+      <div class="space-y-2">
+        {[
+          { label: "Entretien régulier", sub: "Lieu déjà entretenu, rafraîchissement normal" },
+          { label: "Besoin de nettoyage standard", sub: "Poussières et salissures courantes" },
+          { label: "Besoin de nettoyage en profondeur", sub: "Graisses de cuisson, calcaire incrusté" },
+          { label: "Logement très sale nécessitant une intervention importante", sub: "Après déménagement ou inoccupation prolongée" }
+        ].map((state, idx) => (
+          <label class="flex items-start gap-2.5 p-2.5 rounded-xl border border-[#0E7C86]/20 bg-[#F8FCFC] cursor-pointer hover:bg-white transition-all has-[:checked]:border-[#0E7C86] has-[:checked]:bg-[#E3F4F5]/40 text-xs text-[#0B2A2E] group">
+            <input type="radio" name="residentialCondition" value={state.label} checked={idx === 1} class="w-4 h-4 text-[#0E7C86] mt-0.5 shrink-0" />
+            <div>
+              <span class="font-extrabold text-[#0B2A2E] block">{state.label}</span>
+              <span class="text-[11px] text-[#3D5A5E]/80">{state.sub}</span>
+            </div>
+          </label>
+        ))}
+      </div>
+    </div>
+
   </div>
 
 </fieldset>

@@ -1,0 +1,207 @@
+---
+interface Props {
+  type: 'revenue-area' | 'services-donut' | 'conversion-funnel' | 'stripe-breakdown';
+  class?: string;
+}
+
+const { type, class: className = '' } = Astro.props;
+---
+
+{type === 'revenue-area' && (
+  <div class={`bg-white rounded-2xl border border-[#0E7C86]/12 p-6 shadow-2xs space-y-4 ${className}`}>
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-[#0E7C86]"></span>
+          <h3 class="text-xs font-extrabold uppercase tracking-wider text-[#0E7C86]">
+            Trajectoire Chiffre d'Affaires Hebdomadaire
+          </h3>
+        </div>
+        <p class="text-xl font-black text-[#0B2A2E] tracking-tight mt-1">
+          16 420,00 $ CAD <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full ml-1.5">+22% vs sem. passée</span>
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2 text-[11px] text-[#3D5A5E]">
+        <span class="inline-flex items-center gap-1.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#0E7C86]"></span>
+          Semaine en cours
+        </span>
+        <span class="inline-flex items-center gap-1.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#0E7C86]/25"></span>
+          Objectif moyen
+        </span>
+      </div>
+    </div>
+
+    <!-- Graphique SVG Courbe & Aire -->
+    <div class="relative w-full h-48 pt-2">
+      <svg class="w-full h-full overflow-visible" viewBox="0 0 700 160" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="revenueTealGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#0E7C86" stop-opacity="0.25" />
+            <stop offset="100%" stop-color="#0E7C86" stop-opacity="0.0" />
+          </linearGradient>
+          <linearGradient id="strokeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#0E7C86" />
+            <stop offset="100%" stop-color="#0A5A62" />
+          </linearGradient>
+        </defs>
+
+        <!-- Lignes de repère horizontales -->
+        <line x1="0" y1="20" x2="700" y2="20" stroke="#0E7C86" stroke-opacity="0.08" stroke-dasharray="3 3" />
+        <line x1="0" y1="65" x2="700" y2="65" stroke="#0E7C86" stroke-opacity="0.08" stroke-dasharray="3 3" />
+        <line x1="0" y1="110" x2="700" y2="110" stroke="#0E7C86" stroke-opacity="0.08" stroke-dasharray="3 3" />
+        <line x1="0" y1="150" x2="700" y2="150" stroke="#0E7C86" stroke-opacity="0.15" />
+
+        <!-- Ligne d'objectif en pointillés -->
+        <line x1="0" y1="75" x2="700" y2="75" stroke="#FFB703" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.8" />
+
+        <!-- Aire sous la courbe -->
+        <path
+          d="M 20 125 Q 120 100, 220 80 T 420 50 T 560 30 T 680 20 L 680 150 L 20 150 Z"
+          fill="url(#revenueTealGradient)"
+        />
+
+        <!-- Courbe principale -->
+        <path
+          d="M 20 125 Q 120 100, 220 80 T 420 50 T 560 30 T 680 20"
+          fill="none"
+          stroke="url(#strokeGradient)"
+          stroke-width="3"
+          stroke-linecap="round"
+        />
+
+        <!-- Points de données interactifs -->
+        <circle cx="20" cy="125" r="4.5" fill="#FFFFFF" stroke="#0E7C86" stroke-width="2.5" />
+        <circle cx="150" cy="95" r="4.5" fill="#FFFFFF" stroke="#0E7C86" stroke-width="2.5" />
+        <circle cx="280" cy="75" r="4.5" fill="#FFFFFF" stroke="#0E7C86" stroke-width="2.5" />
+        <circle cx="420" cy="50" r="4.5" fill="#FFFFFF" stroke="#0E7C86" stroke-width="2.5" />
+        <circle cx="550" cy="32" r="4.5" fill="#FFFFFF" stroke="#0E7C86" stroke-width="2.5" />
+        <circle cx="680" cy="20" r="5.5" fill="#FFB703" stroke="#0B2A2E" stroke-width="2" />
+      </svg>
+
+      <!-- Étiquettes des jours de la semaine sous le graphe -->
+      <div class="flex justify-between items-center text-[10px] font-bold text-[#3D5A5E] mt-2 pt-1 border-t border-[#0E7C86]/10">
+        <span>Lun 20 oct. (1 850 $)</span>
+        <span>Mar 21 (2 100 $)</span>
+        <span>Mer 22 (2 640 $)</span>
+        <span>Jeu 23 (2 980 $)</span>
+        <span>Ven 24 (3 450 $)</span>
+        <span class="text-[#0E7C86] font-extrabold">Sam 25 (3 400 $)</span>
+      </div>
+    </div>
+  </div>
+)}
+
+{type === 'services-donut' && (
+  <div class={`bg-white rounded-2xl border border-[#0E7C86]/12 p-6 shadow-2xs space-y-5 ${className}`}>
+    <div class="flex items-center justify-between">
+      <div class="space-y-0.5">
+        <h3 class="text-xs font-extrabold uppercase tracking-wider text-[#0E7C86]">
+          Répartition par Famille de Service
+        </h3>
+        <p class="text-xs text-[#3D5A5E]">Conformité 4 catégories du cahier des charges</p>
+      </div>
+      <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#E3F4F5] text-[#0E7C86]">
+        100% qualifié
+      </span>
+    </div>
+
+    <div class="flex flex-col sm:flex-row items-center gap-6">
+      <!-- Donut SVG -->
+      <div class="relative w-36 h-36 shrink-0 flex items-center justify-center">
+        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="38" fill="none" stroke="#E3F4F5" stroke-width="12" />
+          <!-- Résidentiel 48% (stroke-dasharray="115 239") -->
+          <circle cx="50" cy="50" r="38" fill="none" stroke="#0E7C86" stroke-width="12" stroke-dasharray="115 239" stroke-dashoffset="0" />
+          <!-- Commercial 28% (stroke-dasharray="67 239") -->
+          <circle cx="50" cy="50" r="38" fill="none" stroke="#0A5A62" stroke-width="12" stroke-dasharray="67 239" stroke-dashoffset="-115" />
+          <!-- Entretien régulier forfaitaire 18% (stroke-dasharray="43 239") -->
+          <circle cx="50" cy="50" r="38" fill="none" stroke="#FFB703" stroke-width="12" stroke-dasharray="43 239" stroke-dashoffset="-182" />
+          <!-- Spécialisé 6% (stroke-dasharray="14 239") -->
+          <circle cx="50" cy="50" r="38" fill="none" stroke="#3D5A5E" stroke-width="12" stroke-dasharray="14 239" stroke-dashoffset="-225" />
+        </svg>
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+          <span class="text-xl font-black text-[#0B2A2E] leading-none">42</span>
+          <span class="text-[9px] text-[#3D5A5E] font-bold uppercase mt-0.5">Demandes</span>
+        </div>
+      </div>
+
+      <!-- Légende détaillée -->
+      <div class="flex-1 w-full space-y-2 text-xs">
+        <div class="flex items-center justify-between p-1.5 rounded-lg hover:bg-[#F5FAFA] transition-colors">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-md bg-[#0E7C86] shrink-0"></span>
+            <span class="font-bold text-[#0B2A2E]">Nettoyage résidentiel</span>
+          </div>
+          <span class="font-extrabold text-[#0B2A2E]">48% <span class="text-[10px] text-[#3D5A5E] font-normal">(20)</span></span>
+        </div>
+
+        <div class="flex items-center justify-between p-1.5 rounded-lg hover:bg-[#F5FAFA] transition-colors">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-md bg-[#0A5A62] shrink-0"></span>
+            <span class="font-bold text-[#0B2A2E]">Nettoyage commercial</span>
+          </div>
+          <span class="font-extrabold text-[#0B2A2E]">28% <span class="text-[10px] text-[#3D5A5E] font-normal">(12)</span></span>
+        </div>
+
+        <div class="flex items-center justify-between p-1.5 rounded-lg hover:bg-[#F5FAFA] transition-colors">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-md bg-[#FFB703] shrink-0"></span>
+            <span class="font-bold text-[#0B2A2E]">Entretien régulier (forfait)</span>
+          </div>
+          <span class="font-extrabold text-[#0B2A2E]">18% <span class="text-[10px] text-[#3D5A5E] font-normal">(8)</span></span>
+        </div>
+
+        <div class="flex items-center justify-between p-1.5 rounded-lg hover:bg-[#F5FAFA] transition-colors">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-md bg-[#3D5A5E] shrink-0"></span>
+            <span class="font-bold text-[#0B2A2E]">Nettoyage spécialisé</span>
+          </div>
+          <span class="font-extrabold text-[#0B2A2E]">6% <span class="text-[10px] text-[#3D5A5E] font-normal">(2)</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+{type === 'stripe-breakdown' && (
+  <div class={`bg-white rounded-2xl border border-[#0E7C86]/12 p-6 shadow-2xs space-y-4 ${className}`}>
+    <div class="flex items-center justify-between">
+      <h3 class="text-xs font-extrabold uppercase tracking-wider text-[#0E7C86]">
+        Décomposition des Flux Stripe Canada (CAD)
+      </h3>
+      <span class="text-[11px] font-mono text-[#3D5A5E]">Mois d'octobre 2026</span>
+    </div>
+
+    <!-- Diagramme horizontal empilé -->
+    <div class="space-y-2">
+      <div class="h-6 w-full rounded-xl overflow-hidden flex bg-gray-100">
+        <div class="bg-emerald-600 h-full text-[10px] font-extrabold text-white flex items-center justify-center transition-all" style="width: 97.35%">
+          Net encaissé (97.35%)
+        </div>
+        <div class="bg-[#FFB703] h-full text-[9px] font-extrabold text-[#0B2A2E] flex items-center justify-center transition-all" style="width: 2.65%">
+          Frais
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3 pt-2 text-xs">
+        <div class="p-3 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/10">
+          <span class="text-[10px] font-bold text-[#3D5A5E] uppercase block">Volume Brut</span>
+          <span class="text-sm font-black text-[#0B2A2E]">16 420,00 $</span>
+        </div>
+
+        <div class="p-3 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/10">
+          <span class="text-[10px] font-bold text-amber-700 uppercase block">Frais Stripe (2.9% + 0.30$)</span>
+          <span class="text-sm font-black text-amber-800">- 432,60 $</span>
+        </div>
+
+        <div class="p-3 rounded-xl bg-[#E3F4F5] border border-[#0E7C86]/20">
+          <span class="text-[10px] font-bold text-[#0E7C86] uppercase block">Net en Banque Unilka</span>
+          <span class="text-sm font-black text-emerald-700">15 987,40 $</span>
+        </div>
+      </div>
+    </div>
+  </div>
+)}

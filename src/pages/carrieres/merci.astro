@@ -1,45 +1,62 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-const pageTitle = "Inscription envoyée — unilka";
-const pageDescription = "Votre inscription a bien été envoyée.";
+const pageTitle = "Candidature Envoyée — unilka Carrières";
+const pageDescription = "Votre dossier de candidature a bien été transmis à l'équipe unilka.";
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription} noindex={true}>
 
-  <section class="py-16 sm:py-24 bg-brand-surface-subtle min-h-[70vh] flex items-center">
+  <section class="py-20 sm:py-28 bg-[#F5FAFA] min-h-[75vh] flex items-center">
     <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
       
-      <!-- Icône de succès -->
-      <div class="w-16 h-16 rounded-full bg-brand-success text-white mx-auto flex items-center justify-center shadow-md">
+      <!-- Pastille de succès -->
+      <div class="w-16 h-16 rounded-full bg-[#0E7C86] text-white mx-auto flex items-center justify-center shadow-md">
         <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
         </svg>
       </div>
 
-      <div class="space-y-4">
-        <h1 class="text-3xl sm:text-4xl font-black text-brand-text tracking-tight">
-          Merci, votre inscription a bien été envoyée
+      <div class="space-y-3">
+        <span class="text-xs font-bold uppercase tracking-widest text-[#0E7C86]">
+          Candidature Reçue
+        </span>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-[#0B2A2E] tracking-tight">
+          Merci, votre dossier est bien transmis.
         </h1>
-        <p class="text-base sm:text-lg text-brand-muted leading-relaxed">
-          Votre candidature sera évaluée en fonction de nos besoins et des opportunités disponibles. Si votre profil correspond, nous communiquerons avec vous pour planifier un entretien.
+        <p class="text-base sm:text-lg text-[#3D5A5E] leading-relaxed">
+          Notre équipe de coordination étudie votre profil, vos disponibilités et votre secteur géographique. Si une mission correspond à votre profil, nous communiquerons rapidement avec vous.
         </p>
       </div>
 
-      <!-- Rappel -->
-      <div class="p-5 rounded-xl bg-amber-50 border border-amber-200 text-xs sm:text-sm text-brand-text text-left max-w-lg mx-auto">
-        <p class="leading-relaxed">
-          <span class="font-bold">Rappel :</span> L'inscription ne garantit pas automatiquement l'obtention d'un emploi ou d'une mission.
-        </p>
+      <!-- Rappel réglementaire -->
+      <div class="bg-white p-7 rounded-2xl border border-[#0E7C86]/15 text-left space-y-3 shadow-xs">
+        <h2 class="text-sm font-extrabold text-[#0B2A2E]">
+          Prochaines étapes de sélection :
+        </h2>
+        <ul class="space-y-2 text-xs sm:text-sm text-[#3D5A5E]" role="list">
+          <li class="flex items-center gap-2">
+            <span class="w-4 h-4 rounded-full bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center text-[10px] font-bold shrink-0">✓</span>
+            <span>Vérification de l'autorisation de travail et des disponibilités.</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-4 h-4 rounded-full bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center text-[10px] font-bold shrink-0">✓</span>
+            <span>Entretien téléphonique ou physique de présentation.</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-4 h-4 rounded-full bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center text-[10px] font-bold shrink-0">✓</span>
+            <span>Validation des antécédents et formation aux protocoles hôteliers.</span>
+          </li>
+        </ul>
       </div>
 
       <!-- Bouton retour -->
       <div class="pt-2">
         <a
           href="/"
-          class="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md transition-colors no-underline"
+          class="inline-flex items-center justify-center px-7 py-3.5 text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full shadow-sm hover:shadow-md transition-all duration-200 no-underline"
         >
-          Retour à l'accueil
+          <span>Retour à l'accueil</span>
         </a>
       </div>
 

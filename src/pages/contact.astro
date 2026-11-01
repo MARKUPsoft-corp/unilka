@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import config from '../data/site-config.json';
+import CtaBanner from '../components/ui/CtaBanner.astro';
 
-const pageTitle = "Nous joindre — unilka";
-const pageDescription = "Contactez unilka ou demandez directement une soumission de nettoyage à Montréal et environs.";
+const pageTitle = "Nous Joindre & Service Concierge — unilka";
+const pageDescription = "Contactez le service client unilka ou demandez votre soumission d'entretien ménager à Montréal, Longueuil et Lanaudière.";
 
 const breadcrumbs = [
   { label: "Nous joindre", href: "/contact/" }
@@ -14,136 +15,206 @@ const hasDirectContact = Boolean(config.business.phone || config.business.email 
 
 <BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
 
-  <!-- EN-TÊTE -->
-  <section class="bg-brand-surface-subtle py-12 lg:py-16 border-b border-brand-primary-light/60">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-text tracking-tight">
-        Nous joindre
-      </h1>
-      <p class="text-base sm:text-lg text-brand-muted leading-relaxed max-w-2xl mx-auto">
-        Le moyen le plus rapide de nous joindre est de remplir notre formulaire de demande de service.
-      </p>
-      <div class="pt-2">
-        <a
-          href="/soumission/"
-          class="inline-flex items-center justify-center px-6 py-3.5 text-base font-bold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md shadow-sm transition-colors no-underline"
-        >
-          Obtenir une soumission
-        </a>
+  <!-- 1. HÉRO ÉDITORIAL CONTACT (STYLE OFFCUT) -->
+  <section class="relative bg-white border-b border-[#0E7C86]/12 overflow-hidden pt-10 pb-12 lg:pt-16 lg:pb-16">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        
+        <!-- Colonne Gauche : Typographie & Accès Direct -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="flex items-center gap-2.5 text-xs font-black uppercase tracking-[0.14em] text-[#0A5A62]">
+            <span class="w-2 h-2 rounded-full bg-[#0E7C86]"></span>
+            <span>Conciergerie & Écoute Directe</span>
+          </div>
+
+          <h1 class="text-[clamp(42px,11.5vw,56px)] sm:text-6xl lg:text-7xl xl:text-[76px] font-bold text-[#0B2A2E] tracking-[-0.035em] leading-[1.06] mt-7 mb-0">
+            <span class="block font-bold text-[#0B2A2E] whitespace-nowrap">Ligne directe.</span>
+            <span class="block font-serif italic font-normal text-[#0E7C86] mt-1 whitespace-nowrap">Réponse 24h.</span>
+          </h1>
+
+          <p class="text-base sm:text-lg text-[#3D5A5E] leading-[1.75] max-w-xl mt-6">
+            Pour chiffrer l'entretien de vos espaces, bâtir un cahier des charges commercial ou échanger sur vos besoins : notre conciergerie vous répond avec clarté et précision.
+          </p>
+
+          <!-- CTAs simples et aérés -->
+          <div class="pt-4 flex flex-wrap items-center gap-4">
+            <a
+              href="/soumission/"
+              class="inline-flex items-center justify-center px-8 py-4 text-sm font-bold text-white bg-[#0B2A2E] hover:bg-[#0E7C86] rounded-full transition-all duration-200 no-underline shadow-xs hover:-translate-y-0.5"
+            >
+              <span>Démarrer ma soumission</span>
+              <span class="ml-2 font-mono">↗</span>
+            </a>
+            <a
+              href="#coordonnees"
+              class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#0B2A2E] hover:text-[#0E7C86] transition-colors py-3 px-2 no-underline"
+            >
+              <span>Nos coordonnées directes</span>
+              <span class="font-mono text-sm">↓</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Colonne Droite : Visuel Concierge Arqué Offcut -->
+        <div class="lg:col-span-5 relative mt-6 lg:mt-0">
+          <div class="relative rounded-[140px_16px_16px_16px] overflow-hidden border border-[#0B2A2E]/10 shadow-[0_20px_50px_rgba(11,42,46,0.12)] bg-[#E8E2D2] aspect-[4/5] sm:aspect-auto sm:h-[500px]">
+            <img
+              src="/images/admin/submission-condo.jpg"
+              alt="Résidence de standing et service concierge réactif chez unilka"
+              width="800"
+              height="1000"
+              class="w-full h-full object-cover"
+              loading="eager"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0B2A2E]/40 via-transparent to-transparent pointer-events-none"></div>
+
+            <!-- Légende discrète haut-droit -->
+            <div class="absolute top-6 right-6 text-right text-white/95 text-[10px] font-bold tracking-[0.14em] uppercase drop-shadow-md">
+              <span>ACCUEIL & COORDINATION<br />GRAND MONTRÉAL</span>
+            </div>
+
+
+            <!-- Badge circulaire type macaron tournant Offcut -->
+            <div class="absolute -bottom-4 -right-4 sm:bottom-6 sm:right-6 w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-white/95 backdrop-blur-md shadow-xl border border-[#0B2A2E]/10 flex flex-col items-center justify-center text-center p-3">
+              <span class="text-[9px] font-black uppercase tracking-[0.18em] text-[#0A5A62] leading-tight">
+                RÉPONSE<br />SOUS 24H
+              </span>
+              <span class="text-sm font-bold text-[#0B2A2E] mt-0.5">7j / 7</span>
+              <span class="text-[8px] font-bold uppercase tracking-wider text-[#0E7C86] mt-0.5">DÉDIÉ ↓</span>
+            </div>
+          </div>
+        </div>
+
       </div>
-      {config.business.responseDelay && (
-        <p class="text-xs text-brand-muted pt-2">
-          Nous répondons généralement dans un délai de {config.business.responseDelay}.
-        </p>
-      )}
+
+      <!-- Hero Foot : 3 piliers du service client -->
+      <div class="mt-14 pt-8 border-t border-[#0E7C86]/12 grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs text-[#3D5A5E]">
+        <div class="flex items-start gap-3">
+          <span class="font-bold text-[#0E7C86] text-sm">01.</span>
+          <div>
+            <strong class="text-[#0B2A2E] font-bold block">Interlocuteur Unique</strong>
+            <span class="leading-relaxed">Un coordonnateur attitré qui connaît vos préférences et vos codes d'accès.</span>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="font-bold text-[#0E7C86] text-sm">02.</span>
+          <div>
+            <strong class="text-[#0B2A2E] font-bold block">Visite d'Évaluation Gratuite</strong>
+            <span class="leading-relaxed">Déplacement sans frais pour évaluer les grands espaces et complexes professionnels.</span>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="font-bold text-[#0E7C86] text-sm">03.</span>
+          <div>
+            <strong class="text-[#0B2A2E] font-bold block">Devis Clair & Sans Surprise</strong>
+            <span class="leading-relaxed">Proposition chiffrée détaillée sous 24h ouvrées, 100% sans engagement.</span>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- CONTENU DE CONTACT -->
-  <section class="py-16 bg-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+  <!-- 2. BLOCS COORDONNÉES ET CARRIÈRES -->
+  <section id="coordonnees" class="py-20 lg:py-24 bg-[#F5FAFA] border-b border-[#0E7C86]/12">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
       
-      <!-- Blocs coordonnées conditionnels (affichés UNIQUEMENT si fournis) -->
-      {hasDirectContact ? (
+      {hasDirectContact && (
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
           {config.business.phone && (
-            <div class="p-6 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/70 space-y-2">
-              <h2 class="text-base font-bold text-brand-text flex items-center gap-2">
-                <svg class="w-5 h-5 text-brand-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                <span>Téléphone</span>
+            <div class="bg-white rounded-3xl border border-[#0E7C86]/15 p-8 shadow-[0_8px_30px_rgba(11,42,46,0.04)] hover:shadow-[0_16px_40px_rgba(11,42,46,0.08)] hover:border-[#0E7C86]/40 transition-all duration-300 space-y-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-[#0E7C86]">Téléphone direct</span>
+              <h2 class="text-xl font-bold text-[#0B2A2E]">
+                Ligne d'assistance concierge
               </h2>
               <p class="text-sm">
-                <a href={`tel:${config.business.phone.replace(/[^0-9+]/g, '')}`} class="font-semibold text-brand-primary hover:underline">
+                <a href={`tel:${config.business.phone.replace(/[^0-9+]/g, '')}`} class="font-extrabold text-2xl text-[#0E7C86] hover:text-[#0A5A62] no-underline">
                   {config.business.phone}
                 </a>
               </p>
+              <p class="text-xs text-[#3D5A5E]">Du lundi au vendredi pour vos questions courantes et réservations.</p>
             </div>
           )}
 
           {config.business.email && (
-            <div class="p-6 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/70 space-y-2">
-              <h2 class="text-base font-bold text-brand-text flex items-center gap-2">
-                <svg class="w-5 h-5 text-brand-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                <span>Courriel</span>
+            <div class="bg-white rounded-3xl border border-[#0E7C86]/15 p-8 shadow-[0_8px_30px_rgba(11,42,46,0.04)] hover:shadow-[0_16px_40px_rgba(11,42,46,0.08)] hover:border-[#0E7C86]/40 transition-all duration-300 space-y-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-[#0E7C86]">Courriel officiel</span>
+              <h2 class="text-xl font-bold text-[#0B2A2E]">
+                Écrivez à la conciergerie
               </h2>
               <p class="text-sm">
-                <a href={`mailto:${config.business.email}`} class="font-semibold text-brand-primary hover:underline">
+                <a href={`mailto:${config.business.email}`} class="font-extrabold text-xl text-[#0E7C86] hover:text-[#0A5A62] no-underline">
                   {config.business.email}
                 </a>
               </p>
+              <p class="text-xs text-[#3D5A5E]">Pour vos devis spéciaux, partenariats ou questions d'affaires.</p>
             </div>
           )}
 
           {config.business.address && (
-            <div class="p-6 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/70 space-y-2">
-              <h2 class="text-base font-bold text-brand-text flex items-center gap-2">
-                <svg class="w-5 h-5 text-brand-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <span>Adresse</span>
+            <div class="bg-white rounded-3xl border border-[#0E7C86]/15 p-8 shadow-[0_8px_30px_rgba(11,42,46,0.04)] hover:shadow-[0_16px_40px_rgba(11,42,46,0.08)] hover:border-[#0E7C86]/40 transition-all duration-300 space-y-2">
+              <span class="text-xs font-bold uppercase tracking-wider text-[#0E7C86]">Siège & Territoire</span>
+              <h2 class="text-lg font-bold text-[#0B2A2E]">
+                Périmètre logistique
               </h2>
-              <p class="text-sm text-brand-muted">
+              <p class="text-sm text-[#3D5A5E]">
                 {config.business.address}
               </p>
+              <p class="text-xs text-[#3D5A5E]">Montréal • Longueuil • Lanaudière</p>
             </div>
           )}
 
           {config.business.openingHours && (
-            <div class="p-6 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/70 space-y-2">
-              <h2 class="text-base font-bold text-brand-text flex items-center gap-2">
-                <svg class="w-5 h-5 text-brand-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span>Heures d'ouverture</span>
+            <div class="bg-white rounded-3xl border border-[#0E7C86]/15 p-8 shadow-[0_8px_30px_rgba(11,42,46,0.04)] hover:shadow-[0_16px_40px_rgba(11,42,46,0.08)] hover:border-[#0E7C86]/40 transition-all duration-300 space-y-2">
+              <span class="text-xs font-bold uppercase tracking-wider text-[#0E7C86]">Heures de bureau</span>
+              <h2 class="text-lg font-bold text-[#0B2A2E]">
+                Permanence conciergerie
               </h2>
-              <p class="text-sm text-brand-muted">
+              <p class="text-sm text-[#3D5A5E]">
                 {config.business.openingHours}
               </p>
+              <p class="text-xs text-[#3D5A5E]">Interventions 7j/7 selon entente préalable.</p>
             </div>
           )}
-        </div>
-      ) : (
-        <div class="p-8 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/80 text-center space-y-3">
-          <h2 class="text-xl font-bold text-brand-text">
-            Formulaire de contact en ligne
-          </h2>
-          <p class="text-sm text-brand-muted max-w-lg mx-auto">
-            Pour toute demande de tarif ou information sur nos disponibilités, nous vous invitons à utiliser directement notre formulaire de soumission en ligne.
-          </p>
-          <div class="pt-2">
-            <a href="/soumission/" class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md no-underline">
-              Demander une soumission &rarr;
-            </a>
-          </div>
+
         </div>
       )}
 
-      <!-- Bloc Vous cherchez un emploi ? -->
-      <div class="p-8 rounded-2xl bg-brand-primary-light/40 border border-brand-primary/20 flex flex-col sm:flex-row items-center justify-between gap-6">
-        <div class="space-y-1 text-center sm:text-left">
-          <h2 class="text-lg sm:text-xl font-bold text-brand-text">
-            Vous cherchez un emploi ?
-          </h2>
-          <p class="text-sm text-brand-muted">
-            Découvrez nos opportunités de missions et créez votre profil en quelques minutes.
-          </p>
-        </div>
-        <div class="shrink-0">
-          <a
-            href="/carrieres/"
-            class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-brand-primary bg-white hover:bg-brand-primary-light border border-brand-primary-light rounded-md transition-colors no-underline"
-          >
-            Espace Carrières &rarr;
-          </a>
+      <!-- Bloc Carrières Prestige -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0B2A2E] to-[#0A5A62] p-8 sm:p-10 text-white shadow-xl">
+        <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div class="space-y-2 max-w-xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-[11px] font-bold text-white uppercase tracking-wider">
+              <span>Recrutement d'Élite</span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold text-white">
+              Vous souhaitez rejoindre notre équipe de préposés ?
+            </h3>
+            <p class="text-xs sm:text-sm text-white/80 leading-relaxed">
+              Conditions de travail dignes, plannings respectueux et formation continue aux protocoles hôteliers. Postulez en 3 minutes.
+            </p>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+            <a
+              href="/carrieres/"
+              class="px-7 py-3.5 text-xs font-bold text-[#0B2A2E] bg-white hover:bg-[#E3F4F5] rounded-full transition-all duration-200 text-center shadow-md hover:scale-[1.02] active:scale-[0.98] no-underline"
+            >
+              Postuler en ligne ↗
+            </a>
+          </div>
         </div>
       </div>
 
     </div>
   </section>
+
+  <!-- 3. BANDEAU DE CONVERSION -->
+  <CtaBanner
+    title="Prêt(e) à démarrer ?"
+    description="Faites votre demande en ligne pour recevoir une soumission chiffrée sous 24h."
+    ctaText="Obtenir une soumission"
+    ctaLink="/soumission/"
+  />
 
 </BaseLayout>

@@ -12,10 +12,12 @@
     text-rendering: optimizeLegibility;
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
 
   body {
     min-height: 100vh;
+    overflow-x: clip;
   }
 
   /* Anneaux de focus accessibles (WCAG 2.1 AA) */

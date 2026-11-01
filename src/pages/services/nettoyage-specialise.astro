@@ -2,118 +2,279 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CtaBanner from '../../components/ui/CtaBanner.astro';
 
-const pageTitle = "Nettoyage de canapés, tapis et matelas — unilka";
-const pageDescription = "Nettoyage de canapés, tapis, matelas et intérieur de véhicules à Montréal et environs. Décrivez votre besoin, nous vous proposons une solution.";
+const pageTitle = "Nettoyage Spécialisé & Surfaces Délicates — unilka";
+const pageDescription = "Nettoyage en profondeur de canapés, tapis, carpettes précieuses, matelas et remises en état après inoccupation à Montréal, Longueuil et Lanaudière.";
 
 const breadcrumbs = [
   { label: "Services", href: "/services/" },
   { label: "Nettoyage spécialisé", href: "/services/nettoyage-specialise/" }
 ];
 
-const specializedItems = [
-  "Nettoyage de canapés et fauteuils",
-  "Nettoyage de tapis et carpettes",
-  "Nettoyage de matelas",
-  "Nettoyage intérieur de véhicules",
-  "Nettoyage de surfaces particulièrement sales",
-  "Nettoyage après une longue période d'inoccupation"
+const specializedZones = [
+  {
+    code: "01",
+    zone: "Canapés, Fauteuils & Textiles Nobles",
+    subtitle: "Injection-extraction à l'eau tempérée",
+    description: "Régénération en profondeur des fibres sans les saturer d'eau : velours de coton, lin lavé, microfibres et cuirs traités. Neutralisation des taches grasses et cernes.",
+    points: [
+      "Test de tenue des teintures préalable sur zone cachée",
+      "Injection d'agents détachants enzymatiques doux et écologiques",
+      "Extraction haute dépression permettant un séchage rapide en 4 à 6 heures",
+      "Brossage manuel délicat dans le sens du poil"
+    ]
+  },
+  {
+    code: "02",
+    zone: "Tapis d'Art, Carpettes & Moquettes",
+    subtitle: "Aspiration vibratoire & détachage sur-mesure",
+    description: "Soin spécialisé pour tapis d'Orient, laines nouées main et carpettes contemporaines. Élimination des poussières abrasives incrustées au cœur de la trame.",
+    points: [
+      "Dépoussiérage mécanique préliminaire sans battage destructif",
+      "Détachage ciblé : café, vin rouge, huile, traces d'animaux",
+      "Rinçage neutralisant à pH équilibré sans laisser de résidu collant",
+      "Protection déperlante anti-taches appliquée sur demande"
+    ]
+  },
+  {
+    code: "03",
+    zone: "Matelas & Assainissement Anti-Acariens",
+    subtitle: "Sommeil purifié & hygiène en profondeur",
+    description: "Élimination des allergènes, bactéries et acariens responsables des allergies respiratoires. Traitement certifié sans parfum synthétique ni produit agressif.",
+    points: [
+      "Extraction des squames et microparticules de l'enveloppe",
+      "Neutralisation des auréoles de transpiration et odeurs",
+      "Traitement thermovapeur assainissant sans humidification excessive",
+      "Séchage complet avant réinstallation de la literie"
+    ]
+  },
+  {
+    code: "04",
+    zone: "Remise à Neuf & Fin de Chantier",
+    subtitle: "Dépoussiérage plâtre & finitions haute exigence",
+    description: "Après des rénovations ou une longue inoccupation : élimination des poussières de gypse, vitrages encrassés et nettoyage minutieux de chaque interstice.",
+    points: [
+      "Aspiration double filtration HEPA spéciale poussière de plâtre",
+      "Nettoyage minutieux des fonds de tiroirs et intérieurs d'armoires",
+      "Dégraissage et grattage doux des résidus de peinture ou mastic",
+      "Vitrages nettoyés recto/verso avec encadrements et rails décapés"
+    ]
+  }
 ];
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
 
-  <!-- HERO SERVICE -->
-  <section class="bg-brand-surface-subtle py-12 lg:py-16 border-b border-brand-primary-light/60">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+  <!-- 1. HÉRO SERVICE ÉDITORIAL (STYLE OFFCUT) -->
+  <section class="relative bg-white border-b border-[#0E7C86]/12 overflow-hidden pt-10 pb-12 lg:pt-16 lg:pb-16">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
         
-        <div class="lg:col-span-7 space-y-4">
-          <span class="inline-block px-3 py-1 rounded-md bg-brand-primary-light text-brand-primary text-xs font-bold uppercase tracking-wider">
-            Intervention spécialisée
-          </span>
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-text tracking-tight">
-            Nettoyage spécialisé : canapés, tapis, matelas et véhicules
+        <!-- Texte gauche -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="flex items-center gap-2.5 text-xs font-black uppercase tracking-[0.14em] text-[#0A5A62]">
+            <span class="w-2 h-2 rounded-full bg-[#0E7C86]"></span>
+            <span>Formule U/04 • Soin Spécialisé & Matières Nobles</span>
+          </div>
+
+          <h1 class="text-[clamp(42px,11.5vw,56px)] sm:text-6xl lg:text-7xl xl:text-[76px] font-bold text-[#0B2A2E] tracking-[-0.035em] leading-[1.06] mt-7 mb-0">
+            <span class="block font-bold text-[#0B2A2E] whitespace-nowrap">Soin matières.</span>
+            <span class="block font-serif italic font-normal text-[#0E7C86] mt-1 whitespace-nowrap">Remise à neuf.</span>
           </h1>
-          <p class="text-base sm:text-lg text-brand-muted leading-relaxed">
-            Certains espaces et certaines surfaces nécessitent une attention particulière. Nous proposons des services spécialisés pour différents types de nettoyage.
+
+          <p class="text-base sm:text-lg text-[#3D5A5E] leading-[1.75] max-w-xl mt-6">
+            Les matières nobles et les salissures incrustées exigent une expertise pointue. Nous combinons injection-extraction professionnelle et soins doux pour raviver vos textiles.
           </p>
-          <div class="pt-2 flex flex-wrap gap-3">
+
+          <div class="pt-4 flex flex-wrap items-center gap-4">
             <a
               href="/soumission/"
-              class="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md shadow-sm transition-colors no-underline"
+              class="inline-flex items-center justify-center px-8 py-4 text-sm font-bold text-white bg-[#0B2A2E] hover:bg-[#0E7C86] rounded-full transition-all duration-200 no-underline shadow-xs hover:-translate-y-0.5"
             >
-              Obtenir une soumission
+              <span>Demander un devis spécialisé</span>
+              <span class="ml-2 font-mono">↗</span>
             </a>
             <a
               href="/services/"
-              class="inline-flex items-center justify-center px-4 py-3 text-sm font-semibold text-brand-text hover:text-brand-primary no-underline"
+              class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#0B2A2E] hover:text-[#0E7C86] transition-colors py-3 px-2 no-underline"
             >
-              &larr; Retour aux services
+              <span class="font-mono text-sm">←</span>
+              <span>Retour au catalogue</span>
             </a>
           </div>
         </div>
 
-        <div class="lg:col-span-5 flex justify-center">
-          <img
-            src="/illustrations/specialized.svg"
-            alt="Illustration nettoyage spécialisé unilka"
-            width="320"
-            height="240"
-            class="w-full max-w-sm h-auto bg-white p-4 rounded-2xl border border-brand-primary-light/80 shadow-xs"
-          />
+        <!-- Image droite : Asymétrique Offcut -->
+        <div class="lg:col-span-5 relative mt-6 lg:mt-0">
+          <div class="relative rounded-[140px_16px_16px_16px] overflow-hidden border border-[#0B2A2E]/10 shadow-[0_20px_50px_rgba(11,42,46,0.12)] bg-[#E8E2D2] aspect-[4/5] sm:aspect-auto sm:h-[500px]">
+            <img
+              src="/images/service-specialized.jpg"
+              alt="Fauteuil design et textile impeccable entretenu avec soin par unilka"
+              width="800"
+              height="1000"
+              class="w-full h-full object-cover"
+              loading="eager"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0B2A2E]/40 via-transparent to-transparent pointer-events-none"></div>
+
+            <!-- Légende haut-droite -->
+            <div class="absolute top-6 right-6 text-right text-white/95 text-[10px] font-bold tracking-[0.14em] uppercase drop-shadow-md">
+              <span>TEXTILES & REMISE À NEUF<br />TRAITEMENT HAUTE PRÉCISION</span>
+            </div>
+
+
+            <!-- Badge circulaire Offcut -->
+            <div class="absolute -bottom-4 -right-4 sm:bottom-6 sm:right-6 w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-white/95 backdrop-blur-md shadow-xl border border-[#0B2A2E]/10 flex flex-col items-center justify-center text-center p-3">
+              <span class="text-[9px] font-black uppercase tracking-[0.18em] text-[#0A5A62] leading-tight">
+                INJECTION<br />EXTRACTION
+              </span>
+              <span class="text-sm font-bold text-[#0B2A2E] mt-0.5">Vapeur</span>
+              <span class="text-[8px] font-bold uppercase tracking-wider text-[#0E7C86] mt-0.5">PRÉCISION ↓</span>
+            </div>
+          </div>
         </div>
 
       </div>
+
+      <!-- Hero Foot : 3 piliers -->
+      <div class="mt-14 pt-8 border-t border-[#0E7C86]/12 grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs text-[#3D5A5E]">
+        <div class="flex items-start gap-3">
+          <span class="font-bold text-[#0E7C86] text-sm">01.</span>
+          <div>
+            <strong class="text-[#0B2A2E] font-bold block">Matériel Professionnel Industriel</strong>
+            <span class="leading-relaxed">Extracteurs haute dépression pour un séchage en quelques heures seulement.</span>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="font-bold text-[#0E7C86] text-sm">02.</span>
+          <div>
+            <strong class="text-[#0B2A2E] font-bold block">Protection des Fibres Délicates</strong>
+            <span class="leading-relaxed">Laine, lin, velours ou cuirs : test de tenue des couleurs systématique.</span>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="font-bold text-[#0E7C86] text-sm">03.</span>
+          <div>
+            <strong class="text-[#0B2A2E] font-bold block">Traitement Anti-Acariens & Odeurs</strong>
+            <span class="leading-relaxed">Neutralisation bactérienne en profondeur et désodorisation saine.</span>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- CONTENU PRINCIPAL -->
-  <section class="py-16 bg-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+  <!-- 2. MODULES DE TRAITEMENTS SPÉCIALISÉS -->
+  <section class="py-20 lg:py-28 bg-[#F5FAFA] border-b border-[#0E7C86]/12">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
       
-      <!-- Liste de nos services spécialisés -->
-      <div class="space-y-6">
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-text tracking-tight">
-          Nos services spécialisés peuvent inclure
+      <!-- En-tête de section -->
+      <div class="text-center max-w-3xl mx-auto space-y-4">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E3F4F5] border border-[#0E7C86]/20">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#0E7C86]"></span>
+          <span class="text-xs font-black uppercase tracking-[0.14em] text-[#0E7C86]">
+            Soin des Matières & Traitements Délicats
+          </span>
+        </div>
+        
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0B2A2E] tracking-tight leading-[1.12]">
+          Nos interventions ciblées.
+          <span class="block font-serif italic font-normal text-[#0E7C86] mt-1 text-2xl sm:text-3xl lg:text-4xl">
+            La science du textile appliquée à votre mobilier d'exception.
+          </span>
         </h2>
-        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3" role="list">
-          {specializedItems.map((item) => (
-            <li class="flex items-center gap-3 p-3.5 rounded-lg bg-brand-surface-subtle border border-brand-primary-light/60 text-sm font-medium text-brand-text">
-              <svg class="w-5 h-5 text-brand-primary shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-              </svg>
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <!-- Encadré besoin particulier -->
-      <div class="p-6 rounded-xl bg-brand-primary-light/50 border border-brand-primary/20 space-y-2">
-        <h3 class="font-bold text-brand-text text-base flex items-center gap-2">
-          <span class="text-brand-primary text-lg" aria-hidden="true">✦</span>
-          <span>Vous avez un besoin particulier ?</span>
-        </h3>
-        <p class="text-sm text-brand-muted leading-relaxed">
-          Décrivez-nous votre situation et nous vous indiquerons la meilleure solution.
+        
+        <p class="text-sm sm:text-base text-[#3D5A5E] leading-relaxed max-w-2xl mx-auto">
+          Chaque fibre noble possède son protocole dédié : température calibrée, injection-extraction douce et solvants neutres respectueux des coloris précieux.
         </p>
       </div>
 
-      <!-- Précision technique -->
-      <div class="space-y-3 pt-6 border-t border-brand-primary-light/60">
-        <p class="text-sm text-brand-muted leading-relaxed">
-          Les résultats dépendent du type de matériau et de l'état de la surface. Nous évaluons chaque situation avant d'intervenir.
-        </p>
+      <!-- Grille des 4 Traitements Spécialisés -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+        {specializedZones.map((zone) => (
+          <div class="group relative bg-white rounded-3xl border border-[#0E7C86]/15 p-7 sm:p-9 shadow-[0_8px_30px_rgba(11,42,46,0.04)] hover:shadow-[0_16px_40px_rgba(11,42,46,0.08)] hover:border-[#0E7C86]/40 transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <!-- En-tête de carte -->
+              <div class="flex items-center justify-between pb-5 border-b border-[#0E7C86]/10">
+                <div class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-xl bg-[#E3F4F5] text-[#0E7C86] font-mono font-bold text-xs flex items-center justify-center">
+                    {zone.code}
+                  </span>
+                  <span class="text-xs font-bold uppercase tracking-wider text-[#0E7C86]">
+                    {zone.subtitle}
+                  </span>
+                </div>
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#0B2A2E]/70 bg-[#F5FAFA] px-2.5 py-1 rounded-full border border-[#0E7C86]/10">
+                  Haute Précision
+                </span>
+              </div>
+
+              <!-- Titre et description -->
+              <h3 class="text-xl sm:text-2xl font-bold text-[#0B2A2E] mt-5 mb-2 group-hover:text-[#0E7C86] transition-colors">
+                {zone.zone}
+              </h3>
+
+              <p class="text-xs sm:text-sm text-[#3D5A5E] leading-relaxed mb-6">
+                {zone.description}
+              </p>
+
+              <!-- Points d'action précis -->
+              <ul class="space-y-3 pt-2" role="list">
+                {zone.points.map((pt) => (
+                  <li class="flex items-start gap-3 text-xs sm:text-sm text-[#0B2A2E]">
+                    <span class="w-5 h-5 rounded-full bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">
+                      ✓
+                    </span>
+                    <span class="font-medium">{pt}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <!-- Pied de carte -->
+            <div class="mt-8 pt-4 border-t border-[#0E7C86]/10 flex items-center justify-between text-[11px] font-semibold text-[#3D5A5E]">
+              <span class="flex items-center gap-1.5 text-[#0E7C86]">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Sans risque de décoloration
+              </span>
+              <span class="text-[#0B2A2E]/50">Séchage optimisé 4-6h</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Bloc Reassurance Diagnostic Photo -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0B2A2E] to-[#0A5A62] p-8 sm:p-10 text-white shadow-xl">
+        <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div class="space-y-2 max-w-2xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-[11px] font-bold text-white uppercase tracking-wider">
+              <span>Diagnostic Express sous 24h</span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold text-white">
+              Vous avez des photos des surfaces ou taches à traiter ?
+            </h3>
+            <p class="text-xs sm:text-sm text-white/80 leading-relaxed">
+              Téléversez jusqu'à 3 clichés directement dans notre formulaire : nos spécialistes évaluent la matière et vous délivrent une recommandation précise avec chiffrage sans surprise.
+            </p>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+            <a
+              href="/soumission/"
+              class="px-7 py-3.5 text-xs font-bold text-[#0B2A2E] bg-white hover:bg-[#E3F4F5] rounded-full transition-all duration-200 text-center shadow-md hover:scale-[1.02] active:scale-[0.98] no-underline"
+            >
+              Joindre mes photos & devis ↗
+            </a>
+          </div>
+        </div>
       </div>
 
     </div>
   </section>
 
-  <!-- BANDE FINALE -->
+  <!-- 3. BANDEAU DE CONVERSION -->
   <CtaBanner
-    title="Besoin d'un nettoyage spécialisé ?"
-    description="Décrivez-nous votre meuble, tapis ou véhicule pour recevoir une évaluation sur-mesure."
-    ctaText="Obtenir une soumission"
+    title="Besoin de raviver vos canapés, tapis ou matelas ?"
+    description="Nos techniciens interviennent chez vous à Montréal, Longueuil et dans Lanaudière."
+    ctaText="Demander une soumission spécialisée"
     ctaLink="/soumission/"
   />
 

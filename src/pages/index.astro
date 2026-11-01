@@ -1,10 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import HeroConcierge from '../components/home/HeroConcierge.astro';
-import ApproachStatement from '../components/home/ApproachStatement.astro';
-import ServicesBento from '../components/home/ServicesBento.astro';
+import HeroOffcut from '../components/home/HeroOffcut.astro';
+import MarqueeTicker from '../components/home/MarqueeTicker.astro';
+import ServicesCollection from '../components/home/ServicesCollection.astro';
 import PillarsOfExcellence from '../components/home/PillarsOfExcellence.astro';
+import CardJourneySection from '../components/sections/card-journey/CardJourneySection.astro';
 import ProcessConcierge from '../components/home/ProcessConcierge.astro';
+import TerritoriesSection from '../components/home/TerritoriesSection.astro';
 import CtaBanner from '../components/ui/CtaBanner.astro';
 
 const pageTitle = "unilka — Entretien ménager & Nettoyage haut de gamme à Montréal";
@@ -13,62 +15,49 @@ const pageDescription = "Service d'entretien ménager haut de gamme à Montréal
 
 <BaseLayout title={pageTitle} description={pageDescription}>
   
-  <!-- 1. HERO CONCIERGERIE & MODULE INTERACTIF -->
-  <HeroConcierge />
+  <!-- 1. HERO ARCHITECTURALE & ÉDITORIALE -->
+  <HeroOffcut />
 
-  <!-- 2. PHILOSOPHIE & 3 ENGAGEMENTS D'EXCELLENCE -->
-  <ApproachStatement />
+  <!-- 2. RUBAN DÉFILANT CONTINU -->
+  <MarqueeTicker />
 
-  <!-- 3. BENTO GRID ÉDITORIAL DES SERVICES -->
-  <ServicesBento />
+  <!-- 3. COLLECTION DES SERVICES (AVEC FILTRES PILLS) -->
+  <ServicesCollection />
 
-  <!-- 4. LES STANDARDS D'EXCELLENCE (4 PILIERS NUMÉROTÉS) -->
-  <PillarsOfExcellence />
+  <!-- 4. CARD JOURNEY SECTION (OPTION 2 SHARINGAN / RASENGAN) -->
+  <CardJourneySection />
 
-  <!-- 5. PARCOURS DE SOUMISSION SANS ENGAGEMENT -->
+  <!-- 5. PARCOURS CONCIERGE SANS ENGAGEMENT -->
   <ProcessConcierge />
 
-  <!-- 6. ZONES DESSERVIES (MONTRÉAL, RIVE-SUD, LANAUDIÈRE) -->
-  <section class="py-20 lg:py-24 bg-white" aria-labelledby="zones-title">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-      <span class="text-xs font-bold uppercase tracking-widest text-brand-primary">Territoires d'Intervention</span>
-      <h2 id="zones-title" class="text-3xl sm:text-4xl font-black text-brand-navy tracking-tight">
-        Où intervenons-nous ?
-      </h2>
-      <p class="text-base sm:text-lg text-brand-muted max-w-2xl mx-auto leading-relaxed">
-        Nous desservons activement Montréal, Longueuil et la Rive-Sud, ainsi que plusieurs secteurs de Lanaudière. La disponibilité s'adapte selon la distance et la nature des services demandés.
-      </p>
-      <div class="pt-2">
-        <a
-          href="/zones-desservies/"
-          class="inline-flex items-center justify-center px-6 py-3.5 text-sm font-bold text-brand-navy bg-brand-surface-subtle hover:bg-brand-primary-light border border-brand-primary-light rounded-lg transition-all duration-150 no-underline"
-        >
-          <span>Consulter les zones desservies</span>
-          <span class="ml-2" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
+  <!-- 6. TERRITOIRES DESSERVIS (MONTRÉAL, RIVE-SUD, LANAUDIÈRE) -->
+  <TerritoriesSection />
 
-  <!-- 7. SECTION CARRIÈRES / RECRUTEMENT -->
-  <section class="py-14 bg-brand-navy text-white" aria-labelledby="careers-banner-title">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
-      <div class="space-y-2 text-center md:text-left">
-        <span class="text-xs font-bold uppercase tracking-widest text-brand-accent">Rejoindre l'équipe</span>
-        <h2 id="careers-banner-title" class="text-xl sm:text-2xl font-bold text-white">
-          Vous cherchez une opportunité d'emploi valorisante ?
-        </h2>
-        <p class="text-sm text-white/70 max-w-xl">
-          Nous recrutons des préposé(e)s sérieux et rigoureux : missions régulières, flexibilité d'horaires et respect de votre travail.
-        </p>
-      </div>
-      <div class="shrink-0">
-        <a
-          href="/carrieres/"
-          class="inline-flex items-center justify-center px-6 py-3.5 text-sm font-bold text-brand-navy bg-white hover:bg-brand-gold-light rounded-lg shadow-sm transition-all duration-150 no-underline"
-        >
-          <span>Postuler en ligne &rarr;</span>
-        </a>
+  <!-- 7. SECTION CARRIÈRES / RECRUTEMENT VALORISANT -->
+  <section class="py-14 lg:py-16 bg-[#F5FAFA] border-b border-[#0E7C86]/12" aria-labelledby="careers-banner-title">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="rounded-3xl bg-white border border-[#0E7C86]/15 p-8 sm:p-12 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8">
+        <div class="space-y-3 text-center md:text-left max-w-2xl">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E3F4F5] text-[#0E7C86] text-[11px] font-bold uppercase tracking-wider">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#0E7C86]"></span>
+            <span>Carrières & Opportunités</span>
+          </div>
+          <h2 id="careers-banner-title" class="text-2xl sm:text-3xl font-extrabold text-[#0B2A2E] tracking-tight">
+            Vous partagez notre goût du travail soigné ?
+          </h2>
+          <p class="text-sm sm:text-base text-[#3D5A5E] leading-relaxed">
+            Nous recrutons des préposé(e)s sérieux et attentionnés : missions régulières, planning respectueux de votre équilibre, équipement fourni et reconnaissance de votre savoir-faire.
+          </p>
+        </div>
+        <div class="shrink-0">
+          <a
+            href="/carrieres/"
+            class="inline-flex items-center justify-center px-7 py-3.5 text-sm font-bold text-white bg-[#0B2A2E] hover:bg-[#0E7C86] rounded-full shadow-sm hover:shadow-md transition-all duration-200 no-underline hover:-translate-y-0.5 active:translate-y-0"
+          >
+            <span>Postuler chez unilka</span>
+            <span class="ml-2 font-bold" aria-hidden="true">↗</span>
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -76,7 +65,7 @@ const pageDescription = "Service d'entretien ménager haut de gamme à Montréal
   <!-- 8. BANDEAU DE CONVERSION FINAL -->
   <CtaBanner
     title="Prêt(e) à retrouver la sérénité d'un intérieur irréprochable ?"
-    description="Quelques minutes suffisent pour nous faire part de vos besoins. Vous recevrez une proposition personnalisée sous 24h."
+    description="Quelques minutes suffisent pour nous faire part de vos besoins. Vous recevrez une proposition personnalisée, claire et sans engagement sous 24h."
     ctaText="Demander une soumission"
     ctaLink="/soumission/"
   />

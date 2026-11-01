@@ -1,46 +1,123 @@
 ---
 // Étape 3C : Détails spécialisés (conditionnel)
 ---
-<fieldset id="block-specialized" class="hidden p-6 sm:p-8 bg-white rounded-2xl border border-brand-primary-light/80 shadow-xs space-y-6">
-  <legend class="text-xl font-bold text-brand-text flex items-center gap-2">
-    <span class="w-7 h-7 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center shrink-0">3</span>
-    <span>Détails spécialisés</span>
-  </legend>
+<fieldset id="block-specialized" class="hidden relative bg-white rounded-3xl border border-[#0E7C86]/20 p-6 sm:p-10 shadow-[0_12px_40px_rgba(11,42,46,0.06)] space-y-8 overflow-hidden">
+  
+  <!-- Accent décoratif d'arrière-plan -->
+  <div class="absolute -top-24 -right-24 w-64 h-64 bg-gradient-to-br from-[#E3F4F5]/60 to-transparent rounded-full blur-2xl pointer-events-none" aria-hidden="true"></div>
 
+  <!-- En-tête éditorial de l'étape -->
+  <div class="relative border-b border-[#0E7C86]/12 pb-6 space-y-2">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E3F4F5] border border-[#0E7C86]/20 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[#0A5A62]">
+      <span class="w-2 h-2 rounded-full bg-[#0E7C86]"></span>
+      <span>Étape 03 • Nettoyage de Haute Précision</span>
+    </div>
+    
+    <legend class="text-2xl sm:text-3xl font-extrabold text-[#0B2A2E] tracking-tight block">
+      Surfaces et textiles ciblés
+    </legend>
+    
+    <p class="text-sm sm:text-base text-[#3D5A5E] leading-relaxed max-w-2xl">
+      Traitement par injection-extraction à chaud, élimination des acariens, désodorisation enzymatique et détachage haute performance.
+    </p>
+  </div>
+
+  <!-- 1. CARTES DES ÉLÉMENTS SPÉCIALISÉS -->
   <div class="space-y-3">
-    <label class="block text-sm font-bold text-brand-text">
-      Que souhaitez-vous faire nettoyer ? <span class="text-brand-error" aria-hidden="true">*</span>
-    </label>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+    <div class="flex items-center justify-between">
+      <label class="text-xs font-black uppercase tracking-wider text-[#0B2A2E]">
+        Que souhaitez-vous faire traiter ? <span class="text-[#0E7C86]">*</span>
+      </label>
+      <span class="text-[11px] text-[#3D5A5E]/70">Sélectionnez au moins 1 élément</span>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
       {[
-        "Canapés et fauteuils",
-        "Tapis et carpettes",
-        "Matelas",
-        "Intérieur de véhicule",
-        "Surface particulièrement sale",
-        "Lieu inoccupé depuis longtemps"
+        {
+          name: "Canapés et fauteuils",
+          tag: "Tissus & Cuirs",
+          desc: "Sectionnels, méridiennes, causeuses & chaises capitonnées"
+        },
+        {
+          name: "Tapis et carpettes",
+          tag: "Fibres délicates",
+          desc: "Tapis en laine, synthétiques, d'Orient ou de soie"
+        },
+        {
+          name: "Matelas",
+          tag: "Hygiène & Acariens",
+          desc: "Désinfection anti-allergène & détachage en profondeur"
+        },
+        {
+          name: "Intérieur de véhicule",
+          tag: "Habitacle auto",
+          desc: "Sièges, plafonnier, moquettes & plastiques de bord"
+        },
+        {
+          name: "Surface particulièrement sale",
+          tag: "Taches tenaces",
+          desc: "Huile, graisses incrustées, suie ou moisissures ciblées"
+        },
+        {
+          name: "Lieu inoccupé depuis longtemps",
+          tag: "Remise à blanc",
+          desc: "Nettoyage choc, dépoussiérage intégral & aération active"
+        }
       ].map((item) => (
-        <label class="flex items-center gap-2.5 p-3 rounded-lg border border-brand-primary-light text-xs sm:text-sm font-medium cursor-pointer hover:bg-brand-surface-subtle has-[:checked]:bg-brand-primary-light/50 has-[:checked]:border-brand-primary">
-          <input type="checkbox" name="specializedItems" value={item} class="w-4 h-4 text-brand-primary rounded" />
-          <span>{item}</span>
+        <label class="flex flex-col justify-between p-4 rounded-2xl border border-[#0E7C86]/20 bg-[#F8FCFC] cursor-pointer hover:bg-white hover:border-[#0E7C86]/50 transition-all duration-200 shadow-2xs group has-[:checked]:border-[#0E7C86] has-[:checked]:bg-[#E3F4F5]/40 has-[:checked]:ring-2 has-[:checked]:ring-[#0E7C86]/20">
+          <div>
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-[10px] font-black uppercase tracking-wider text-[#0A5A62] bg-[#E3F4F5] px-2 py-0.5 rounded-full">
+                {item.tag}
+              </span>
+              <input
+                type="checkbox"
+                name="specializedItems"
+                value={item.name}
+                class="w-4 h-4 text-[#0E7C86] rounded border-[#0E7C86]/40 focus:ring-[#0E7C86] mt-0.5"
+              />
+            </div>
+            <h4 class="text-sm font-extrabold text-[#0B2A2E] leading-snug group-has-[:checked]:text-[#0A5A62]">
+              {item.name}
+            </h4>
+            <p class="text-[11px] text-[#3D5A5E]/80 mt-1 leading-relaxed">
+              {item.desc}
+            </p>
+          </div>
         </label>
       ))}
     </div>
-    <span id="specializedItems-error" class="hidden text-xs text-brand-error" role="alert">Veuillez choisir au moins une option.</span>
+    
+    <span id="specializedItems-error" class="hidden text-xs font-semibold text-brand-error mt-2 flex items-center gap-1.5" role="alert">
+      <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+      <span>Veuillez sélectionner au moins une option à nettoyer.</span>
+    </span>
   </div>
 
-  <div>
-    <label for="specializedDetails" class="block text-sm font-bold text-brand-text mb-1.5">
-      Combien d'éléments ? Dimensions, tailles ou type de véhicule
+  <!-- 2. DÉTAILS SPÉCIALISÉS (DIMENSIONS / TYPE) -->
+  <div class="space-y-2 pt-6 border-t border-[#0E7C86]/12">
+    <label for="specializedDetails" class="text-xs font-black uppercase tracking-wider text-[#0B2A2E] block">
+      Dimensions, quantités ou modèle de véhicule
     </label>
-    <input
-      type="text"
-      id="specializedDetails"
-      name="specializedDetails"
-      maxlength="200"
-      placeholder="Ex. 1 canapé 3 places en tissu, 1 tapis 8x10, VUS compact"
-      class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
-    />
+    
+    <div class="relative group">
+      <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#0E7C86]/70 group-focus-within:text-[#0E7C86]">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+        </svg>
+      </div>
+      <input
+        type="text"
+        id="specializedDetails"
+        name="specializedDetails"
+        maxlength="200"
+        placeholder="Ex. 1 canapé d'angle 5 places en velours, 1 tapis 8x10 en laine, VUS Tesla Model Y..."
+        class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-[#F8FCFC] border border-[#0E7C86]/20 text-sm font-semibold text-[#0B2A2E] placeholder:text-[#3D5A5E]/40 focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#0E7C86]/12 focus:border-[#0E7C86] transition-all duration-200 shadow-2xs"
+      />
+    </div>
+    <p class="text-xs text-[#3D5A5E]/80">
+      Permet d'appliquer le barème forfaitaire exact selon le métrage et les matières sans déplacement d'évaluation préalable.
+    </p>
   </div>
 
 </fieldset>

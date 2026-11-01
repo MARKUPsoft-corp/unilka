@@ -1,0 +1,403 @@
+---
+// Hero unilka — Charte graphique officielle & Typographie Manrope
+---
+
+<section class="offcut-hero">
+  <!-- Colonne Gauche : Typographie et CTA -->
+  <div class="hero-copy">
+    <p class="eyebrow">
+      <span class="status-dot" aria-hidden="true"></span>
+      ENTRETIEN HAUT DE GAMME • MONTRÉAL & ENVIRONS
+    </p>
+
+    <h1 class="hero-title">
+      <span class="title-line-dark">Espaces nets.</span>
+      <span class="title-line-brand">Esprit libre.</span>
+    </h1>
+
+    <div class="hero-bottom-copy">
+      <p>
+        La rigueur et la discrétion de l'hôtellerie au service de votre intérieur.<br />
+        Résidences privées, copropriétés et locaux professionnels.<br />
+        Interventions sur-mesure, sans contrat d'engagement.
+      </p>
+
+      <a role="link" class="hero-btn" href="/soumission/">
+        <span>Obtenir une soumission</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="cta-arrow" aria-hidden="true">
+          <path d="M7 7h10v10"></path>
+          <path d="M7 17 17 7"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Colonne Droite : Photo Asymétrique & Badges Offcut -->
+  <div class="hero-photo">
+    <img
+      src="/images/hero-unilka.jpg"
+      alt="Intérieur contemporain lumineux et impeccable entretenu selon les standards hôteliers par unilka"
+      loading="eager"
+      decoding="async"
+    />
+    
+
+    <!-- Légende haut-droite -->
+    <span class="photo-caption">
+      TROIS EXIGENCES CLÉS<br />
+      POUR VOTRE SÉRÉNITÉ.
+    </span>
+
+    <!-- Badge Circulaire Rotatif bas-droite -->
+    <a class="round-note" href="#services" aria-label="Découvrir nos services">
+      <span>ZÉRO CONTRAT.<br />100% SÉRÉNITÉ.</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 5v14"></path>
+        <path d="m19 12-7 7-7-7"></path>
+      </svg>
+    </a>
+  </div>
+
+  <!-- Barre basse du Hero (Hero Foot) -->
+  <div class="hero-foot">
+    <span>
+      STANDARDS HÔTELIERS.<br />
+      PERSONNEL QUALIFIÉ ET SALARIÉ.
+    </span>
+    <span>
+      DISCRÉTION ABSOLUE.<br />
+      PRODUITS RESPECTUEUX ET SAINS.
+    </span>
+    <a href="/a-propos/">NOTRE PHILOSOPHIE ↓</a>
+  </div>
+</section>
+
+<style>
+  /* Structure Grille Offcut */
+  .offcut-hero {
+    display: grid;
+    grid-template-columns: 46% 54%;
+    padding: 38px 4% 0;
+    position: relative;
+    background-color: #FFFFFF;
+    overflow-x: clip;
+    align-items: center;
+  }
+
+  .hero-copy {
+    z-index: 2;
+    padding: 24px 24px 38px 0;
+    position: relative;
+    min-width: 0;
+  }
+
+  /* Eyebrow avec puce animée */
+  .eyebrow {
+    font-family: var(--font-body, 'Manrope', sans-serif);
+    letter-spacing: 0.12em;
+    font-size: 11.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--color-primary-dark, #0A5A62);
+    display: flex;
+    align-items: center;
+    margin: 0;
+  }
+
+  .status-dot {
+    background: var(--color-primary, #0E7C86);
+    width: 8px;
+    height: 8px;
+    box-shadow: 0 0 0 4px color-mix(in srgb, #0E7C86 22%, transparent);
+    border-radius: 50%;
+    margin-right: 10px;
+    display: inline-block;
+    animation: pulse-dot 2.5s infinite ease-in-out;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 4px color-mix(in srgb, #0E7C86 25%, transparent);
+    }
+    50% {
+      transform: scale(1.2);
+      box-shadow: 0 0 0 8px color-mix(in srgb, #0E7C86 0%, transparent);
+    }
+  }
+
+  /* Titre Signature Offcut — Puissant, Aéré, Dualité Sans + Serif Italique */
+  .hero-title {
+    font-family: var(--font-body, 'Manrope', sans-serif);
+    letter-spacing: -0.035em;
+    margin-top: 28px;
+    margin-bottom: 0;
+    font-size: clamp(38px, 5.5vw, 76px);
+    line-height: 1.08;
+    position: relative;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    word-break: normal;
+    overflow-wrap: normal;
+  }
+
+  .title-line-dark {
+    color: var(--ink, #0B2A2E);
+    display: block;
+    white-space: nowrap;
+    font-weight: 700;
+  }
+
+  .title-line-brand {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-primary, #0E7C86);
+    display: block;
+    letter-spacing: -0.015em;
+    white-space: nowrap;
+  }
+
+  /* Paragraphe et Bouton */
+  .hero-bottom-copy {
+    margin-top: 28px;
+  }
+
+  .hero-bottom-copy p {
+    font-size: 16px;
+    line-height: 1.75;
+    color: #3D5A5E; /* Texte secondaire unilka */
+    font-family: var(--font-body, 'Manrope', sans-serif);
+    margin: 0;
+    max-width: 48ch;
+  }
+
+  .hero-btn {
+    background: #0B2A2E;
+    min-height: 54px;
+    color: #FFFFFF;
+    border-radius: 9999px;
+    border: 1px solid transparent;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 34px;
+    font-size: 15px;
+    font-weight: 700;
+    transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+    display: inline-flex;
+    text-decoration: none;
+    font-family: var(--font-body, 'Manrope', sans-serif);
+    margin-top: 30px;
+    box-shadow: 0 4px 18px rgba(11, 42, 46, 0.18);
+  }
+
+  .cta-arrow {
+    transition: transform 0.25s cubic-bezier(0.2, 0.75, 0.2, 1);
+  }
+
+  .hero-btn:hover {
+    background: var(--color-primary, #0E7C86);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(14, 124, 134, 0.35);
+  }
+
+  .hero-btn:hover .cta-arrow {
+    transform: translate(3px, -3px);
+  }
+
+  .hero-btn:active {
+    transform: scale(0.97);
+  }
+
+
+  /* Bloc Photo Asymétrique */
+  .hero-photo {
+    background: #E8E2D2;
+    border-radius: 140px 14px 14px 14px;
+    min-height: 540px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(11, 42, 46, 0.08);
+  }
+
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+    display: block;
+    position: absolute;
+    inset: 0;
+    transition: transform 0.6s cubic-bezier(0.2, 0.75, 0.2, 1);
+  }
+
+  .hero-photo:hover img {
+    transform: scale(1.03);
+  }
+
+  /* Légende en haut à droite */
+  .photo-caption {
+    text-align: right;
+    letter-spacing: 0.06em;
+    color: #FFFFFF;
+    text-shadow: 0 1px 4px rgba(11, 42, 46, 0.7);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.5;
+    position: absolute;
+    top: 28px;
+    right: 28px;
+    z-index: 2;
+    font-family: var(--font-body, 'Manrope', sans-serif);
+  }
+
+  /* Badge Circulaire Rotatif */
+  .round-note {
+    background: #FFFFFF;
+    border-radius: 50%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: 124px;
+    height: 124px;
+    transition: transform 0.3s cubic-bezier(0.2, 0.75, 0.2, 1);
+    display: flex;
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    transform: rotate(10deg);
+    box-shadow: 0 8px 24px rgba(11, 42, 46, 0.12);
+    color: var(--ink, #0B2A2E);
+    text-decoration: none;
+    z-index: 3;
+    border: 1.5px solid rgba(14, 124, 134, 0.2);
+  }
+
+  .round-note span {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+    font-family: var(--font-body, 'Manrope', sans-serif);
+  }
+
+  .round-note svg {
+    color: var(--color-primary, #0E7C86);
+    transition: transform 0.25s ease;
+  }
+
+  .round-note:hover {
+    transform: rotate(-6deg) scale(1.05);
+  }
+
+  .round-note:hover svg {
+    transform: translateY(2px);
+  }
+
+  /* Pied du Hero (Hero Foot) */
+  .hero-foot {
+    letter-spacing: 0.04em;
+    grid-column: 1 / -1;
+    justify-content: space-between;
+    padding: 28px 0 35px;
+    font-size: 11px;
+    line-height: 1.6;
+    display: flex;
+    font-family: var(--font-body, 'Manrope', sans-serif);
+    color: var(--ink, #0B2A2E);
+    font-weight: 600;
+    border-top: 1px solid var(--line, rgba(11, 42, 46, 0.12));
+    margin-top: 24px;
+  }
+
+  .hero-foot a {
+    align-self: center;
+    font-weight: 700;
+    color: var(--color-primary, #0E7C86);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .hero-foot a:hover {
+    color: var(--color-primary-dark, #0A5A62);
+  }
+
+  /* Responsive Tablettes & Mobiles */
+  @media (max-width: 1024px) {
+    .offcut-hero {
+      grid-template-columns: 1fr;
+      padding-top: 16px;
+    }
+    .hero-photo {
+      min-height: 480px;
+    }
+    .hero-title {
+      font-size: clamp(34px, 5.5vw, 48px);
+    }
+    .hero-bottom-copy p {
+      font-size: 15px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .offcut-hero {
+      grid-template-columns: 1fr;
+      padding: 24px 20px 0;
+      background-color: #FFFFFF;
+      overflow-x: hidden;
+    }
+    .hero-copy {
+      padding: 0 0 28px 0;
+    }
+    .hero-title {
+      margin-top: 18px;
+      font-size: clamp(40px, 11vw, 56px);
+      letter-spacing: -0.035em;
+      line-height: 1.05;
+    }
+    .hero-bottom-copy {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .hero-bottom-copy p {
+      font-size: 15px;
+      line-height: 1.65;
+    }
+    .hero-btn {
+      margin-top: 22px;
+      width: 100%;
+      max-width: 320px;
+    }
+    .hero-photo {
+      border-radius: 90px 14px 14px 14px;
+      height: 380px;
+      min-height: 0;
+      margin: 12px 0 0;
+    }
+    .hero-foot {
+      padding: 20px 0 25px;
+      font-size: 9.5px;
+    }
+    .hero-foot > span:nth-child(2) {
+      display: none;
+    }
+    .round-note {
+      width: 92px;
+      height: 92px;
+    }
+    .round-note span {
+      font-size: 8.5px;
+    }
+    .round-note svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+</style>

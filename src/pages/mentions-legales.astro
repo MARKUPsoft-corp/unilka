@@ -2,8 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import config from '../data/site-config.json';
 
-const pageTitle = "Mentions légales — unilka";
-const pageDescription = "Mentions légales et conditions d'utilisation du site unilka.";
+const pageTitle = "Mentions Légales & Conditions — unilka";
+const pageDescription = "Mentions légales, informations d'entreprise et conditions d'utilisation du site unilka à Montréal.";
 
 const breadcrumbs = [
   { label: "Mentions légales", href: "/mentions-legales/" }
@@ -12,83 +12,67 @@ const breadcrumbs = [
 
 <BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
 
-  <section class="py-12 lg:py-16 bg-white">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+  <section class="py-16 lg:py-24 bg-[#FFFFFF]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
       
-      <div class="space-y-3 pb-6 border-b border-brand-primary-light/80">
-        <h1 class="text-3xl sm:text-4xl font-black text-brand-text tracking-tight">
-          Mentions légales
+      <div class="space-y-4 pb-8 border-b border-[#0E7C86]/15">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E3F4F5] border border-[#0E7C86]/20">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#0E7C86]"></span>
+          <span class="text-[11px] font-bold uppercase tracking-[0.14em] text-[#0E7C86]">
+            Cadre Réglementaire Québécois
+          </span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B2A2E] tracking-tight">
+          Mentions légales.
         </h1>
-        <p class="text-xs text-brand-muted">
-          Conditions d'utilisation et informations légales applicables au site unilka.
+
+        <p class="text-sm sm:text-base text-[#3D5A5E]">
+          Conditions d'utilisation et informations relatives à l'exploitation de la marque unilka.
         </p>
       </div>
 
-      <div class="space-y-8 text-brand-text leading-relaxed text-sm sm:text-base">
+      <div class="space-y-10 text-[#3D5A5E] leading-relaxed text-sm sm:text-base">
         
-        <!-- Éditeur du site -->
-        <section class="space-y-3">
-          <h2 class="text-xl font-bold text-brand-text">1. Éditeur du site</h2>
-          <p class="text-brand-muted">
-            Le présent site est édité par l'entreprise <strong>{config.business.legalName || config.business.name}</strong>, exploitée sous la marque <strong>unilka</strong>.
+        <!-- Éditeur -->
+        <section class="space-y-3 p-6 rounded-2xl bg-[#F5FAFA] border border-[#0E7C86]/12">
+          <h2 class="text-lg font-extrabold text-[#0B2A2E]">1. Éditeur de la plateforme</h2>
+          <p>
+            Le présent site web est édité et exploité par l'entreprise <strong>{config.business.legalName || config.business.name}</strong>, exerçant sous le nom commercial <strong>unilka</strong> au Québec, Canada.
           </p>
           {config.business.neq && (
-            <p class="text-brand-muted">
-              Numéro d'entreprise du Québec (NEQ) : <strong>{config.business.neq}</strong>.
+            <p>
+              Numéro d'Entreprise du Québec (NEQ) : <strong class="text-[#0B2A2E]">{config.business.neq}</strong>.
             </p>
           )}
           {config.business.email && (
-            <p class="text-brand-muted">
-              Courriel de contact : <a href={`mailto:${config.business.email}`} class="text-brand-primary">{config.business.email}</a>.
+            <p>
+              Courriel de contact légal : <a href={`mailto:${config.business.email}`} class="text-[#0E7C86] font-semibold underline">{config.business.email}</a>.
             </p>
           )}
         </section>
 
         <!-- Hébergement -->
-        <section class="space-y-3">
-          <h2 class="text-xl font-bold text-brand-text">2. Hébergement</h2>
-          <p class="text-brand-muted">
-            Le site est hébergé sur l'infrastructure cloud de <strong>Vercel Inc.</strong>, située au 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis (<a href="https://vercel.com" target="_blank" rel="noopener noreferrer" class="text-brand-primary">vercel.com</a>).
+        <section class="space-y-3 p-6 rounded-2xl bg-[#F5FAFA] border border-[#0E7C86]/12">
+          <h2 class="text-lg font-extrabold text-[#0B2A2E]">2. Infrastructure & Hébergement</h2>
+          <p>
+            Le site est hébergé sur le réseau haute disponibilité de <strong>Vercel Inc.</strong>, situé au 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis (<a href="https://vercel.com" target="_blank" rel="noopener noreferrer" class="text-[#0E7C86] font-semibold underline">vercel.com</a>).
           </p>
         </section>
 
         <!-- Propriété intellectuelle -->
-        <section class="space-y-3">
-          <h2 class="text-xl font-bold text-brand-text">3. Propriété intellectuelle</h2>
-          <p class="text-brand-muted">
-            L'ensemble des contenus figurant sur ce site (textes, graphismes, logotype, illustrations vectorielles et icônes) sont la propriété exclusive de unilka ou font l'objet d'une autorisation d'utilisation. Toute reproduction, distribution ou diffusion, intégrale ou partielle, sans accord écrit préalable est interdite.
+        <section class="space-y-3 p-6 rounded-2xl bg-[#F5FAFA] border border-[#0E7C86]/12">
+          <h2 class="text-lg font-extrabold text-[#0B2A2E]">3. Propriété intellectuelle</h2>
+          <p>
+            L'ensemble des éléments constituant le site (arborescence, photographies éditoriales, identité graphique, textes, typographies et logotype unilka®) sont protégés par le droit de la propriété intellectuelle et demeurent la propriété exclusive de unilka inc. Toute reproduction totale ou partielle sans accord préalable écrit est formellement prohibée.
           </p>
         </section>
 
-        <!-- Nature des informations et soumissions -->
-        <section class="space-y-3">
-          <h2 class="text-xl font-bold text-brand-text">4. Nature des informations et soumissions</h2>
-          <p class="text-brand-muted">
-            Les contenus présentés sur ce site le sont à titre informatif. Une demande de soumission ou une estimation formulée via ce site ne constitue pas un engagement contractuel ferme. Une soumission ne devient contractuelle qu'après confirmation écrite et acceptation formelle par les deux parties.
-          </p>
-        </section>
-
-        <!-- Limitation de responsabilité -->
-        <section class="space-y-3">
-          <h2 class="text-xl font-bold text-brand-text">5. Limitation de responsabilité</h2>
-          <p class="text-brand-muted">
-            unilka apporte le plus grand soin à la mise à jour des informations présentées sur le site. Toutefois, nous ne saurions être tenus responsables d'éventuelles omissions, inexactitudes ou indisponibilités temporaires du service.
-          </p>
-        </section>
-
-        <!-- Liens externes -->
-        <section class="space-y-3">
-          <h2 class="text-xl font-bold text-brand-text">6. Liens externes</h2>
-          <p class="text-brand-muted">
-            Le site peut contenir des liens vers des sites tiers. unilka n'exerce aucun contrôle sur le contenu de ces sites et décline toute responsabilité quant à leurs pratiques.
-          </p>
-        </section>
-
-        <!-- Droit applicable -->
-        <section class="space-y-3">
-          <h2 class="text-xl font-bold text-brand-text">7. Droit applicable et juridiction</h2>
-          <p class="text-brand-muted">
-            Les présentes mentions légales sont régies par les lois applicables dans la province de Québec et les lois du Canada. Tout litige relatif à l'interprétation ou à l'exécution des présentes sera soumis à la compétence exclusive des tribunaux du district judiciaire de Montréal, Québec.
+        <!-- Absence de traceurs publicitaires -->
+        <section class="space-y-3 p-6 rounded-2xl bg-[#F5FAFA] border border-[#0E7C86]/12">
+          <h2 class="text-lg font-extrabold text-[#0B2A2E]">4. Vie privée & Absence de témoins traceurs</h2>
+          <p>
+            Ce site est conçu dans le plus strict respect de votre vie privée : aucun témoin (cookie) de pistage publicitaire ou tiers n'est déposé sur votre appareil. Consultez notre <a href="/confidentialite/" class="text-[#0E7C86] font-semibold underline">Politique de confidentialité</a> pour en savoir plus sur l'application de la Loi 25.
           </p>
         </section>
 

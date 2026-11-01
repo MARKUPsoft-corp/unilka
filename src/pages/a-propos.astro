@@ -1,105 +1,246 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import FeatureCard from '../components/cards/FeatureCard.astro';
 import CtaBanner from '../components/ui/CtaBanner.astro';
 
-const pageTitle = "À propos de unilka — Nettoyage professionnel";
-const pageDescription = "Découvrez notre approche : un service professionnel, prompt et personnalisé pour des espaces propres, sains et agréables.";
+const pageTitle = "Notre Méthode & Histoire — unilka";
+const pageDescription = "Découvrez l'exigence hôtelière unilka : des protocoles rigoureux, une discrétion absolue et des produits respectueux de votre intérieur à Montréal.";
 
 const breadcrumbs = [
-  { label: "À propos", href: "/a-propos/" }
+  { label: "Notre méthode", href: "/a-propos/" }
 ];
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
 
-  <!-- EN-TÊTE -->
-  <section class="bg-brand-surface-subtle py-12 lg:py-16 border-b border-brand-primary-light/60">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-text tracking-tight">
-        À propos de unilka
-      </h1>
-      <p class="text-base sm:text-lg text-brand-muted leading-relaxed max-w-2xl mx-auto">
-        Chez unilka, nous croyons qu'un espace propre et bien entretenu contribue directement au confort, au bien-être et à la qualité de vie. Nous offrons des services de nettoyage professionnels adaptés aux besoins des particuliers, des entreprises et des propriétaires.
-      </p>
+  <!-- 1. EN-TÊTE ÉDITORIAL & SPLIT HÉRO -->
+  <section class="py-16 lg:py-24 bg-[#FFFFFF] border-b border-[#0E7C86]/12 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <!-- Colonne Texte -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#E3F4F5] border border-[#0E7C86]/20">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#0E7C86]"></span>
+            <span class="text-[11px] sm:text-xs font-bold uppercase tracking-[0.14em] text-[#0E7C86]">
+              Notre Méthode & Histoire
+            </span>
+          </div>
+
+          <h1 class="text-[clamp(42px,11.5vw,56px)] sm:text-6xl lg:text-7xl font-bold text-[#0B2A2E] tracking-[-0.03em] leading-[1.05]">
+            <span class="block font-bold text-[#0B2A2E] whitespace-nowrap">Notre méthode.</span>
+            <span class="block font-serif italic font-normal text-[#0E7C86] whitespace-nowrap">Votre sanctuaire.</span>
+          </h1>
+
+          <p class="text-base sm:text-lg text-[#3D5A5E] leading-[1.75]">
+            Chez unilka, nous sommes convaincus qu'un espace ordonné et parfaitement sain transforme profondément votre bien-être mental et votre qualité de vie. Nous ne venons pas simplement « faire le ménage » : nous instaurons une atmosphère de sérénité, de lumière et d'ordre absolu.
+          </p>
+
+          <div class="pt-2 flex flex-wrap gap-4">
+            <div class="p-4 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 max-w-xs">
+              <span class="text-2xl font-black text-[#0E7C86]">100%</span>
+              <p class="text-xs font-bold text-[#0B2A2E] uppercase tracking-wider mt-1">Personnel Salarié & Vérifié</p>
+              <p class="text-[11px] text-[#3D5A5E] mt-0.5">Antécédents judiciaires systématiquement contrôlés.</p>
+            </div>
+            <div class="p-4 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 max-w-xs">
+              <span class="text-2xl font-black text-[#0E7C86]">0 Contrat</span>
+              <p class="text-xs font-bold text-[#0B2A2E] uppercase tracking-wider mt-1">Liberté Intégrale</p>
+              <p class="text-[11px] text-[#3D5A5E] mt-0.5">Vous renouvelez nos passages par satisfaction, sans contrainte.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Colonne Photo Éditoriale -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative rounded-[28px] overflow-hidden border border-[#0E7C86]/15 shadow-sm group">
+            <img
+              src="/images/philosophy-unilka.jpg"
+              alt="Intérieur résidentiel épuré et impeccable selon les standards unilka"
+              width="800"
+              height="600"
+              class="w-full h-[380px] sm:h-[440px] object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0B2A2E]/60 via-transparent to-transparent pointer-events-none"></div>
+
+            <div class="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md rounded-2xl p-4 border border-[#0E7C86]/15 flex items-center justify-between shadow-md">
+              <div>
+                <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#0E7C86]">Charte Qualité</span>
+                <p class="text-xs font-bold text-[#0B2A2E]">Montréal • Longueuil • Lanaudière</p>
+              </div>
+              <span class="text-xs font-black text-[#0E7C86] bg-[#E3F4F5] px-2.5 py-1 rounded-full">
+                Excellence
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- CONTENU -->
-  <section class="py-16 bg-white">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+  <!-- 2. LES 4 PILIERS DE NOTRE MÉTHODE -->
+  <section class="py-20 lg:py-24 bg-[#F5FAFA] border-b border-[#0E7C86]/12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
       
-      <!-- Notre objectif -->
-      <div class="p-8 sm:p-10 rounded-2xl bg-brand-primary-light/50 border border-brand-primary/20 text-center space-y-3">
-        <h2 class="text-2xl font-bold text-brand-primary">
-          Notre objectif
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <span class="text-xs font-bold uppercase tracking-[0.14em] text-[#0E7C86]">
+          Nos 4 Fondations
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0B2A2E] tracking-tight">
+          Ce qui forge la signature unilka.
         </h2>
-        <p class="text-xl sm:text-2xl font-extrabold text-brand-text tracking-tight max-w-2xl mx-auto">
-          Vous faire gagner du temps et vous offrir un environnement propre, sain et agréable.
+        <p class="text-base text-[#3D5A5E] leading-relaxed">
+          Chaque intervention répond à des règles strictes de discrétion, de rigueur et d'adaptabilité.
         </p>
       </div>
 
-      <!-- Nos engagements -->
-      <div class="space-y-8">
-        <div class="text-center space-y-2">
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-text tracking-tight">
-            Nos engagements
-          </h2>
-          <p class="text-sm text-brand-muted">
-            Les quatre piliers de la qualité unilka.
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- 01 -->
+        <div class="p-7 rounded-2xl bg-white border border-[#0E7C86]/12 shadow-xs space-y-3 hover:-translate-y-1 transition-transform duration-200">
+          <span class="text-3xl font-black text-[#0E7C86]/25 font-sans">01</span>
+          <h3 class="text-base font-extrabold text-[#0B2A2E]">Rigueur Hôtelière</h3>
+          <p class="text-xs sm:text-sm text-[#3D5A5E] leading-relaxed">
+            Application méthodique de nos grilles de contrôle : traitement minutieux des surfaces, des sanitaires et des boiseries précieuses.
           </p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <FeatureCard
-            title="Un service professionnel"
-            description="Nous accordons une grande importance à la qualité de chaque intervention. Notre objectif est de vous offrir un service professionnel, organisé et adapté à vos attentes."
-            icon="check-shield"
-          />
-          <FeatureCard
-            title="Des personnes sérieuses et compétentes"
-            description="Nous travaillons avec des personnes sérieuses et compétentes afin de vous offrir une expérience de nettoyage sécuritaire et satisfaisante."
-            icon="users"
-          />
-          <FeatureCard
-            title="Promptitude et efficacité"
-            description="Nous respectons les horaires convenus et nous nous efforçons d'effectuer chaque intervention avec efficacité, sans compromettre la qualité du travail."
-            icon="clock"
-          />
-          <FeatureCard
-            title="Un service personnalisé"
-            description="Chaque client et chaque espace sont différents. C'est pourquoi nous prenons le temps de comprendre vos besoins afin de vous proposer une solution adaptée."
-            icon="sparkles"
-          />
+        <!-- 02 -->
+        <div class="p-7 rounded-2xl bg-white border border-[#0E7C86]/12 shadow-xs space-y-3 hover:-translate-y-1 transition-transform duration-200">
+          <span class="text-3xl font-black text-[#0E7C86]/25 font-sans">02</span>
+          <h3 class="text-base font-extrabold text-[#0B2A2E]">Discrétion & Secret</h3>
+          <p class="text-xs sm:text-sm text-[#3D5A5E] leading-relaxed">
+            Vos documents, vos effets personnels et votre vie privée demeurent inviolables. Respect absolu de votre quiétude.
+          </p>
         </div>
-      </div>
 
-      <!-- Notre équipe -->
-      <div class="p-8 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/80 text-center space-y-4">
-        <h2 class="text-2xl font-bold text-brand-text">
-          Notre équipe
-        </h2>
-        <p class="text-base text-brand-muted max-w-xl mx-auto">
-          Nous travaillons avec des personnes sérieuses et compétentes. Vous souhaitez en faire partie ?
-        </p>
-        <div>
-          <a
-            href="/carrieres/"
-            class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-brand-primary bg-white hover:bg-brand-primary-light border border-brand-primary-light rounded-md transition-colors no-underline"
-          >
-            Découvrir nos opportunités d'emploi &rarr;
-          </a>
+        <!-- 03 -->
+        <div class="p-7 rounded-2xl bg-white border border-[#0E7C86]/12 shadow-xs space-y-3 hover:-translate-y-1 transition-transform duration-200">
+          <span class="text-3xl font-black text-[#0E7C86]/25 font-sans">03</span>
+          <h3 class="text-base font-extrabold text-[#0B2A2E]">Ponctualité & Écoute</h3>
+          <p class="text-xs sm:text-sm text-[#3D5A5E] leading-relaxed">
+            Respect des horaires convenus et communication fluide. Nous adaptons le déroulement de la mission à vos impératifs.
+          </p>
         </div>
+
+        <!-- 04 -->
+        <div class="p-7 rounded-2xl bg-white border border-[#0E7C86]/12 shadow-xs space-y-3 hover:-translate-y-1 transition-transform duration-200">
+          <span class="text-3xl font-black text-[#0E7C86]/25 font-sans">04</span>
+          <h3 class="text-base font-extrabold text-[#0B2A2E]">Zéro Cadenas Contractuel</h3>
+          <p class="text-xs sm:text-sm text-[#3D5A5E] leading-relaxed">
+            Vous conservez votre entière liberté d'annuler ou de suspendre vos forfaits. Notre fidélisation s'obtient par la constance.
+          </p>
+        </div>
+
       </div>
 
     </div>
   </section>
 
-  <!-- BANDE FINALE -->
+  <!-- 3. PROTOCOLE EN 42 POINTS D'INSPECTION -->
+  <section class="py-20 lg:py-24 bg-white border-b border-[#0E7C86]/12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="rounded-3xl bg-[#F5FAFA] border border-[#0E7C86]/15 p-8 sm:p-12 lg:p-16">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div class="lg:col-span-5 space-y-4">
+            <span class="text-xs font-bold uppercase tracking-[0.14em] text-[#0E7C86]">
+              Inspection Systématique
+            </span>
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0B2A2E] tracking-tight">
+              Une checklist de contrôle en 42 points.
+            </h2>
+            <p class="text-sm sm:text-base text-[#3D5A5E] leading-relaxed">
+              Avant de quitter les lieux, nos intervenants valident chaque zone selon une grille d'inspection inspirée des palaces hôteliers.
+            </p>
+            <div class="pt-2">
+              <a
+                href="/soumission/"
+                class="inline-flex items-center justify-center px-6 py-3 text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full transition-colors no-underline"
+              >
+                <span>Planifier une intervention</span>
+                <span class="ml-2">↗</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="p-5 rounded-2xl bg-white border border-[#0E7C86]/12 space-y-2">
+              <h4 class="text-sm font-extrabold text-[#0B2A2E] flex items-center gap-2">
+                <span class="text-[#0E7C86]">✓</span> Cuisine & Électroménagers
+              </h4>
+              <p class="text-xs text-[#3D5A5E] leading-relaxed">
+                Dégraissage minutieux, polissage des surfaces inox, entretien des éviers et crédences, désinfection soignée.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-white border border-[#0E7C86]/12 space-y-2">
+              <h4 class="text-sm font-extrabold text-[#0B2A2E] flex items-center gap-2">
+                <span class="text-[#0E7C86]">✓</span> Sanitaires & Bains
+              </h4>
+              <p class="text-xs text-[#3D5A5E] leading-relaxed">
+                Détartrage des parois de verre, polissage des robinetteries en laiton ou chrome, assainissement complet.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-white border border-[#0E7C86]/12 space-y-2">
+              <h4 class="text-sm font-extrabold text-[#0B2A2E] flex items-center gap-2">
+                <span class="text-[#0E7C86]">✓</span> Planchers & Tapis
+              </h4>
+              <p class="text-xs text-[#3D5A5E] leading-relaxed">
+                Aspiration haute filtration (HEPA), nettoyage adapté aux parquets précieux, carrelages et carpettes.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-white border border-[#0E7C86]/12 space-y-2">
+              <h4 class="text-sm font-extrabold text-[#0B2A2E] flex items-center gap-2">
+                <span class="text-[#0E7C86]">✓</span> Détails & Finitions
+              </h4>
+              <p class="text-xs text-[#3D5A5E] leading-relaxed">
+                Dépoussiérage des plinthes, cadres et interrupteurs, vidage des corbeilles, alignement soigné des coussins.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. RECRUTEMENT & VALORISATION DES ÉQUIPES -->
+  <section class="py-16 bg-[#F5FAFA] border-b border-[#0E7C86]/12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0B2A2E] to-[#0A5A62] p-8 sm:p-12 text-white shadow-xl">
+        <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div class="space-y-2 max-w-2xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-[11px] font-bold text-white uppercase tracking-wider">
+              <span>Carrières & Métiers d'Art</span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold text-white">
+              Vous partagez nos exigences d'excellence et de discrétion ?
+            </h3>
+            <p class="text-xs sm:text-sm text-white/80 leading-relaxed">
+              Nous offrons des conditions de travail valorisantes, une rémunération équitable, des équipements ergonomiques et des plannings respectueux à nos intervenants.
+            </p>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+            <a
+              href="/carrieres/"
+              class="px-7 py-3.5 text-xs font-bold text-[#0B2A2E] bg-white hover:bg-[#E3F4F5] rounded-full transition-all duration-200 text-center shadow-md hover:scale-[1.02] active:scale-[0.98] no-underline"
+            >
+              Postuler comme préposé(e) ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. BANDEAU DE CONVERSION -->
   <CtaBanner
-    title="Besoin d'un nettoyage ?"
-    description="Obtenez une évaluation de vos besoins en quelques étapes."
-    ctaText="Obtenir une soumission"
+    title="Envie de tester l'expérience unilka ?"
+    description="Faites une demande en 3 minutes. Vous recevrez une estimation claire et détaillée sous 24h ouvrées."
+    ctaText="Demander une soumission"
     ctaLink="/soumission/"
   />
 

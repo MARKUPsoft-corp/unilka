@@ -1,0 +1,452 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import AdminIcon from '../../components/admin/AdminIcon.astro';
+import AdminCharts from '../../components/admin/AdminCharts.astro';
+
+const invoices = [
+  {
+    id: "FAC-2026-118",
+    quoteId: "SOU-1035",
+    client: "Alexandre Tremblay",
+    service: "Grand ménage résidentiel",
+    date: "27 oct. 2026",
+    grossAmount: "345,00 $",
+    stripeFee: "10,31 $",
+    netAmount: "334,69 $",
+    method: "Stripe (Visa •••• 4242)",
+    status: "Payé",
+    statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200"
+  },
+  {
+    id: "FAC-2026-117",
+    quoteId: "SOU-1034",
+    client: "Cabinet Dentaire Saint-Laurent",
+    service: "Entretien commercial bimensuel",
+    date: "25 oct. 2026",
+    grossAmount: "480,00 $",
+    stripeFee: "14,22 $",
+    netAmount: "465,78 $",
+    method: "Stripe (Mastercard •••• 8812)",
+    status: "Payé",
+    statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200"
+  },
+  {
+    id: "FAC-2026-116",
+    quoteId: "SOU-1032",
+    client: "Mme Claire Vachon",
+    service: "Forfait résidentiel hebdomadaire",
+    date: "24 oct. 2026",
+    grossAmount: "220,00 $",
+    stripeFee: "0,00 $",
+    netAmount: "220,00 $",
+    method: "Virement Interac",
+    status: "Payé",
+    statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200"
+  },
+  {
+    id: "FAC-2026-115",
+    quoteId: "SOU-1031",
+    client: "Marc-Antoine Roy",
+    service: "Nettoyage spécialisé (Canapé & tapis)",
+    date: "24 oct. 2026",
+    grossAmount: "280,00 $",
+    stripeFee: "8,42 $",
+    netAmount: "271,58 $",
+    method: "Lien de paiement Stripe",
+    status: "En attente",
+    statusColor: "bg-amber-100 text-amber-900 border-amber-200"
+  },
+  {
+    id: "FAC-2026-114",
+    quoteId: "SOU-1029",
+    client: "Agence Numérique Pixel Inc.",
+    service: "Entretien mensuel bureaux",
+    date: "20 oct. 2026",
+    grossAmount: "440,00 $",
+    stripeFee: "13,06 $",
+    netAmount: "426,94 $",
+    method: "Stripe (Amex •••• 1009)",
+    status: "Payé",
+    statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200"
+  }
+];
+---
+
+<AdminLayout title="Facturation & Stripe" activeNav="facturation">
+
+  <!-- 1. EN-TÊTE -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="space-y-1">
+      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#E3F4F5] border border-[#0E7C86]/20 text-[10px] font-extrabold uppercase tracking-widest text-[#0E7C86]">
+        <span>Paiements & Encaissements</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-[#0B2A2E] tracking-tight">
+        Facturation, Devis & Stripe
+      </h1>
+      <p class="text-xs sm:text-sm text-[#3D5A5E]">
+        Suivi des règlements par carte de crédit, virements bancaires et commissions de traitement Stripe.
+      </p>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <a
+        href="https://dashboard.stripe.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold text-[#0B2A2E] bg-white hover:bg-[#F5FAFA] border border-[#0E7C86]/20 shadow-2xs transition-colors no-underline"
+      >
+        <span>Tableau de bord Stripe</span>
+        <AdminIcon name="external" class="w-3.5 h-3.5 text-[#0E7C86]" />
+      </a>
+      <button
+        type="button"
+        id="btn-open-payment-modal"
+        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-sm transition-colors"
+      >
+        <span>+ Créer un lien de paiement</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 2. CARTES FINANCIÈRES (4 KPIs) -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    
+    <div class="p-6 rounded-2xl bg-white border border-[#0E7C86]/12 shadow-2xs space-y-2">
+      <span class="text-xs font-extrabold uppercase tracking-wider text-[#0E7C86]">Encaissé ce mois</span>
+      <span class="text-3xl font-black text-[#0B2A2E] tracking-tight block">16 420,00 $</span>
+      <p class="text-[11px] text-[#3D5A5E]">+18% par rapport au mois précédent</p>
+    </div>
+
+    <div class="p-6 rounded-2xl bg-white border border-[#0E7C86]/12 shadow-2xs space-y-2">
+      <span class="text-xs font-extrabold uppercase tracking-wider text-amber-600">En attente</span>
+      <span class="text-3xl font-black text-[#0B2A2E] tracking-tight block">1 280,00 $</span>
+      <p class="text-[11px] text-[#3D5A5E]">3 devis transmis à relancer</p>
+    </div>
+
+    <div class="p-6 rounded-2xl bg-white border border-[#0E7C86]/12 shadow-2xs space-y-2">
+      <span class="text-xs font-extrabold uppercase tracking-wider text-[#0E7C86]">Commissions Stripe</span>
+      <span class="text-3xl font-black text-[#0B2A2E] tracking-tight block">432,60 $</span>
+      <p class="text-[11px] text-[#3D5A5E]">Tarif standard Stripe Canada (2,9% + 0,30$)</p>
+    </div>
+
+    <div class="p-6 rounded-2xl bg-white border border-[#0E7C86]/12 shadow-2xs space-y-2">
+      <span class="text-xs font-extrabold uppercase tracking-wider text-emerald-600">Net Encaissé</span>
+      <span class="text-3xl font-black text-emerald-700 tracking-tight block">15 987,40 $</span>
+      <p class="text-[11px] text-[#3D5A5E]">Versements directs sur compte bancaire</p>
+    </div>
+
+  </div>
+
+  <!-- 3. VISUALISATION FINANCIÈRE STRIPE CANADA -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+    <!-- Graphique Décomposition Frais Stripe vs Net (8 cols) -->
+    <div class="lg:col-span-8 bg-white rounded-2xl border border-[#0E7C86]/12 p-6 shadow-2xs">
+      <AdminCharts type="stripe-breakdown" />
+    </div>
+
+    <!-- Passerelle Stripe Canada (4 cols) -->
+    <div class="lg:col-span-4 p-6 rounded-2xl bg-[#E3F4F5]/60 border border-[#0E7C86]/20 flex flex-col justify-between space-y-4 shadow-2xs">
+      <div class="space-y-2">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+          <h3 class="text-sm font-extrabold text-[#0B2A2E]">
+            Passerelle Stripe Connectée
+          </h3>
+        </div>
+        <p class="text-xs text-[#3D5A5E] leading-relaxed">
+          Prélèvements automatisés pour forfaits réguliers et liens de paiement instantanés (Apple Pay, Visa, Mastercard, Interac).
+        </p>
+      </div>
+
+      <div class="space-y-3 pt-2 border-t border-[#0E7C86]/15">
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-[#3D5A5E]">Identifiant marchand :</span>
+          <span class="font-mono bg-white px-2.5 py-1 rounded-lg border border-[#0E7C86]/20 text-[#0E7C86] font-bold">
+            acct_1QunilkaCA
+          </span>
+        </div>
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-[#3D5A5E]">Délai virement :</span>
+          <span class="font-bold text-[#0B2A2E]">2 jours ouvrables</span>
+        </div>
+        <a
+          href="https://dashboard.stripe.com/settings"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full transition-colors no-underline"
+        >
+          <span>Paramètres Stripe Canada</span>
+          <AdminIcon name="external" class="w-3.5 h-3.5" />
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. TABLEAU DES TRANSACTIONS & FACTURES -->
+  <div class="bg-white rounded-2xl border border-[#0E7C86]/12 overflow-hidden shadow-2xs">
+    <div class="p-5 sm:p-6 border-b border-[#0E7C86]/10 flex items-center justify-between">
+      <h2 class="text-base font-extrabold text-[#0B2A2E]">
+        Historique des factures et encaissements récents
+      </h2>
+      <span class="text-xs text-[#3D5A5E]">
+        Devises : Dollar Canadien ($ CAD)
+      </span>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse text-xs">
+        <thead>
+          <tr class="bg-[#F5FAFA] border-b border-[#0E7C86]/12 text-[#3D5A5E] font-extrabold uppercase tracking-wider text-[10px]">
+            <th class="py-3.5 px-4">N° Facture</th>
+            <th class="py-3.5 px-4">Client</th>
+            <th class="py-3.5 px-4">Prestation</th>
+            <th class="py-3.5 px-4">Date</th>
+            <th class="py-3.5 px-4">Montant Brut</th>
+            <th class="py-3.5 px-4">Frais Stripe</th>
+            <th class="py-3.5 px-4">Net Unilka</th>
+            <th class="py-3.5 px-4">Méthode</th>
+            <th class="py-3.5 px-4">Statut</th>
+            <th class="py-3.5 px-4 text-right">Reçu</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-[#0E7C86]/08">
+          {invoices.map((inv) => (
+            <tr class="hover:bg-[#F5FAFA]/60 transition-colors">
+              <td class="py-4 px-4 font-mono font-bold text-[#0E7C86]">
+                {inv.id}
+              </td>
+              <td class="py-4 px-4 font-extrabold text-[#0B2A2E]">
+                {inv.client}
+              </td>
+              <td class="py-4 px-4 text-[#3D5A5E]">
+                {inv.service}
+              </td>
+              <td class="py-4 px-4 text-[#3D5A5E]">
+                {inv.date}
+              </td>
+              <td class="py-4 px-4 font-black text-[#0B2A2E]">
+                {inv.grossAmount}
+              </td>
+              <td class="py-4 px-4 text-[#3D5A5E]">
+                {inv.stripeFee}
+              </td>
+              <td class="py-4 px-4 font-bold text-emerald-700">
+                {inv.netAmount}
+              </td>
+              <td class="py-4 px-4 text-[#3D5A5E]">
+                {inv.method}
+              </td>
+              <td class="py-4 px-4">
+                <span class={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${inv.statusColor}`}>
+                  {inv.status}
+                </span>
+              </td>
+              <td class="py-4 px-4 text-right">
+                <button
+                  type="button"
+                  class="btn-pdf-receipt inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[#0E7C86] hover:bg-[#E3F4F5] font-bold transition-colors"
+                  data-id={inv.id}
+                  data-client={inv.client}
+                >
+                  <span>PDF</span>
+                  <AdminIcon name="download" class="w-3.5 h-3.5" />
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 5. MODAL DE CRÉATION DE LIEN DE PAIEMENT STRIPE -->
+  <div
+    id="payment-modal-backdrop"
+    class="fixed inset-0 bg-[#0B2A2E]/50 backdrop-blur-xs z-50 hidden transition-opacity duration-200"
+  ></div>
+
+  <div
+    id="payment-modal"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-payment-title"
+  >
+    <div class="bg-white rounded-3xl border border-[#0E7C86]/20 shadow-2xl max-w-lg w-full overflow-hidden transform transition-all duration-200 scale-95 opacity-0 modal-card">
+      <div class="p-6 border-b border-[#0E7C86]/10 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="w-8 h-8 rounded-xl bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center">
+            <AdminIcon name="credit-card" class="w-4 h-4 text-[#0E7C86]" />
+          </span>
+          <h2 id="modal-payment-title" class="text-base font-extrabold text-[#0B2A2E]">
+            Générer un lien de paiement Stripe
+          </h2>
+        </div>
+        <button
+          type="button"
+          id="close-payment-modal-btn"
+          class="p-1.5 rounded-lg text-[#3D5A5E] hover:text-[#0E7C86] hover:bg-[#F5FAFA]"
+          aria-label="Fermer la boîte de dialogue"
+        >
+          <AdminIcon name="close" class="w-4 h-4" />
+        </button>
+      </div>
+
+      <div class="p-6 space-y-4 text-xs">
+        <div class="space-y-1">
+          <label class="font-bold text-[#0B2A2E]">Nom du client</label>
+          <input
+            type="text"
+            id="modal-client-name"
+            placeholder="ex: Alexandre Tremblay"
+            value="Alexandre Tremblay"
+            class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium"
+          />
+        </div>
+
+        <div class="space-y-1">
+          <label class="font-bold text-[#0B2A2E]">Courriel pour l'envoi du reçu</label>
+          <input
+            type="email"
+            id="modal-client-email"
+            placeholder="client@domaine.ca"
+            value="a.tremblay@email.ca"
+            class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium"
+          />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="space-y-1">
+            <label class="font-bold text-[#0B2A2E]">Montant brut ($ CAD)</label>
+            <input
+              type="number"
+              id="modal-amount"
+              value="345.00"
+              step="5"
+              min="10"
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-extrabold text-sm"
+            />
+          </div>
+          <div class="space-y-1">
+            <label class="font-bold text-[#0B2A2E]">Type de facture</label>
+            <select class="w-full px-3 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium">
+              <option>Paiement unique</option>
+              <option>Abonnement récurrent mensuel</option>
+              <option>Acompte de confirmation (50%)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Simulation Frais Stripe Canada -->
+        <div class="p-4 rounded-2xl bg-[#E3F4F5]/60 border border-[#0E7C86]/15 space-y-2 text-[11px]">
+          <div class="flex justify-between text-[#3D5A5E]">
+            <span>Frais Stripe Canada (2.9% + 0.30 $ CAD) :</span>
+            <span id="modal-stripe-fee" class="font-bold text-[#0B2A2E]">10,31 $ CAD</span>
+          </div>
+          <div class="pt-1 border-t border-[#0E7C86]/15 flex justify-between font-bold text-xs text-emerald-800">
+            <span>Versement net sur compte Unilka :</span>
+            <span id="modal-net-amount" class="text-sm font-black">334,69 $ CAD</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 bg-[#F5FAFA] border-t border-[#0E7C86]/10 flex items-center justify-between">
+        <button
+          type="button"
+          id="btn-cancel-modal"
+          class="text-xs font-bold text-[#3D5A5E] hover:text-[#0B2A2E]"
+        >
+          Annuler
+        </button>
+        <button
+          type="button"
+          id="btn-confirm-stripe-link"
+          class="px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-sm transition-all"
+        >
+          Copier le lien & Activer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    // 1. Modal Stripe Link
+    const modalBackdrop = document.getElementById('payment-modal-backdrop');
+    const modal = document.getElementById('payment-modal');
+    const modalCard = modal?.querySelector('.modal-card');
+    const openBtn = document.getElementById('btn-open-payment-modal');
+    const closeBtn = document.getElementById('close-payment-modal-btn');
+    const cancelBtn = document.getElementById('btn-cancel-modal');
+    const confirmBtn = document.getElementById('btn-confirm-stripe-link');
+    const amountInput = document.getElementById('modal-amount');
+    const feeEl = document.getElementById('modal-stripe-fee');
+    const netEl = document.getElementById('modal-net-amount');
+
+    function calculateStripeFee() {
+      const gross = parseFloat(amountInput?.value || 0);
+      const fee = (gross * 0.029) + 0.30;
+      const net = Math.max(0, gross - fee);
+
+      if (feeEl) feeEl.textContent = `${fee.toFixed(2).replace('.', ',')} $ CAD`;
+      if (netEl) netEl.textContent = `${net.toFixed(2).replace('.', ',')} $ CAD`;
+    }
+
+    amountInput?.addEventListener('input', calculateStripeFee);
+
+    function openModal() {
+      if (!modal || !modalBackdrop || !modalCard) return;
+      calculateStripeFee();
+      modal.classList.remove('hidden');
+      modalBackdrop.classList.remove('hidden');
+      setTimeout(() => {
+        modalCard.classList.remove('scale-95', 'opacity-0');
+        modalCard.classList.add('scale-100', 'opacity-100');
+      }, 10);
+    }
+
+    function closeModal() {
+      if (!modal || !modalBackdrop || !modalCard) return;
+      modalCard.classList.remove('scale-100', 'opacity-100');
+      modalCard.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        modalBackdrop.classList.add('hidden');
+      }, 200);
+    }
+
+    openBtn?.addEventListener('click', openModal);
+    closeBtn?.addEventListener('click', closeModal);
+    cancelBtn?.addEventListener('click', closeModal);
+    modalBackdrop?.addEventListener('click', closeModal);
+
+    confirmBtn?.addEventListener('click', () => {
+      const client = document.getElementById('modal-client-name')?.value || 'Client';
+      const gross = document.getElementById('modal-amount')?.value || '345.00';
+      const link = `https://buy.stripe.com/live_unilka_${Date.now()}`;
+
+      navigator.clipboard?.writeText(link).then(() => {
+        if (window.showAdminToast) {
+          window.showAdminToast(`Lien Stripe de ${gross} $ CAD copié pour ${client} !`);
+        }
+      }).catch(() => {
+        if (window.showAdminToast) {
+          window.showAdminToast(`Lien Stripe généré : ${link}`);
+        }
+      });
+
+      closeModal();
+    });
+
+    // 2. Boutons PDF
+    document.querySelectorAll('.btn-pdf-receipt').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const client = btn.dataset.client;
+        if (window.showAdminToast) {
+          window.showAdminToast(`Génération du reçu officiel PDF #${id} pour ${client}...`);
+        }
+      });
+    });
+  </script>
+
+</AdminLayout>

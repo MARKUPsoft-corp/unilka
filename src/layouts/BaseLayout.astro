@@ -74,14 +74,19 @@ const schemaData = {
 
     <!-- Données structurées JSON-LD -->
     <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+
+    <!-- Google Fonts : Manrope (Officielle) & Playfair Display (Serif Éditorial pour titres Offcut) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,600;1,700&display=swap" rel="stylesheet">
   </head>
-  <body class="bg-white text-brand-text flex flex-col min-h-screen selection:bg-brand-primary-light selection:text-brand-primary-dark">
+  <body class="bg-white text-[#0B2A2E] flex flex-col min-h-screen selection:bg-[#E3F4F5] selection:text-[#0A5A62] font-sans">
     <SkipLink />
     <Header currentPath={Astro.url.pathname} />
 
     {showBreadcrumbs && <Breadcrumb items={breadcrumbs} />}
 
-    <main id="main-content" class="flex-1 focus:outline-none">
+    <main id="main-content" class="flex-1 focus:outline-none overflow-x-clip">
       <slot />
     </main>
 

@@ -1,0 +1,85 @@
+---
+// Marquee Ticker Tape — Inspiré d'Offcut
+---
+
+<div class="offcut-marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <div class="marquee-group">
+      <span class="marquee-phrase">DISCRÉTION ABSOLUE <i>✳︎</i> RIGUEUR HÔTELIÈRE <i>✳︎</i> PERSONNEL QUALIFIÉ <i>✳︎</i> DEVIS EN 24H <i>✳︎</i></span>
+      <span class="marquee-phrase">DISCRÉTION ABSOLUE <i>✳︎</i> RIGUEUR HÔTELIÈRE <i>✳︎</i> PERSONNEL QUALIFIÉ <i>✳︎</i> DEVIS EN 24H <i>✳︎</i></span>
+    </div>
+    <div class="marquee-group">
+      <span class="marquee-phrase">DISCRÉTION ABSOLUE <i>✳︎</i> RIGUEUR HÔTELIÈRE <i>✳︎</i> PERSONNEL QUALIFIÉ <i>✳︎</i> DEVIS EN 24H <i>✳︎</i></span>
+      <span class="marquee-phrase">DISCRÉTION ABSOLUE <i>✳︎</i> RIGUEUR HÔTELIÈRE <i>✳︎</i> PERSONNEL QUALIFIÉ <i>✳︎</i> DEVIS EN 24H <i>✳︎</i></span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .offcut-marquee {
+    border-block: 1px solid var(--color-primary-light, #E3F4F5);
+    padding: 24px 0;
+    overflow: hidden;
+    background: var(--color-surface-subtle, #F5FAFA);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .offcut-marquee .marquee-track {
+    will-change: transform;
+    width: max-content;
+    animation: 36s linear infinite offcut-drift;
+    display: flex;
+  }
+
+  @keyframes offcut-drift {
+    to {
+      transform: translate(-50%);
+    }
+  }
+
+  .marquee-group {
+    flex-shrink: 0;
+    justify-content: space-around;
+    align-items: center;
+    min-width: 100vw;
+    display: flex;
+  }
+
+  .marquee-phrase {
+    white-space: nowrap;
+    letter-spacing: -0.01em;
+    align-items: center;
+    gap: 42px;
+    padding-right: 42px;
+    font-size: 18px;
+    font-weight: 550;
+    display: flex;
+    font-family: var(--font-body, 'Manrope', sans-serif);
+    color: var(--ink, #0B2A2E);
+  }
+
+  .marquee-phrase i {
+    color: var(--color-primary, #0E7C86);
+    font-size: 26px;
+    font-style: normal;
+  }
+
+  @media (max-width: 768px) {
+    .marquee-phrase {
+      gap: 25px;
+      padding-right: 25px;
+      font-size: 15px;
+    }
+    .marquee-phrase i {
+      font-size: 20px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .offcut-marquee .marquee-track {
+      animation: none;
+    }
+  }
+</style>

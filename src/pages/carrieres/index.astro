@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import CtaBanner from '../../components/ui/CtaBanner.astro';
 
-const pageTitle = "Emplois en nettoyage à Montréal — unilka";
-const pageDescription = "Rejoignez l'équipe unilka : missions ponctuelles, temps partiel ou temps plein, avec possibilités de formation. Inscrivez-vous en ligne.";
+const pageTitle = "Emplois & Carrières en Nettoyage à Montréal — unilka";
+const pageDescription = "Rejoignez une entreprise qui respecte et valorise votre métier : missions régulières, flexibilité d'horaires et formation aux standards hôteliers.";
 
 const breadcrumbs = [
   { label: "Carrières & Emplois", href: "/carrieres/" }
@@ -10,133 +11,146 @@ const breadcrumbs = [
 
 const benefits = [
   {
-    title: "Des horaires adaptés à votre situation",
-    description: "Que vous soyez disponible quelques heures par semaine ou que vous recherchiez un emploi à temps plein, nous cherchons à vous proposer des opportunités qui correspondent à vos disponibilités."
+    title: "Horaires adaptés à votre quotidien",
+    description: "Que vous cherchiez un emploi stable à temps plein ou un complément de revenu à temps partiel, nous bâtissons des plannings respectueux de votre vie personnelle."
   },
   {
-    title: "Des missions ponctuelles ou plus durables",
-    description: "Selon votre situation : missions ponctuelles, travail à temps partiel, contrats temporaires ou opportunités à plus long terme."
+    title: "Missions valorisantes & clients de choix",
+    description: "Vous intervenez dans des résidences soignées et des locaux professionnels exigeants, où la qualité de votre travail est véritablement reconnue."
   },
   {
-    title: "Des possibilités de formation",
-    description: "Nous souhaitons vous aider à développer vos compétences. Des formations pourront être proposées, notamment dans le domaine du nettoyage domestique et de l'entretien ménager, afin de vous permettre d'acquérir de nouvelles connaissances et de mieux vous préparer aux missions."
+    title: "Formation aux protocoles d'excellence",
+    description: "Nous vous formons aux techniques hôtelières haut de gamme, à l'utilisation sécuritaire des produits éco-responsables et au soin des matières précieuses."
   },
   {
-    title: "Un accompagnement professionnel",
-    description: "Après votre inscription et votre sélection, un entretien permettra de mieux comprendre votre expérience, vos compétences et vos objectifs."
+    title: "Équipements & matériels modernes fournis",
+    description: "Nous mettons à votre disposition des outils ergonomiques et des produits écologiques certifiés, sains pour votre santé et efficaces."
   },
   {
-    title: "Développez votre expérience",
-    description: "Chaque mission peut être une occasion de développer votre expérience professionnelle, d'acquérir de nouvelles compétences et de construire progressivement votre parcours."
+    title: "Rémunération juste & ponctuelle",
+    description: "Une rétribution équitable versée sans retard, avec des perspectives d'évolution pour les intervenants démontrant rigueur et constance."
   },
   {
-    title: "Des opportunités adaptées à votre profil",
-    description: "Nous prenons en compte votre secteur géographique, vos disponibilités, vos compétences et le type de travail que vous recherchez."
+    title: "Écoute & respect mutuel au quotidien",
+    description: "Chez unilka, vous n'êtes pas un simple numéro : notre équipe de coordination est à votre écoute pour vous accompagner sur chaque mission."
   }
 ];
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
 
-  <!-- HERO CARRIÈRES -->
-  <section class="bg-brand-surface-subtle py-12 lg:py-16 border-b border-brand-primary-light/60">
+  <!-- 1. HÉRO CARRIÈRES ÉDITORIAL -->
+  <section class="py-16 lg:py-24 bg-[#FFFFFF] border-b border-[#0E7C86]/12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
         
-        <div class="lg:col-span-7 space-y-4">
-          <span class="inline-block px-3 py-1 rounded-md bg-brand-accent/20 text-brand-text text-xs font-bold uppercase tracking-wider">
-            Recrutement & Missions
-          </span>
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-text tracking-tight">
-            Rejoignez notre équipe et construisez votre avenir professionnel
+        <!-- Texte gauche -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#E3F4F5] border border-[#0E7C86]/20">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#0E7C86]"></span>
+            <span class="text-[11px] sm:text-xs font-bold uppercase tracking-[0.14em] text-[#0E7C86]">
+              Opportunités • Montréal & Rive-Sud
+            </span>
+          </div>
+
+          <h1 class="text-[clamp(42px,11.5vw,56px)] sm:text-6xl lg:text-7xl font-bold text-[#0B2A2E] tracking-[-0.03em] leading-[1.05]">
+            <span class="block font-bold text-[#0B2A2E] whitespace-nowrap">Rejoignez-nous.</span>
+            <span class="block font-serif italic font-normal text-[#0E7C86] whitespace-nowrap">Équipe d'élite.</span>
           </h1>
-          <p class="text-base sm:text-lg text-brand-muted leading-relaxed">
-            Vous êtes à la recherche d'un emploi, d'un job ponctuel, d'un revenu complémentaire ou d'une opportunité professionnelle stable ? Notre entreprise vous offre la possibilité de trouver des missions et des emplois adaptés à votre profil, à vos compétences et à vos disponibilités.
+
+          <p class="text-base sm:text-lg text-[#3D5A5E] leading-[1.75]">
+            Vous êtes minutieux(se), sérieux(se) et vous aimez le travail soigné ? Chez unilka, nous offrons un cadre professionnel respectueux, des missions régulières et une vraie reconnaissance de votre métier.
           </p>
-          <div class="pt-2">
+
+          <div class="pt-2 flex flex-wrap items-center gap-4">
             <a
               href="/carrieres/inscription/"
-              class="inline-flex items-center justify-center px-6 py-3.5 text-base font-bold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md shadow-sm transition-colors no-underline"
+              class="inline-flex items-center justify-center px-8 py-4 text-sm font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full shadow-sm hover:shadow-md transition-all duration-200 no-underline hover:-translate-y-0.5 active:translate-y-0"
             >
-              Je m'inscris maintenant
+              <span>Déposer ma candidature en ligne</span>
+              <span class="ml-2 font-bold" aria-hidden="true">↗</span>
             </a>
           </div>
         </div>
 
-        <div class="lg:col-span-5 flex justify-center">
-          <img
-            src="/illustrations/careers.svg"
-            alt="Équipe professionnelle unilka"
-            width="320"
-            height="240"
-            class="w-full max-w-sm h-auto bg-white p-4 rounded-2xl border border-brand-primary-light/80 shadow-xs"
-          />
+        <!-- Image droite -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative rounded-[28px] overflow-hidden border border-[#0E7C86]/15 shadow-sm group">
+            <img
+              src="/images/careers-unilka.jpg"
+              alt="Préposée d'entretien professionnelle et souriante chez unilka"
+              width="800"
+              height="600"
+              class="w-full h-[360px] sm:h-[420px] object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0B2A2E]/60 via-transparent to-transparent pointer-events-none"></div>
+
+            <div class="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md rounded-2xl p-4 border border-[#0E7C86]/15 flex items-center justify-between shadow-md">
+              <span class="text-xs font-bold text-[#0B2A2E]">Formation & Accompagnement</span>
+              <span class="text-xs font-black text-[#0E7C86] bg-[#E3F4F5] px-2.5 py-1 rounded-full">
+                Temps plein & partiel
+              </span>
+            </div>
+          </div>
         </div>
 
       </div>
     </div>
   </section>
 
-  <!-- POURQUOI TRAVAILLER AVEC NOUS -->
-  <section class="py-16 bg-white" aria-labelledby="why-work-title">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+  <!-- 2. AVANTAGES & ENGAGEMENTS DE L'ENTREPRISE -->
+  <section class="py-20 lg:py-24 bg-[#F5FAFA] border-b border-[#0E7C86]/12" aria-labelledby="why-work-title">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
       
-      <div class="text-center max-w-3xl mx-auto space-y-3">
-        <h2 id="why-work-title" class="text-2xl sm:text-3xl font-extrabold text-brand-text tracking-tight">
-          Pourquoi travailler avec nous ?
+      <div class="text-center max-w-2xl mx-auto space-y-3">
+        <span class="text-xs font-bold uppercase tracking-[0.14em] text-[#0E7C86]">
+          Nos Engagements Employeur
+        </span>
+        <h2 id="why-work-title" class="text-3xl sm:text-4xl font-extrabold text-[#0B2A2E] tracking-tight">
+          Pourquoi choisir de collaborer avec unilka ?
         </h2>
-        <p class="text-base text-brand-muted">
-          Nous valorisons votre engagement, votre ponctualité et votre volonté de bien faire.
+        <p class="text-sm sm:text-base text-[#3D5A5E]">
+          Nous plaçons le respect des personnes et l'esprit d'équipe au cœur de chaque mission.
         </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {benefits.map((benefit, index) => (
-          <div class="bg-brand-surface-subtle border border-brand-primary-light/70 rounded-xl p-6 space-y-3">
-            <div class="w-8 h-8 rounded-full bg-brand-primary-light text-brand-primary font-bold text-sm flex items-center justify-center shrink-0">
-              {index + 1}
+          <div class="p-7 rounded-2xl bg-white border border-[#0E7C86]/12 shadow-2xs space-y-3 hover:border-[#0E7C86]/30 transition-all duration-200">
+            <div class="w-8 h-8 rounded-xl bg-[#E3F4F5] text-[#0E7C86] font-extrabold text-xs flex items-center justify-center shrink-0">
+              0{index + 1}
             </div>
-            <h3 class="text-lg font-bold text-brand-text">
+            <h3 class="text-base font-extrabold text-[#0B2A2E]">
               {benefit.title}
             </h3>
-            <p class="text-sm text-brand-muted leading-relaxed">
+            <p class="text-xs sm:text-sm text-[#3D5A5E] leading-relaxed">
               {benefit.description}
             </p>
           </div>
         ))}
       </div>
 
-      <!-- Encadré d'avertissement réglementaire -->
-      <div class="p-6 rounded-xl bg-amber-50 border border-amber-200 text-sm text-brand-text flex items-start gap-3">
-        <svg class="w-5 h-5 text-amber-600 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-        </svg>
-        <p class="leading-relaxed">
-          <span class="font-bold">Information importante :</span> L'inscription ne garantit pas automatiquement l'obtention d'un emploi ou d'une mission. Les candidatures sont évaluées selon les besoins et les opportunités disponibles.
+      <!-- Information Réglementaire Importante -->
+      <div class="p-6 sm:p-7 rounded-2xl bg-white border border-[#0E7C86]/15 flex items-start gap-4 shadow-[0_4px_20px_rgba(11,42,46,0.04)]">
+        <div class="w-8 h-8 rounded-xl bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center shrink-0 mt-0.5 border border-[#0E7C86]/20">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <p class="text-xs sm:text-sm text-[#3D5A5E] leading-relaxed">
+          <strong class="text-[#0B2A2E] font-bold">Information sur le processus :</strong> L'envoi de votre candidature initie une analyse de profil par notre équipe de coordination. Les missions sont attribuées selon les disponibilités et les secteurs géographiques demandés, sous réserve de la vérification préalable des antécédents de sécurité.
         </p>
       </div>
 
     </div>
   </section>
 
-  <!-- BANDE FINALE D'INSCRIPTION -->
-  <section class="bg-brand-primary text-white py-14" aria-labelledby="ready-to-start-title">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
-      <h2 id="ready-to-start-title" class="text-2xl sm:text-3xl font-extrabold text-white">
-        Vous êtes prêt(e) à commencer ?
-      </h2>
-      <p class="text-base sm:text-lg text-brand-primary-light max-w-2xl mx-auto leading-relaxed">
-        Que vous ayez déjà de l'expérience ou que vous souhaitiez apprendre et développer vos compétences, nous vous invitons à vous inscrire. Créez votre profil dès aujourd'hui et faites-nous connaître vos compétences et vos disponibilités.
-      </p>
-      <div class="pt-3">
-        <a
-          href="/carrieres/inscription/"
-          class="inline-flex items-center justify-center px-6 py-3.5 text-base font-bold text-brand-text bg-brand-accent hover:bg-[#e0a102] rounded-md shadow-md transition-all no-underline"
-        >
-          Je m'inscris maintenant
-        </a>
-      </div>
-    </div>
-  </section>
+  <!-- 3. BANDEAU DE CANDIDATURE FINAL -->
+  <CtaBanner
+    title="Prêt(e) à faire partie de l'équipe unilka ?"
+    description="Remplissez votre dossier de candidature en ligne en moins de 5 minutes. Nous vous recontacterons rapidement."
+    ctaText="Remplir le formulaire candidat"
+    ctaLink="/carrieres/inscription/"
+  />
 
 </BaseLayout>

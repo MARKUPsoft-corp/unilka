@@ -2,128 +2,74 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import config from '../data/site-config.json';
 
-const pageTitle = "Politique de confidentialité — unilka";
+const pageTitle = "Politique de Confidentialité (Loi 25) — unilka";
 const pageDescription = "Comment unilka recueille, utilise et protège vos renseignements personnels conformément à la Loi 25 du Québec.";
 
 const breadcrumbs = [
   { label: "Politique de confidentialité", href: "/confidentialite/" }
 ];
 
-const lastUpdated = "16 octobre 2026";
+const lastUpdated = "27 octobre 2026";
 const dpoContact = config.privacy.dpoName
-  ? `${config.privacy.dpoName} (${config.privacy.dpoEmail || 'courriel non renseigné'})`
+  ? `${config.privacy.dpoName} (${config.privacy.dpoEmail || 'courriel sur demande'})`
   : "la personne responsable de la protection des renseignements personnels de unilka (joignable via notre page Contact)";
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
 
-  <section class="py-12 lg:py-16 bg-white">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+  <section class="py-16 lg:py-24 bg-[#FFFFFF]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
       
-      <div class="space-y-3 pb-6 border-b border-brand-primary-light/80">
-        <h1 class="text-3xl sm:text-4xl font-black text-brand-text tracking-tight">
-          Politique de confidentialité
+      <div class="space-y-4 pb-8 border-b border-[#0E7C86]/15">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E3F4F5] border border-[#0E7C86]/20">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#0E7C86]"></span>
+          <span class="text-[11px] font-bold uppercase tracking-[0.14em] text-[#0E7C86]">
+            Conformité Loi 25 • Québec
+          </span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B2A2E] tracking-tight">
+          Politique de confidentialité.
         </h1>
-        <p class="text-xs text-brand-muted">
-          Dernière mise à jour : {lastUpdated}
+
+        <p class="text-xs font-semibold text-[#0E7C86]">
+          Dernière révision : {lastUpdated}
         </p>
       </div>
 
-      <div class="prose prose-sm sm:prose-base max-w-none text-brand-text space-y-8 leading-relaxed">
+      <div class="space-y-10 text-[#3D5A5E] leading-relaxed text-sm sm:text-base">
         
-        <!-- 1. Qui sommes-nous -->
-        <section class="space-y-3">
-          <h2 class="text-xl font-bold text-brand-text">1. Qui sommes-nous</h2>
-          <p class="text-brand-muted">
-            L'entreprise <strong>unilka</strong> ({config.business.legalName || 'unilka'}) offre des services de nettoyage professionnels dans la région de Montréal et ses environs. La protection de vos renseignements personnels est une priorité pour nous. La personne responsable de la protection des renseignements personnels est {dpoContact}.
+        <!-- 1. Responsable -->
+        <section class="space-y-3 p-6 rounded-2xl bg-[#F5FAFA] border border-[#0E7C86]/12">
+          <h2 class="text-lg font-extrabold text-[#0B2A2E]">1. Responsable de la protection des données</h2>
+          <p>
+            L'entreprise <strong>unilka</strong> accorde la plus haute importance à la protection et à la confidentialité de vos données personnelles. La personne désignée responsable au sens de la Loi 25 est {dpoContact}.
           </p>
         </section>
 
-        <!-- 2. Renseignements que nous recueillons -->
-        <section class="space-y-3">
-          <h2 class="text-xl font-bold text-brand-text">2. Renseignements que nous recueillons</h2>
-          <p class="text-brand-muted">Nous recueillons uniquement les renseignements strictement nécessaires aux finalités poursuivies :</p>
-          <ul class="list-disc pl-5 space-y-1.5 text-brand-muted" role="list">
-            <li><strong>Demande de soumission :</strong> prénom, nom, numéro de téléphone, adresse courriel, ville, code postal, adresse complète (facultative), détails et photos du lieu à nettoyer (facultatives), commentaires.</li>
-            <li><strong>Inscription de candidat :</strong> prénom, nom, numéro de téléphone, adresse courriel, ville, adresse (facultative), langues parlées, confirmation de l'autorisation légale de travailler au Canada, situation professionnelle actuelle, expérience, compétences, disponibilités et mobilité géographique. Nous ne demandons ni date de naissance complète, ni numéro d'assurance sociale (NAS), ni pièce d'identité.</li>
-            <li><strong>Données techniques de connexion :</strong> notre hébergeur (Vercel) peut consigner des journaux techniques minimaux (adresse IP, date et heure, page consultée) à des fins de sécurité et de maintenance opérationnelle.</li>
+        <!-- 2. Données collectées -->
+        <section class="space-y-3 p-6 rounded-2xl bg-[#F5FAFA] border border-[#0E7C86]/12">
+          <h2 class="text-lg font-extrabold text-[#0B2A2E]">2. Renseignements strictement nécessaires recueillis</h2>
+          <ul class="space-y-2 list-disc pl-5" role="list">
+            <li><strong>Demande de soumission :</strong> prénom, nom, téléphone, courriel, municipalité, code postal, caractéristiques de l'espace et photos éventuelles des surfaces.</li>
+            <li><strong>Dossier de candidature :</strong> prénom, nom, coordonnées, langues parlées, autorisation de travailler au Canada, disponibilités hebdomadaires et expérience professionnelle. Aucun numéro d'assurance sociale (NAS) ni document d'identité n'est exigé via le formulaire public.</li>
+            <li><strong>Données de navigation :</strong> aucun témoin tiers ou traceur publicitaire n'est utilisé sur ce site. Seuls les journaux de sécurité réseau techniques minimaux sont traités par notre hébergeur Vercel.</li>
           </ul>
         </section>
 
-        <!-- 3. Pourquoi nous les recueillons -->
-        <section class="space-y-3">
-          <h2 class="text-xl font-bold text-brand-text">3. Pourquoi nous les recueillons</h2>
-          <p class="text-brand-muted">
-            Vos renseignements sont collectés exclusivement pour répondre à vos demandes de soumission, planifier et exécuter nos prestations de nettoyage, ou évaluer votre candidature et vous proposer des missions correspondant à votre profil.
+        <!-- 3. Finalités -->
+        <section class="space-y-3 p-6 rounded-2xl bg-[#F5FAFA] border border-[#0E7C86]/12">
+          <h2 class="text-lg font-extrabold text-[#0B2A2E]">3. Finalités du traitement</h2>
+          <p>
+            Vos renseignements sont exploités exclusivement dans le cadre de l'évaluation de vos soumissions d'entretien, de la planification opérationnelle des missions de nettoyage, ou de la prise de contact pour une opportunité d'emploi. Aucune donnée n'est vendue, cédée ou louée à des tiers.
           </p>
         </section>
 
-        <!-- 4. Votre consentement -->
-        <section class="space-y-3">
-          <h2 class="text-xl font-bold text-brand-text">4. Votre consentement</h2>
-          <p class="text-brand-muted">
-            Votre consentement est recueilli de façon expresse lors de l'envoi de chaque formulaire au moyen d'une case à cocher obligatoire. Vous pouvez retirer votre consentement à tout moment en nous écrivant via notre page de contact.
-          </p>
-        </section>
-
-        <!-- 5. Avec qui nous les partageons -->
-        <section class="space-y-3">
-          <h2 class="text-xl font-bold text-brand-text">5. Avec qui nous les partageons</h2>
-          <p class="text-brand-muted">
-            Nous ne vendons, ne louons et ne commercialisons aucun renseignement personnel. Vos données sont partagées uniquement avec nos sous-traitants techniques nécessaires au fonctionnement du service :
-          </p>
-          <ul class="list-disc pl-5 space-y-1 text-brand-muted" role="list">
-            <li><strong>Vercel Inc. :</strong> hébergement du site et exécution des fonctions serverless sécurisées.</li>
-            <li><strong>Google Cloud (Firebase Firestore) :</strong> stockage sécurisé des données de formulaires.</li>
-            <li><strong>Cloudinary Ltd. :</strong> stockage et traitement sécurisé des photos de soumission.</li>
-          </ul>
-        </section>
-
-        <!-- 6. Durée de conservation -->
-        <section class="space-y-3">
-          <h2 class="text-xl font-bold text-brand-text">6. Durée de conservation</h2>
-          <p class="text-brand-muted">
-            Conformément à nos règles de gouvernance des données, les demandes de soumission sont conservées pendant un maximum de <strong>{config.privacy.retentionClients}</strong>, et les candidatures pendant un maximum de <strong>{config.privacy.retentionCandidates}</strong>, après quoi elles sont définitivement détruites ou anonymisées.
-          </p>
-        </section>
-
-        <!-- 7. Sécurité -->
-        <section class="space-y-3">
-          <h2 class="text-xl font-bold text-brand-text">7. Sécurité</h2>
-          <p class="text-brand-muted">
-            Toutes les communications sur ce site sont chiffrées au moyen du protocole HTTPS/TLS. L'accès aux formulaires reçus est strictement réservé au personnel autorisé de unilka.
-          </p>
-        </section>
-
-        <!-- 8. Vos droits -->
-        <section class="space-y-3">
-          <h2 class="text-xl font-bold text-brand-text">8. Vos droits</h2>
-          <p class="text-brand-muted">
-            En vertu de la Loi 25 du Québec, vous disposez d'un droit d'accès, de rectification et de suppression de vos renseignements personnels. Vous pouvez exercer ces droits en vous adressant à notre responsable de la protection des renseignements personnels. Vous avez également le droit de déposer une plainte auprès de la Commission d'accès à l'information du Québec (CAI).
-          </p>
-        </section>
-
-        <!-- 9. Personnes mineures -->
-        <section class="space-y-3">
-          <h2 class="text-xl font-bold text-brand-text">9. Personnes mineures</h2>
-          <p class="text-brand-muted">
-            Le formulaire de candidature s'adresse exclusivement aux personnes âgées de 18 ans et plus.
-          </p>
-        </section>
-
-        <!-- 10. Témoins et traceurs -->
-        <section class="space-y-3">
-          <h2 class="text-xl font-bold text-brand-text">10. Témoins et traceurs (Cookies)</h2>
-          <div class="p-4 rounded-lg bg-brand-surface-subtle border border-brand-primary-light font-medium text-brand-text">
-            Ce site n'utilise aucun témoin de navigation (cookie) publicitaire ni aucun outil de suivi d'audience tiers. Aucun bandeau de consentement n'est nécessaire.
-          </div>
-        </section>
-
-        <!-- 11. Modifications -->
-        <section class="space-y-3">
-          <h2 class="text-xl font-bold text-brand-text">11. Modifications</h2>
-          <p class="text-brand-muted">
-            Toute mise à jour de la présente politique sera publiée sur cette page avec mention de la date d'entrée en vigueur.
+        <!-- 4. Vos droits -->
+        <section class="space-y-3 p-6 rounded-2xl bg-[#F5FAFA] border border-[#0E7C86]/12">
+          <h2 class="text-lg font-extrabold text-[#0B2A2E]">4. Vos droits d'accès et de rectification</h2>
+          <p>
+            Conformément à la législation québécoise, vous disposez d'un droit d'accès, de mise à jour et de retrait de vos renseignements personnels à tout moment en écrivant à notre équipe à l'adresse officielle de l'entreprise.
           </p>
         </section>
 

@@ -1,0 +1,195 @@
+---
+import { cardJourneyStyles } from "./styles";
+import { wordsOf } from "@/lib/sharingan/scroll";
+
+export interface Props {
+  id?: string;
+}
+
+const { id = "card-journey" } = Astro.props;
+
+const statement = "L'exigence hôtelière 5 étoiles au service de vos espaces d'exception. De la villa contemporaine au siège d'entreprise, nous réinventons la propreté avec une discrétion absolue et une rigueur chirurgicale.";
+
+const aside = {
+  title: "Standards Haute Couture",
+  text: "Chaque protocole est supervisé par des gouvernants formés aux exigences strictes des palaces."
+};
+
+const eyebrow = "Piliers d'Excellence";
+const headline = "Nos Engagements Inébranlables";
+const description = "Une méthodologie hospitalière invisible, une confidentialité absolue sous contrat et une disponibilité sans compromis 24h/24 et 7j/7.";
+
+const tabs = [
+  { label: "Tous nos piliers", cards: [0, 1, 2, 3, 4, 5] },
+  { label: "Hygiène & Palaces", cards: [0, 1, 3] },
+  { label: "Confiance & Traçabilité", cards: [2, 4, 5] }
+];
+
+const cards = [
+  {
+    src: "/images/service-residential.jpg",
+    alt: "Zéro Traces & Désinfection Hospitalière",
+    title: "Zéro Traces & Hygiène",
+    meta: "Protocoles cliniques certifiés",
+    href: "/services/nettoyage-specialise"
+  },
+  {
+    src: "/images/service-commercial.jpg",
+    alt: "Confidentialité & Discrétion Absolue",
+    title: "Confidentialité Absolue",
+    meta: "Clauses NDA & Secret Pro",
+    href: "/a-propos"
+  },
+  {
+    src: "/images/service-regular.jpg",
+    alt: "Flexibilité 24/7 & Clés Sécurisées",
+    title: "Flexibilité 24/7 & Clés",
+    meta: "Coffres biométriques sécurisés",
+    href: "/services/entretien-regulier"
+  },
+  {
+    src: "/images/service-specialized.jpg",
+    alt: "Équipe Formée aux Standards Palaces",
+    title: "Standards Palaces 5★",
+    meta: "Contrôle gants blancs",
+    href: "/services/nettoyage-specialise"
+  },
+  {
+    src: "/images/philosophy-unilka.jpg",
+    alt: "Produits Éco-Certifiés & Haute Facture",
+    title: "Éco-Responsabilité Luxe",
+    meta: "Produits neutres & durables",
+    href: "/a-propos"
+  },
+  {
+    src: "/images/hero-unilka.jpg",
+    alt: "Audit & Traçabilité Numérisée",
+    title: "Traçabilité Numérisée",
+    meta: "Rapports photo horodatés",
+    href: "/soumission"
+  }
+];
+
+const words = wordsOf(statement);
+---
+
+<style set:html={cardJourneyStyles} />
+
+<style>
+  /* Custom brand overrides for Unilka */
+  .sg-cj {
+    --sg-cj-ink: #0B2A2E;
+    --sg-cj-muted: #5A7175;
+    --sg-cj-bg: #FFFFFF;
+    --sg-cj-surface: #F3F8F8;
+    --sg-cj-accent: #0E7C86;
+    font-family: inherit;
+    border-top: 1px solid rgba(14, 124, 134, 0.1);
+    border-bottom: 1px solid rgba(14, 124, 134, 0.1);
+  }
+
+  .sg-cj-aside {
+    border: 1px solid rgba(14, 124, 134, 0.12);
+    box-shadow: 0 10px 30px -10px rgba(11, 42, 46, 0.08);
+  }
+
+  .sg-cj-panel {
+    border: 1px solid rgba(14, 124, 134, 0.12);
+    box-shadow: 0 16px 40px -12px rgba(11, 42, 46, 0.1);
+  }
+
+  .sg-cj-cta {
+    background: #0E7C86;
+    color: #FFFFFF;
+    font-weight: 600;
+    box-shadow: 0 8px 24px -6px rgba(14, 124, 134, 0.35);
+  }
+  .sg-cj-cta:hover {
+    background: #0B2A2E;
+  }
+</style>
+
+<sg-card-journey id={id} length="2.8" tilt="8" accent="#0E7C86" data-sharingan="card-journey" class="sg-cj">
+  <div class="sg-cj-stage" data-sg-stage="">
+    <!-- The statement paragraph that darkens word-by-word on scroll -->
+    <p class="sg-cj-statement" data-sg-statement="">
+      {words.map((word, index) => (
+        <Fragment key={index}>
+          {index > 0 && " "}
+          <span data-sg-word="">{word}</span>
+        </Fragment>
+      ))}
+    </p>
+
+    <!-- Side note beside the staircase -->
+    {aside && (
+      <div class="sg-cj-aside" data-sg-aside="">
+        <h3 class="text-unilka-dark">{aside.title}</h3>
+        {aside.text && <p>{aside.text}</p>}
+      </div>
+    )}
+
+    <!-- The grid with copy, tabs and cards -->
+    <div class="sg-cj-grid" data-sg-grid="">
+      <div class="sg-cj-copy" data-sg-copy="">
+        <p class="sg-cj-eyebrow text-unilka-primary font-bold">{eyebrow}</p>
+        <h2 id={`${id}-title`} class="text-unilka-dark font-serif">{headline}</h2>
+        <p>{description}</p>
+        <a class="sg-cj-cta inline-flex items-center gap-2" href="/soumission">
+          <span>Demander un devis sur mesure</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="sg-cj-panel" data-sg-panel="">
+        <div class="sg-cj-panel-bg" aria-hidden="true"></div>
+        <div class="sg-cj-tabs" role="tablist" aria-label="Filtrer les engagements">
+          {tabs.map((tab, index) => (
+            <button
+              type="button"
+              role="tab"
+              class="sg-cj-tab"
+              data-sg-tab=""
+              data-cards={tab.cards?.join(",")}
+              aria-selected={index === 0 ? "true" : "false"}
+              aria-controls={`${id}-cards`}
+              tabindex={index === 0 ? 0 : -1}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        <ul id={`${id}-cards`} class="sg-cj-cards">
+          {cards.map((card) => (
+            <li class="sg-cj-card group" data-sg-card="">
+              <a href={card.href} class="block overflow-hidden rounded-2xl transition-transform duration-300 hover:-translate-y-1">
+                <img
+                  src={card.src}
+                  alt={card.alt}
+                  loading="lazy"
+                  draggable="false"
+                  class="transition-transform duration-500 group-hover:scale-105"
+                />
+                <span class="sg-cj-caption">
+                  <b class="text-unilka-dark text-sm font-semibold">{card.title}</b>
+                  {card.meta && <span class="text-xs text-unilka-slate/70">{card.meta}</span>}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</sg-card-journey>
+
+<script>
+  import { defineCardJourneyElement } from "./card-journey.element";
+  // Register the custom element once
+  if (typeof window !== "undefined") {
+    defineCardJourneyElement();
+  }
+</script>

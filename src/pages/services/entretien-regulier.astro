@@ -2,8 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CtaBanner from '../../components/ui/CtaBanner.astro';
 
-const pageTitle = "Entretien ménager régulier à tarif forfaitaire — unilka";
-const pageDescription = "Entretien régulier de votre maison ou entreprise : chaque semaine, aux 2 ou 3 semaines, ou chaque mois. Tarif forfaitaire après évaluation.";
+const pageTitle = "Entretien Régulier à Tarif Forfaitaire — unilka";
+const pageDescription = "Formules périodiques (hebdomadaire, bimensuel ou mensuel) à tarif forfaitaire garanti à Montréal, Longueuil et Lanaudière. Même intervenant qualifié.";
 
 const breadcrumbs = [
   { label: "Services", href: "/services/" },
@@ -11,112 +11,324 @@ const breadcrumbs = [
 ];
 
 const frequencies = [
-  "Chaque semaine",
-  "Toutes les deux semaines",
-  "Toutes les trois semaines",
-  "Une fois par mois",
-  "Selon vos besoins"
+  {
+    code: "01",
+    badge: "Idéal Résidences Actives",
+    isPopular: false,
+    title: "Chaque semaine",
+    rhythm: "Passage hebdomadaire garanti",
+    desc: "Pour les familles, les grandes demeures et les intérieurs où l'exigence de propreté doit être absolue et sans rupture au quotidien.",
+    features: [
+      "Même intervenant attitré chaque semaine",
+      "Jour et créneau horaire fixes réservés",
+      "Remise à niveau continue des pièces de vie"
+    ]
+  },
+  {
+    code: "02",
+    badge: "Formule la Plus Plébiscitée",
+    isPopular: true,
+    title: "Toutes les 2 semaines",
+    rhythm: "Passage bimensuel équilibré",
+    desc: "Le compromis parfait pour les couples et professionnels : fraîcheur pérenne de votre intérieur, détartrage régulier et entretien des sols.",
+    features: [
+      "Intervenant dédié et protocole suivi",
+      "Flexibilité de report d'un simple message",
+      "Tarif forfaitaire optimisé par passage"
+    ]
+  },
+  {
+    code: "03",
+    badge: "Confort & Espaces Calmes",
+    isPopular: false,
+    title: "Toutes les 3 semaines",
+    rhythm: "Rythme intermédiaire souple",
+    desc: "Conçu pour les résidences occupées à temps partiel, pied-à-terre ou personnes seules souhaitant un appui régulier et minutieux.",
+    features: [
+      "Nettoyage approfondi des sanitaires et cuisine",
+      "Aspiration haute filtration HEPA des sols",
+      "Ajustement du calendrier en période de vacances"
+    ]
+  },
+  {
+    code: "04",
+    badge: "Grand Rafraîchissement",
+    isPopular: false,
+    title: "Une fois par mois",
+    rhythm: "Passage mensuel en profondeur",
+    desc: "Un grand passage mensuel pour désinfecter les pièces d'eau, dépoussiérer les moulures et assurer un lavage soigné des parquets précieux.",
+    features: [
+      "Remise en ordre et aération complète",
+      "Lustrage des surfaces vitrées et miroirs",
+      "Zéro engagement : reconduction tacite sans contrainte"
+    ]
+  }
+];
+
+const perks = [
+  {
+    title: "Intervenant Attitré Unique",
+    desc: "Toujours le même préposé salarié de confiance qui connaît vos habitudes et vos exigences."
+  },
+  {
+    title: "Créneau Horaire Garanti",
+    desc: "Un rendez-vous bloqué dans votre agenda, avec une ponctualité exemplaire à chaque visite."
+  },
+  {
+    title: "Tarif Forfaitaire Fixe",
+    desc: "Montant clair et transparent par intervention, sans facturation à la minute ni frais dissimulés."
+  },
+  {
+    title: "Continuité de Service",
+    desc: "En cas de congé ou d'imprévu, un binôme formé et briefé sur votre intérieur prend le relais."
+  },
+  {
+    title: "Assurance Complète 2M$",
+    desc: "Couverture responsabilité civile intégrale pour la protection absolue de vos biens de valeur."
+  },
+  {
+    title: "Liberté d'Ajustement Totale",
+    desc: "Suspendez vos passages pendant vos vacances ou modifiez votre formule d'un simple courriel."
+  }
 ];
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
 
-  <!-- HERO SERVICE -->
-  <section class="bg-brand-surface-subtle py-12 lg:py-16 border-b border-brand-primary-light/60">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+  <!-- 1. HÉRO SERVICE ÉDITORIAL (STYLE OFFCUT) -->
+  <section class="relative bg-white border-b border-[#0E7C86]/12 overflow-hidden pt-10 pb-12 lg:pt-16 lg:pb-16">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
         
-        <div class="lg:col-span-7 space-y-4">
-          <span class="inline-block px-3 py-1 rounded-md bg-brand-primary-light text-brand-primary text-xs font-bold uppercase tracking-wider">
-            Formule récurrente
-          </span>
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-text tracking-tight">
-            Entretien régulier à tarif forfaitaire
+        <!-- Texte gauche -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="flex items-center gap-2.5 text-xs font-black uppercase tracking-[0.14em] text-[#0A5A62]">
+            <span class="w-2 h-2 rounded-full bg-[#0E7C86]"></span>
+            <span>Formule U/03 • Entretien Périodique & Récurrent</span>
+          </div>
+
+          <h1 class="text-[clamp(42px,11.5vw,56px)] sm:text-6xl lg:text-7xl xl:text-[76px] font-bold text-[#0B2A2E] tracking-[-0.035em] leading-[1.06] mt-7 mb-0">
+            <span class="block font-bold text-[#0B2A2E] whitespace-nowrap">Au quotidien.</span>
+            <span class="block font-serif italic font-normal text-[#0E7C86] mt-1 whitespace-nowrap">Sérénité totale.</span>
           </h1>
-          <p class="text-base sm:text-lg text-brand-muted leading-relaxed">
-            Vous souhaitez maintenir votre maison ou votre entreprise propre sans avoir à vous soucier de réserver un service à chaque fois ? Notre service d'entretien régulier vous permet de bénéficier d'un nettoyage selon une fréquence adaptée à vos besoins.
+
+          <p class="text-base sm:text-lg text-[#3D5A5E] leading-[1.75] max-w-xl mt-6">
+            La tranquillité d'un intérieur impeccable en continu sans avoir à y penser. Calendrier sur-mesure, même préposé de confiance et liberté d'ajustement totale.
           </p>
-          <div class="pt-2 flex flex-wrap gap-3">
+
+          <div class="pt-4 flex flex-wrap items-center gap-4">
             <a
               href="/soumission/"
-              class="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md shadow-sm transition-colors no-underline"
+              class="inline-flex items-center justify-center px-8 py-4 text-sm font-bold text-white bg-[#0B2A2E] hover:bg-[#0E7C86] rounded-full transition-all duration-200 no-underline shadow-xs hover:-translate-y-0.5"
             >
-              Obtenir une soumission
+              <span>Demander un forfait récurrent</span>
+              <span class="ml-2 font-mono">↗</span>
             </a>
             <a
               href="/services/"
-              class="inline-flex items-center justify-center px-4 py-3 text-sm font-semibold text-brand-text hover:text-brand-primary no-underline"
+              class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#0B2A2E] hover:text-[#0E7C86] transition-colors py-3 px-2 no-underline"
             >
-              &larr; Retour aux services
+              <span class="font-mono text-sm">←</span>
+              <span>Retour au catalogue</span>
             </a>
           </div>
         </div>
 
-        <div class="lg:col-span-5 flex justify-center">
-          <img
-            src="/illustrations/regular.svg"
-            alt="Illustration entretien régulier unilka"
-            width="320"
-            height="240"
-            class="w-full max-w-sm h-auto bg-white p-4 rounded-2xl border border-brand-primary-light/80 shadow-xs"
-          />
+        <!-- Image droite : Asymétrique Offcut -->
+        <div class="lg:col-span-5 relative mt-6 lg:mt-0">
+          <div class="relative rounded-[140px_16px_16px_16px] overflow-hidden border border-[#0B2A2E]/10 shadow-[0_20px_50px_rgba(11,42,46,0.12)] bg-[#E8E2D2] aspect-[4/5] sm:aspect-auto sm:h-[500px]">
+            <img
+              src="/images/service-regular.jpg"
+              alt="Maison contemporaine baignée de lumière et entretenue régulièrement par unilka"
+              width="800"
+              height="1000"
+              class="w-full h-full object-cover"
+              loading="eager"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0B2A2E]/40 via-transparent to-transparent pointer-events-none"></div>
+
+            <!-- Légende haut-droite -->
+            <div class="absolute top-6 right-6 text-right text-white/95 text-[10px] font-bold tracking-[0.14em] uppercase drop-shadow-md">
+              <span>RÉCURRENCE & SÉRÉNITÉ<br />CALENDRIER DÉDIÉ</span>
+            </div>
+
+
+            <!-- Badge circulaire Offcut -->
+            <div class="absolute -bottom-4 -right-4 sm:bottom-6 sm:right-6 w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-white/95 backdrop-blur-md shadow-xl border border-[#0B2A2E]/10 flex flex-col items-center justify-center text-center p-3">
+              <span class="text-[9px] font-black uppercase tracking-[0.18em] text-[#0A5A62] leading-tight">
+                INTERVENANT<br />ATTITRÉ
+              </span>
+              <span class="text-sm font-bold text-[#0B2A2E] mt-0.5">Même pro</span>
+              <span class="text-[8px] font-bold uppercase tracking-wider text-[#0E7C86] mt-0.5">CONFIANCE ↓</span>
+            </div>
+          </div>
         </div>
 
+      </div>
+
+      <!-- Hero Foot : 3 piliers -->
+      <div class="mt-14 pt-8 border-t border-[#0E7C86]/12 grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs text-[#3D5A5E]">
+        <div class="flex items-start gap-3">
+          <span class="font-bold text-[#0E7C86] text-sm">01.</span>
+          <div>
+            <strong class="text-[#0B2A2E] font-bold block">Intervenant Attitré Unique</strong>
+            <span class="leading-relaxed">La même personne qualifiée intervient chaque semaine chez vous.</span>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="font-bold text-[#0E7C86] text-sm">02.</span>
+          <div>
+            <strong class="text-[#0B2A2E] font-bold block">Remplacement Assuré</strong>
+            <span class="leading-relaxed">En cas d'imprévu ou de congé, un préposé formé prend le relais.</span>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="font-bold text-[#0E7C86] text-sm">03.</span>
+          <div>
+            <strong class="text-[#0B2A2E] font-bold block">Ajustement sans Pénalité</strong>
+            <span class="leading-relaxed">Suspension pour vacances ou décalage d'un clic auprès du concierge.</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- CONTENU PRINCIPAL -->
-  <section class="py-16 bg-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+  <!-- 2. RYTHMES & FORFAITS RÉCURRENTS -->
+  <section class="py-20 lg:py-28 bg-[#F5FAFA] border-b border-[#0E7C86]/12">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
       
-      <!-- Fréquences possibles -->
-      <div class="space-y-6">
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-text tracking-tight">
-          Fréquences possibles
+      <!-- En-tête de section -->
+      <div class="text-center max-w-3xl mx-auto space-y-4">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E3F4F5] border border-[#0E7C86]/20">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#0E7C86]"></span>
+          <span class="text-xs font-black uppercase tracking-[0.14em] text-[#0E7C86]">
+            Sérénité Continue • Forfait Fixe Garanti
+          </span>
+        </div>
+        
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0B2A2E] tracking-tight leading-[1.12]">
+          Choisissez le rythme adapté à votre vie.
+          <span class="block font-serif italic font-normal text-[#0E7C86] mt-1 text-2xl sm:text-3xl lg:text-4xl">
+            Un intérieur impeccable en permanence, sans charge mentale.
+          </span>
         </h2>
-        <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" role="list">
-          {frequencies.map((freq) => (
-            <li class="flex items-center gap-3 p-3.5 rounded-lg bg-brand-surface-subtle border border-brand-primary-light/60 text-sm font-semibold text-brand-text">
-              <svg class="w-5 h-5 text-brand-primary shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-              </svg>
-              <span>{freq}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <!-- Un tarif forfaitaire adapté -->
-      <div class="space-y-3 pt-6 border-t border-brand-primary-light/60">
-        <h2 class="text-xl sm:text-2xl font-bold text-brand-text">
-          Un tarif forfaitaire adapté à votre situation
-        </h2>
-        <p class="text-base text-brand-muted leading-relaxed">
-          Après l'évaluation de vos besoins, nous pouvons vous proposer un tarif forfaitaire adapté à votre situation.
+        
+        <p class="text-sm sm:text-base text-[#3D5A5E] leading-relaxed max-w-2xl mx-auto">
+          Après une première visite d'évaluation gratuite, nous bloquons un créneau récurrent dans votre agenda et appliquons un tarif forfaitaire fixe par passage.
         </p>
       </div>
 
-      <!-- 3 étapes de mise en place -->
-      <div class="space-y-6 pt-6 border-t border-brand-primary-light/60">
-        <h2 class="text-xl sm:text-2xl font-bold text-brand-text">
-          Mise en place de votre service
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="p-5 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/60 space-y-2">
-            <span class="text-xs font-bold text-brand-primary uppercase tracking-wider">Étape 1</span>
-            <h3 class="font-bold text-brand-text text-base">Évaluation de vos besoins</h3>
-            <p class="text-xs text-brand-muted">Nous prenons le temps de comprendre la superficie, vos priorités et la fréquence souhaitée.</p>
+      <!-- Grille des 4 Fréquences avec Badges & Highlights -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+        {frequencies.map((freq) => (
+          <div class={`group relative bg-white rounded-3xl border p-7 sm:p-9 shadow-[0_8px_30px_rgba(11,42,46,0.04)] hover:shadow-[0_16px_40px_rgba(11,42,46,0.08)] transition-all duration-300 flex flex-col justify-between ${
+            freq.isPopular ? 'border-[#0E7C86] ring-1 ring-[#0E7C86]' : 'border-[#0E7C86]/15 hover:border-[#0E7C86]/40'
+          }`}>
+            <div>
+              <!-- En-tête de carte -->
+              <div class="flex items-center justify-between pb-5 border-b border-[#0E7C86]/10">
+                <div class="flex items-center gap-3">
+                  <span class={`w-9 h-9 rounded-xl font-mono font-bold text-xs flex items-center justify-center ${
+                    freq.isPopular ? 'bg-[#0E7C86] text-white' : 'bg-[#E3F4F5] text-[#0E7C86]'
+                  }`}>
+                    {freq.code}
+                  </span>
+                  <span class="text-xs font-bold uppercase tracking-wider text-[#0E7C86]">
+                    {freq.badge}
+                  </span>
+                </div>
+                {freq.isPopular && (
+                  <span class="text-[10px] font-black uppercase tracking-wider text-white bg-[#0E7C86] px-3 py-1 rounded-full shadow-xs">
+                    Populaire
+                  </span>
+                )}
+              </div>
+
+              <!-- Titre et description -->
+              <h3 class="text-xl sm:text-2xl font-bold text-[#0B2A2E] mt-5 mb-1 group-hover:text-[#0E7C86] transition-colors">
+                {freq.title}
+              </h3>
+
+              <p class="text-xs font-semibold text-[#0E7C86] mb-3">
+                {freq.rhythm}
+              </p>
+
+              <p class="text-xs sm:text-sm text-[#3D5A5E] leading-relaxed mb-6">
+                {freq.desc}
+              </p>
+
+              <!-- Points d'action précis -->
+              <ul class="space-y-3 pt-2" role="list">
+                {freq.features.map((feat) => (
+                  <li class="flex items-start gap-3 text-xs sm:text-sm text-[#0B2A2E]">
+                    <span class="w-5 h-5 rounded-full bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">
+                      ✓
+                    </span>
+                    <span class="font-medium">{feat}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <!-- Pied de carte -->
+            <div class="mt-8 pt-4 border-t border-[#0E7C86]/10 flex items-center justify-between text-[11px] font-semibold text-[#3D5A5E]">
+              <span class="text-[#0E7C86] font-bold">Même intervenant attitré</span>
+              <span class="text-[#0B2A2E]/50">Liberté d'ajustement</span>
+            </div>
           </div>
-          <div class="p-5 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/60 space-y-2">
-            <span class="text-xs font-bold text-brand-primary uppercase tracking-wider">Étape 2</span>
-            <h3 class="font-bold text-brand-text text-base">Proposition d'un forfait</h3>
-            <p class="text-xs text-brand-muted">Un tarif clair, sans frais cachés, pour un entretien prévisible et serein.</p>
+        ))}
+      </div>
+
+      <!-- Les 6 Avantages Inclus dans Chaque Forfait -->
+      <div class="p-8 sm:p-10 rounded-3xl bg-white border border-[#0E7C86]/15 space-y-8 shadow-sm">
+        <div class="text-center max-w-2xl mx-auto space-y-2">
+          <h3 class="text-xl sm:text-2xl font-bold text-[#0B2A2E]">
+            Les garanties incluses dans votre formule récurrente
+          </h3>
+          <p class="text-xs sm:text-sm text-[#3D5A5E]">
+            Une relation de confiance à long terme, encadrée par des engagements contractuels stricts.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {perks.map((perk) => (
+            <div class="p-5 rounded-2xl bg-[#F5FAFA] border border-[#0E7C86]/12 space-y-2 hover:border-[#0E7C86]/30 transition-colors">
+              <div class="flex items-center gap-2.5">
+                <span class="w-6 h-6 rounded-full bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center text-xs font-black">
+                  ✓
+                </span>
+                <h4 class="text-sm font-bold text-[#0B2A2E]">{perk.title}</h4>
+              </div>
+              <p class="text-xs text-[#3D5A5E] leading-relaxed pl-8.5">
+                {perk.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Bloc Reassurance Forfait -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0B2A2E] to-[#0A5A62] p-8 sm:p-10 text-white shadow-xl">
+        <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div class="space-y-2 max-w-2xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-[11px] font-bold text-white uppercase tracking-wider">
+              <span>Évaluation Gratuite & Sans Engagement</span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold text-white">
+              Prêt(e) à mettre la sérénité de votre intérieur sur pilote automatique ?
+            </h3>
+            <p class="text-xs sm:text-sm text-white/80 leading-relaxed">
+              Nous réalisons une visite initiale de courtoisie pour comprendre votre mode de vie et vous délivrer un tarif forfaitaire garanti par passage.
+            </p>
           </div>
-          <div class="p-5 rounded-xl bg-brand-surface-subtle border border-brand-primary-light/60 space-y-2">
-            <span class="text-xs font-bold text-brand-primary uppercase tracking-wider">Étape 3</span>
-            <h3 class="font-bold text-brand-text text-base">Mise en place du calendrier</h3>
-            <p class="text-xs text-brand-muted">Votre créneau d'intervention régulier est bloqué avec notre équipe dévouée.</p>
+
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+            <a
+              href="/soumission/"
+              class="px-7 py-3.5 text-xs font-bold text-[#0B2A2E] bg-white hover:bg-[#E3F4F5] rounded-full transition-all duration-200 text-center shadow-md hover:scale-[1.02] active:scale-[0.98] no-underline"
+            >
+              Demander mon évaluation régulière ↗
+            </a>
           </div>
         </div>
       </div>
@@ -124,11 +336,11 @@ const frequencies = [
     </div>
   </section>
 
-  <!-- BANDE FINALE -->
+  <!-- 3. BANDEAU DE CONVERSION -->
   <CtaBanner
-    title="Prêt à automatiser votre ménage ?"
-    description="Demandez une soumission dès aujourd'hui pour planifier votre entretien régulier."
-    ctaText="Obtenir une soumission"
+    title="Prêt(e) à mettre la propreté de votre intérieur sur pilote automatique ?"
+    description="Organisons votre première évaluation sans engagement pour définir votre tarif forfaitaire régulier."
+    ctaText="Demander une évaluation régulière"
     ctaLink="/soumission/"
   />
 

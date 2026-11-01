@@ -1,5 +1,4 @@
 ---
-import Logo from './Logo.astro';
 import config from '../../data/site-config.json';
 import navData from '../../data/navigation.json';
 import services from '../../data/services.json';
@@ -8,136 +7,171 @@ const currentYear = new Date().getFullYear();
 const hasContactInfo = Boolean(config.business.phone || config.business.email || config.business.address);
 ---
 
-<footer class="bg-brand-surface-subtle border-t border-brand-primary-light/80 mt-auto" aria-labelledby="footer-heading">
+<footer class="bg-white border-t border-[#0E7C86]/15 mt-auto" aria-labelledby="footer-heading">
   <h2 id="footer-heading" class="sr-only">Pied de page</h2>
   
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12">
       
-      <!-- Colonne 1 : Identité & Régions -->
-      <div class="space-y-4">
-        <Logo size="md" />
-        <p class="text-sm font-medium text-brand-primary">
-          {config.business.slogan}
+      <!-- Colonne 1 : Identité & Régions (4 colonnes) -->
+      <div class="lg:col-span-4 space-y-5">
+        <a href="/" class="group inline-flex items-center gap-3 no-underline" aria-label="unilka — Accueil">
+          <span class="w-10 h-10 rounded-xl bg-[#0E7C86] flex items-center justify-center text-white font-bold text-base shadow-sm group-hover:scale-105 transition-transform duration-200">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 5V13C6 16.3137 8.68629 19 12 19C15.3137 19 18 16.3137 18 13V5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="18" cy="6" r="2.5" fill="#FFB703" />
+            </svg>
+          </span>
+          <span class="text-2xl font-black text-[#0B2A2E] tracking-tight lowercase">
+            unilka<span class="text-[#0E7C86] text-xs font-bold align-super ml-0.5">®</span>
+          </span>
+        </a>
+
+        <p class="text-xs font-bold uppercase tracking-wider text-[#0E7C86]">
+          {config.business.slogan || "Entretien d'espaces & Rigueur hôtelière"}
         </p>
-        <p class="text-xs text-brand-muted leading-relaxed">
-          Services professionnels de nettoyage à Montréal, Longueuil et la Rive-Sud, ainsi que dans Lanaudière.
+        
+        <p class="text-sm text-[#3D5A5E] leading-relaxed max-w-sm">
+          Services d'entretien ménager haut de gamme pour résidences privées, copropriétés et locaux d'affaires à Montréal, Longueuil et Lanaudière.
         </p>
+
+        <div class="pt-2">
+          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#F5FAFA] border border-[#0E7C86]/15 text-[11px] font-bold text-[#0B2A2E]">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#0E7C86]"></span>
+            <span>Sans contrat d'engagement • 100% Assuré</span>
+          </span>
+        </div>
       </div>
 
-      <!-- Colonne 2 : Services -->
-      <div>
-        <h3 class="text-sm font-bold uppercase tracking-wider text-brand-text mb-4">
-          Nos Services
+      <!-- Colonne 2 : Services (3 colonnes) -->
+      <div class="lg:col-span-3">
+        <h3 class="text-xs font-extrabold uppercase tracking-[0.14em] text-[#0B2A2E] mb-5">
+          Formules d'Entretien
         </h3>
-        <ul class="space-y-2.5 text-sm" role="list">
+        <ul class="space-y-3 text-sm" role="list">
           {services.map((service) => (
             <li>
               <a
                 href={`/services/${service.slug}/`}
-                class="text-brand-muted hover:text-brand-primary transition-colors no-underline block"
+                class="text-[#3D5A5E] hover:text-[#0E7C86] transition-colors no-underline block"
               >
                 {service.title}
               </a>
             </li>
           ))}
-          <li class="pt-1">
+          <li class="pt-2">
             <a
               href="/services/"
-              class="text-xs font-semibold text-brand-primary hover:text-brand-primary-dark no-underline block"
+              class="text-xs font-bold text-[#0E7C86] hover:text-[#0A5A62] no-underline inline-flex items-center gap-1"
             >
-              Tous les services &rarr;
+              <span>Tous nos forfaits</span>
+              <span aria-hidden="true">↗</span>
             </a>
           </li>
         </ul>
       </div>
 
-      <!-- Colonne 3 : Entreprise -->
-      <div>
-        <h3 class="text-sm font-bold uppercase tracking-wider text-brand-text mb-4">
-          Entreprise
+      <!-- Colonne 3 : Navigation & Entreprise (2 colonnes) -->
+      <div class="lg:col-span-2">
+        <h3 class="text-xs font-extrabold uppercase tracking-[0.14em] text-[#0B2A2E] mb-5">
+          Navigation
         </h3>
-        <ul class="space-y-2.5 text-sm" role="list">
+        <ul class="space-y-3 text-sm" role="list">
           <li>
-            <a href="/a-propos/" class="text-brand-muted hover:text-brand-primary transition-colors no-underline block">
-              À propos de unilka
+            <a href="/a-propos/" class="text-[#3D5A5E] hover:text-[#0E7C86] transition-colors no-underline block">
+              À propos
             </a>
           </li>
           <li>
-            <a href="/zones-desservies/" class="text-brand-muted hover:text-brand-primary transition-colors no-underline block">
+            <a href="/zones-desservies/" class="text-[#3D5A5E] hover:text-[#0E7C86] transition-colors no-underline block">
               Zones desservies
             </a>
           </li>
           <li>
-            <a href="/faq/" class="text-brand-muted hover:text-brand-primary transition-colors no-underline block">
+            <a href="/faq/" class="text-[#3D5A5E] hover:text-[#0E7C86] transition-colors no-underline block">
               Questions fréquentes
             </a>
           </li>
           <li>
-            <a href="/contact/" class="text-brand-muted hover:text-brand-primary transition-colors no-underline block">
+            <a href="/contact/" class="text-[#3D5A5E] hover:text-[#0E7C86] transition-colors no-underline block">
               Nous joindre
             </a>
           </li>
           <li>
-            <a href="/carrieres/" class="text-brand-muted hover:text-brand-primary transition-colors no-underline block font-medium">
-              Emplois & Carrières
+            <a href="/carrieres/" class="text-[#3D5A5E] hover:text-[#0E7C86] transition-colors no-underline block font-semibold">
+              Carrières & Recrutement
             </a>
           </li>
         </ul>
       </div>
 
-      <!-- Colonne 4 : Légal & Contact conditionnel -->
-      <div class="space-y-4">
-        <h3 class="text-sm font-bold uppercase tracking-wider text-brand-text mb-4">
-          Informations légales
+      <!-- Colonne 4 : Coordonnées & Légal (3 colonnes) -->
+      <div class="lg:col-span-3 space-y-5">
+        <h3 class="text-xs font-extrabold uppercase tracking-[0.14em] text-[#0B2A2E] mb-5">
+          Contact & Soumission
         </h3>
-        <ul class="space-y-2.5 text-sm" role="list">
-          {navData.legalNav.map((item) => (
-            <li>
-              <a href={item.href} class="text-brand-muted hover:text-brand-primary transition-colors no-underline block">
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
 
-        {/* Bloc coordonnées conditionnel (affiché UNIQUEMENT si renseigné) */}
+        <div class="p-4 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/12 space-y-2">
+          <p class="text-xs font-bold uppercase tracking-wider text-[#0E7C86]">Service d'estimation</p>
+          <p class="text-xs text-[#3D5A5E]">
+            Réponse et proposition sur-mesure sous 24h ouvrées.
+          </p>
+          <div class="pt-1">
+            <a
+              href="/soumission/"
+              class="inline-flex items-center text-xs font-bold text-[#0B2A2E] hover:text-[#0E7C86] no-underline"
+            >
+              <span>Demander un devis en ligne ↗</span>
+            </a>
+          </div>
+        </div>
+
         {hasContactInfo && (
-          <div class="pt-3 border-t border-brand-primary-light/60 space-y-2 text-xs text-brand-muted">
-            {config.business.phone && (
+          <div class="space-y-1.5 text-xs text-[#3D5A5E]">
+            {config.business.email && (
               <p>
-                <span class="font-medium text-brand-text">Téléphone :</span>{' '}
-                <a href={`tel:${config.business.phone.replace(/[^0-9+]/g, '')}`} class="hover:text-brand-primary">
-                  {config.business.phone}
+                <span class="font-bold text-[#0B2A2E]">Courriel :</span>{' '}
+                <a href={`mailto:${config.business.email}`} class="hover:text-[#0E7C86] transition-colors">
+                  {config.business.email}
                 </a>
               </p>
             )}
-            {config.business.email && (
+            {config.business.phone && (
               <p>
-                <span class="font-medium text-brand-text">Courriel :</span>{' '}
-                <a href={`mailto:${config.business.email}`} class="hover:text-brand-primary">
-                  {config.business.email}
+                <span class="font-bold text-[#0B2A2E]">Téléphone :</span>{' '}
+                <a href={`tel:${config.business.phone.replace(/[^0-9+]/g, '')}`} class="hover:text-[#0E7C86] transition-colors">
+                  {config.business.phone}
                 </a>
               </p>
             )}
             {config.business.address && (
               <p>
-                <span class="font-medium text-brand-text">Adresse :</span> {config.business.address}
+                <span class="font-bold text-[#0B2A2E]">Siège :</span> {config.business.address}
               </p>
             )}
           </div>
         )}
+
+        <ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-[#3D5A5E] pt-2" role="list">
+          {navData.legalNav.map((item) => (
+            <li>
+              <a href={item.href} class="hover:text-[#0E7C86] transition-colors no-underline">
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
 
     </div>
 
-    <!-- Ligne de copyright et conformité -->
-    <div class="mt-12 pt-6 border-t border-brand-primary-light/60 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-brand-muted">
+    <!-- Ligne de copyright et conformité québécoise -->
+    <div class="mt-14 pt-8 border-t border-[#0E7C86]/12 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#3D5A5E]">
       <p>
-        &copy; {currentYear} {config.business.legalName || config.business.name}. Tous droits réservés.
+        &copy; {currentYear} unilka inc. Tous droits réservés. Montréal, Québec.
       </p>
-      <p class="text-center sm:text-right">
-        Site respectueux de votre vie privée : aucun témoin (cookie), aucun outil de suivi publicitaire.
+      <p class="text-center sm:text-right text-[11px] text-[#3D5A5E]/80">
+        Site respectueux de votre vie privée : aucun traceur publicitaire, hébergement haute performance.
       </p>
     </div>
 

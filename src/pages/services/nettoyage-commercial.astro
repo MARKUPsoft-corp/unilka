@@ -2,121 +2,314 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CtaBanner from '../../components/ui/CtaBanner.astro';
 
-const pageTitle = "Nettoyage commercial à Montréal — unilka";
-const pageDescription = "Entretien de bureaux, commerces et locaux professionnels, y compris après travaux ou rénovation. Soumission personnalisée à Montréal et environs.";
+const pageTitle = "Nettoyage Commercial & Bureaux à Montréal — unilka";
+const pageDescription = "Entretien de bureaux, commerces, cliniques et espaces d'affaires à Montréal, Longueuil et Lanaudière. Discrétion et horaires flexibles.";
 
 const breadcrumbs = [
   { label: "Services", href: "/services/" },
   { label: "Nettoyage commercial", href: "/services/nettoyage-commercial/" }
 ];
 
-const commercialClients = [
-  "Bureaux",
-  "Commerces",
-  "Locaux professionnels",
-  "Petites entreprises",
-  "Espaces communs",
-  "Immeubles et espaces locatifs",
-  "Locaux après travaux ou rénovation"
+const commercialZones = [
+  {
+    code: "01",
+    zone: "Bureaux, Open Spaces & Écrans",
+    subtitle: "Productivité & désinfection non abrasive",
+    description: "Nettoyage quotidien ou périodique des plans de travail, écrans plats, claviers et téléphones. Tri sélectif et discrétion absolue envers vos documents.",
+    points: [
+      "Dépoussiérage antistatique des postes informatiques & périphériques",
+      "Désinfection virucide douce des surfaces de contact direct",
+      "Vidage systématique des corbeilles et tri des matières recyclables",
+      "Aspiration soignée sous les bureaux et le long des plinthes"
+    ]
+  },
+  {
+    code: "02",
+    zone: "Salles de Conférence & Cloisons Vitrées",
+    subtitle: "Image de marque impeccable face à vos clients",
+    description: "Préparation des espaces de réunion : tables monumentales lustrées sans traces de doigts, vitrages panoramiques impeccables et fauteuils alignés.",
+    points: [
+      "Lustrage des tables en bois noble, verre ou composite",
+      "Élimination des empreintes sur les cloisons vitrées et portes",
+      "Aération et assainissement atmosphérique de la salle",
+      "Désinfection des commandes multimédias et télécommandes"
+    ]
+  },
+  {
+    code: "03",
+    zone: "Cafétéria, Cuisine d'Équipe & Pauses",
+    subtitle: "Hygiène irréprochable des espaces partagés",
+    description: "Assainissement complet des zones de convivialité : dégraissage des électroménagers partagés, détartrage des éviers et plans de préparation.",
+    points: [
+      "Nettoyage et assainissement intérieur/extérieur des micro-ondes",
+      "Dégraissage et lustrage des comptoirs et éviers inox",
+      "Désinfection des tables de repas et machines à café",
+      "Évacuation rapide des déchets organiques et compost"
+    ]
+  },
+  {
+    code: "04",
+    zone: "Sanitaires & Points d'Accueil Visiteurs",
+    subtitle: "Normes d'hygiène strictes & première impression",
+    description: "Désinfection approfondie des blocs sanitaires avec réapprovisionnement des consommables, et mise en valeur immédiate du hall de réception.",
+    points: [
+      "Désinfection complète des sanitaires avec produits certifiés",
+      "Contrôle et réapprovisionnement du savon et papier essuie-mains",
+      "Miroirs et robinetteries polis sans aucun dépôt calcaire",
+      "Sas d'entrée, tapis d'accueil et banques de réception soignés"
+    ]
+  }
+];
+
+const spaces = [
+  "Bureaux d'entreprises",
+  "Cabinets & cliniques privées",
+  "Boutiques & showrooms",
+  "Agences & espaces créatifs",
+  "Halls d'immeubles & copropriétés",
+  "Fin de chantier commercial"
 ];
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
 
-  <!-- HERO SERVICE -->
-  <section class="bg-brand-surface-subtle py-12 lg:py-16 border-b border-brand-primary-light/60">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+  <!-- 1. HÉRO SERVICE ÉDITORIAL (STYLE OFFCUT) -->
+  <section class="relative bg-white border-b border-[#0E7C86]/12 overflow-hidden pt-10 pb-12 lg:pt-16 lg:pb-16">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
         
-        <div class="lg:col-span-7 space-y-4">
-          <span class="inline-block px-3 py-1 rounded-md bg-brand-primary-light text-brand-primary text-xs font-bold uppercase tracking-wider">
-            Service commercial & professionnel
-          </span>
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-text tracking-tight">
-            Nettoyage commercial à Montréal et environs
+        <!-- Texte gauche -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="flex items-center gap-2.5 text-xs font-black uppercase tracking-[0.14em] text-[#0A5A62]">
+            <span class="w-2 h-2 rounded-full bg-[#0E7C86]"></span>
+            <span>Formule U/02 • Espaces Professionnels & Bureaux</span>
+          </div>
+
+          <h1 class="text-[clamp(42px,11.5vw,56px)] sm:text-6xl lg:text-7xl xl:text-[76px] font-bold text-[#0B2A2E] tracking-[-0.035em] leading-[1.06] mt-7 mb-0">
+            <span class="block font-bold text-[#0B2A2E] whitespace-nowrap">Bureaux nets.</span>
+            <span class="block font-serif italic font-normal text-[#0E7C86] mt-1 whitespace-nowrap">Image soignée.</span>
           </h1>
-          <p class="text-base sm:text-lg text-brand-muted leading-relaxed">
-            Un environnement de travail propre contribue à offrir une meilleure expérience aux employés, aux clients et aux visiteurs.
+
+          <p class="text-base sm:text-lg text-[#3D5A5E] leading-[1.75] max-w-xl mt-6">
+            Un environnement professionnel irréprochable qui valorise votre marque et favorise le bien-être de vos équipes. Interventions discrètes tôt le matin, en soirée ou le week-end.
           </p>
-          <div class="pt-2 flex flex-wrap gap-3">
+
+          <div class="pt-4 flex flex-wrap items-center gap-4">
             <a
               href="/soumission/"
-              class="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md shadow-sm transition-colors no-underline"
+              class="inline-flex items-center justify-center px-8 py-4 text-sm font-bold text-white bg-[#0B2A2E] hover:bg-[#0E7C86] rounded-full transition-all duration-200 no-underline shadow-xs hover:-translate-y-0.5"
             >
-              Obtenir une soumission
+              <span>Soumission d'entreprise</span>
+              <span class="ml-2 font-mono">↗</span>
             </a>
             <a
               href="/services/"
-              class="inline-flex items-center justify-center px-4 py-3 text-sm font-semibold text-brand-text hover:text-brand-primary no-underline"
+              class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#0B2A2E] hover:text-[#0E7C86] transition-colors py-3 px-2 no-underline"
             >
-              &larr; Retour aux services
+              <span class="font-mono text-sm">←</span>
+              <span>Retour au catalogue</span>
             </a>
           </div>
         </div>
 
-        <div class="lg:col-span-5 flex justify-center">
-          <img
-            src="/illustrations/commercial.svg"
-            alt="Illustration nettoyage commercial unilka"
-            width="320"
-            height="240"
-            class="w-full max-w-sm h-auto bg-white p-4 rounded-2xl border border-brand-primary-light/80 shadow-xs"
-          />
+        <!-- Image droite : Asymétrique Offcut -->
+        <div class="lg:col-span-5 relative mt-6 lg:mt-0">
+          <div class="relative rounded-[140px_16px_16px_16px] overflow-hidden border border-[#0B2A2E]/10 shadow-[0_20px_50px_rgba(11,42,46,0.12)] bg-[#E8E2D2] aspect-[4/5] sm:aspect-auto sm:h-[500px]">
+            <img
+              src="/images/service-commercial.jpg"
+              alt="Bureaux contemporains impeccables entretenus par unilka à Montréal"
+              width="800"
+              height="1000"
+              class="w-full h-full object-cover"
+              loading="eager"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0B2A2E]/40 via-transparent to-transparent pointer-events-none"></div>
+
+            <!-- Légende haut-droite -->
+            <div class="absolute top-6 right-6 text-right text-white/95 text-[10px] font-bold tracking-[0.14em] uppercase drop-shadow-md">
+              <span>ESPACES PRO & BUREAUX<br />MONTRÉAL & RIVE-SUD</span>
+            </div>
+
+
+            <!-- Badge circulaire Offcut -->
+            <div class="absolute -bottom-4 -right-4 sm:bottom-6 sm:right-6 w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-white/95 backdrop-blur-md shadow-xl border border-[#0B2A2E]/10 flex flex-col items-center justify-center text-center p-3">
+              <span class="text-[9px] font-black uppercase tracking-[0.18em] text-[#0A5A62] leading-tight">
+                HORAIRES<br />DÉCALÉS
+              </span>
+              <span class="text-sm font-bold text-[#0B2A2E] mt-0.5">7j / 7</span>
+              <span class="text-[8px] font-bold uppercase tracking-wider text-[#0E7C86] mt-0.5">SUR-MESURE ↓</span>
+            </div>
+          </div>
         </div>
 
       </div>
+
+      <!-- Hero Foot : 3 piliers -->
+      <div class="mt-14 pt-8 border-t border-[#0E7C86]/12 grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs text-[#3D5A5E]">
+        <div class="flex items-start gap-3">
+          <span class="font-bold text-[#0E7C86] text-sm">01.</span>
+          <div>
+            <strong class="text-[#0B2A2E] font-bold block">Horaires Décalés Disponibles</strong>
+            <span class="leading-relaxed">Avant l'ouverture des bureaux, en soirée ou le samedi.</span>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="font-bold text-[#0E7C86] text-sm">02.</span>
+          <div>
+            <strong class="text-[#0B2A2E] font-bold block">Protocole Sanitaire Rigoureux</strong>
+            <span class="leading-relaxed">Désinfection des points de contact fréquents et espaces partagés.</span>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="font-bold text-[#0E7C86] text-sm">03.</span>
+          <div>
+            <strong class="text-[#0B2A2E] font-bold block">Facturation Entreprise Claire</strong>
+            <span class="leading-relaxed">Factures nettes avec TPS/TVQ pour votre comptabilité d'affaires.</span>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- CONTENU PRINCIPAL -->
-  <section class="py-16 bg-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+  <!-- 2. PROTOCOLE D'EXCELLENCE POUR ESPACES D'AFFAIRES -->
+  <section class="py-20 lg:py-28 bg-[#F5FAFA] border-b border-[#0E7C86]/12">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
       
-      <!-- Types de locaux -->
-      <div class="space-y-6">
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-text tracking-tight">
-          Nous proposons des services de nettoyage pour
+      <!-- En-tête de section -->
+      <div class="text-center max-w-3xl mx-auto space-y-4">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E3F4F5] border border-[#0E7C86]/20">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#0E7C86]"></span>
+          <span class="text-xs font-black uppercase tracking-[0.14em] text-[#0E7C86]">
+            Rigueur Institutionnelle • Grand Montréal & Rive-Sud
+          </span>
+        </div>
+        
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0B2A2E] tracking-tight leading-[1.12]">
+          Ce que nos équipes prennent en charge.
+          <span class="block font-serif italic font-normal text-[#0E7C86] mt-1 text-2xl sm:text-3xl lg:text-4xl">
+            Un environnement sain et impeccable pour vos collaborateurs et clients.
+          </span>
         </h2>
-        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3" role="list">
-          {commercialClients.map((client) => (
-            <li class="flex items-center gap-3 p-3.5 rounded-lg bg-brand-surface-subtle border border-brand-primary-light/60 text-sm font-semibold text-brand-text">
-              <svg class="w-5 h-5 text-brand-primary shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-              </svg>
-              <span>{client}</span>
-            </li>
+        
+        <p class="text-sm sm:text-base text-[#3D5A5E] leading-relaxed max-w-2xl mx-auto">
+          Nos interventions commerciales s'adaptent à vos horaires d'exploitation : passages en soirée, tôt le matin ou le week-end, sans perturber vos activités opérationnelles.
+        </p>
+      </div>
+
+      <!-- Grille des 4 Pôles Commerciaux -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+        {commercialZones.map((zone) => (
+          <div class="group relative bg-white rounded-3xl border border-[#0E7C86]/15 p-7 sm:p-9 shadow-[0_8px_30px_rgba(11,42,46,0.04)] hover:shadow-[0_16px_40px_rgba(11,42,46,0.08)] hover:border-[#0E7C86]/40 transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <!-- En-tête de carte -->
+              <div class="flex items-center justify-between pb-5 border-b border-[#0E7C86]/10">
+                <div class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-xl bg-[#E3F4F5] text-[#0E7C86] font-mono font-bold text-xs flex items-center justify-center">
+                    {zone.code}
+                  </span>
+                  <span class="text-xs font-bold uppercase tracking-wider text-[#0E7C86]">
+                    {zone.subtitle}
+                  </span>
+                </div>
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#0B2A2E]/70 bg-[#F5FAFA] px-2.5 py-1 rounded-full border border-[#0E7C86]/10">
+                  Standard Pro
+                </span>
+              </div>
+
+              <!-- Titre et description -->
+              <h3 class="text-xl sm:text-2xl font-bold text-[#0B2A2E] mt-5 mb-2 group-hover:text-[#0E7C86] transition-colors">
+                {zone.zone}
+              </h3>
+
+              <p class="text-xs sm:text-sm text-[#3D5A5E] leading-relaxed mb-6">
+                {zone.description}
+              </p>
+
+              <!-- Points d'action précis -->
+              <ul class="space-y-3 pt-2" role="list">
+                {zone.points.map((pt) => (
+                  <li class="flex items-start gap-3 text-xs sm:text-sm text-[#0B2A2E]">
+                    <span class="w-5 h-5 rounded-full bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">
+                      ✓
+                    </span>
+                    <span class="font-medium">{pt}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <!-- Pied de carte -->
+            <div class="mt-8 pt-4 border-t border-[#0E7C86]/10 flex items-center justify-between text-[11px] font-semibold text-[#3D5A5E]">
+              <span class="flex items-center gap-1.5 text-[#0E7C86]">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Normes sanitaires strictes
+              </span>
+              <span class="text-[#0B2A2E]/50">Rapports d'intervention disponibles</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Typologies d'Espaces Professionnels -->
+      <div class="p-8 sm:p-10 rounded-3xl bg-white border border-[#0E7C86]/15 space-y-6 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h3 class="text-lg sm:text-xl font-bold text-[#0B2A2E]">
+              Typologies d'espaces professionnels pris en charge
+            </h3>
+            <p class="text-xs sm:text-sm text-[#3D5A5E] mt-1">
+              Des protocoles calibrés sur les exigences de chaque secteur d'activité.
+            </p>
+          </div>
+          <span class="text-xs font-bold text-[#0E7C86] bg-[#E3F4F5] px-3 py-1.5 rounded-full self-start sm:self-auto">
+            Montréal & Grand Montréal
+          </span>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          {spaces.map((space) => (
+            <div class="p-3.5 rounded-2xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-center flex flex-col items-center justify-center gap-1.5 hover:border-[#0E7C86]/40 transition-colors">
+              <span class="w-2 h-2 rounded-full bg-[#0E7C86]"></span>
+              <span class="text-xs font-bold text-[#0B2A2E] leading-snug">{space}</span>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
 
-      <!-- Un horaire d'entretien adapté -->
-      <div class="space-y-3 pt-6 border-t border-brand-primary-light/60">
-        <h2 class="text-xl sm:text-2xl font-bold text-brand-text">
-          Un horaire d'entretien adapté
-        </h2>
-        <p class="text-base text-brand-muted leading-relaxed">
-          Nous pouvons établir un horaire d'entretien régulier afin de maintenir vos locaux propres en tout temps. Précisez vos contraintes d'horaire dans votre demande : nous vous indiquerons ce que nous pouvons vous offrir.
-        </p>
-      </div>
+      <!-- Bloc Reassurance Entreprise -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0B2A2E] to-[#0A5A62] p-8 sm:p-10 text-white shadow-xl">
+        <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div class="space-y-2 max-w-2xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-[11px] font-bold text-white uppercase tracking-wider">
+              <span>Devis B2B sous 24h</span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold text-white">
+              Bâtissons le cahier des charges exact de vos locaux
+            </h3>
+            <p class="text-xs sm:text-sm text-white/80 leading-relaxed">
+              Visite technique préliminaire gratuite, chiffrage transparent et facturation mensuelle avec TPS/TVQ pour votre comptabilité d'affaires.
+            </p>
+          </div>
 
-      <!-- Propriétaires et gestionnaires d'immeubles -->
-      <div class="space-y-3 pt-6 border-t border-brand-primary-light/60">
-        <h2 class="text-xl sm:text-2xl font-bold text-brand-text">
-          Propriétaires et gestionnaires d'immeubles
-        </h2>
-        <p class="text-base text-brand-muted leading-relaxed">
-          Entre deux locataires ou après des travaux, nous vous aidons à remettre vos espaces en état.
-        </p>
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+            <a
+              href="/soumission/"
+              class="px-7 py-3.5 text-xs font-bold text-[#0B2A2E] bg-white hover:bg-[#E3F4F5] rounded-full transition-all duration-200 text-center shadow-md hover:scale-[1.02] active:scale-[0.98] no-underline"
+            >
+              Demander une soumission B2B ↗
+            </a>
+          </div>
+        </div>
       </div>
 
     </div>
   </section>
 
-  <!-- BANDE FINALE -->
+  <!-- 3. BANDEAU DE CONVERSION -->
   <CtaBanner
-    title="Besoin d'un entretien commercial ?"
-    description="Obtenez une soumission adaptée à votre local et à vos horaires d'exploitation."
-    ctaText="Obtenir une soumission"
+    title="Besoin d'un entretien pour vos locaux d'entreprise ?"
+    description="Étude personnalisée de votre cahier des charges et proposition chiffrée sous 24h ouvrées."
+    ctaText="Demander une soumission commerciale"
     ctaLink="/soumission/"
   />
 

@@ -1,0 +1,539 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import AdminIcon from '../../components/admin/AdminIcon.astro';
+import AdminCharts from '../../components/admin/AdminCharts.astro';
+
+const pendingSubmissions = [
+  {
+    id: "SOU-1042",
+    client: "Alexandre Tremblay",
+    email: "a.tremblay@email.ca",
+    phone: "(514) 892-4110",
+    service: "Nettoyage résidentiel (Grand ménage)",
+    location: "Outremont, Montréal (H2V 2Z4)",
+    dateDesired: "Ce jeudi 30 oct. 2026",
+    surface: "1 850 pi² • 3 chambres, 2 sdb",
+    status: "Nouveau",
+    statusColor: "bg-amber-100 text-amber-900 border-amber-200",
+    image: "/images/admin/submission-condo.jpg",
+    hasPhotos: true
+  },
+  {
+    id: "SOU-1041",
+    client: "Cabinet Dentaire Saint-Laurent",
+    email: "dr.laurent@clinique.ca",
+    phone: "(514) 284-9001",
+    service: "Nettoyage commercial (Bureaux & Clinique)",
+    location: "Ville-Marie, Montréal (H3B 2Y5)",
+    dateDesired: "Hebdomadaire (après 18h)",
+    surface: "2 400 pi² • Salle d'attente + 4 box",
+    status: "À chiffrer",
+    statusColor: "bg-[#E3F4F5] text-[#0E7C86] border-[#0E7C86]/25",
+    image: "/images/admin/submission-clinic.jpg",
+    hasPhotos: true
+  },
+  {
+    id: "SOU-1040",
+    client: "Éléonore Gagnon",
+    email: "e.gagnon@domain.qc.ca",
+    phone: "(450) 671-8840",
+    service: "Entretien régulier (Bimensuel)",
+    location: "Saint-Lambert, Rive-Sud (J4P 1T8)",
+    dateDesired: "Un vendredi sur deux",
+    surface: "1 400 pi² • Condo de standing",
+    status: "À chiffrer",
+    statusColor: "bg-[#E3F4F5] text-[#0E7C86] border-[#0E7C86]/25",
+    image: "/images/service-regular.jpg",
+    hasPhotos: false
+  },
+  {
+    id: "SOU-1039",
+    client: "Marc-Antoine Roy",
+    email: "ma.roy@invest.ca",
+    phone: "(514) 710-3329",
+    service: "Nettoyage spécialisé (Canapé & Tapis)",
+    location: "Griffintown, Montréal (H3C 0K7)",
+    dateDesired: "Samedi 1 nov. 2026",
+    surface: "Canapé 5 places velours + 2 carpettes",
+    status: "Nouveau",
+    statusColor: "bg-amber-100 text-amber-900 border-amber-200",
+    image: "/images/service-specialized.jpg",
+    hasPhotos: true
+  }
+];
+
+const todaysMissions = [
+  {
+    id: "MIS-841",
+    time: "08:30 — 11:30",
+    client: "Résidence Mme Vachon",
+    address: "Westmount, Av. Clarke (H3Y 3C7)",
+    service: "Entretien résidentiel régulier",
+    staff: "Fatou D.",
+    staffRole: "Préposée certifiée senior",
+    staffPhoto: "/images/admin/staff-fatou.jpg",
+    checklist: "Terminé (42/42 points)",
+    checklistColor: "bg-emerald-100 text-emerald-800 border-emerald-200"
+  },
+  {
+    id: "MIS-842",
+    time: "12:30 — 15:30",
+    client: "Appartement M. Lefebvre",
+    address: "Plateau-Mont-Royal, Rue Saint-Denis",
+    service: "Grand ménage d'automne",
+    staff: "Jean-Marc T. & Khadija B.",
+    staffRole: "Binôme d'intervention",
+    staffPhoto: "/images/admin/staff-jeanmarc.jpg",
+    checklist: "En cours (Étape 2/3)",
+    checklistColor: "bg-sky-100 text-sky-800 border-sky-200"
+  },
+  {
+    id: "MIS-843",
+    time: "18:00 — 20:30",
+    client: "Agence Numérique Pixel",
+    address: "Vieux-Montréal, Rue Saint-Paul",
+    service: "Nettoyage bureaux & vitrages",
+    staff: "Assane N.",
+    staffRole: "Spécialiste commercial",
+    staffPhoto: "/images/careers-unilka.jpg",
+    checklist: "Planifié ce soir",
+    checklistColor: "bg-gray-100 text-gray-700 border-gray-200"
+  }
+];
+
+const recentActivities = [
+  {
+    type: "candidature",
+    title: "Nouvelle candidature reçue",
+    desc: "Marie-Claire K. a postulé comme préposée (Dispo temps plein, Lanaudière).",
+    time: "Il y a 28 min",
+    badge: "Recrutement"
+  },
+  {
+    type: "paiement",
+    title: "Paiement Stripe confirmé",
+    desc: "Facture #FAC-2026-118 réglée par carte de crédit (345,00 $ CAD).",
+    time: "Il y a 1h 40m",
+    badge: "Stripe"
+  },
+  {
+    type: "soumission",
+    title: "Devis accepté par le client",
+    desc: "Devis SOU-1035 validé par M. Bédard (Résidence Brossard).",
+    time: "Il y a 3h",
+    badge: "Devis"
+  },
+  {
+    type: "checklist",
+    title: "Checklist 42 points validée",
+    desc: "Mission MIS-841 à Westmount inspectée sans réserve.",
+    time: "Il y a 4h 15m",
+    badge: "Qualité"
+  }
+];
+---
+
+<AdminLayout title="Vue d'ensemble" activeNav="dashboard">
+
+  <!-- 1. EN-TÊTE DASHBOARD -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="space-y-1">
+      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#E3F4F5] border border-[#0E7C86]/20 text-[10px] font-extrabold uppercase tracking-widest text-[#0E7C86]">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#0E7C86] animate-pulse"></span>
+        <span>Console Opérationnelle Direction • Grand Montréal</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-[#0B2A2E] tracking-tight">
+        Tableau de bord de la direction
+      </h1>
+      <p class="text-xs sm:text-sm text-[#3D5A5E]">
+        Pilotage des soumissions, des tournées quotidiennes et des encaissements Stripe pour Montréal, Rive-Sud et Lanaudière.
+      </p>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <a
+        href="/admin/soumissions/"
+        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-sm transition-all no-underline"
+      >
+        <span>Traiter les 4 soumissions</span>
+        <AdminIcon name="arrow-right" class="w-3.5 h-3.5" />
+      </a>
+    </div>
+  </div>
+
+  <!-- 2. CARTES DE KPI MAJEURS (4 STATS) -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    
+    <!-- KPI 1 -->
+    <div class="p-6 rounded-2xl bg-white border border-[#0E7C86]/12 shadow-2xs space-y-3">
+      <div class="flex items-center justify-between text-[#3D5A5E]">
+        <span class="text-xs font-extrabold uppercase tracking-wider text-[#0E7C86]">Soumissions</span>
+        <span class="w-7 h-7 rounded-lg bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center text-xs font-black">
+          4
+        </span>
+      </div>
+      <div>
+        <span class="text-3xl font-black text-[#0B2A2E] tracking-tight">4 en attente</span>
+        <p class="text-xs text-[#3D5A5E] mt-1">Délai moyen de réponse : <strong>2h 15m</strong></p>
+      </div>
+      <div class="pt-2 border-t border-[#0E7C86]/10 flex items-center justify-between text-[11px] text-[#0E7C86] font-bold">
+        <span>Objectif : &lt; 24h ouvrées</span>
+        <a href="/admin/soumissions/" class="hover:underline inline-flex items-center gap-1">
+          <span>Voir les fiches</span>
+          <AdminIcon name="arrow-right" class="w-3 h-3" />
+        </a>
+      </div>
+    </div>
+
+    <!-- KPI 2 -->
+    <div class="p-6 rounded-2xl bg-white border border-[#0E7C86]/12 shadow-2xs space-y-3">
+      <div class="flex items-center justify-between text-[#3D5A5E]">
+        <span class="text-xs font-extrabold uppercase tracking-wider text-[#0E7C86]">Missions du jour</span>
+        <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs font-black">
+          3
+        </span>
+      </div>
+      <div>
+        <span class="text-3xl font-black text-[#0B2A2E] tracking-tight">3 prévues</span>
+        <p class="text-xs text-[#3D5A5E] mt-1">1 terminée, 1 en cours, 1 ce soir</p>
+      </div>
+      <div class="pt-2 border-t border-[#0E7C86]/10 flex items-center justify-between text-[11px] text-emerald-700 font-bold">
+        <span>Protocole 42 pts</span>
+        <a href="/admin/planning/" class="hover:underline inline-flex items-center gap-1">
+          <span>Planning</span>
+          <AdminIcon name="arrow-right" class="w-3 h-3" />
+        </a>
+      </div>
+    </div>
+
+    <!-- KPI 3 -->
+    <div class="p-6 rounded-2xl bg-white border border-[#0E7C86]/12 shadow-2xs space-y-3">
+      <div class="flex items-center justify-between text-[#3D5A5E]">
+        <span class="text-xs font-extrabold uppercase tracking-wider text-[#0E7C86]">Clients Récurrents</span>
+        <span class="w-7 h-7 rounded-lg bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center">
+          <AdminIcon name="star" class="w-3.5 h-3.5 text-[#0E7C86]" />
+        </span>
+      </div>
+      <div>
+        <span class="text-3xl font-black text-[#0B2A2E] tracking-tight">28 forfaits</span>
+        <p class="text-xs text-[#3D5A5E] mt-1">19 résidentiels • 9 commerciaux</p>
+      </div>
+      <div class="pt-2 border-t border-[#0E7C86]/10 flex items-center justify-between text-[11px] text-[#0E7C86] font-bold">
+        <span>0 désistement ce mois</span>
+        <a href="/admin/clients/" class="hover:underline inline-flex items-center gap-1">
+          <span>Répertoire</span>
+          <AdminIcon name="arrow-right" class="w-3 h-3" />
+        </a>
+      </div>
+    </div>
+
+    <!-- KPI 4 -->
+    <div class="p-6 rounded-2xl bg-white border border-[#0E7C86]/12 shadow-2xs space-y-3">
+      <div class="flex items-center justify-between text-[#3D5A5E]">
+        <span class="text-xs font-extrabold uppercase tracking-wider text-[#0E7C86]">Chiffre d'Affaires</span>
+        <span class="w-7 h-7 rounded-lg bg-[#FFB703]/20 text-[#0B2A2E] flex items-center justify-center text-xs font-black">
+          $
+        </span>
+      </div>
+      <div>
+        <span class="text-3xl font-black text-[#0B2A2E] tracking-tight">16 420 $</span>
+        <p class="text-xs text-[#3D5A5E] mt-1">+22% vs mois dernier (Stripe & Interac)</p>
+      </div>
+      <div class="pt-2 border-t border-[#0E7C86]/10 flex items-center justify-between text-[11px] text-[#0E7C86] font-bold">
+        <span>Commissions Stripe : 432,60 $</span>
+        <a href="/admin/facturation/" class="hover:underline inline-flex items-center gap-1">
+          <span>Finances</span>
+          <AdminIcon name="arrow-right" class="w-3 h-3" />
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 3. SECTION GRAPHIQUES DE VISUALISATION DE DONNÉES -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    <div class="lg:col-span-7">
+      <AdminCharts type="revenue-area" />
+    </div>
+    <div class="lg:col-span-5">
+      <AdminCharts type="services-donut" />
+    </div>
+  </div>
+
+  <!-- 4. GRILLE CENTRALE DE GESTION AVEC PHOTOS RÉELLES -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- Colonne Principale : Soumissions prioritaires & Missions (8 cols) -->
+    <div class="lg:col-span-8 space-y-8">
+      
+      <!-- Bloc 1 : Soumissions prioritaires avec photos jointes -->
+      <div class="bg-white rounded-2xl border border-[#0E7C86]/12 overflow-hidden shadow-2xs">
+        <div class="p-5 sm:p-6 border-b border-[#0E7C86]/10 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+            <h2 class="text-base font-extrabold text-[#0B2A2E]">
+              Soumissions entrantes à chiffrer sous 24h
+            </h2>
+          </div>
+          <span class="text-xs font-bold text-[#0E7C86] bg-[#E3F4F5] px-2.5 py-1 rounded-full">
+            4 demandes en attente
+          </span>
+        </div>
+
+        <div class="divide-y divide-[#0E7C86]/08">
+          {pendingSubmissions.map((sub) => (
+            <div class="p-5 sm:p-6 hover:bg-[#F5FAFA] transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              
+              <div class="flex items-start gap-4 flex-1">
+                <!-- Miniature photo réelle de l'espace ou de la demande -->
+                <div class="relative w-20 h-20 rounded-xl overflow-hidden shrink-0 border border-[#0E7C86]/15 bg-gray-100">
+                  <img
+                    src={sub.image}
+                    alt={sub.service}
+                    class="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                  {sub.hasPhotos && (
+                    <span class="absolute bottom-1 right-1 bg-[#0B2A2E]/80 text-white p-1 rounded-md">
+                      <AdminIcon name="camera" class="w-3 h-3 text-white" />
+                    </span>
+                  )}
+                </div>
+
+                <div class="space-y-1.5 flex-1 min-w-0">
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-black text-[#0B2A2E]">{sub.client}</span>
+                    <span class={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${sub.statusColor}`}>
+                      {sub.status}
+                    </span>
+                    <span class="text-[11px] text-[#3D5A5E]/70 font-mono">#{sub.id}</span>
+                  </div>
+                  <p class="text-xs font-bold text-[#0E7C86] truncate">{sub.service}</p>
+                  
+                  <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-[#3D5A5E]">
+                    <span class="inline-flex items-center gap-1">
+                      <AdminIcon name="location" class="w-3.5 h-3.5 text-[#0E7C86]" />
+                      {sub.location}
+                    </span>
+                    <span class="inline-flex items-center gap-1">
+                      <AdminIcon name="home" class="w-3.5 h-3.5 text-[#0E7C86]" />
+                      {sub.surface}
+                    </span>
+                    <span class="inline-flex items-center gap-1">
+                      <AdminIcon name="calendar" class="w-3.5 h-3.5 text-[#0E7C86]" />
+                      {sub.dateDesired}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2 shrink-0 sm:self-center">
+                <a
+                  href={`/admin/soumissions/?id=${sub.id}`}
+                  class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full transition-colors no-underline shadow-2xs"
+                >
+                  <span>Chiffrer</span>
+                  <AdminIcon name="arrow-right" class="w-3 h-3" />
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="p-4 bg-[#F5FAFA] border-t border-[#0E7C86]/10 text-center">
+          <a href="/admin/soumissions/" class="text-xs font-bold text-[#0E7C86] hover:underline inline-flex items-center gap-1">
+            <span>Consulter l'historique complet de toutes les soumissions (18)</span>
+            <AdminIcon name="arrow-right" class="w-3 h-3" />
+          </a>
+        </div>
+      </div>
+
+      <!-- Bloc 2 : Planning des interventions d'aujourd'hui avec photos préposés -->
+      <div class="bg-white rounded-2xl border border-[#0E7C86]/12 overflow-hidden shadow-2xs">
+        <div class="p-5 sm:p-6 border-b border-[#0E7C86]/10 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+            <h2 class="text-base font-extrabold text-[#0B2A2E]">
+              Interventions d'aujourd'hui (Montréal & Rive-Sud)
+            </h2>
+          </div>
+          <span class="text-xs font-semibold text-[#3D5A5E] inline-flex items-center gap-1.5">
+            <AdminIcon name="calendar" class="w-3.5 h-3.5 text-[#0E7C86]" />
+            Mardi 27 octobre 2026
+          </span>
+        </div>
+
+        <div class="divide-y divide-[#0E7C86]/08">
+          {todaysMissions.map((m) => (
+            <div class="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="flex items-start gap-3.5">
+                <!-- Photo portrait préposé(e) certifié(e) -->
+                <div class="w-12 h-12 rounded-full overflow-hidden shrink-0 border border-[#0E7C86]/20 bg-gray-100">
+                  <img
+                    src={m.staffPhoto}
+                    alt={m.staff}
+                    class="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-extrabold text-[#0E7C86] bg-[#E3F4F5] px-2.5 py-0.5 rounded-md inline-flex items-center gap-1">
+                      <AdminIcon name="clock" class="w-3 h-3 text-[#0E7C86]" />
+                      {m.time}
+                    </span>
+                    <span class="text-xs font-bold text-[#0B2A2E]">{m.client}</span>
+                  </div>
+                  <p class="text-xs text-[#3D5A5E] inline-flex items-center gap-1">
+                    <AdminIcon name="location" class="w-3 h-3 text-[#3D5A5E]" />
+                    {m.address} • {m.service}
+                  </p>
+                  <p class="text-xs text-[#0B2A2E] font-medium">
+                    Préposé(e) : <strong class="text-[#0E7C86]">{m.staff}</strong> <span class="text-[11px] text-[#3D5A5E]">({m.staffRole})</span>
+                  </p>
+                </div>
+              </div>
+
+              <div class="shrink-0 flex items-center gap-3">
+                <span class={`text-[11px] font-bold px-3 py-1 rounded-full border ${m.checklistColor} inline-flex items-center gap-1.5`}>
+                  <AdminIcon name="check" class="w-3 h-3" />
+                  {m.checklist}
+                </span>
+                <a
+                  href="/admin/planning/"
+                  class="p-2 text-[#3D5A5E] hover:text-[#0E7C86] rounded-lg hover:bg-[#F5FAFA] transition-colors"
+                  title="Modifier l'assignation"
+                  aria-label="Modifier"
+                >
+                  <AdminIcon name="arrow-right" class="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Colonne Latérale : Alertes récentes & Actions rapides (4 cols) -->
+    <div class="lg:col-span-4 space-y-6">
+      
+      <!-- Actions Rapides Direction -->
+      <div class="bg-white rounded-2xl border border-[#0E7C86]/12 p-6 shadow-2xs space-y-4">
+        <h3 class="text-xs font-extrabold uppercase tracking-wider text-[#0E7C86]">
+          Actions Rapides
+        </h3>
+
+        <div class="space-y-2">
+          <a
+            href="/admin/soumissions/"
+            class="w-full flex items-center justify-between p-3 rounded-xl bg-[#F5FAFA] hover:bg-[#E3F4F5] border border-[#0E7C86]/10 text-xs font-bold text-[#0B2A2E] transition-colors no-underline group"
+          >
+            <div class="flex items-center gap-2.5">
+              <AdminIcon name="plus" class="w-4 h-4 text-[#0E7C86]" />
+              <span>Créer un devis manuel</span>
+            </div>
+            <AdminIcon name="arrow-right" class="w-3.5 h-3.5 text-[#0E7C86] group-hover:translate-x-0.5 transition-transform" />
+          </a>
+
+          <a
+            href="/admin/planning/"
+            class="w-full flex items-center justify-between p-3 rounded-xl bg-[#F5FAFA] hover:bg-[#E3F4F5] border border-[#0E7C86]/10 text-xs font-bold text-[#0B2A2E] transition-colors no-underline group"
+          >
+            <div class="flex items-center gap-2.5">
+              <AdminIcon name="calendar" class="w-4 h-4 text-[#0E7C86]" />
+              <span>Planifier une intervention</span>
+            </div>
+            <AdminIcon name="arrow-right" class="w-3.5 h-3.5 text-[#0E7C86] group-hover:translate-x-0.5 transition-transform" />
+          </a>
+
+          <a
+            href="/admin/facturation/"
+            class="w-full flex items-center justify-between p-3 rounded-xl bg-[#F5FAFA] hover:bg-[#E3F4F5] border border-[#0E7C86]/10 text-xs font-bold text-[#0B2A2E] transition-colors no-underline group"
+          >
+            <div class="flex items-center gap-2.5">
+              <AdminIcon name="credit-card" class="w-4 h-4 text-[#0E7C86]" />
+              <span>Générer un lien Stripe</span>
+            </div>
+            <AdminIcon name="arrow-right" class="w-3.5 h-3.5 text-[#0E7C86] group-hover:translate-x-0.5 transition-transform" />
+          </a>
+
+          <a
+            href="/admin/equipe/"
+            class="w-full flex items-center justify-between p-3 rounded-xl bg-[#F5FAFA] hover:bg-[#E3F4F5] border border-[#0E7C86]/10 text-xs font-bold text-[#0B2A2E] transition-colors no-underline group"
+          >
+            <div class="flex items-center gap-2.5">
+              <AdminIcon name="users" class="w-4 h-4 text-[#0E7C86]" />
+              <span>Voir les candidatures reçues (3)</span>
+            </div>
+            <span class="w-2 h-2 rounded-full bg-[#FFB703]"></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Vitrine d'inspection hôtelière avec photo réelle -->
+      <div class="bg-white rounded-2xl border border-[#0E7C86]/12 overflow-hidden shadow-2xs">
+        <div class="relative h-40 w-full overflow-hidden">
+          <img
+            src="/images/philosophy-unilka.jpg"
+            alt="Inspection 42 points"
+            class="w-full h-full object-cover"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0B2A2E]/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-3 left-4 right-4 text-white">
+            <span class="text-[9px] font-extrabold uppercase tracking-widest text-[#FFB703] block">
+              Contrôle Qualité Palace
+            </span>
+            <span class="text-xs font-extrabold block">
+              100% des préposés cautionnés & certifiés
+            </span>
+          </div>
+        </div>
+        <div class="p-4 space-y-2 text-xs">
+          <p class="text-[#3D5A5E] leading-relaxed text-[11px]">
+            Toutes les interventions de la semaine à Westmount et Outremont ont validé les 42 points de conformité sans réserve.
+          </p>
+          <div class="flex items-center justify-between text-[11px] font-bold text-[#0E7C86] pt-1 border-t border-[#0E7C86]/10">
+            <span>Grille de contrôle hôtelière</span>
+            <span class="inline-flex items-center gap-1">
+              <AdminIcon name="shield-check" class="w-3.5 h-3.5 text-emerald-600" />
+              Conforme
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Journal d'activité récente -->
+      <div class="bg-white rounded-2xl border border-[#0E7C86]/12 p-6 shadow-2xs space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-extrabold uppercase tracking-wider text-[#0E7C86]">
+            Activités Récentes
+          </h3>
+          <span class="text-[10px] text-[#3D5A5E]">Temps réel</span>
+        </div>
+
+        <div class="space-y-4">
+          {recentActivities.map((act) => (
+            <div class="flex items-start gap-3 text-xs pb-3 border-b border-[#0E7C86]/08 last:border-0 last:pb-0">
+              <span class="w-2 h-2 rounded-full bg-[#0E7C86] shrink-0 mt-1.5"></span>
+              <div class="space-y-0.5">
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-[#0B2A2E]">{act.title}</span>
+                  <span class="text-[9px] font-extrabold bg-[#E3F4F5] text-[#0E7C86] px-1.5 py-0.2 rounded">
+                    {act.badge}
+                  </span>
+                </div>
+                <p class="text-[#3D5A5E] leading-relaxed text-[11px]">{act.desc}</p>
+                <span class="text-[10px] text-[#3D5A5E]/60">{act.time}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</AdminLayout>

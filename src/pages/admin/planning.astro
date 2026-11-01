@@ -1,0 +1,425 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import AdminIcon from '../../components/admin/AdminIcon.astro';
+
+const weekDays = [
+  { day: "Lundi", date: "26 oct.", isToday: false, count: 4 },
+  { day: "Mardi", date: "27 oct.", isToday: true, count: 3 },
+  { day: "Mercredi", date: "28 oct.", isToday: false, count: 5 },
+  { day: "Jeudi", date: "29 oct.", isToday: false, count: 4 },
+  { day: "Vendredi", date: "30 oct.", isToday: false, count: 6 },
+  { day: "Samedi", date: "31 oct.", isToday: false, count: 3 }
+];
+
+const scheduledMissions = [
+  {
+    id: "MIS-841",
+    day: "Mardi 27 oct.",
+    time: "08:30 — 11:30",
+    client: "Résidence Mme Vachon",
+    address: "Westmount, Av. Clarke (H3Y 3C7)",
+    service: "Entretien résidentiel régulier (Hebdo)",
+    staff: "Fatou D.",
+    staffRole: "Préposée senior",
+    staffPhoto: "/images/admin/staff-fatou.jpg",
+    status: "Terminé",
+    statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
+    checklist: "42/42 points validés",
+    accessKey: "Boîte à clés code #4182"
+  },
+  {
+    id: "MIS-842",
+    day: "Mardi 27 oct.",
+    time: "12:30 — 15:30",
+    client: "Appartement M. Lefebvre",
+    address: "Plateau-Mont-Royal, Rue Saint-Denis (H2X 3K4)",
+    service: "Grand ménage d'automne",
+    staff: "Khadija B. & Jean-Marc T.",
+    staffRole: "Binôme d'intervention",
+    staffPhoto: "/images/admin/staff-jeanmarc.jpg",
+    status: "En cours",
+    statusColor: "bg-sky-100 text-sky-800 border-sky-200",
+    checklist: "Étape 2/3 (Sanitaires en cours)",
+    accessKey: "Client présent sur place"
+  },
+  {
+    id: "MIS-843",
+    day: "Mardi 27 oct.",
+    time: "18:00 — 20:30",
+    client: "Agence Numérique Pixel",
+    address: "Vieux-Montréal, Rue Saint-Paul (H2Y 1H7)",
+    service: "Nettoyage bureaux & vitrages",
+    staff: "Assane N.",
+    staffRole: "Spécialiste commercial",
+    staffPhoto: "",
+    status: "Planifié",
+    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
+    checklist: "Inspection départ programmée",
+    accessKey: "Badge d'accès bureau confié"
+  },
+  {
+    id: "MIS-844",
+    day: "Mercredi 28 oct.",
+    time: "09:00 — 12:00",
+    client: "Maison M. & Mme Bédard",
+    address: "Brossard, Rue de Chateauneuf (J4X 2T9)",
+    service: "Entretien régulier bimensuel",
+    staff: "Fatou D.",
+    staffRole: "Préposée dédiée",
+    staffPhoto: "/images/admin/staff-fatou.jpg",
+    status: "Planifié",
+    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
+    checklist: "Grille hôtelière 42 pts",
+    accessKey: "Code garage transmis"
+  },
+  {
+    id: "MIS-845",
+    day: "Mercredi 28 oct.",
+    time: "13:30 — 16:30",
+    client: "Condo M. Roy",
+    address: "Griffintown, Rue Wellington (H3C 0K7)",
+    service: "Nettoyage spécialisé (Canapé velours & tapis)",
+    staff: "Jean-Marc T.",
+    staffRole: "Technicien injection-extraction",
+    staffPhoto: "/images/admin/staff-jeanmarc.jpg",
+    status: "Planifié",
+    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
+    checklist: "Protocole séchage rapide",
+    accessKey: "Concierge de l'immeuble"
+  }
+];
+
+const staffAvailabilities = [
+  { name: "Fatou D.", photo: "/images/admin/staff-fatou.jpg", initials: "FD", status: "En mission", todayMissions: 2, sector: "Montréal Centre / Ouest" },
+  { name: "Khadija B.", photo: "", initials: "KB", status: "En mission", todayMissions: 1, sector: "Plateau & Rosemont" },
+  { name: "Jean-Marc T.", photo: "/images/admin/staff-jeanmarc.jpg", initials: "JT", status: "En mission", todayMissions: 1, sector: "Montréal & Rive-Sud" },
+  { name: "Assane N.", photo: "", initials: "AN", status: "Disponible (Soir)", todayMissions: 1, sector: "Commercial & Bureaux" },
+  { name: "Marie-Louise P.", photo: "", initials: "ML", status: "Disponible", todayMissions: 0, sector: "Lanaudière & Nord" }
+];
+---
+
+<AdminLayout title="Planning & Missions" activeNav="planning">
+
+  <!-- 1. EN-TÊTE PLANNING -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="space-y-1">
+      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#E3F4F5] border border-[#0E7C86]/20 text-[10px] font-extrabold uppercase tracking-widest text-[#0E7C86]">
+        <span>Organisation des Tournées & Missions</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-[#0B2A2E] tracking-tight">
+        Planning des interventions
+      </h1>
+      <p class="text-xs sm:text-sm text-[#3D5A5E]">
+        Semaine du 26 au 31 octobre 2026 • 25 interventions planifiées dans le Grand Montréal.
+      </p>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <div class="flex items-center rounded-full border border-[#0E7C86]/15 bg-white p-1">
+        <button type="button" class="px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-[#0E7C86] text-white">
+          Semaine
+        </button>
+        <button type="button" class="px-3.5 py-1.5 rounded-full text-xs font-bold text-[#3D5A5E] hover:text-[#0B2A2E]">
+          Mois
+        </button>
+      </div>
+
+      <button
+        type="button"
+        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-sm transition-colors"
+      >
+        <span>+ Nouvelle intervention</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 2. SÉLECTEUR DE JOUR DE LA SEMAINE INTERACTIF -->
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3" id="planning-days-bar">
+    {weekDays.map((wd) => (
+      <div
+        class={`day-card p-3.5 rounded-2xl border transition-all cursor-pointer ${
+          wd.isToday
+            ? 'active-day bg-[#E3F4F5] border-[#0E7C86] text-[#0E7C86] shadow-2xs font-extrabold'
+            : 'bg-white border-[#0E7C86]/12 text-[#0B2A2E] hover:border-[#0E7C86]/30'
+        }`}
+        data-day={wd.day}
+      >
+        <div class="flex items-center justify-between text-xs">
+          <span>{wd.day}</span>
+          <span class={`day-count text-[10px] px-1.5 py-0.5 rounded-full ${wd.isToday ? 'bg-[#0E7C86] text-white' : 'bg-[#F5FAFA] text-[#3D5A5E]'}`}>
+            {wd.count}
+          </span>
+        </div>
+        <span class="text-lg font-black block mt-1">{wd.date}</span>
+      </div>
+    ))}
+  </div>
+
+  <!-- 3. CONTENU PRINCIPAL : MISSIONS & DISPONIBILITÉS -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- Liste des interventions planifiées (8 cols) -->
+    <div class="lg:col-span-8 space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-base font-extrabold text-[#0B2A2E]" id="planning-title-label">
+          Missions du Mardi 27 octobre 2026 (3 missions)
+        </h2>
+        <span class="text-xs text-[#3D5A5E]" id="planning-sub-label">Trié par chronologie</span>
+      </div>
+
+      <div class="space-y-4" id="missions-container">
+        {scheduledMissions.map((mis) => (
+          <div
+            class="mission-card bg-white rounded-2xl border border-[#0E7C86]/12 p-6 shadow-2xs hover:border-[#0E7C86]/30 transition-all space-y-4"
+            data-day={mis.day.split(' ')[0]}
+            data-id={mis.id}
+            data-client={mis.client}
+            data-staff={mis.staff}
+          >
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#0E7C86]/10">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-md bg-[#E3F4F5] text-[#0E7C86] text-xs font-black">
+                  {mis.time}
+                </span>
+                <span class="text-xs font-bold text-[#3D5A5E]">{mis.day}</span>
+                <span class="text-xs font-mono text-[#3D5A5E]/60">#{mis.id}</span>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <span class={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold border ${mis.statusColor}`}>
+                  {mis.status}
+                </span>
+                <span class="text-[11px] font-semibold text-[#0E7C86] bg-[#F5FAFA] px-2 py-0.5 rounded">
+                  {mis.checklist}
+                </span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div class="space-y-1">
+                <h3 class="text-sm font-extrabold text-[#0B2A2E]">{mis.client}</h3>
+                <p class="text-[#3D5A5E] flex items-center gap-1.5">
+                  <AdminIcon name="location" class="w-3.5 h-3.5 text-[#0E7C86] shrink-0" />
+                  <span>{mis.address}</span>
+                </p>
+                <p class="text-[#0E7C86] font-semibold">Prestation : {mis.service}</p>
+              </div>
+
+              <div class="space-y-1 sm:border-l sm:border-[#0E7C86]/10 sm:pl-4">
+                <div class="flex items-center gap-2.5">
+                  {mis.staffPhoto ? (
+                    <img src={mis.staffPhoto} alt={mis.staff} class="w-8 h-8 rounded-full object-cover border border-[#0E7C86]/20 shrink-0" />
+                  ) : (
+                    <span class="w-8 h-8 rounded-full bg-[#E3F4F5] text-[#0E7C86] font-bold text-[10px] flex items-center justify-center shrink-0">
+                      <AdminIcon name="user" class="w-4 h-4" />
+                    </span>
+                  )}
+                  <div>
+                    <p class="text-[#3D5A5E]">
+                      Préposé(e) : <strong class="text-[#0B2A2E] mission-staff-name">{mis.staff}</strong>
+                    </p>
+                    <p class="text-[#3D5A5E] text-[11px]">{mis.staffRole}</p>
+                  </div>
+                </div>
+
+                <div class="pt-1">
+                  <span class="inline-flex items-center gap-1.5 text-amber-800 bg-amber-50 px-2 py-1 rounded text-[11px] font-medium border border-amber-200/50">
+                    <AdminIcon name="key" class="w-3.5 h-3.5 text-amber-700 shrink-0" />
+                    <span>{mis.accessKey}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-2 flex items-center justify-end gap-2 border-t border-[#0E7C86]/08">
+              <button
+                type="button"
+                class="btn-access-notes px-3 py-1.5 text-xs font-bold text-[#3D5A5E] hover:text-[#0B2A2E] rounded-lg hover:bg-[#F5FAFA] transition-colors"
+                data-access={mis.accessKey}
+                data-client={mis.client}
+              >
+                Consignes d'accès
+              </button>
+              <button
+                type="button"
+                class="btn-change-staff px-3 py-1.5 text-xs font-bold text-[#0E7C86] hover:bg-[#E3F4F5] rounded-full transition-colors"
+                data-id={mis.id}
+                data-current-staff={mis.staff}
+              >
+                Changer le préposé
+              </button>
+              <button
+                type="button"
+                class="btn-validate-checklist inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full shadow-2xs transition-colors"
+                data-id={mis.id}
+                data-client={mis.client}
+              >
+                <span>Valider checklist 42 pts</span>
+                <AdminIcon name="check" class="w-3.5 h-3.5" />
+              </button>
+            </div>
+
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Colonne de droite : Disponibilités des équipes (4 cols) -->
+    <div class="lg:col-span-4 space-y-6">
+      
+      <!-- Équipe du jour -->
+      <div class="bg-white rounded-2xl border border-[#0E7C86]/12 p-6 shadow-2xs space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-extrabold uppercase tracking-wider text-[#0E7C86]">
+            Disponibilité des Équipes
+          </h3>
+          <span class="text-[10px] text-[#3D5A5E]">Aujourd'hui</span>
+        </div>
+
+        <div class="space-y-3">
+          {staffAvailabilities.map((st) => (
+            <div class="p-3 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/10 flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2.5">
+                {st.photo ? (
+                  <img src={st.photo} alt={st.name} class="w-8 h-8 rounded-full object-cover border border-[#0E7C86]/20 shrink-0" />
+                ) : (
+                  <span class="w-8 h-8 rounded-full bg-[#E3F4F5] text-[#0E7C86] font-bold text-[10px] flex items-center justify-center shrink-0">
+                    {st.initials}
+                  </span>
+                )}
+                <div class="space-y-0.5">
+                  <span class="font-bold text-[#0B2A2E] block">{st.name}</span>
+                  <span class="text-[10px] text-[#3D5A5E]">{st.sector}</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                  st.status === 'En mission' ? 'bg-sky-100 text-sky-800' : 'bg-emerald-100 text-emerald-800'
+                }`}>
+                  {st.status}
+                </span>
+                <span class="block text-[10px] text-[#3D5A5E] mt-0.5">{st.todayMissions} mission(s)</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="pt-2">
+          <a
+            href="/admin/equipe/"
+            class="w-full inline-flex items-center justify-center gap-1.5 p-2.5 rounded-full bg-[#E3F4F5] text-xs font-bold text-[#0E7C86] hover:bg-[#0E7C86] hover:text-white transition-colors no-underline"
+          >
+            <span>Gérer toute l'équipe (12 collaborateurs)</span>
+            <AdminIcon name="arrow-right" class="w-3.5 h-3.5" />
+          </a>
+        </div>
+      </div>
+
+      <!-- Norme Hôtelière Palace -->
+      <div class="bg-white rounded-2xl border border-[#0E7C86]/12 p-6 shadow-2xs space-y-3 text-xs">
+        <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#0E7C86]">
+          Rappel de Procédure
+        </span>
+        <h4 class="font-bold text-[#0B2A2E]">
+          Remplacement garanti sous 24h
+        </h4>
+        <p class="text-[#3D5A5E] leading-relaxed">
+          En cas d'imprévu ou d'indisponibilité d'un collaborateur régulier, une préposée de réserve formée aux mêmes standards prend immédiatement le relais.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- SCRIPT CLIENT INTERACTIF PLANNING -->
+  <script is:inline>
+    // 1. Filtrage par jour de la semaine
+    const dayCards = document.querySelectorAll('.day-card');
+    const missionCards = document.querySelectorAll('.mission-card');
+    const planningTitle = document.getElementById('planning-title-label');
+
+    dayCards.forEach((card) => {
+      card.addEventListener('click', () => {
+        const day = card.dataset.day || '';
+        
+        dayCards.forEach((c) => {
+          c.classList.remove('active-day', 'bg-[#E3F4F5]', 'border-[#0E7C86]', 'text-[#0E7C86]', 'font-extrabold');
+          c.classList.add('bg-white', 'border-[#0E7C86]/12', 'text-[#0B2A2E]');
+          const badge = c.querySelector('.day-count');
+          if (badge) {
+            badge.classList.remove('bg-[#0E7C86]', 'text-white');
+            badge.classList.add('bg-[#F5FAFA]', 'text-[#3D5A5E]');
+          }
+        });
+
+        card.classList.add('active-day', 'bg-[#E3F4F5]', 'border-[#0E7C86]', 'text-[#0E7C86]', 'font-extrabold');
+        card.classList.remove('bg-white', 'border-[#0E7C86]/12', 'text-[#0B2A2E]');
+        const activeBadge = card.querySelector('.day-count');
+        if (activeBadge) {
+          activeBadge.classList.add('bg-[#0E7C86]', 'text-white');
+          activeBadge.classList.remove('bg-[#F5FAFA]', 'text-[#3D5A5E]');
+        }
+
+        let visibleMissions = 0;
+        missionCards.forEach((mc) => {
+          if (mc.dataset.day === day) {
+            mc.style.display = '';
+            visibleMissions++;
+          } else {
+            mc.style.display = 'none';
+          }
+        });
+
+        if (planningTitle) {
+          planningTitle.textContent = `Missions du ${day} (${visibleMissions} affichée(s))`;
+        }
+
+        if (window.showAdminToast) {
+          window.showAdminToast(`Vue planning mise à jour : ${day}`);
+        }
+      });
+    });
+
+    // 2. Boutons Checklist 42 points
+    document.querySelectorAll('.btn-validate-checklist').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const client = btn.dataset.client;
+        if (window.showAdminToast) {
+          window.showAdminToast(`Checklist 42 points validée pour ${client} (#${id}) !`);
+        }
+      });
+    });
+
+    // 3. Bouton Changer de préposé
+    document.querySelectorAll('.btn-change-staff').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const current = btn.dataset.currentStaff;
+        const newStaff = current === 'Fatou D.' ? 'Khadija B.' : 'Fatou D.';
+        
+        const card = btn.closest('.mission-card');
+        const staffEl = card?.querySelector('.mission-staff-name');
+        if (staffEl) staffEl.textContent = newStaff;
+        btn.dataset.currentStaff = newStaff;
+
+        if (window.showAdminToast) {
+          window.showAdminToast(`Mission #${id} réassignée à ${newStaff} !`);
+        }
+      });
+    });
+
+    // 4. Consignes d'accès
+    document.querySelectorAll('.btn-access-notes').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const client = btn.dataset.client;
+        const access = btn.dataset.access;
+        if (window.showAdminToast) {
+          window.showAdminToast(`${client} : ${access}`);
+        }
+      });
+    });
+  </script>
+
+</AdminLayout>

@@ -3,117 +3,218 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import CtaBanner from '../../components/ui/CtaBanner.astro';
 import services from '../../data/services.json';
 
-const pageTitle = "Services de nettoyage à Montréal — unilka";
-const pageDescription = "Résidentiel, commercial, spécialisé et entretien régulier : découvrez les services de nettoyage unilka à Montréal et environs.";
+const pageTitle = "Nos Services d'Entretien & Formules — unilka";
+const pageDescription = "Résidentiel de prestige, commercial, entretien régulier et nettoyage spécialisé à Montréal, Longueuil et Lanaudière. Devis personnalisé sous 24h.";
 
 const breadcrumbs = [
-  { label: "Services", href: "/services/" }
+  { label: "Nos services", href: "/services/" }
 ];
-const illustrationMap: Record<string, string> = {
-  residentiel: "/illustrations/residential.svg",
-  commercial: "/illustrations/commercial.svg",
-  specialise: "/illustrations/specialized.svg",
-  regulier: "/illustrations/regular.svg"
+
+const photoMap: Record<string, string> = {
+  residentiel: "/images/service-residential.jpg",
+  commercial: "/images/service-commercial.jpg",
+  regulier: "/images/service-regular.jpg",
+  specialise: "/images/service-specialized.jpg"
+};
+
+const codeMap: Record<string, string> = {
+  residentiel: "U/01",
+  commercial: "U/02",
+  regulier: "U/03",
+  specialise: "U/04"
 };
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={breadcrumbs}>
 
-  <!-- EN-TÊTE DE PAGE -->
-  <section class="bg-brand-surface-subtle py-12 lg:py-16 border-b border-brand-primary-light/60">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-text tracking-tight">
-        Nos services de nettoyage
-      </h1>
-      <p class="text-base sm:text-lg text-brand-muted leading-relaxed max-w-2xl mx-auto">
-        Que vous ayez besoin d'un entretien régulier, d'un grand nettoyage ou d'un service spécialisé, notre équipe vous offre un résultat impeccable. Chaque intervention est adaptée à votre espace et à vos besoins.
-      </p>
+  <!-- 1. HÉRO ÉDITORIAL CATALOGUE (STYLE OFFCUT) -->
+  <section class="relative bg-white border-b border-[#0E7C86]/12 overflow-hidden pt-10 pb-12 lg:pt-16 lg:pb-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        
+        <!-- Colonne Gauche : Typographie puissante & Aérée -->
+        <div class="lg:col-span-7">
+          <p class="flex items-center gap-2.5 text-xs font-black uppercase tracking-[0.14em] text-[#0A5A62] m-0">
+            <span class="w-2 h-2 rounded-full bg-[#0E7C86]"></span>
+            <span>CATALOGUE OFFICIEL • 4 FORMULES D'EXCEPTION</span>
+          </p>
+
+          <h1 class="text-[clamp(42px,11.5vw,56px)] sm:text-6xl lg:text-7xl xl:text-[76px] font-bold text-[#0B2A2E] tracking-[-0.035em] leading-[1.06] mt-7 mb-0">
+            <span class="block font-bold text-[#0B2A2E] whitespace-nowrap">Nos formules.</span>
+            <span class="block font-serif italic font-normal text-[#0E7C86] mt-1 whitespace-nowrap">Zéro compromis.</span>
+          </h1>
+
+          <p class="text-base sm:text-lg text-[#3D5A5E] leading-[1.75] max-w-xl mt-6">
+            Résidences de prestige, copropriétés ou locaux professionnels du Grand Montréal. Découvrez nos interventions encadrées par notre protocole hôtelier en 42 points, 100% sans engagement.
+          </p>
+
+          <!-- CTAs épurés -->
+          <div class="mt-8 flex flex-wrap items-center gap-5">
+            <a
+              href="/soumission/"
+              class="inline-flex items-center justify-center gap-3 px-8 py-4 text-sm font-bold text-white bg-[#0B2A2E] hover:bg-[#0E7C86] rounded-full transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] no-underline"
+            >
+              <span>Obtenir une soumission</span>
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
+            </a>
+            <a href="#u-residentiel" class="text-xs font-extrabold uppercase tracking-wider text-[#0A5A62] hover:text-[#0E7C86] underline underline-offset-4 transition-colors">
+              Explorer les formules ↓
+            </a>
+          </div>
+        </div>
+
+        <!-- Colonne Droite : Composition Photo Asymétrique & Badges Offcut -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative rounded-[140px_16px_16px_16px] overflow-hidden border border-[#0E7C86]/15 shadow-[0_12px_36px_rgba(11,42,46,0.08)] group bg-[#E8E2D2] h-[460px] sm:h-[520px]">
+            <img
+              src="/images/service-residential.jpg"
+              alt="Intérieur montréalais d'exception entretenu selon les standards hôteliers par unilka"
+              width="800"
+              height="600"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              loading="eager"
+            />
+            
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0B2A2E]/55 via-transparent to-black/20 pointer-events-none"></div>
+
+
+            <!-- Légende haut-droite style Offcut -->
+            <div class="absolute top-6 right-6 text-right text-white text-[10px] font-bold tracking-[0.1em] uppercase drop-shadow-md">
+              <span>STANDARDS HÔTELIERS<br />MONTRÉAL & ENVIRONS</span>
+            </div>
+
+            <!-- Badge circulaire rotatif bas-droite -->
+            <a class="absolute bottom-6 right-6 w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-white/95 backdrop-blur-md border border-[#0E7C86]/20 shadow-lg flex flex-col items-center justify-center p-3 text-center transition-transform hover:scale-105 hover:rotate-0 no-underline rotate-6" href="#u-residentiel">
+              <span class="text-[10px] font-black uppercase tracking-wider text-[#0B2A2E] leading-tight">4 FORMULES.<br />SANS CONTRAT.</span>
+              <svg class="w-4 h-4 text-[#0E7C86] mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14m7-7-7 7-7-7"/></svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Hero Foot : 3 micro-lignes Offcut -->
+      <div class="mt-12 pt-7 border-t border-[#0E7C86]/12 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-[11px] font-bold uppercase tracking-[0.08em] text-[#3D5A5E]">
+        <span>PERSONNEL 100% SALARIÉ • FORMATION CONTINUE</span>
+        <span>PRODUITS ÉCOLOGIQUES CERTIFIÉS • ASSURANCE 2M$</span>
+        <a href="#u-residentiel" class="text-[#0E7C86] hover:text-[#0A5A62] transition-colors">EXPLORER LES SERVICES ↓</a>
+      </div>
     </div>
   </section>
 
-  <!-- LISTE DÉTAILLÉE DES 4 SERVICES -->
-  <section class="py-16 lg:py-20 bg-white" aria-label="Liste de nos services">
+  <!-- 2. ARTICLES DÉTAILLÉS DES 4 SERVICES -->
+  <section class="py-20 lg:py-24 bg-[#F5FAFA]" aria-label="Liste de nos prestations">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 lg:space-y-24">
+      
       {services.map((service, index) => {
         const isReversed = index % 2 === 1;
-        const illustration = illustrationMap[service.id] || "/illustrations/hero-clean.svg";
+        const photo = photoMap[service.id] || "/images/service-residential.jpg";
+        const code = codeMap[service.id] || `U/0${index + 1}`;
 
         return (
-          <article class={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center ${isReversed ? 'lg:flex-row-reverse' : ''}`}>
-            
-            <!-- Illustration -->
+          <article
+            id={`u-${service.id}`}
+            class="bg-white rounded-[28px] border border-[#0E7C86]/12 p-6 sm:p-10 lg:p-12 shadow-xs grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center transition-all duration-300 hover:border-[#0E7C86]/30 hover:shadow-sm"
+          >
+            <!-- Colonne Photo -->
             <div class={`lg:col-span-5 ${isReversed ? 'lg:order-2' : ''}`}>
-              <div class="bg-brand-surface-subtle p-6 rounded-2xl border border-brand-primary-light/60 shadow-xs flex justify-center">
+              <div class="relative rounded-2xl overflow-hidden border border-[#0E7C86]/15 shadow-xs group">
                 <img
-                  src={illustration}
-                  alt={`Illustration du service ${service.title}`}
-                  width="320"
-                  height="240"
-                  class="w-full max-w-sm h-auto"
+                  src={photo}
+                  alt={`Photographie de l'espace pour le service ${service.title}`}
+                  width="700"
+                  height="500"
+                  class="w-full h-[280px] sm:h-[340px] object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                 />
+                
+                <!-- Badge code U/0X -->
+                <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-full border border-[#0E7C86]/15 text-[11px] font-extrabold text-[#0B2A2E] tracking-wider shadow-sm">
+                  {code}
+                </div>
+
+                <div class="absolute top-4 right-4 bg-[#0E7C86] text-white px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm">
+                  {service.tag}
+                </div>
               </div>
             </div>
 
-            <!-- Contenu -->
+            <!-- Colonne Contenu -->
             <div class={`lg:col-span-7 space-y-5 ${isReversed ? 'lg:order-1' : ''}`}>
-              <div class="inline-block px-3 py-1 rounded-md bg-brand-primary-light text-brand-primary text-xs font-bold uppercase tracking-wider">
-                Famille {index + 1} sur 4
-              </div>
               
-              <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-text tracking-tight">
-                {service.title}
-              </h2>
+              <div class="space-y-2">
+                <span class="text-xs font-bold uppercase tracking-widest text-[#0E7C86]">
+                  Prestation d'excellence • {service.subtitle}
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0B2A2E] tracking-tight">
+                  <a href={`/services/${service.slug}/`} class="text-[#0B2A2E] hover:text-[#0E7C86] transition-colors no-underline">
+                    {service.title}
+                  </a>
+                </h2>
+              </div>
 
-              <p class="text-base text-brand-muted leading-relaxed">
+              <p class="text-sm sm:text-base text-[#3D5A5E] leading-relaxed">
                 {service.fullDescription}
               </p>
 
-              <!-- Points clés -->
-              <div class="space-y-2 pt-2">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-brand-text">
-                  Ce que nous prenons en charge :
-                </h3>
-                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-brand-muted" role="list">
-                  {service.features.slice(0, 6).map((f) => (
-                    <li class="flex items-center gap-2">
-                      <svg class="w-4 h-4 text-brand-success shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                      </svg>
-                      <span>{f}</span>
+              <!-- Points d'intervention checklist élégante -->
+              <div class="space-y-3 pt-2">
+                <div class="flex items-center justify-between">
+                  <h3 class="text-xs font-black uppercase tracking-wider text-[#0B2A2E]">
+                    Champs d'intervention clés :
+                  </h3>
+                  <span class="text-[10px] font-bold text-[#0E7C86] uppercase tracking-wider">
+                    Protocole certifié
+                  </span>
+                </div>
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-[#0B2A2E]" role="list">
+                  {service.features.slice(0, 6).map((feature) => (
+                    <li class="p-2.5 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/12 flex items-center gap-2.5 shadow-2xs hover:border-[#0E7C86]/30 transition-colors">
+                      <span class="w-4 h-4 rounded-full bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center text-[10px] font-bold shrink-0">
+                        ✓
+                      </span>
+                      <span class="font-medium text-xs text-[#0B2A2E]">{feature}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <!-- CTA En savoir plus -->
-              <div class="pt-3 flex flex-wrap items-center gap-4">
-                <a
-                  href={`/services/${service.slug}/`}
-                  class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-bold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md transition-colors no-underline"
-                >
-                  Découvrir ce service
-                </a>
-                <a
-                  href="/soumission/"
-                  class="inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-brand-text hover:text-brand-primary no-underline"
-                >
-                  Demander une soumission &rarr;
-                </a>
-              </div>
-            </div>
+              <!-- Reassurance et Actions -->
+              <div class="pt-4 border-t border-[#0E7C86]/10 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-2 text-xs font-semibold text-[#0E7C86]">
+                  <span>● Zéro contrat d'engagement</span>
+                  <span>• Devis en moins de 24h</span>
+                </div>
 
+                <div class="flex flex-wrap items-center gap-3">
+                  <a
+                    href={`/services/${service.slug}/`}
+                    class="inline-flex items-center justify-center px-5 py-2.5 text-xs font-bold text-[#0B2A2E] bg-[#F5FAFA] hover:bg-[#E3F4F5] border border-[#0E7C86]/20 rounded-full transition-colors no-underline"
+                  >
+                    <span>Détails & checklist ↗</span>
+                  </a>
+                  <a
+                    href="/soumission/"
+                    class="inline-flex items-center justify-center px-5 py-2.5 text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full transition-colors no-underline shadow-xs"
+                  >
+                    <span>Demander une soumission ↗</span>
+                  </a>
+                </div>
+              </div>
+
+            </div>
           </article>
         );
       })}
+
     </div>
   </section>
 
-  <!-- BANDE FINALE CTA -->
+  <!-- 3. BANDEAU DE CONVERSION FINAL -->
   <CtaBanner
-    title="Besoin d'un nettoyage ?"
-    description="Obtenez une évaluation de vos besoins en quelques étapes."
-    ctaText="Obtenir une soumission"
+    title="Besoin d'une formule spécifique ou sur-mesure ?"
+    description="Nos devis sont personnalisés, détaillés au dollar près et entièrement sans engagement."
+    ctaText="Demander une soumission"
     ctaLink="/soumission/"
   />
 

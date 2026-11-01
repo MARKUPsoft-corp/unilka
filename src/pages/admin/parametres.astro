@@ -1,0 +1,312 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import AdminIcon from '../../components/admin/AdminIcon.astro';
+import config from '../../data/site-config.json';
+---
+
+<AdminLayout title="Paramètres & Site" activeNav="parametres">
+
+  <!-- 1. EN-TÊTE -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="space-y-1">
+      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#E3F4F5] border border-[#0E7C86]/20 text-[10px] font-extrabold uppercase tracking-widest text-[#0E7C86]">
+        <span>Configuration & Conformité</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-[#0B2A2E] tracking-tight">
+        Paramètres de l'entreprise & Site web
+      </h1>
+      <p class="text-xs sm:text-sm text-[#3D5A5E]">
+        Modifiez les informations légales, coordonnées publiques, régions desservies et conformité Loi 25.
+      </p>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <button
+        type="button"
+        id="btn-save-settings"
+        class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-sm transition-all"
+      >
+        <AdminIcon name="check" class="w-3.5 h-3.5" />
+        <span>Enregistrer les modifications</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 2. FORMULAIRES DE CONFIGURATION EN BLOCS ÉPURÉS -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    
+    <!-- Colonne Gauche : Identité & Contact (7 cols) -->
+    <div class="lg:col-span-7 space-y-8">
+      
+      <!-- Bloc Entreprise & Légal -->
+      <div class="bg-white rounded-2xl border border-[#0E7C86]/12 p-6 sm:p-8 shadow-2xs space-y-6">
+        <div class="border-b border-[#0E7C86]/10 pb-4">
+          <h2 class="text-base font-extrabold text-[#0B2A2E]">
+            Identité légale & Numéro d'entreprise
+          </h2>
+          <p class="text-xs text-[#3D5A5E]">
+            Informations publiées sur les mentions légales, reçus fiscaux et devis officiels.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div class="space-y-1.5">
+            <label class="font-bold text-[#0B2A2E]">Marque commerciale</label>
+            <input
+              type="text"
+              value={config.business.name}
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium"
+            />
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="font-bold text-[#0B2A2E]">Raison sociale complète</label>
+            <input
+              type="text"
+              placeholder="ex: unilka inc."
+              value={config.business.legalName}
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium"
+            />
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="font-bold text-[#0B2A2E]">Numéro d'Entreprise du Québec (NEQ)</label>
+            <input
+              type="text"
+              placeholder="11XXXXXXXX"
+              value={config.business.neq}
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium"
+            />
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="font-bold text-[#0B2A2E]">Délai moyen de réponse promis</label>
+            <input
+              type="text"
+              value={config.business.responseDelay}
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium"
+            />
+          </div>
+
+          <div class="sm:col-span-2 space-y-1.5">
+            <label class="font-bold text-[#0B2A2E]">Slogan de marque</label>
+            <input
+              type="text"
+              value={config.business.slogan}
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Bloc Coordonnées Officielles -->
+      <div class="bg-white rounded-2xl border border-[#0E7C86]/12 p-6 sm:p-8 shadow-2xs space-y-6">
+        <div class="border-b border-[#0E7C86]/10 pb-4">
+          <h2 class="text-base font-extrabold text-[#0B2A2E]">
+            Coordonnées de communication
+          </h2>
+          <p class="text-xs text-[#3D5A5E]">
+            Affichées sur le footer, la page Contact et les courriels de confirmation.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div class="space-y-1.5">
+            <label class="font-bold text-[#0B2A2E]">Courriel concierge</label>
+            <input
+              type="email"
+              placeholder="contact@unilka.com"
+              value={config.business.email}
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium"
+            />
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="font-bold text-[#0B2A2E]">Téléphone direct</label>
+            <input
+              type="tel"
+              placeholder="(514) XXX-XXXX"
+              value={config.business.phone}
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium"
+            />
+          </div>
+
+          <div class="sm:col-span-2 space-y-1.5">
+            <label class="font-bold text-[#0B2A2E]">Adresse de domiciliation (Montréal)</label>
+            <input
+              type="text"
+              placeholder="Montréal, QC"
+              value={config.business.address}
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Bloc Régions & Territoires Desservis -->
+      <div class="bg-white rounded-2xl border border-[#0E7C86]/12 p-6 sm:p-8 shadow-2xs space-y-6">
+        <div class="border-b border-[#0E7C86]/10 pb-4 flex items-center justify-between">
+          <div>
+            <h2 class="text-base font-extrabold text-[#0B2A2E]">
+              Régions & Territoires actifs (Section 7.7)
+            </h2>
+            <p class="text-xs text-[#3D5A5E]">
+              Définis dans le cahier des charges pour les interventions sur site.
+            </p>
+          </div>
+          <span class="text-[10px] font-extrabold uppercase bg-emerald-50 text-emerald-800 border border-emerald-200 px-2.5 py-1 rounded-full">
+            3 Régions Actives
+          </span>
+        </div>
+
+        <div class="space-y-3 text-xs">
+          <div class="p-3.5 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/10 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <AdminIcon name="location" class="w-4 h-4 text-[#0E7C86]" />
+              <div>
+                <span class="font-bold text-[#0B2A2E] block">Montréal</span>
+                <span class="text-[11px] text-[#3D5A5E]">Ville-Marie, Outremont, Westmount, Plateau, Rosemont, Griffintown</span>
+              </div>
+            </div>
+            <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Actif</span>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/10 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <AdminIcon name="location" class="w-4 h-4 text-[#0E7C86]" />
+              <div>
+                <span class="font-bold text-[#0B2A2E] block">Longueuil & Rive-Sud</span>
+                <span class="text-[11px] text-[#3D5A5E]">Longueuil, Brossard, Saint-Lambert, Boucherville</span>
+              </div>
+            </div>
+            <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Actif</span>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/10 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <AdminIcon name="location" class="w-4 h-4 text-[#0E7C86]" />
+              <div>
+                <span class="font-bold text-[#0B2A2E] block">Lanaudière</span>
+                <span class="text-[11px] text-[#3D5A5E]">Terrebonne, Repentigny, Mascouche</span>
+              </div>
+            </div>
+            <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Actif</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Colonne Droite : Garanties & Loi 25 (5 cols) -->
+    <div class="lg:col-span-5 space-y-8">
+      
+      <!-- Bloc Garanties & Assurances (5 Badges) -->
+      <div class="bg-white rounded-2xl border border-[#0E7C86]/12 p-6 sm:p-8 shadow-2xs space-y-5">
+        <div class="border-b border-[#0E7C86]/10 pb-4">
+          <h2 class="text-base font-extrabold text-[#0B2A2E]">
+            Badges de Sérénité & Confiance (5 sceaux)
+          </h2>
+          <p class="text-xs text-[#3D5A5E]">
+            Actifs sur la page d'accueil et les devis officiels.
+          </p>
+        </div>
+
+        <div class="space-y-3 text-xs">
+          <label class="flex items-center gap-3 p-3 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/10 cursor-pointer">
+            <input type="checkbox" checked class="w-4 h-4 text-[#0E7C86] rounded" />
+            <div class="space-y-0.5">
+              <span class="font-bold text-[#0B2A2E] block">Responsabilité civile (2 000 000 $ CAD)</span>
+              <span class="text-[11px] text-[#3D5A5E] block">Couverture totale des biens du client</span>
+            </div>
+          </label>
+          <label class="flex items-center gap-3 p-3 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/10 cursor-pointer">
+            <input type="checkbox" checked class="w-4 h-4 text-[#0E7C86] rounded" />
+            <div class="space-y-0.5">
+              <span class="font-bold text-[#0B2A2E] block">Personnel cautionné & vérifié</span>
+              <span class="text-[11px] text-[#3D5A5E] block">Équipe en contrat régulier, zéro sous-traitance opaque</span>
+            </div>
+          </label>
+          <label class="flex items-center gap-3 p-3 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/10 cursor-pointer">
+            <input type="checkbox" checked class="w-4 h-4 text-[#0E7C86] rounded" />
+            <div class="space-y-0.5">
+              <span class="font-bold text-[#0B2A2E] block">Contrôle des antécédents judiciaires</span>
+              <span class="text-[11px] text-[#3D5A5E] block">Enquête préalable systématique avant intervention</span>
+            </div>
+          </label>
+          <label class="flex items-center gap-3 p-3 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/10 cursor-pointer">
+            <input type="checkbox" checked class="w-4 h-4 text-[#0E7C86] rounded" />
+            <div class="space-y-0.5">
+              <span class="font-bold text-[#0B2A2E] block">Produits éco-certifiés & non toxiques</span>
+              <span class="text-[11px] text-[#3D5A5E] block">Respectueux de l'air ambiant, enfants et animaux</span>
+            </div>
+          </label>
+          <label class="flex items-center gap-3 p-3 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/10 cursor-pointer">
+            <input type="checkbox" checked class="w-4 h-4 text-[#0E7C86] rounded" />
+            <div class="space-y-0.5">
+              <span class="font-bold text-[#0B2A2E] block">Protocole d'inspection 42 points</span>
+              <span class="text-[11px] text-[#3D5A5E] block">Grille de contrôle palace avant chaque remise</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Bloc Conformité Loi 25 (Québec) -->
+      <div class="bg-white rounded-2xl border border-[#0E7C86]/12 p-6 sm:p-8 shadow-2xs space-y-5">
+        <div class="border-b border-[#0E7C86]/10 pb-4">
+          <h2 class="text-base font-extrabold text-[#0B2A2E]">
+            Conformité Loi 25 (Protection des données)
+          </h2>
+          <p class="text-xs text-[#3D5A5E]">
+            Gouvernance et politique de confidentialité du Québec.
+          </p>
+        </div>
+
+        <div class="space-y-4 text-xs">
+          <div class="space-y-1.5">
+            <label class="font-bold text-[#0B2A2E]">Nom du responsable DPO</label>
+            <input
+              type="text"
+              placeholder="Direction Unilka"
+              value={config.privacy.dpoName}
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium"
+            />
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="font-bold text-[#0B2A2E]">Courriel officiel DPO</label>
+            <input
+              type="email"
+              placeholder="confidentialite@unilka.com"
+              value={config.privacy.dpoEmail}
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium"
+            />
+          </div>
+
+          <div class="p-4 rounded-xl bg-[#E3F4F5]/60 border border-[#0E7C86]/15 text-[11px] text-[#3D5A5E] leading-relaxed space-y-1.5">
+            <div class="flex items-center gap-1.5 font-bold text-[#0E7C86]">
+              <AdminIcon name="shield-check" class="w-4 h-4 text-[#0E7C86]" />
+              <span>Règles de rétention légale :</span>
+            </div>
+            <ul class="list-disc pl-4 space-y-0.5">
+              <li>Conservation stricte de <strong>24 mois</strong> pour les soumissions et devis clients.</li>
+              <li>Conservation de <strong>12 mois</strong> pour les dossiers de candidature.</li>
+              <li>Purge automatisée et droit d'accès / suppression garanti sur simple demande.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script is:inline>
+    const saveBtn = document.getElementById('btn-save-settings');
+    saveBtn?.addEventListener('click', () => {
+      if (window.showAdminToast) {
+        window.showAdminToast("Paramètres d'entreprise et conformité Loi 25 sauvegardés avec succès !");
+      }
+    });
+  </script>
+
+</AdminLayout>

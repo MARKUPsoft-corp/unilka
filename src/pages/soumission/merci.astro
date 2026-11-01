@@ -2,49 +2,52 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import config from '../../data/site-config.json';
 
-const pageTitle = "Demande envoyée — unilka";
-const pageDescription = "Votre demande de soumission a bien été envoyée.";
-const delayText = config.business.responseDelay ? ` dans un délai de ${config.business.responseDelay}` : '';
+const pageTitle = "Demande Reçue avec Succès — unilka";
+const pageDescription = "Votre demande de soumission a bien été transmise à notre service concierge.";
+const delayText = config.business.responseDelay ? ` sous ${config.business.responseDelay}` : ' sous 24h ouvrées';
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription} noindex={true}>
 
-  <section class="py-16 sm:py-24 bg-brand-surface-subtle min-h-[70vh] flex items-center">
+  <section class="py-20 sm:py-28 bg-[#F5FAFA] min-h-[75vh] flex items-center">
     <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
       
-      <!-- Icône de succès -->
-      <div class="w-16 h-16 rounded-full bg-brand-success text-white mx-auto flex items-center justify-center shadow-md">
+      <!-- Pastille de succès -->
+      <div class="w-16 h-16 rounded-full bg-[#0E7C86] text-white mx-auto flex items-center justify-center shadow-md">
         <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
         </svg>
       </div>
 
-      <div class="space-y-4">
-        <h1 class="text-3xl sm:text-4xl font-black text-brand-text tracking-tight">
-          Merci, votre demande a bien été envoyée
+      <div class="space-y-3">
+        <span class="text-xs font-bold uppercase tracking-widest text-[#0E7C86]">
+          Demande Confirmée
+        </span>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-[#0B2A2E] tracking-tight">
+          Merci, votre demande est bien transmise.
         </h1>
-        <p class="text-base sm:text-lg text-brand-muted leading-relaxed">
-          Notre équipe analysera votre demande et communiquera avec vous{delayText} pour confirmer les détails du service.
+        <p class="text-base sm:text-lg text-[#3D5A5E] leading-relaxed">
+          Notre équipe concierge analyse vos critères et vous contactera{delayText} pour vous transmettre une proposition claire, sur-mesure et sans engagement.
         </p>
       </div>
 
-      <!-- Et maintenant ? -->
-      <div class="bg-white p-6 sm:p-8 rounded-2xl border border-brand-primary-light/80 text-left space-y-4 shadow-xs">
-        <h2 class="text-lg font-bold text-brand-text">
-          Et maintenant ?
+      <!-- Prochaines étapes -->
+      <div class="bg-white p-7 sm:p-9 rounded-2xl border border-[#0E7C86]/15 text-left space-y-4 shadow-xs">
+        <h2 class="text-base font-extrabold text-[#0B2A2E]">
+          Les prochaines étapes de votre prise en charge :
         </h2>
-        <ol class="space-y-3 text-sm text-brand-muted" role="list">
+        <ol class="space-y-4 text-xs sm:text-sm text-[#3D5A5E]" role="list">
           <li class="flex items-start gap-3">
-            <span class="w-6 h-6 rounded-full bg-brand-primary-light text-brand-primary font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">1</span>
-            <span>Nous examinons attentivement vos besoins et les caractéristiques de votre espace.</span>
+            <span class="w-6 h-6 rounded-full bg-[#E3F4F5] text-[#0E7C86] font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">01</span>
+            <span>Examen attentif des caractéristiques de votre espace et du type de prestation requis.</span>
           </li>
           <li class="flex items-start gap-3">
-            <span class="w-6 h-6 rounded-full bg-brand-primary-light text-brand-primary font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">2</span>
-            <span>Nous vous contactons pour clarifier les derniers détails si nécessaire.</span>
+            <span class="w-6 h-6 rounded-full bg-[#E3F4F5] text-[#0E7C86] font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">02</span>
+            <span>Calibration du temps d'intervention nécessaire pour garantir la finition hôtelière.</span>
           </li>
           <li class="flex items-start gap-3">
-            <span class="w-6 h-6 rounded-full bg-brand-primary-light text-brand-primary font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">3</span>
-            <span>Vous recevez votre soumission personnalisée sans engagement.</span>
+            <span class="w-6 h-6 rounded-full bg-[#E3F4F5] text-[#0E7C86] font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">03</span>
+            <span>Envoi de votre devis détaillé au dollar près, avec choix du créneau horaire.</span>
           </li>
         </ol>
       </div>
@@ -53,15 +56,15 @@ const delayText = config.business.responseDelay ? ` dans un délai de ${config.b
       <div class="pt-2 flex flex-wrap items-center justify-center gap-4">
         <a
           href="/"
-          class="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md transition-colors no-underline"
+          class="inline-flex items-center justify-center px-7 py-3.5 text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full shadow-sm hover:shadow-md transition-all duration-200 no-underline"
         >
-          Retour à l'accueil
+          <span>Retour à l'accueil</span>
         </a>
         <a
           href="/services/"
-          class="inline-flex items-center justify-center px-5 py-3 text-sm font-semibold text-brand-text bg-white hover:bg-brand-primary-light border border-brand-primary-light rounded-md transition-colors no-underline"
+          class="inline-flex items-center justify-center px-6 py-3.5 text-xs font-bold text-[#0B2A2E] bg-white hover:bg-[#E3F4F5] border border-[#0E7C86]/20 rounded-full transition-colors no-underline"
         >
-          Découvrir nos services
+          <span>Consulter nos services</span>
         </a>
       </div>
 

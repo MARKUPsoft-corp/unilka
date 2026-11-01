@@ -1,0 +1,783 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import AdminIcon from '../../components/admin/AdminIcon.astro';
+
+const submissions = [
+  {
+    id: "SOU-1042",
+    date: "27 oct. 2026, 14:15",
+    client: "Alexandre Tremblay",
+    email: "a.tremblay@email.ca",
+    phone: "(514) 892-4110",
+    service: "Nettoyage résidentiel",
+    serviceType: "Grand ménage",
+    location: "Outremont, Montréal",
+    postalCode: "H2V 2Z4",
+    surface: "1 850 pi² (3 ch, 2 sdb)",
+    frequency: "Ponctuel",
+    estimatedPrice: "345,00 $",
+    status: "À traiter",
+    statusColor: "bg-amber-100 text-amber-900 border-amber-200",
+    notes: "Présence d'un chat. Souhaite une attention particulière sur la cuisine et le détartrage des parois de douche en verre.",
+    hasPhotos: true,
+    photoUrl: "/images/admin/submission-condo.jpg",
+    photoLabel: "Condo 1 850 pi², Outremont"
+  },
+  {
+    id: "SOU-1041",
+    date: "27 oct. 2026, 11:30",
+    client: "Cabinet Dentaire Saint-Laurent",
+    email: "dr.laurent@clinique.ca",
+    phone: "(514) 284-9001",
+    service: "Nettoyage commercial",
+    serviceType: "Clinique & Bureaux",
+    location: "Ville-Marie, Montréal",
+    postalCode: "H3B 2Y5",
+    surface: "2 400 pi² (Accueil + 4 box)",
+    frequency: "Hebdomadaire (après 18h)",
+    estimatedPrice: "480,00 $/mois",
+    status: "À traiter",
+    statusColor: "bg-amber-100 text-amber-900 border-amber-200",
+    notes: "Désinfection obligatoire des points de contact selon normes cliniques. Clé sous boîte sécurisée.",
+    hasPhotos: true,
+    photoUrl: "/images/admin/submission-clinic.jpg",
+    photoLabel: "Cabinet dentaire, Ville-Marie"
+  },
+  {
+    id: "SOU-1040",
+    date: "27 oct. 2026, 09:45",
+    client: "Éléonore Gagnon",
+    email: "e.gagnon@domain.qc.ca",
+    phone: "(450) 671-8840",
+    service: "Entretien régulier",
+    serviceType: "Condo standing",
+    location: "Saint-Lambert, Rive-Sud",
+    postalCode: "J4P 1T8",
+    surface: "1 400 pi² (2 ch, 2 sdb)",
+    frequency: "Bimensuel (aux 2 semaines)",
+    estimatedPrice: "195,00 $/passage",
+    status: "Devis envoyé",
+    statusColor: "bg-blue-100 text-blue-800 border-blue-200",
+    notes: "Sol en parquet franc de chêne massif, produits non abrasifs requis.",
+    hasPhotos: false,
+    photoUrl: "",
+    photoLabel: ""
+  },
+  {
+    id: "SOU-1039",
+    date: "26 oct. 2026, 18:20",
+    client: "Marc-Antoine Roy",
+    email: "ma.roy@invest.ca",
+    phone: "(514) 710-3329",
+    service: "Nettoyage spécialisé",
+    serviceType: "Canapés & Tapis",
+    location: "Griffintown, Montréal",
+    postalCode: "H3C 0K7",
+    surface: "Canapé 5 places + 2 tapis laine",
+    frequency: "Ponctuel",
+    estimatedPrice: "280,00 $",
+    status: "Devis envoyé",
+    statusColor: "bg-blue-100 text-blue-800 border-blue-200",
+    notes: "Détachage café sur tissu beige.",
+    hasPhotos: true,
+    photoUrl: "/images/admin/submission-condo.jpg",
+    photoLabel: "Mobilier salon, Griffintown"
+  },
+  {
+    id: "SOU-1038",
+    date: "26 oct. 2026, 14:05",
+    client: "Sophie Marchand",
+    email: "s.marchand@videotron.ca",
+    phone: "(450) 581-2244",
+    service: "Nettoyage résidentiel",
+    serviceType: "Avant emménagement",
+    location: "Repentigny, Lanaudière",
+    postalCode: "J6A 2P4",
+    surface: "2 200 pi² (Maison unifamiliale)",
+    frequency: "Ponctuel",
+    estimatedPrice: "420,00 $",
+    status: "Confirmé & Payé",
+    statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
+    notes: "Maison vide, remise des clés prévue vendredi matin à 9h00.",
+    hasPhotos: true,
+    photoUrl: "/images/admin/submission-condo.jpg",
+    photoLabel: "Maison unifamiliale, Repentigny"
+  },
+  {
+    id: "SOU-1037",
+    date: "25 oct. 2026, 16:40",
+    client: "Boutique Mode Laurier",
+    email: "contact@boutiquemode.ca",
+    phone: "(514) 279-5500",
+    service: "Nettoyage commercial",
+    serviceType: "Boutique & Showroom",
+    location: "Plateau-Mont-Royal, Montréal",
+    postalCode: "H2T 1E4",
+    surface: "1 200 pi² (Espace vente + réserve)",
+    frequency: "Hebdomadaire",
+    estimatedPrice: "360,00 $/mois",
+    status: "Confirmé & Payé",
+    statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
+    notes: "Lavage des deux vitrines principales inclus.",
+    hasPhotos: false,
+    photoUrl: "",
+    photoLabel: ""
+  }
+];
+---
+
+<AdminLayout title="Soumissions & Devis" activeNav="soumissions">
+
+  <!-- 1. EN-TÊTE PAGE -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="space-y-1">
+      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#E3F4F5] border border-[#0E7C86]/20 text-[10px] font-extrabold uppercase tracking-widest text-[#0E7C86]">
+        <span>Gestion des Demandes Clients</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-[#0B2A2E] tracking-tight">
+        Demandes de soumission & Devis
+      </h1>
+      <p class="text-xs sm:text-sm text-[#3D5A5E]">
+        Analysez les besoins des prospects, générez vos estimations et suivez les confirmations de réservation.
+      </p>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <button
+        type="button"
+        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold text-[#0B2A2E] bg-white hover:bg-[#F5FAFA] border border-[#0E7C86]/20 shadow-2xs transition-colors"
+      >
+        <span>Exporter en CSV</span>
+      </button>
+      <button
+        type="button"
+        id="btn-create-soumission"
+        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-sm transition-colors"
+      >
+        <span>+ Nouvelle soumission manuelle</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 2. ONGLETS DE STATUT & FILTRES -->
+  <div class="bg-white rounded-2xl border border-[#0E7C86]/12 p-4 shadow-2xs space-y-4">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      
+      <!-- Onglets Pilules Interactifs -->
+      <div class="flex flex-wrap items-center gap-2" id="filter-tabs">
+        <button
+          type="button"
+          data-filter="all"
+          class="filter-tab px-4 py-2 rounded-full text-xs font-extrabold bg-[#0E7C86] text-white transition-all shadow-xs"
+        >
+          Toutes (18)
+        </button>
+        <button
+          type="button"
+          data-filter="À traiter"
+          class="filter-tab px-4 py-2 rounded-full text-xs font-bold bg-[#F5FAFA] text-[#0B2A2E] hover:bg-[#E3F4F5] border border-[#0E7C86]/15 transition-all"
+        >
+          À traiter (4)
+        </button>
+        <button
+          type="button"
+          data-filter="Devis envoyé"
+          class="filter-tab px-4 py-2 rounded-full text-xs font-bold bg-[#F5FAFA] text-[#0B2A2E] hover:bg-[#E3F4F5] border border-[#0E7C86]/15 transition-all"
+        >
+          Devis envoyé (6)
+        </button>
+        <button
+          type="button"
+          data-filter="Confirmé & Payé"
+          class="filter-tab px-4 py-2 rounded-full text-xs font-bold bg-[#F5FAFA] text-[#0B2A2E] hover:bg-[#E3F4F5] border border-[#0E7C86]/15 transition-all"
+        >
+          Confirmées & Payées (5)
+        </button>
+      </div>
+
+      <!-- Filtre Catégorie de service & Zone -->
+      <div class="flex items-center gap-2">
+        <select
+          id="service-select"
+          class="px-3 py-2 text-xs rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:outline-none focus:border-[#0E7C86]"
+        >
+          <option value="all">Tous les services</option>
+          <option value="résidentiel">Résidentiel</option>
+          <option value="commercial">Commercial</option>
+          <option value="régulier">Entretien régulier</option>
+          <option value="spécialisé">Spécialisé</option>
+        </select>
+
+        <select
+          id="zone-select"
+          class="px-3 py-2 text-xs rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:outline-none focus:border-[#0E7C86]"
+        >
+          <option value="all">Toutes les zones</option>
+          <option value="montréal">Montréal</option>
+          <option value="rive-sud">Rive-Sud</option>
+          <option value="lanaudière">Lanaudière</option>
+        </select>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 3. TABLEAU DES SOUMISSIONS -->
+  <div class="bg-white rounded-2xl border border-[#0E7C86]/12 overflow-hidden shadow-2xs">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse text-xs" id="submissions-table">
+        <thead>
+          <tr class="bg-[#F5FAFA] border-b border-[#0E7C86]/12 text-[#3D5A5E] font-extrabold uppercase tracking-wider text-[10px]">
+            <th class="py-3.5 px-4">Réf.</th>
+            <th class="py-3.5 px-4">Client & Contact</th>
+            <th class="py-3.5 px-4">Prestation demandée</th>
+            <th class="py-3.5 px-4">Localisation</th>
+            <th class="py-3.5 px-4">Détails surface</th>
+            <th class="py-3.5 px-4">Tarif estimé</th>
+            <th class="py-3.5 px-4">Statut</th>
+            <th class="py-3.5 px-4 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-[#0E7C86]/08" id="submissions-tbody">
+          {submissions.map((sub) => (
+            <tr
+              class="submission-row hover:bg-[#F5FAFA] transition-colors group cursor-pointer"
+              data-id={sub.id}
+              data-client={sub.client}
+              data-email={sub.email}
+              data-phone={sub.phone}
+              data-service={sub.service}
+              data-servicetype={sub.serviceType}
+              data-frequency={sub.frequency}
+              data-location={sub.location}
+              data-postalcode={sub.postalCode}
+              data-surface={sub.surface}
+              data-price={sub.estimatedPrice}
+              data-status={sub.status}
+              data-notes={sub.notes}
+              data-hasphotos={sub.hasPhotos ? "true" : "false"}
+              data-photourl={sub.photoUrl || ""}
+              data-photolabel={sub.photoLabel || ""}
+            >
+              <td class="py-4 px-4 font-mono font-bold text-[#0E7C86]">
+                {sub.id}
+                <span class="block text-[10px] text-[#3D5A5E]/60 font-sans">{sub.date.split(',')[0]}</span>
+              </td>
+              <td class="py-4 px-4">
+                <span class="font-extrabold text-[#0B2A2E] block text-[13px]">{sub.client}</span>
+                <span class="text-[#3D5A5E] block">{sub.phone}</span>
+                <span class="text-[#3D5A5E]/70 block">{sub.email}</span>
+              </td>
+              <td class="py-4 px-4">
+                <span class="font-bold text-[#0B2A2E] block">{sub.service}</span>
+                <span class="text-[11px] text-[#0E7C86] font-semibold">{sub.serviceType} • {sub.frequency}</span>
+              </td>
+              <td class="py-4 px-4">
+                <span class="font-medium text-[#0B2A2E] block">{sub.location}</span>
+                <span class="text-[10px] font-mono text-[#3D5A5E]">{sub.postalCode}</span>
+              </td>
+              <td class="py-4 px-4">
+                <span class="text-[#3D5A5E] block font-medium">{sub.surface}</span>
+                {sub.hasPhotos && (
+                  <span class="inline-flex items-center gap-1.5 text-[10px] font-bold text-[#0E7C86] bg-[#E3F4F5] px-2 py-0.5 rounded mt-0.5">
+                    <AdminIcon name="camera" class="w-3 h-3 text-[#0E7C86]" />
+                    <span>Photos jointes</span>
+                  </span>
+                )}
+              </td>
+              <td class="py-4 px-4">
+                <span class="font-black text-[#0B2A2E] text-sm block">{sub.estimatedPrice}</span>
+              </td>
+              <td class="py-4 px-4">
+                <span class={`inline-block px-2.5 py-1 rounded-full text-[10px] font-extrabold border ${sub.statusColor}`}>
+                  {sub.status}
+                </span>
+              </td>
+              <td class="py-4 px-4 text-right">
+                <div class="inline-flex items-center gap-1.5" onclick="event.stopPropagation()">
+                  <button
+                    type="button"
+                    class="btn-send-email p-2 rounded-lg text-[#3D5A5E] hover:text-[#0E7C86] hover:bg-[#E3F4F5] transition-colors"
+                    title="Envoyer le devis par courriel"
+                    data-id={sub.id}
+                  >
+                    <AdminIcon name="mail" class="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    type="button"
+                    class="btn-open-row inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-2xs transition-colors"
+                    data-id={sub.id}
+                  >
+                    <span>Ouvrir fiche</span>
+                    <AdminIcon name="arrow-right" class="w-3 h-3" />
+                  </button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="p-4 bg-[#F5FAFA] border-t border-[#0E7C86]/10 flex items-center justify-between text-xs text-[#3D5A5E]">
+      <span id="rows-count-label">Affichage de {submissions.length} soumissions</span>
+      <div class="flex items-center gap-1">
+        <button type="button" class="px-2.5 py-1 rounded border border-[#0E7C86]/20 bg-white hover:bg-[#E3F4F5]">Précédent</button>
+        <button type="button" class="px-2.5 py-1 rounded bg-[#0E7C86] text-white font-bold">1</button>
+        <button type="button" class="px-2.5 py-1 rounded border border-[#0E7C86]/20 bg-white hover:bg-[#E3F4F5]">Suivant</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. TIROIR COULISSANT LATÉRAL (SLIDE-OVER DRAWER MODAL) -->
+  <div
+    id="drawer-backdrop"
+    class="fixed inset-0 bg-[#0B2A2E]/50 backdrop-blur-xs z-50 hidden transition-opacity duration-200"
+  ></div>
+
+  <div
+    id="submission-drawer"
+    class="fixed inset-y-0 right-0 z-50 w-full max-w-xl bg-white shadow-2xl border-l border-[#0E7C86]/15 transform translate-x-full transition-transform duration-300 ease-out flex flex-col justify-between overflow-hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="drawer-title"
+  >
+    <!-- En-tête Tiroir -->
+    <div class="p-6 border-b border-[#0E7C86]/12 flex items-center justify-between bg-white shrink-0">
+      <div class="flex items-center gap-3">
+        <span class="w-8 h-8 rounded-xl bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center">
+          <AdminIcon name="document" class="w-4 h-4 text-[#0E7C86]" />
+        </span>
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#0E7C86] block">
+            Fiche d'Analyse Soumission
+          </span>
+          <h2 id="drawer-title" class="text-base font-extrabold text-[#0B2A2E] leading-tight">
+            Soumission #<span id="drawer-id">SOU-1042</span>
+          </h2>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span id="drawer-status-badge" class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-900 border border-amber-200">
+          Nouveau
+        </span>
+        <button
+          type="button"
+          id="close-drawer-btn"
+          class="p-2 text-[#3D5A5E] hover:text-[#0E7C86] rounded-xl hover:bg-[#F5FAFA] transition-colors"
+          aria-label="Fermer le tiroir"
+        >
+          <AdminIcon name="close" class="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+
+    <!-- Contenu Tiroir Déroulant -->
+    <div class="flex-1 overflow-y-auto p-6 space-y-6 text-xs text-[#0B2A2E]">
+      
+      <!-- Bloc Coordonnées Client -->
+      <div class="p-4 rounded-2xl bg-[#F5FAFA] border border-[#0E7C86]/10 space-y-3">
+        <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#0E7C86] block">
+          Client & Coordonnées
+        </span>
+        <div class="flex items-start justify-between">
+          <div>
+            <h3 id="drawer-client" class="text-sm font-extrabold text-[#0B2A2E]">Alexandre Tremblay</h3>
+            <p id="drawer-location" class="text-[#3D5A5E] mt-0.5">Outremont, Montréal (H2V 2Z4)</p>
+          </div>
+          <div class="text-right space-y-0.5">
+            <a id="drawer-phone" href="tel:" class="font-bold text-[#0E7C86] hover:underline block">(514) 892-4110</a>
+            <a id="drawer-email" href="mailto:" class="text-[#3D5A5E] hover:underline block">a.tremblay@email.ca</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spécifications du projet -->
+      <div class="space-y-3">
+        <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#0E7C86] block">
+          Prestation & Spécificités
+        </span>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="p-3 rounded-xl bg-white border border-[#0E7C86]/12 space-y-1">
+            <span class="text-[10px] text-[#3D5A5E] block">Formule demandée</span>
+            <span id="drawer-service" class="font-bold text-[#0B2A2E] block">Nettoyage résidentiel</span>
+            <span id="drawer-servicetype" class="text-[11px] text-[#0E7C86] block">Grand ménage • Ponctuel</span>
+          </div>
+          <div class="p-3 rounded-xl bg-white border border-[#0E7C86]/12 space-y-1">
+            <span class="text-[10px] text-[#3D5A5E] block">Superficie déclarée</span>
+            <span id="drawer-surface" class="font-bold text-[#0B2A2E] block">1 850 pi² (3 ch, 2 sdb)</span>
+            <span id="drawer-photos" class="inline-flex items-center gap-1 text-[10px] text-emerald-700 font-bold">
+              <AdminIcon name="camera" class="w-3 h-3 text-emerald-700" />
+              <span>Photos jointes (vérifiées)</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Aperçu Photo du Chantier Client (si fournie) -->
+        <div id="drawer-photo-preview-box" class="p-4 rounded-2xl bg-white border border-[#0E7C86]/12 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-[#0E7C86]">
+              <AdminIcon name="camera" class="w-3.5 h-3.5 text-[#0E7C86]" />
+              <span>Évaluation visuelle du lieu</span>
+            </span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#E3F4F5] text-[#0E7C86] border border-[#0E7C86]/20">
+              Prise par le client
+            </span>
+          </div>
+          <div class="relative rounded-xl overflow-hidden aspect-video bg-[#0B2A2E]/5 border border-[#0E7C86]/10 shadow-2xs">
+            <img
+              id="drawer-photo-img"
+              src="/images/admin/submission-condo.jpg"
+              alt="Photo des lieux soumise par le client"
+              class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+            />
+          </div>
+          <p id="drawer-photo-caption" class="text-[11px] text-[#3D5A5E] font-medium text-center">
+            Condo 1 850 pi², Outremont
+          </p>
+        </div>
+
+        <div class="p-3 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/10">
+          <span class="text-[10px] font-bold text-[#3D5A5E] uppercase block mb-1">Consignes & Notes spéciales du client :</span>
+          <p id="drawer-notes" class="text-[#3D5A5E] italic leading-relaxed">
+            Présence d'un chat. Souhaite une attention particulière sur la cuisine et le détartrage des parois de douche en verre.
+          </p>
+        </div>
+      </div>
+
+      <!-- Calculateur de Devis Interactif -->
+      <div class="p-5 rounded-2xl bg-[#E3F4F5]/50 border border-[#0E7C86]/20 space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#0E7C86]">
+            Calculateur de Devis Officiel
+          </span>
+          <span class="text-[10px] font-bold text-[#0E7C86] bg-white px-2 py-0.5 rounded-full border border-[#0E7C86]/20">
+            Protocole 42 pts
+          </span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="space-y-1">
+            <label class="text-[10px] font-bold text-[#3D5A5E] uppercase">Heures estimées</label>
+            <div class="flex items-center gap-2">
+              <input
+                type="number"
+                id="calc-hours"
+                value="5.5"
+                step="0.5"
+                min="1"
+                max="20"
+                class="w-full px-3 py-1.5 rounded-lg bg-white border border-[#0E7C86]/20 text-[#0B2A2E] font-bold text-center"
+              />
+              <span class="text-xs text-[#3D5A5E]">h</span>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-[10px] font-bold text-[#3D5A5E] uppercase">Taux horaire</label>
+            <div class="flex items-center gap-2">
+              <input
+                type="number"
+                id="calc-rate"
+                value="55"
+                step="5"
+                min="40"
+                max="100"
+                class="w-full px-3 py-1.5 rounded-lg bg-white border border-[#0E7C86]/20 text-[#0B2A2E] font-bold text-center"
+              />
+              <span class="text-xs text-[#3D5A5E]">$/h</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Extras Optionnels -->
+        <div class="space-y-2 pt-2 border-t border-[#0E7C86]/15">
+          <span class="text-[10px] font-bold text-[#3D5A5E] uppercase block">Options supplémentaires :</span>
+          <div class="grid grid-cols-2 gap-2 text-[11px]">
+            <label class="flex items-center gap-2 p-2 rounded-lg bg-white/70 border border-[#0E7C86]/10 cursor-pointer">
+              <input type="checkbox" id="extra-oven" class="calc-extra rounded text-[#0E7C86] focus:ring-0" data-price="45" />
+              <span>Four / Électros (+45$)</span>
+            </label>
+            <label class="flex items-center gap-2 p-2 rounded-lg bg-white/70 border border-[#0E7C86]/10 cursor-pointer">
+              <input type="checkbox" id="extra-windows" class="calc-extra rounded text-[#0E7C86] focus:ring-0" data-price="65" />
+              <span>Intérieur vitres (+65$)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Décomposition Totaux -->
+        <div class="pt-3 border-t border-[#0E7C86]/20 space-y-1.5 text-xs">
+          <div class="flex justify-between items-center text-[#3D5A5E]">
+            <span>Sous-total HT :</span>
+            <span id="calc-subtotal" class="font-bold text-[#0B2A2E]">302,50 $ CAD</span>
+          </div>
+          <div class="flex justify-between items-center text-[#3D5A5E]/80 text-[11px]">
+            <span>TPS (5%) :</span>
+            <span id="calc-tps">15,13 $ CAD</span>
+          </div>
+          <div class="flex justify-between items-center text-[#3D5A5E]/80 text-[11px]">
+            <span>TVQ (9.975%) :</span>
+            <span id="calc-tvq">30,17 $ CAD</span>
+          </div>
+          <div class="pt-2 border-t border-[#0E7C86]/20 flex justify-between items-center text-sm font-black text-[#0E7C86]">
+            <span>Total TTC :</span>
+            <span id="calc-total" class="text-base font-extrabold">347,80 $ CAD</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Actions du Tiroir (Pied-de-page) -->
+    <div class="p-6 border-t border-[#0E7C86]/12 bg-[#F5FAFA] space-y-2.5 shrink-0">
+      <div class="flex items-center gap-2">
+        <button
+          type="button"
+          id="btn-copy-stripe"
+          class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-xs font-extrabold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-sm transition-all"
+        >
+          <AdminIcon name="credit-card" class="w-4 h-4 text-white" />
+          <span>Copier le lien Stripe Canada</span>
+        </button>
+        <button
+          type="button"
+          id="btn-send-quote-email"
+          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold text-[#0B2A2E] bg-white border border-[#0E7C86]/20 hover:bg-[#E3F4F5] transition-colors"
+        >
+          <AdminIcon name="mail" class="w-4 h-4 text-[#0B2A2E]" />
+          <span>Envoyer devis</span>
+        </button>
+      </div>
+
+      <div class="flex items-center justify-between text-[11px] text-[#3D5A5E]">
+        <a href="/admin/planning/" class="inline-flex items-center gap-1.5 hover:text-[#0E7C86] hover:underline">
+          <AdminIcon name="calendar" class="w-3.5 h-3.5 text-[#0E7C86]" />
+          <span>Planifier directement l'intervention au calendrier</span>
+        </a>
+        <button type="button" id="btn-cancel-drawer" class="hover:text-red-600">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT CLIENT INTERACTIF SOUMISSIONS -->
+  <script is:inline>
+    // 1. Filtrage dynamique par statut
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const rows = document.querySelectorAll('.submission-row');
+    const serviceSelect = document.getElementById('service-select');
+    const zoneSelect = document.getElementById('zone-select');
+    const countLabel = document.getElementById('rows-count-label');
+
+    let currentStatus = 'all';
+
+    function applyFilters() {
+      let visibleCount = 0;
+      const selectedService = serviceSelect ? serviceSelect.value.toLowerCase() : 'all';
+      const selectedZone = zoneSelect ? zoneSelect.value.toLowerCase() : 'all';
+
+      rows.forEach((row) => {
+        const rowStatus = row.dataset.status || '';
+        const rowService = (row.dataset.service || '').toLowerCase();
+        const rowLocation = (row.dataset.location || '').toLowerCase();
+
+        const matchStatus = currentStatus === 'all' || rowStatus.toLowerCase().includes(currentStatus.toLowerCase());
+        const matchService = selectedService === 'all' || rowService.includes(selectedService);
+        const matchZone = selectedZone === 'all' || rowLocation.includes(selectedZone);
+
+        if (matchStatus && matchService && matchZone) {
+          row.style.display = '';
+          visibleCount++;
+        } else {
+          row.style.display = 'none';
+        }
+      });
+
+      if (countLabel) {
+        countLabel.textContent = `Affichage de ${visibleCount} sur ${rows.length} soumissions`;
+      }
+    }
+
+    filterTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach((t) => {
+          t.classList.remove('bg-[#0E7C86]', 'text-white', 'shadow-xs');
+          t.classList.add('bg-[#F5FAFA]', 'text-[#0B2A2E]');
+        });
+        tab.classList.add('bg-[#0E7C86]', 'text-white', 'shadow-xs');
+        tab.classList.remove('bg-[#F5FAFA]', 'text-[#0B2A2E]');
+
+        currentStatus = tab.dataset.filter || 'all';
+        applyFilters();
+      });
+    });
+
+    serviceSelect?.addEventListener('change', applyFilters);
+    zoneSelect?.addEventListener('change', applyFilters);
+
+    // 2. Tiroir Coulissant (Slide-Over Drawer)
+    const drawer = document.getElementById('submission-drawer');
+    const backdrop = document.getElementById('drawer-backdrop');
+    const closeDrawerBtn = document.getElementById('close-drawer-btn');
+    const cancelDrawerBtn = document.getElementById('btn-cancel-drawer');
+
+    function openDrawer(row) {
+      if (!drawer || !backdrop) return;
+
+      const id = row.dataset.id;
+      const client = row.dataset.client;
+      const email = row.dataset.email;
+      const phone = row.dataset.phone;
+      const service = row.dataset.service;
+      const serviceType = row.dataset.servicetype;
+      const frequency = row.dataset.frequency;
+      const location = row.dataset.location;
+      const postalCode = row.dataset.postalcode;
+      const surface = row.dataset.surface;
+      const status = row.dataset.status;
+      const notes = row.dataset.notes;
+      const hasPhotos = row.dataset.hasphotos === 'true';
+
+      document.getElementById('drawer-id').textContent = id;
+      document.getElementById('drawer-client').textContent = client;
+      document.getElementById('drawer-location').textContent = `${location} (${postalCode})`;
+      
+      const phoneEl = document.getElementById('drawer-phone');
+      phoneEl.textContent = phone;
+      phoneEl.href = `tel:${phone}`;
+
+      const emailEl = document.getElementById('drawer-email');
+      emailEl.textContent = email;
+      emailEl.href = `mailto:${email}`;
+
+      document.getElementById('drawer-service').textContent = service;
+      document.getElementById('drawer-servicetype').textContent = `${serviceType} • ${frequency}`;
+      document.getElementById('drawer-surface').textContent = surface;
+      document.getElementById('drawer-notes').textContent = notes;
+      
+      const photoEl = document.getElementById('drawer-photos');
+      if (photoEl) photoEl.style.display = hasPhotos ? 'inline-flex' : 'none';
+
+      const photoBox = document.getElementById('drawer-photo-preview-box');
+      const photoImg = document.getElementById('drawer-photo-img');
+      const photoCaption = document.getElementById('drawer-photo-caption');
+      const photoUrl = row.dataset.photourl;
+      const photoLabel = row.dataset.photolabel;
+
+      if (photoBox && photoImg && photoCaption) {
+        if (hasPhotos && photoUrl) {
+          photoBox.style.display = 'block';
+          photoImg.src = photoUrl;
+          photoCaption.textContent = photoLabel || 'Photo soumise par le client';
+        } else {
+          photoBox.style.display = 'none';
+        }
+      }
+
+      const statusBadge = document.getElementById('drawer-status-badge');
+      if (statusBadge) statusBadge.textContent = status;
+
+      recalculateQuote();
+
+      backdrop.classList.remove('hidden');
+      drawer.classList.remove('translate-x-full');
+    }
+
+    function closeDrawer() {
+      if (!drawer || !backdrop) return;
+      drawer.classList.add('translate-x-full');
+      backdrop.classList.add('hidden');
+    }
+
+    rows.forEach((row) => {
+      row.addEventListener('click', () => openDrawer(row));
+    });
+
+    document.querySelectorAll('.btn-open-row').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const row = btn.closest('.submission-row');
+        if (row) openDrawer(row);
+      });
+    });
+
+    closeDrawerBtn?.addEventListener('click', closeDrawer);
+    cancelDrawerBtn?.addEventListener('click', closeDrawer);
+    backdrop?.addEventListener('click', closeDrawer);
+
+    // 3. Calculateur de devis
+    const hoursInput = document.getElementById('calc-hours');
+    const rateInput = document.getElementById('calc-rate');
+    const extras = document.querySelectorAll('.calc-extra');
+
+    function recalculateQuote() {
+      const hours = parseFloat(hoursInput?.value || 0);
+      const rate = parseFloat(rateInput?.value || 0);
+      let base = hours * rate;
+
+      extras.forEach((cb) => {
+        if (cb.checked) {
+          base += parseFloat(cb.dataset.price || 0);
+        }
+      });
+
+      const tps = base * 0.05;
+      const tvq = base * 0.09975;
+      const total = base + tps + tvq;
+
+      const subtotalEl = document.getElementById('calc-subtotal');
+      const tpsEl = document.getElementById('calc-tps');
+      const tvqEl = document.getElementById('calc-tvq');
+      const totalEl = document.getElementById('calc-total');
+
+      if (subtotalEl) subtotalEl.textContent = `${base.toFixed(2).replace('.', ',')} $ CAD`;
+      if (tpsEl) tpsEl.textContent = `${tps.toFixed(2).replace('.', ',')} $ CAD`;
+      if (tvqEl) tvqEl.textContent = `${tvq.toFixed(2).replace('.', ',')} $ CAD`;
+      if (totalEl) totalEl.textContent = `${total.toFixed(2).replace('.', ',')} $ CAD`;
+    }
+
+    hoursInput?.addEventListener('input', recalculateQuote);
+    rateInput?.addEventListener('input', recalculateQuote);
+    extras.forEach((cb) => cb.addEventListener('change', recalculateQuote));
+
+    // 4. Copie du lien Stripe & Action toasts
+    const copyStripeBtn = document.getElementById('btn-copy-stripe');
+    copyStripeBtn?.addEventListener('click', () => {
+      const id = document.getElementById('drawer-id')?.textContent || 'SOU-1042';
+      const fakeUrl = `https://buy.stripe.com/live_unilka_${id.toLowerCase()}_checkout`;
+      
+      navigator.clipboard?.writeText(fakeUrl).then(() => {
+        if (window.showAdminToast) {
+          window.showAdminToast(`Lien Stripe ${id} copié dans le presse-papiers !`);
+        }
+      }).catch(() => {
+        if (window.showAdminToast) {
+          window.showAdminToast(`Lien Stripe généré : ${fakeUrl}`);
+        }
+      });
+    });
+
+    const sendQuoteBtn = document.getElementById('btn-send-quote-email');
+    sendQuoteBtn?.addEventListener('click', () => {
+      const id = document.getElementById('drawer-id')?.textContent || 'SOU-1042';
+      const client = document.getElementById('drawer-client')?.textContent || 'Client';
+      if (window.showAdminToast) {
+        window.showAdminToast(`Devis ${id} officiellement transmis à ${client} !`);
+      }
+    });
+
+    document.querySelectorAll('.btn-send-email').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = btn.dataset.id;
+        if (window.showAdminToast) {
+          window.showAdminToast(`Devis ${id} transmis par courriel !`);
+        }
+      });
+    });
+  </script>
+
+</AdminLayout>

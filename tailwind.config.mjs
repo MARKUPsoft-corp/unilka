@@ -23,14 +23,25 @@ export default {
       },
       fontFamily: {
         sans: [
+          'Manrope',
           'system-ui',
           '-apple-system',
           'BlinkMacSystemFont',
           '"Segoe UI"',
           'Roboto',
-          'Helvetica',
-          'Arial',
           'sans-serif'
+        ],
+        serif: [
+          'Playfair Display',
+          'Fraunces',
+          'Georgia',
+          'serif'
+        ],
+        display: [
+          'Playfair Display',
+          'Fraunces',
+          'Georgia',
+          'serif'
         ]
       },
       boxShadow: {

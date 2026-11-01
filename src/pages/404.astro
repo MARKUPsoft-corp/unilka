@@ -1,39 +1,42 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const pageTitle = "Page introuvable — unilka";
-const pageDescription = "La page demandée est introuvable.";
+const pageTitle = "Page Introuvable (404) — unilka";
+const pageDescription = "La page que vous recherchez semble introuvable.";
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription} noindex={true}>
 
-  <section class="py-20 sm:py-28 bg-brand-surface-subtle min-h-[70vh] flex items-center">
+  <section class="py-24 sm:py-32 bg-[#F5FAFA] min-h-[75vh] flex items-center">
     <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
       
-      <span class="text-6xl sm:text-7xl font-black text-brand-primary/30 tracking-widest block" aria-hidden="true">
-        404
-      </span>
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#0E7C86]/15 shadow-2xs">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#0E7C86]"></span>
+        <span class="text-[11px] font-bold uppercase tracking-[0.14em] text-[#0E7C86]">
+          Erreur 404
+        </span>
+      </div>
 
-      <h1 class="text-3xl sm:text-4xl font-extrabold text-brand-text tracking-tight">
-        Page introuvable
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-[#0B2A2E] tracking-tight">
+        Cette page semble s'être éclipsée.
       </h1>
 
-      <p class="text-base text-brand-muted leading-relaxed max-w-md mx-auto">
-        La page que vous cherchez n'existe pas ou a été déplacée.
+      <p class="text-base text-[#3D5A5E] leading-relaxed max-w-md mx-auto">
+        L'adresse demandée n'existe pas ou a été déplacée vers une nouvelle section de notre plateforme.
       </p>
 
       <div class="pt-4 flex flex-wrap items-center justify-center gap-4">
         <a
           href="/"
-          class="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-brand-primary hover:bg-brand-primary-dark rounded-md transition-colors no-underline"
+          class="inline-flex items-center justify-center px-7 py-3.5 text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full shadow-sm hover:shadow-md transition-all duration-200 no-underline"
         >
-          Retour à l'accueil
+          <span>Retourner à l'accueil</span>
         </a>
         <a
           href="/soumission/"
-          class="inline-flex items-center justify-center px-5 py-3 text-sm font-semibold text-brand-text bg-white hover:bg-brand-primary-light border border-brand-primary-light rounded-md transition-colors no-underline"
+          class="inline-flex items-center justify-center px-6 py-3.5 text-xs font-bold text-[#0B2A2E] bg-white hover:bg-[#E3F4F5] border border-[#0E7C86]/20 rounded-full transition-colors no-underline"
         >
-          Obtenir une soumission
+          <span>Demander une soumission ↗</span>
         </a>
       </div>
 

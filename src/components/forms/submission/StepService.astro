@@ -1,85 +1,233 @@
 ---
 // Étape 1 : Choix du type de service, fréquence, date et plage horaire
 ---
-<fieldset class="p-6 sm:p-8 bg-white rounded-2xl border border-brand-primary-light/80 shadow-xs space-y-6">
-  <legend class="text-xl font-bold text-brand-text flex items-center gap-2">
-    <span class="w-7 h-7 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center shrink-0">1</span>
-    <span>Votre service</span>
-  </legend>
+<fieldset class="relative bg-white rounded-3xl border border-[#0E7C86]/20 p-6 sm:p-10 shadow-[0_12px_40px_rgba(11,42,46,0.06)] space-y-8 overflow-hidden">
+  
+  <!-- Accent décoratif d'arrière-plan -->
+  <div class="absolute -top-24 -right-24 w-64 h-64 bg-gradient-to-br from-[#E3F4F5]/60 to-transparent rounded-full blur-2xl pointer-events-none" aria-hidden="true"></div>
 
-  <!-- Type de service souhaité (Obligatoire) -->
+  <!-- En-tête éditorial de l'étape -->
+  <div class="relative border-b border-[#0E7C86]/12 pb-6 space-y-2">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E3F4F5] border border-[#0E7C86]/20 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[#0A5A62]">
+      <span class="w-2 h-2 rounded-full bg-[#0E7C86]"></span>
+      <span>Étape 01 • Formule & Cadence</span>
+    </div>
+    
+    <legend class="text-2xl sm:text-3xl font-extrabold text-[#0B2A2E] tracking-tight block">
+      Quel type de service souhaitez-vous ?
+    </legend>
+    
+    <p class="text-sm sm:text-base text-[#3D5A5E] leading-relaxed max-w-2xl">
+      Chaque intervention unilka est exécutée selon nos protocoles hôteliers rigoureux avec produits écologiques certifiés inclus.
+    </p>
+  </div>
+
+  <!-- 1. CARTES DE SÉLECTION DU SERVICE -->
   <div class="space-y-3">
-    <label class="block text-sm font-bold text-brand-text">
-      Type de service souhaité <span class="text-brand-error" aria-hidden="true">*</span>
+    <label class="flex items-center justify-between text-xs font-black uppercase tracking-wider text-[#0B2A2E]">
+      <span>Formule d'intervention <span class="text-[#0E7C86]" aria-hidden="true">*</span></span>
+      <span class="text-[11px] font-semibold text-[#3D5A5E]/70 normal-case">Choisissez 1 option</span>
     </label>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-      <label class="relative flex items-center gap-3 p-4 rounded-xl border border-brand-primary-light cursor-pointer hover:bg-brand-surface-subtle transition-colors has-[:checked]:border-brand-primary has-[:checked]:bg-brand-primary-light/40">
-        <input type="radio" name="serviceType" value="residentiel" class="w-4 h-4 text-brand-primary focus:ring-brand-primary" required checked />
-        <span class="text-sm font-semibold text-brand-text">Résidentiel (domicile)</span>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+      
+      <!-- Option 1 : Résidentiel -->
+      <label class="relative flex flex-col p-5 rounded-2xl border-2 border-[#0E7C86]/18 bg-[#F8FCFC] cursor-pointer hover:border-[#0E7C86]/50 hover:bg-white transition-all duration-200 shadow-2xs group has-[:checked]:border-[#0E7C86] has-[:checked]:bg-[#E3F4F5]/30 has-[:checked]:ring-4 has-[:checked]:ring-[#0E7C86]/10">
+        <input type="radio" name="serviceType" value="residentiel" class="sr-only peer" required checked />
+        
+        <div class="flex items-start justify-between mb-3">
+          <div class="w-10 h-10 rounded-xl bg-white border border-[#0E7C86]/20 text-[#0E7C86] flex items-center justify-center shadow-2xs group-hover:bg-[#0E7C86] group-hover:text-white transition-colors peer-checked:bg-[#0E7C86] peer-checked:text-white">
+            <!-- Icône Home -->
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+          </div>
+          
+          <div class="w-5 h-5 rounded-full border-2 border-[#0E7C86]/40 flex items-center justify-center group-has-[:checked]:border-[#0E7C86] group-has-[:checked]:bg-[#0E7C86] transition-all">
+            <span class="w-2 h-2 rounded-full bg-white opacity-0 group-has-[:checked]:opacity-100 transition-opacity"></span>
+          </div>
+        </div>
+
+        <div>
+          <span class="inline-block text-[10px] font-black uppercase tracking-wider text-[#0A5A62] bg-[#E3F4F5] px-2 py-0.5 rounded-full mb-1">
+            Le plus demandé
+          </span>
+          <h3 class="text-base font-extrabold text-[#0B2A2E] leading-snug">
+            Résidentiel
+          </h3>
+          <p class="text-xs text-[#3D5A5E] mt-1 leading-relaxed">
+            Maison, appartement, condo ou loft. Nettoyage régulier ou grand ménage saisonnier.
+          </p>
+        </div>
       </label>
-      <label class="relative flex items-center gap-3 p-4 rounded-xl border border-brand-primary-light cursor-pointer hover:bg-brand-surface-subtle transition-colors has-[:checked]:border-brand-primary has-[:checked]:bg-brand-primary-light/40">
-        <input type="radio" name="serviceType" value="commercial" class="w-4 h-4 text-brand-primary focus:ring-brand-primary" />
-        <span class="text-sm font-semibold text-brand-text">Commercial</span>
+
+      <!-- Option 2 : Commercial -->
+      <label class="relative flex flex-col p-5 rounded-2xl border-2 border-[#0E7C86]/18 bg-[#F8FCFC] cursor-pointer hover:border-[#0E7C86]/50 hover:bg-white transition-all duration-200 shadow-2xs group has-[:checked]:border-[#0E7C86] has-[:checked]:bg-[#E3F4F5]/30 has-[:checked]:ring-4 has-[:checked]:ring-[#0E7C86]/10">
+        <input type="radio" name="serviceType" value="commercial" class="sr-only peer" />
+        
+        <div class="flex items-start justify-between mb-3">
+          <div class="w-10 h-10 rounded-xl bg-white border border-[#0E7C86]/20 text-[#0E7C86] flex items-center justify-center shadow-2xs group-hover:bg-[#0E7C86] group-hover:text-white transition-colors peer-checked:bg-[#0E7C86] peer-checked:text-white">
+            <!-- Icône Building -->
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+          </div>
+          
+          <div class="w-5 h-5 rounded-full border-2 border-[#0E7C86]/40 flex items-center justify-center group-has-[:checked]:border-[#0E7C86] group-has-[:checked]:bg-[#0E7C86] transition-all">
+            <span class="w-2 h-2 rounded-full bg-white opacity-0 group-has-[:checked]:opacity-100 transition-opacity"></span>
+          </div>
+        </div>
+
+        <div>
+          <span class="inline-block text-[10px] font-black uppercase tracking-wider text-[#0A5A62] bg-[#E3F4F5] px-2 py-0.5 rounded-full mb-1">
+            Entreprises & Cliniques
+          </span>
+          <h3 class="text-base font-extrabold text-[#0B2A2E] leading-snug">
+            Commercial
+          </h3>
+          <p class="text-xs text-[#3D5A5E] mt-1 leading-relaxed">
+            Bureaux, boutiques, cliniques médicales et espaces communs. Hors heures ouvrables.
+          </p>
+        </div>
       </label>
-      <label class="relative flex items-center gap-3 p-4 rounded-xl border border-brand-primary-light cursor-pointer hover:bg-brand-surface-subtle transition-colors has-[:checked]:border-brand-primary has-[:checked]:bg-brand-primary-light/40">
-        <input type="radio" name="serviceType" value="specialise" class="w-4 h-4 text-brand-primary focus:ring-brand-primary" />
-        <span class="text-sm font-semibold text-brand-text">Spécialisé (canapé, tapis, véhicule…)</span>
+
+      <!-- Option 3 : Spécialisé -->
+      <label class="relative flex flex-col p-5 rounded-2xl border-2 border-[#0E7C86]/18 bg-[#F8FCFC] cursor-pointer hover:border-[#0E7C86]/50 hover:bg-white transition-all duration-200 shadow-2xs group has-[:checked]:border-[#0E7C86] has-[:checked]:bg-[#E3F4F5]/30 has-[:checked]:ring-4 has-[:checked]:ring-[#0E7C86]/10">
+        <input type="radio" name="serviceType" value="specialise" class="sr-only peer" />
+        
+        <div class="flex items-start justify-between mb-3">
+          <div class="w-10 h-10 rounded-xl bg-white border border-[#0E7C86]/20 text-[#0E7C86] flex items-center justify-center shadow-2xs group-hover:bg-[#0E7C86] group-hover:text-white transition-colors peer-checked:bg-[#0E7C86] peer-checked:text-white">
+            <!-- Icône Sparkle / Étoile -->
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+            </svg>
+          </div>
+          
+          <div class="w-5 h-5 rounded-full border-2 border-[#0E7C86]/40 flex items-center justify-center group-has-[:checked]:border-[#0E7C86] group-has-[:checked]:bg-[#0E7C86] transition-all">
+            <span class="w-2 h-2 rounded-full bg-white opacity-0 group-has-[:checked]:opacity-100 transition-opacity"></span>
+          </div>
+        </div>
+
+        <div>
+          <span class="inline-block text-[10px] font-black uppercase tracking-wider text-[#0A5A62] bg-[#E3F4F5] px-2 py-0.5 rounded-full mb-1">
+            Haute Précision
+          </span>
+          <h3 class="text-base font-extrabold text-[#0B2A2E] leading-snug">
+            Spécialisé
+          </h3>
+          <p class="text-xs text-[#3D5A5E] mt-1 leading-relaxed">
+            Canapés, tapis, matelas, après sinistre ou rénovation, habitacles de véhicules.
+          </p>
+        </div>
       </label>
+
     </div>
   </div>
 
-  <!-- Fréquence souhaitée (Obligatoire) -->
-  <div class="space-y-3 pt-4 border-t border-brand-primary-light/60">
-    <label class="block text-sm font-bold text-brand-text">
-      Fréquence souhaitée <span class="text-brand-error" aria-hidden="true">*</span>
-    </label>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+  <!-- 2. FRÉQUENCE SOUHAITÉE -->
+  <div class="space-y-3 pt-6 border-t border-[#0E7C86]/12">
+    <div class="flex items-center justify-between">
+      <label class="text-xs font-black uppercase tracking-wider text-[#0B2A2E]">
+        Fréquence d'intervention <span class="text-[#0E7C86]" aria-hidden="true">*</span>
+      </label>
+      <span class="text-[11px] font-semibold text-[#0E7C86] bg-[#E3F4F5] px-2.5 py-0.5 rounded-full">
+        Sans engagement de durée
+      </span>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
       {[
-        { value: "ponctuel", label: "Une seule fois (ponctuel)" },
-        { value: "hebdomadaire", label: "Chaque semaine" },
-        { value: "aux-2-semaines", label: "Toutes les 2 semaines" },
-        { value: "aux-3-semaines", label: "Toutes les 3 semaines" },
-        { value: "mensuel", label: "Une fois par mois" },
-        { value: "flexible", label: "Selon mes besoins / je ne sais pas encore" }
+        { value: "ponctuel", title: "Une seule fois", desc: "Ponctuel / Grand ménage" },
+        { value: "hebdomadaire", title: "Chaque semaine", desc: "Entretien régulier optimal" },
+        { value: "aux-2-semaines", title: "Aux 2 semaines", desc: "Formule la plus populaire" },
+        { value: "aux-3-semaines", title: "Aux 3 semaines", desc: "Équilibre parfait pour condos" },
+        { value: "mensuel", title: "Une fois par mois", desc: "Nettoyage en profondeur mensuel" },
+        { value: "flexible", title: "Sur-mesure / Flexible", desc: "À définir selon calendrier" }
       ].map((freq, idx) => (
-        <label class="flex items-center gap-2.5 p-3 rounded-lg border border-brand-primary-light cursor-pointer hover:bg-brand-surface-subtle text-xs sm:text-sm font-medium has-[:checked]:border-brand-primary has-[:checked]:bg-brand-primary-light/40">
-          <input type="radio" name="frequency" value={freq.value} class="w-4 h-4 text-brand-primary" required checked={idx === 0} />
-          <span>{freq.label}</span>
+        <label class="flex items-start gap-3 p-3.5 rounded-xl border border-[#0E7C86]/20 bg-[#F8FCFC] cursor-pointer hover:bg-white hover:border-[#0E7C86]/40 transition-all duration-200 shadow-2xs group has-[:checked]:border-[#0E7C86] has-[:checked]:bg-[#E3F4F5]/30 has-[:checked]:ring-2 has-[:checked]:ring-[#0E7C86]/20">
+          <input
+            type="radio"
+            name="frequency"
+            value={freq.value}
+            class="sr-only"
+            required
+            checked={idx === 0}
+          />
+          <div class="w-4 h-4 rounded-full border-2 border-[#0E7C86]/40 flex items-center justify-center mt-0.5 shrink-0 group-has-[:checked]:border-[#0E7C86] group-has-[:checked]:bg-[#0E7C86] transition-all">
+            <span class="w-1.5 h-1.5 rounded-full bg-white opacity-0 group-has-[:checked]:opacity-100 transition-opacity"></span>
+          </div>
+          <div class="text-left">
+            <span class="text-xs sm:text-sm font-extrabold text-[#0B2A2E] block group-has-[:checked]:text-[#0A5A62]">
+              {freq.title}
+            </span>
+            <span class="text-[11px] text-[#3D5A5E]/80 block">
+              {freq.desc}
+            </span>
+          </div>
         </label>
       ))}
     </div>
   </div>
 
-  <!-- Date et Plage horaire souhaitées -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-brand-primary-light/60">
-    <div>
-      <label for="desiredDate" class="block text-sm font-bold text-brand-text mb-1.5">
-        Date souhaitée pour le service
+  <!-- 3. DATE ET PLAGE HORAIRE -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 pt-6 border-t border-[#0E7C86]/12">
+    
+    <!-- Date souhaitée -->
+    <div class="space-y-2">
+      <label for="desiredDate" class="flex items-center justify-between text-xs font-black uppercase tracking-wider text-[#0B2A2E]">
+        <span>Date d'intervention idéale</span>
+        <span class="text-[11px] font-semibold text-[#3D5A5E]/70 normal-case">Facultatif</span>
       </label>
-      <input
-        type="date"
-        id="desiredDate"
-        name="desiredDate"
-        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text"
-      />
+      
+      <div class="relative group">
+        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#0E7C86]/70 group-focus-within:text-[#0E7C86] transition-colors">
+          <!-- Icône Calendrier -->
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <input
+          type="date"
+          id="desiredDate"
+          name="desiredDate"
+          class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-[#F8FCFC] border border-[#0E7C86]/20 text-sm font-semibold text-[#0B2A2E] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#0E7C86]/12 focus:border-[#0E7C86] transition-all duration-200 shadow-2xs"
+        />
+      </div>
     </div>
 
-    <div>
-      <label for="timeSlot" class="block text-sm font-bold text-brand-text mb-1.5">
-        Plage horaire
+    <!-- Plage horaire -->
+    <div class="space-y-2">
+      <label for="timeSlot" class="flex items-center justify-between text-xs font-black uppercase tracking-wider text-[#0B2A2E]">
+        <span>Plage horaire privilégiée</span>
+        <span class="text-[11px] font-semibold text-[#3D5A5E]/70 normal-case">Facultatif</span>
       </label>
-      <select
-        id="timeSlot"
-        name="timeSlot"
-        class="w-full px-3.5 py-2.5 rounded-lg border border-brand-primary-light focus:outline-none focus:ring-2 focus:ring-brand-primary text-sm text-brand-text bg-white"
-      >
-        <option value="">Sélectionnez une plage (facultatif)</option>
-        <option value="Matin">Matin</option>
-        <option value="Après-midi">Après-midi</option>
-        <option value="Soir">Soir</option>
-        <option value="Flexible">Flexible</option>
-      </select>
+      
+      <div class="relative group">
+        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#0E7C86]/70 group-focus-within:text-[#0E7C86] transition-colors">
+          <!-- Icône Horloge -->
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <select
+          id="timeSlot"
+          name="timeSlot"
+          class="w-full pl-11 pr-10 py-3.5 rounded-xl bg-[#F8FCFC] border border-[#0E7C86]/20 text-sm font-semibold text-[#0B2A2E] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#0E7C86]/12 focus:border-[#0E7C86] transition-all duration-200 appearance-none shadow-2xs"
+        >
+          <option value="">Sélectionnez un créneau (flexible par défaut)</option>
+          <option value="Matin">Matinée (08h00 - 12h00)</option>
+          <option value="Après-midi">Après-midi (12h00 - 17h00)</option>
+          <option value="Soir">Soirée ou après fermeture (dès 17h00)</option>
+          <option value="Flexible">Horaire totalement libre</option>
+        </select>
+        <div class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-[#0E7C86]/70">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+      </div>
     </div>
+
   </div>
 
 </fieldset>

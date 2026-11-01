@@ -1,0 +1,541 @@
+---
+// Section Collection / Services — Style éditorial Offcut avec charte unilka
+const services = [
+  {
+    number: "U/01",
+    id: "residential",
+    slug: "nettoyage-residentiel",
+    title: "Nettoyage résidentiel",
+    category: "Résidences privées",
+    badge: "Maison, condo & appartement",
+    image: "/images/service-residential.jpg",
+    alt: "Chambre et salle de bain de maître haut de gamme entretenues par unilka",
+    description: "La finition et l'exigence de l'hôtellerie appliquées à votre intérieur personnel.",
+    points: [
+      "Cuisine intégrale et sanitaires étincelants",
+      "Soin minutieux des planchers et textiles",
+      "Avant/après déménagement ou grand ménage"
+    ],
+    href: "/services/nettoyage-residentiel/"
+  },
+  {
+    number: "U/02",
+    id: "commercial",
+    slug: "nettoyage-commercial",
+    title: "Nettoyage commercial",
+    category: "Bureaux & Commerces",
+    badge: "Espaces professionnels",
+    image: "/images/service-commercial.jpg",
+    alt: "Bureaux exécutifs contemporains avec cloisons vitrées entretenus par unilka",
+    description: "Un environnement de travail impeccable qui reflète le sérieux de votre entreprise.",
+    points: [
+      "Bureaux, salles de conférence et vitrages",
+      "Espaces communs et désinfection continue",
+      "Interventions adaptées à vos heures d'ouverture"
+    ],
+    href: "/services/nettoyage-commercial/"
+  },
+  {
+    number: "U/03",
+    id: "regular",
+    slug: "entretien-regulier",
+    title: "Entretien régulier",
+    category: "Formules périodiques",
+    badge: "Tarif forfaitaire garanti",
+    image: "/images/service-regular.jpg",
+    alt: "Espace de vie contemporain propre et baigné de lumière naturelle",
+    description: "Une sérénité permanente grâce à un calendrier d'intervention fixe et dédié.",
+    points: [
+      "Fréquence : chaque semaine ou aux 2 semaines",
+      "Même intervenant qualifié à chaque passage",
+      "Tarif forfaitaire clair, sans mauvaise surprise"
+    ],
+    href: "/services/entretien-regulier/"
+  },
+  {
+    number: "U/04",
+    id: "specialized",
+    slug: "nettoyage-specialise",
+    title: "Nettoyage spécialisé",
+    category: "Surfaces & Textiles",
+    badge: "Nettoyage en profondeur",
+    image: "/images/service-specialized.jpg",
+    alt: "Détail de canapé design texturé et tapis en laine impeccablement nettoyés",
+    description: "Le traitement expert des matières délicates et des salissures tenaces.",
+    points: [
+      "Canapés, fauteuils textiles et matelas",
+      "Tapis, moquettes et carpettes précieuses",
+      "Remise en état après longue inoccupation"
+    ],
+    href: "/services/nettoyage-specialise/"
+  }
+];
+---
+
+<section class="collection-section" id="services" aria-labelledby="collection-title">
+  <!-- En-tête de Section façon Offcut -->
+  <div class="section-top">
+    <div>
+      <p class="eyebrow">
+        <span class="status-dot" aria-hidden="true"></span>
+        SERVICES SUR-MESURE • FORMULES D'INTERVENTION
+      </p>
+      <h2 id="collection-title">
+        Des services adaptés à <span class="highlight-text">chaque espace.</span>
+      </h2>
+    </div>
+    <div class="collection-count" aria-hidden="true">
+      <span>01—04</span>
+      <span class="count-sub">FORMULES D'EXCELLENCE</span>
+    </div>
+  </div>
+
+  <!-- Filtres par Catégorie (Pill Tabs) -->
+  <div class="filter-tabs" role="tablist" aria-label="Filtrer les services">
+    <button type="button" class="filter-pill active" data-filter="all" role="tab" aria-selected="true">
+      Tous nos services
+    </button>
+    <button type="button" class="filter-pill" data-filter="residential" role="tab" aria-selected="false">
+      Résidentiel & Forfaits
+    </button>
+    <button type="button" class="filter-pill" data-filter="commercial" role="tab" aria-selected="false">
+      Commercial & Bureaux
+    </button>
+    <button type="button" class="filter-pill" data-filter="specialized" role="tab" aria-selected="false">
+      Nettoyage spécialisé
+    </button>
+  </div>
+
+  <!-- Grille des Cartes Services -->
+  <div class="services-grid" id="services-grid">
+    {services.map((service) => (
+      <article
+        class="service-card"
+        data-category={service.id === "residential" || service.id === "regular" ? "residential" : service.id}
+      >
+        <!-- Visuel façon Offcut avec numéro et morphing au survol -->
+        <a href={service.href} class="picture-wrapper" aria-label={`En savoir plus sur ${service.title}`}>
+          <img
+            src={service.image}
+            alt={service.alt}
+            loading="lazy"
+            decoding="async"
+            class="service-img"
+          />
+          <span class="service-number">{service.number}</span>
+          <span class="service-badge-pill">{service.category}</span>
+        </a>
+
+        <!-- Informations éditoriales de la carte -->
+        <div class="card-info">
+          <div class="card-header">
+            <h3>
+              <a href={service.href} class="card-title-link">
+                <span>{service.title}</span>
+                <span class="title-arrow" aria-hidden="true">↗</span>
+              </a>
+            </h3>
+            <span class="card-badge">{service.badge}</span>
+          </div>
+
+          <p class="card-description">{service.description}</p>
+
+          <ul class="card-points" role="list">
+            {service.points.map((point) => (
+              <li>
+                <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div class="card-footer">
+            <a href="/soumission/" class="card-cta-btn">
+              <span>Demander une soumission</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="cta-arrow" aria-hidden="true">
+                <path d="M7 7h10v10"></path>
+                <path d="M7 17 17 7"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .collection-section {
+    padding: 90px 4% 100px;
+    background-color: #FFFFFF;
+    position: relative;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* En-tête de section */
+  .section-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--line, rgba(14, 124, 134, 0.12));
+    padding-bottom: 32px;
+  }
+
+  .eyebrow {
+    font-family: var(--font-body, 'Manrope', sans-serif);
+    letter-spacing: 0.08em;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-primary-dark, #0A5A62);
+    display: flex;
+    align-items: center;
+    margin: 0;
+  }
+
+  .status-dot {
+    background: var(--color-primary, #0E7C86);
+    width: 8px;
+    height: 8px;
+    box-shadow: 0 0 0 4px color-mix(in srgb, #0E7C86 22%, transparent);
+    border-radius: 50%;
+    margin-right: 10px;
+    display: inline-block;
+  }
+
+  .section-top h2 {
+    font-family: var(--font-body, 'Manrope', sans-serif);
+    letter-spacing: -0.03em;
+    font-size: clamp(34px, 3.8vw, 54px);
+    font-weight: 800;
+    color: var(--ink, #0B2A2E);
+    margin: 16px 0 0;
+    line-height: 1.15;
+  }
+
+  .highlight-text {
+    color: var(--color-primary, #0E7C86);
+  }
+
+  .collection-count {
+    text-align: right;
+    font-family: var(--font-body, 'Manrope', sans-serif);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink, #0B2A2E);
+    letter-spacing: 0.04em;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .count-sub {
+    font-size: 10px;
+    font-weight: 600;
+    color: #3D5A5E;
+    letter-spacing: 0.08em;
+  }
+
+  /* Onglets Filtres (Pill Tabs) */
+  .filter-tabs {
+    display: flex;
+    gap: 10px;
+    margin: 36px 0 48px;
+    flex-wrap: wrap;
+  }
+
+  .filter-pill {
+    font-family: var(--font-body, 'Manrope', sans-serif);
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 10px 22px;
+    border-radius: 9999px;
+    border: 1.5px solid rgba(14, 124, 134, 0.2);
+    background: transparent;
+    color: var(--ink, #0B2A2E);
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.2, 0.75, 0.2, 1);
+  }
+
+  .filter-pill:hover {
+    border-color: var(--color-primary, #0E7C86);
+    color: var(--color-primary, #0E7C86);
+    transform: translateY(-1px);
+  }
+
+  .filter-pill.active {
+    background: var(--color-primary, #0E7C86);
+    color: #FFFFFF;
+    border-color: var(--color-primary, #0E7C86);
+    box-shadow: 0 4px 14px rgba(14, 124, 134, 0.25);
+  }
+
+  /* Grille des services */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 32px;
+  }
+
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .service-card.hidden {
+    display: none;
+  }
+
+  /* Conteneur Image avec Numérotation et Morphing */
+  .picture-wrapper {
+    position: relative;
+    height: 380px;
+    border-radius: 16px;
+    overflow: hidden;
+    display: block;
+    background-color: var(--color-surface-subtle, #F5FAFA);
+    box-shadow: 0 6px 24px rgba(11, 42, 46, 0.06);
+    border: 1px solid rgba(14, 124, 134, 0.1);
+    transition: border-radius 0.4s cubic-bezier(0.2, 0.75, 0.2, 1), box-shadow 0.4s ease;
+  }
+
+  .picture-wrapper:hover {
+    border-radius: 36px 16px 16px 16px;
+    box-shadow: 0 14px 34px rgba(11, 42, 46, 0.12);
+  }
+
+  .service-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.2, 0.75, 0.2, 1);
+  }
+
+  .picture-wrapper:hover .service-img {
+    transform: scale(1.04);
+  }
+
+  .service-number {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    color: var(--ink, #0B2A2E);
+    font-family: var(--font-body, 'Manrope', sans-serif);
+    font-size: 11px;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 9999px;
+    letter-spacing: 0.05em;
+    box-shadow: 0 2px 8px rgba(11, 42, 46, 0.1);
+    z-index: 2;
+  }
+
+  .service-badge-pill {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: rgba(14, 124, 134, 0.9);
+    backdrop-filter: blur(8px);
+    color: #FFFFFF;
+    font-family: var(--font-body, 'Manrope', sans-serif);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 9999px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+
+  /* Informations de la carte */
+  .card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .card-header h3 {
+    margin: 0;
+    font-family: var(--font-body, 'Manrope', sans-serif);
+    font-size: 22px;
+    font-weight: 750;
+    letter-spacing: -0.025em;
+  }
+
+  .card-title-link {
+    color: var(--ink, #0B2A2E);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s ease;
+  }
+
+  .title-arrow {
+    color: var(--color-primary, #0E7C86);
+    font-size: 18px;
+    transition: transform 0.25s cubic-bezier(0.2, 0.75, 0.2, 1);
+  }
+
+  .service-card:hover .title-arrow {
+    transform: translate(3px, -3px);
+  }
+
+  .service-card:hover .card-title-link {
+    color: var(--color-primary, #0E7C86);
+  }
+
+  .card-badge {
+    font-family: var(--font-body, 'Manrope', sans-serif);
+    font-size: 12px;
+    font-weight: 600;
+    color: #3D5A5E;
+  }
+
+  .card-description {
+    font-family: var(--font-body, 'Manrope', sans-serif);
+    font-size: 15px;
+    line-height: 1.6;
+    color: #3D5A5E;
+    margin: 0;
+  }
+
+  .card-points {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 6px 0 10px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .card-points li {
+    font-family: var(--font-body, 'Manrope', sans-serif);
+    font-size: 13.5px;
+    font-weight: 550;
+    color: var(--ink, #0B2A2E);
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .check-icon {
+    width: 17px;
+    height: 17px;
+    color: var(--color-primary, #0E7C86);
+    flex-shrink: 0;
+  }
+
+  .card-footer {
+    margin-top: 6px;
+  }
+
+  .card-cta-btn {
+    font-family: var(--font-body, 'Manrope', sans-serif);
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--ink, #0B2A2E);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border-radius: 9999px;
+    border: 1.5px solid var(--ink, #0B2A2E);
+    transition: all 0.25s cubic-bezier(0.2, 0.75, 0.2, 1);
+  }
+
+  .card-cta-btn .cta-arrow {
+    transition: transform 0.25s cubic-bezier(0.2, 0.75, 0.2, 1);
+  }
+
+  .card-cta-btn:hover {
+    background: var(--color-primary, #0E7C86);
+    color: #FFFFFF;
+    border-color: var(--color-primary, #0E7C86);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(14, 124, 134, 0.25);
+  }
+
+  .card-cta-btn:hover .cta-arrow {
+    transform: translate(3px, -3px);
+  }
+
+  /* Responsive Mobile et Tablette */
+  @media (max-width: 900px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    .picture-wrapper {
+      height: 300px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .collection-section {
+      padding: 60px 4% 80px;
+    }
+    .section-top h2 {
+      font-size: 30px;
+    }
+    .collection-count {
+      display: none;
+    }
+    .picture-wrapper {
+      height: 250px;
+    }
+    .card-header h3 {
+      font-size: 20px;
+    }
+  }
+</style>
+
+<script>
+  // Filtrage interactif par onglet
+  const filterPills = document.querySelectorAll('.filter-pill');
+  const serviceCards = document.querySelectorAll('.service-card');
+
+  filterPills.forEach((pill) => {
+    pill.addEventListener('click', () => {
+      const filter = pill.getAttribute('data-filter');
+
+      // Mettre à jour l'état actif des onglets
+      filterPills.forEach((p) => {
+        p.classList.remove('active');
+        p.setAttribute('aria-selected', 'false');
+      });
+      pill.classList.add('active');
+      pill.setAttribute('aria-selected', 'true');
+
+      // Filtrer les cartes
+      serviceCards.forEach((card) => {
+        const category = card.getAttribute('data-category');
+        if (filter === 'all' || category === filter) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>
