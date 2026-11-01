@@ -111,11 +111,48 @@ export const POST: APIRoute = async ({ request }) => {
     ];
     const genAI = new GoogleGenerativeAI(apiKey);
 
-    // Formatage de l'historique de discussion
-    const formattedHistory = history.slice(-6).map((item: any) => ({
-      role: item.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: item.content }]
-    }));
+    // Nettoyage et validation stricte de l'historique pour l'API Gemini
+    // RÈGLES GEMINI : 
+    // 1. Le premier message d'historique DOIT obligatoirement avoir le rôle 'user'
+    // 2. Les rôles doivent alterner (user -> model -> user -> model)
+    // 3. L'historique avant sendMessage doit se terminer par 'model' pour que le tour suivant soit 'user'
+    const sanitizeHistoryForGemini = (rawList: any[], currentMsg: string) => {
+      if (!Array.isArray(rawList)) return [];
+
+      let items = rawList.filter(h => h && typeof h.content === 'string' && h.content.trim() !== '');
+
+      // Si le dernier message envoyé est identique au message courant, le retirer de l'historique
+      if (items.length > 0 && items[items.length - 1].content.trim() === currentMsg.trim() && items[items.length - 1].role === 'user') {
+        items.pop();
+      }
+
+      let formatted = items.map(item => ({
+        role: item.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: item.content.trim() }]
+      }));
+
+      // Règle 1 : le premier élément doit impérativement être 'user'
+      while (formatted.length > 0 && formatted[0].role !== 'user') {
+        formatted.shift();
+      }
+
+      // Règle 2 : l'historique doit se terminer par 'model' (car sendMessage va fournir le 'user')
+      while (formatted.length > 0 && formatted[formatted.length - 1].role !== 'model') {
+        formatted.pop();
+      }
+
+      // Limite aux 6 derniers échanges
+      if (formatted.length > 6) {
+        formatted = formatted.slice(-6);
+        while (formatted.length > 0 && formatted[0].role !== 'user') {
+          formatted.shift();
+        }
+      }
+
+      return formatted;
+    };
+
+    const formattedHistory = sanitizeHistoryForGemini(history, message);
 
     let lastError: any = null;
 
