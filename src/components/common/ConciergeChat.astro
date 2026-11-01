@@ -38,7 +38,7 @@
   <!-- FENÊTRE DE CONVERSATION (AGRANDIE SUR MOBILE ET PC) -->
   <div
     id="chat-window"
-    class="hidden opacity-0 scale-95 transition-all duration-300 origin-bottom-right fixed inset-x-2.5 bottom-2.5 top-12 z-50 sm:inset-auto sm:bottom-6 sm:right-6 sm:w-[480px] sm:h-[680px] sm:max-h-[min(740px,calc(100vh-3.5rem))] bg-white rounded-3xl shadow-[0_24px_60px_rgba(11,42,46,0.35)] border border-[#0E7C86]/25 flex flex-col overflow-hidden"
+    class="hidden opacity-0 scale-95 transition-all duration-300 origin-bottom-right fixed inset-x-2.5 bottom-2.5 top-12 z-50 sm:inset-auto sm:bottom-6 sm:right-6 sm:w-[480px] sm:h-[680px] sm:max-h-[min(740px,calc(100vh-3.5rem))] bg-white rounded-3xl shadow-[0_24px_60px_rgba(11,42,46,0.35)] border border-[#0E7C86]/25 flex flex-col overflow-hidden overscroll-contain"
     role="dialog"
     aria-labelledby="chat-title"
   >
@@ -72,7 +72,7 @@
     </div>
 
     <!-- ZONE DE MESSAGES DÉROULANTE (ESPACÉE ET AÉRÉE) -->
-    <div id="chat-messages" class="flex-1 p-4 sm:p-5 overflow-y-auto space-y-4 bg-[#FAFDFD] text-sm">
+    <div id="chat-messages" class="flex-1 p-4 sm:p-5 overflow-y-auto overscroll-contain space-y-4 bg-[#FAFDFD] text-sm">
       <!-- Message d'accueil automatique -->
       <div class="flex items-start gap-3">
         <div class="w-8 h-8 rounded-full bg-[#0E7C86] text-white flex items-center justify-center shrink-0 text-xs font-bold mt-0.5 shadow-sm">
@@ -166,11 +166,27 @@
       }
     } catch (e) {}
 
+    function lockScroll() {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      if (scrollbarWidth > 0) {
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
+      }
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    }
+
+    function unlockScroll() {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      document.body.style.paddingRight = '';
+    }
+
     function toggleChat(open?: boolean) {
       isOpen = open !== undefined ? open : !isOpen;
       toggleBtn?.setAttribute('aria-expanded', String(isOpen));
       
       if (isOpen) {
+        lockScroll();
         backdrop?.classList.remove('hidden');
         chatWindow?.classList.remove('hidden');
         toggleBtn?.classList.add('opacity-0', 'pointer-events-none', 'scale-90');
@@ -182,6 +198,7 @@
           input?.focus();
         });
       } else {
+        unlockScroll();
         backdrop?.classList.remove('opacity-100');
         backdrop?.classList.add('opacity-0');
         chatWindow?.classList.remove('opacity-100', 'scale-100');
@@ -212,6 +229,11 @@
     backdrop.addEventListener('click', () => {
       toggleChat(false);
     });
+
+    // Empêcher tout glissement ou défilement tactile sur l'arrière-plan
+    backdrop.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+    }, { passive: false });
 
     // Fermeture sur tout clic en dehors de la fenêtre
     document.addEventListener('pointerdown', (e) => {
