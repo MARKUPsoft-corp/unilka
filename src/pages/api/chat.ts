@@ -85,7 +85,7 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.GEMINI_API_KEY || (import.meta.env && import.meta.env.GEMINI_API_KEY) || '';
 
     // Si la clé API Gemini n'est pas encore renseignée, fallback intelligent
     if (!apiKey || apiKey.trim() === '') {
@@ -100,10 +100,10 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    // Appel au SDK Google Gemini
+    // Appel au SDK Google Gemini avec le modèle officiel gemini-flash-latest
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-flash-latest',
       systemInstruction: SYSTEM_INSTRUCTION
     });
 
