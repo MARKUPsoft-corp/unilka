@@ -1,0 +1,280 @@
+---
+// Widget Chatbot Concierge Virtuel propulsé par Google Gemini
+---
+
+<div id="concierge-chat-root" class="fixed bottom-6 right-6 z-50 font-sans" data-concierge-chat>
+  <!-- BOUTON D'OUVERTURE DU CHAT -->
+  <button
+    id="chat-toggle-btn"
+    type="button"
+    class="flex items-center gap-3 px-4 py-3 bg-[#0B2A2E] hover:bg-[#0E7C86] text-white rounded-full shadow-[0_12px_32px_rgba(11,42,46,0.22)] border border-[#0E7C86]/30 transition-all duration-300 hover:scale-105 active:scale-95 group focus:outline-none focus:ring-2 focus:ring-[#0E7C86] focus:ring-offset-2"
+    aria-label="Ouvrir le concierge virtuel unilka"
+    aria-expanded="false"
+  >
+    <!-- Indicateur En Ligne -->
+    <div class="relative flex items-center justify-center">
+      <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+      <span class="absolute w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping opacity-75"></span>
+    </div>
+
+    <!-- Icône étincelle / concierge -->
+    <svg class="w-5 h-5 text-[#C5A880] group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+    </svg>
+
+    <div class="text-left hidden sm:block">
+      <p class="text-xs font-bold tracking-wide">Concierge Virtuel</p>
+      <p class="text-[10px] text-white/70">Réponse 24h/24 • FR/EN</p>
+    </div>
+  </button>
+
+  <!-- FENÊTRE DE CONVERSATION -->
+  <div
+    id="chat-window"
+    class="hidden opacity-0 scale-95 transition-all duration-300 origin-bottom-right fixed sm:absolute bottom-4 sm:bottom-16 right-4 sm:right-0 w-[calc(100vw-2rem)] sm:w-[390px] h-[550px] max-h-[calc(100vh-3rem)] bg-white rounded-3xl shadow-[0_24px_50px_rgba(11,42,46,0.25)] border border-[#0E7C86]/20 flex flex-col overflow-hidden"
+    role="dialog"
+    aria-labelledby="chat-title"
+  >
+    <!-- EN-TÊTE -->
+    <div class="px-5 py-4 bg-[#0B2A2E] text-white flex items-center justify-between border-b border-[#0E7C86]/25 shrink-0">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full bg-[#0E7C86]/30 border border-[#0E7C86]/50 flex items-center justify-center text-[#C5A880] font-bold text-sm">
+          U
+        </div>
+        <div>
+          <h3 id="chat-title" class="text-sm font-bold tracking-tight text-white flex items-center gap-2">
+            <span>Concierge unilka</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-[#0E7C86]/30 text-emerald-300 font-normal">IA Active</span>
+          </h3>
+          <p class="text-[11px] text-white/60">Assistance & Devis personnalisés</p>
+        </div>
+      </div>
+      
+      <!-- Bouton Réduire / Fermer -->
+      <button
+        id="chat-close-btn"
+        type="button"
+        class="w-8 h-8 rounded-full hover:bg-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors"
+        aria-label="Fermer la conversation"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- ZONE DE MESSAGES DÉROULANTE -->
+    <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3.5 bg-[#FAFDFD] text-xs sm:text-sm">
+      <!-- Message d'accueil automatique -->
+      <div class="flex items-start gap-2.5">
+        <div class="w-7 h-7 rounded-full bg-[#0E7C86] text-white flex items-center justify-center shrink-0 text-xs font-bold mt-0.5">
+          U
+        </div>
+        <div class="p-3.5 rounded-2xl rounded-tl-sm bg-white border border-[#0E7C86]/15 shadow-sm text-[#0B2A2E] leading-relaxed max-w-[85%]">
+          <p class="font-semibold text-xs text-[#0E7C86] mb-1">Conciergerie unilka</p>
+          <p>Bonjour ! Je suis l'assistant d'unilka. Comment puis-je vous accompagner dans votre projet d'entretien à Montréal et ses environs ?</p>
+        </div>
+      </div>
+
+      <!-- Suggestions rapides -->
+      <div id="quick-prompts" class="pt-1 flex flex-wrap gap-1.5 pl-9">
+        <button type="button" class="quick-btn text-xs px-3 py-1.5 rounded-full bg-white hover:bg-[#E3F4F5] border border-[#0E7C86]/20 text-[#0E7C86] font-medium transition-colors">
+          Quels sont vos tarifs ?
+        </button>
+        <button type="button" class="quick-btn text-xs px-3 py-1.5 rounded-full bg-white hover:bg-[#E3F4F5] border border-[#0E7C86]/20 text-[#0E7C86] font-medium transition-colors">
+          Quelles zones desservez-vous ?
+        </button>
+        <button type="button" class="quick-btn text-xs px-3 py-1.5 rounded-full bg-white hover:bg-[#E3F4F5] border border-[#0E7C86]/20 text-[#0E7C86] font-medium transition-colors">
+          Estimer un grand ménage
+        </button>
+        <button type="button" class="quick-btn text-xs px-3 py-1.5 rounded-full bg-white hover:bg-[#E3F4F5] border border-[#0E7C86]/20 text-[#0E7C86] font-medium transition-colors">
+          Nettoyage commercial
+        </button>
+      </div>
+    </div>
+
+    <!-- INDICATEUR DE CHARGEMENT / SAISIE -->
+    <div id="chat-typing" class="hidden px-6 py-2 bg-[#FAFDFD] text-[11px] text-[#5A7175] flex items-center gap-2">
+      <div class="flex items-center gap-1">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#0E7C86] animate-bounce"></span>
+        <span class="w-1.5 h-1.5 rounded-full bg-[#0E7C86] animate-bounce [animation-delay:0.2s]"></span>
+        <span class="w-1.5 h-1.5 rounded-full bg-[#0E7C86] animate-bounce [animation-delay:0.4s]"></span>
+      </div>
+      <span>Le concierge prépare votre réponse...</span>
+    </div>
+
+    <!-- FORMULAIRE DE SAISIE -->
+    <form id="chat-form" class="p-3 bg-white border-t border-[#0E7C86]/15 flex items-center gap-2">
+      <input
+        id="chat-input"
+        type="text"
+        placeholder="Posez une question (FR / EN)..."
+        class="flex-1 px-4 py-2.5 rounded-full bg-[#F3F8F8] border border-transparent focus:border-[#0E7C86] focus:bg-white text-xs sm:text-sm text-[#0B2A2E] placeholder-[#5A7175]/60 focus:outline-none transition-all"
+        autocomplete="off"
+        required
+      />
+      <button
+        type="submit"
+        class="w-10 h-10 rounded-full bg-[#0B2A2E] hover:bg-[#0E7C86] text-white flex items-center justify-center shrink-0 shadow-sm transition-transform active:scale-90 disabled:opacity-50"
+        aria-label="Envoyer"
+      >
+        <svg class="w-4 h-4 transform rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+        </svg>
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function initConciergeChat() {
+    const root = document.getElementById('concierge-chat-root');
+    if (!root) return;
+
+    const toggleBtn = document.getElementById('chat-toggle-btn');
+    const closeBtn = document.getElementById('chat-close-btn');
+    const chatWindow = document.getElementById('chat-window');
+    const form = document.getElementById('chat-form') as HTMLFormElement;
+    const input = document.getElementById('chat-input') as HTMLInputElement;
+    const messagesContainer = document.getElementById('chat-messages');
+    const typingIndicator = document.getElementById('chat-typing');
+    const quickPrompts = document.getElementById('quick-prompts');
+
+    if (!toggleBtn || !chatWindow || !form || !input || !messagesContainer) return;
+
+    let isOpen = false;
+    let history: Array<{ role: 'user' | 'assistant'; content: string }> = [];
+
+    // Charger l'historique de la session si présent
+    try {
+      const saved = sessionStorage.getItem('unilka_chat_history');
+      if (saved) {
+        history = JSON.parse(saved);
+        history.forEach(item => renderMessage(item.role, item.content, false));
+        if (quickPrompts && history.length > 0) {
+          quickPrompts.style.display = 'none';
+        }
+      }
+    } catch (e) {}
+
+    function toggleChat(open?: boolean) {
+      isOpen = open !== undefined ? open : !isOpen;
+      toggleBtn?.setAttribute('aria-expanded', String(isOpen));
+      
+      if (isOpen) {
+        chatWindow?.classList.remove('hidden');
+        requestAnimationFrame(() => {
+          chatWindow?.classList.remove('opacity-0', 'scale-95');
+          chatWindow?.classList.add('opacity-100', 'scale-100');
+          input?.focus();
+        });
+      } else {
+        chatWindow?.classList.remove('opacity-100', 'scale-100');
+        chatWindow?.classList.add('opacity-0', 'scale-95');
+        setTimeout(() => {
+          if (!isOpen) chatWindow?.classList.add('hidden');
+        }, 300);
+      }
+    }
+
+    toggleBtn.addEventListener('click', () => toggleChat());
+    closeBtn?.addEventListener('click', () => toggleChat(false));
+
+    // Clic sur les suggestions rapides
+    document.querySelectorAll('.quick-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const text = (e.currentTarget as HTMLElement).textContent?.trim();
+        if (text) {
+          input.value = text;
+          form.dispatchEvent(new Event('submit'));
+        }
+      });
+    });
+
+    // Formattage markdown basique (gras, liens)
+    function formatMessageText(text: string) {
+      let html = text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-[#0E7C86] font-semibold underline hover:text-[#0B2A2E]">$1</a>')
+        .replace(/\n/g, '<br/>');
+      return html;
+    }
+
+    function renderMessage(role: 'user' | 'assistant', text: string, scroll = true) {
+      const msgDiv = document.createElement('div');
+      
+      if (role === 'user') {
+        msgDiv.className = 'flex justify-end';
+        msgDiv.innerHTML = `
+          <div class="p-3.5 rounded-2xl rounded-tr-sm bg-[#0B2A2E] text-white shadow-sm leading-relaxed max-w-[85%]">
+            ${formatMessageText(text)}
+          </div>
+        `;
+      } else {
+        msgDiv.className = 'flex items-start gap-2.5';
+        msgDiv.innerHTML = `
+          <div class="w-7 h-7 rounded-full bg-[#0E7C86] text-white flex items-center justify-center shrink-0 text-xs font-bold mt-0.5">
+            U
+          </div>
+          <div class="p-3.5 rounded-2xl rounded-tl-sm bg-white border border-[#0E7C86]/15 shadow-sm text-[#0B2A2E] leading-relaxed max-w-[85%]">
+            <p class="font-semibold text-xs text-[#0E7C86] mb-1">Conciergerie unilka</p>
+            <div>${formatMessageText(text)}</div>
+          </div>
+        `;
+      }
+
+      messagesContainer?.appendChild(msgDiv);
+      if (scroll && messagesContainer) {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const message = input.value.trim();
+      if (!message) return;
+
+      input.value = '';
+      if (quickPrompts) quickPrompts.style.display = 'none';
+
+      // Afficher message utilisateur
+      renderMessage('user', message);
+      history.push({ role: 'user', content: message });
+
+      // Activer indicateur de frappe
+      typingIndicator?.classList.remove('hidden');
+      if (messagesContainer) messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message, history })
+        });
+
+        const data = await response.json();
+        const reply = data.reply || "Je suis à votre disposition pour toute précision ou pour votre soumission.";
+
+        renderMessage('assistant', reply);
+        history.push({ role: 'assistant', content: reply });
+
+        // Sauvegarder dans la session
+        try {
+          sessionStorage.setItem('unilka_chat_history', JSON.stringify(history.slice(-10)));
+        } catch (e) {}
+
+      } catch (err) {
+        renderMessage('assistant', "Une erreur de connexion est survenue. N'hésitez pas à consulter notre [formulaire de soumission](/soumission/) ou à réessayer.");
+      } finally {
+        typingIndicator?.classList.add('hidden');
+      }
+    });
+  }
+
+  // Initialisation à chaque chargement de page
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initConciergeChat);
+  } else {
+    initConciergeChat();
+  }
+</script>
