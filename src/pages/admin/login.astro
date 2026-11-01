@@ -121,7 +121,8 @@ export const prerender = true;
       // Si l'utilisateur est déjà connecté, on redirige automatiquement
       onAuthStateChanged(auth, (user) => {
         if (user) {
-          window.location.href = redirectTarget;
+          try { localStorage.setItem('unilka_admin_logged_in', 'true'); } catch (e) {}
+          window.location.replace(redirectTarget);
         }
       });
 
@@ -136,8 +137,10 @@ export const prerender = true;
           const user = result.user;
           console.log("[unilka Auth] Connexion réussie pour :", user.email);
 
-          // Redirection vers le tableau de bord
-          window.location.href = redirectTarget;
+          try { localStorage.setItem('unilka_admin_logged_in', 'true'); } catch (e) {}
+
+          // Redirection instantanée vers le tableau de bord
+          window.location.replace(redirectTarget);
         } catch (err: any) {
           console.error("[unilka Auth Error] Échec connexion Google :", err);
           
