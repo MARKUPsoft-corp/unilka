@@ -38,7 +38,7 @@
   <!-- FENÊTRE DE CONVERSATION (AGRANDIE SUR MOBILE ET PC) -->
   <div
     id="chat-window"
-    class="hidden opacity-0 scale-95 transition-all duration-300 origin-bottom-right fixed inset-x-2.5 bottom-2.5 top-12 z-50 sm:inset-auto sm:bottom-20 sm:right-6 sm:w-[480px] sm:h-[680px] sm:max-h-[min(720px,calc(100vh-6.5rem))] bg-white rounded-3xl shadow-[0_24px_60px_rgba(11,42,46,0.35)] border border-[#0E7C86]/25 flex flex-col overflow-hidden"
+    class="hidden opacity-0 scale-95 transition-all duration-300 origin-bottom-right fixed inset-x-2.5 bottom-2.5 top-12 z-50 sm:inset-auto sm:bottom-6 sm:right-6 sm:w-[480px] sm:h-[680px] sm:max-h-[min(740px,calc(100vh-3.5rem))] bg-white rounded-3xl shadow-[0_24px_60px_rgba(11,42,46,0.35)] border border-[#0E7C86]/25 flex flex-col overflow-hidden"
     role="dialog"
     aria-labelledby="chat-title"
   >
@@ -173,6 +173,7 @@
       if (isOpen) {
         backdrop?.classList.remove('hidden');
         chatWindow?.classList.remove('hidden');
+        toggleBtn?.classList.add('opacity-0', 'pointer-events-none', 'scale-90');
         requestAnimationFrame(() => {
           backdrop?.classList.remove('opacity-0');
           backdrop?.classList.add('opacity-100');
@@ -189,6 +190,7 @@
           if (!isOpen) {
             chatWindow?.classList.add('hidden');
             backdrop?.classList.add('hidden');
+            toggleBtn?.classList.remove('opacity-0', 'pointer-events-none', 'scale-90');
           }
         }, 280);
       }
