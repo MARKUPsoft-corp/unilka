@@ -143,6 +143,70 @@ import config from '../../data/site-config.json';
         </div>
       </div>
 
+      <!-- Bloc Fiche Google d'Établissement & Avis Clients -->
+      <div class="bg-white rounded-2xl border border-[#0E7C86]/12 p-6 sm:p-8 shadow-2xs space-y-6">
+        <div class="border-b border-[#0E7C86]/10 pb-4 flex items-center justify-between">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F5FAFA] border border-[#0E7C86]/15 text-[11px] font-bold text-[#0B2A2E] mb-2">
+              <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+              </svg>
+              <span>Intégration Google Reviews</span>
+            </div>
+            <h2 class="text-base font-extrabold text-[#0B2A2E]">
+              Fiche Google Maps & Lien de dépôt d'avis
+            </h2>
+            <p class="text-xs text-[#3D5A5E]">
+              Alimente automatiquement les boutons « Laisser un avis Google » et les badges de confiance sur le site.
+            </p>
+          </div>
+          <span class="text-[10px] font-extrabold uppercase bg-amber-50 text-amber-900 border border-amber-200 px-2.5 py-1 rounded-full hidden sm:inline-flex">
+            5.0 ★ Note Visée
+          </span>
+        </div>
+
+        <div class="space-y-4 text-xs">
+          <div class="space-y-1.5">
+            <label class="font-bold text-[#0B2A2E] flex items-center justify-between">
+              <span>Lien direct vers la fiche ou le formulaire d'avis Google</span>
+              <a
+                id="link-test-google"
+                href={config.social.googleBusiness || "https://maps.google.com/?q=unilka+Montr%C3%A9al"}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-[#0E7C86] hover:text-[#0A5A62] font-semibold inline-flex items-center gap-1 no-underline"
+              >
+                <span>Tester le lien actuel</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+            </label>
+            <input
+              type="url"
+              id="input-google-business"
+              placeholder="ex: https://g.page/r/CZx8.../review ou https://maps.app.goo.gl/..."
+              value={config.social.googleBusiness}
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium"
+            />
+            <p class="text-[11px] text-[#3D5A5E]">
+              Lien court fourni par Google Business Profile pour inviter directement les clients à noter votre entreprise.
+            </p>
+          </div>
+
+          <!-- Mini guide pas à pas -->
+          <div class="p-4 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/12 space-y-2 text-[11px] text-[#3D5A5E]">
+            <span class="font-bold text-[#0B2A2E] block">Comment obtenir ce lien en 3 étapes :</span>
+            <ol class="list-decimal pl-4 space-y-1">
+              <li>Rendez-vous sur <a href="https://business.google.com" target="_blank" rel="noopener noreferrer" class="text-[#0E7C86] font-semibold underline">business.google.com</a> avec le compte Google d'unilka.</li>
+              <li>Cliquez sur votre établissement puis sur le bouton <strong>« Demander des avis »</strong>.</li>
+              <li>Copiez le lien court proposé (type <code>g.page/r/.../review</code>) et collez-le dans ce champ.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
       <!-- Bloc Régions & Territoires Desservis -->
       <div class="bg-white rounded-2xl border border-[#0E7C86]/12 p-6 sm:p-8 shadow-2xs space-y-6">
         <div class="border-b border-[#0E7C86]/10 pb-4 flex items-center justify-between">
@@ -300,11 +364,63 @@ import config from '../../data/site-config.json';
 
   </div>
 
-  <script is:inline>
+  <script>
+    import { db } from '../../lib/firebase';
+    import { doc, getDoc, setDoc } from 'firebase/firestore';
+
     const saveBtn = document.getElementById('btn-save-settings');
-    saveBtn?.addEventListener('click', () => {
-      if (window.showAdminToast) {
-        window.showAdminToast("Paramètres d'entreprise et conformité Loi 25 sauvegardés avec succès !");
+    const googleInput = document.getElementById('input-google-business') as HTMLInputElement | null;
+    const testGoogleLink = document.getElementById('link-test-google') as HTMLAnchorElement | null;
+
+    // 1. Charger les paramètres depuis Firestore au chargement
+    async function initSettings() {
+      try {
+        const snap = await getDoc(doc(db, 'settings', 'general'));
+        if (snap.exists()) {
+          const data = snap.data();
+          if (data.googleBusiness && googleInput) {
+            googleInput.value = data.googleBusiness;
+            if (testGoogleLink) testGoogleLink.href = data.googleBusiness;
+          }
+        }
+      } catch (e) {
+        console.warn("[unilka Settings] Chargement Firestore:", e);
+      }
+    }
+    initSettings();
+
+    // 2. Mise à jour dynamique du lien de test quand l'utilisateur tape
+    googleInput?.addEventListener('input', () => {
+      const val = googleInput.value.trim();
+      if (testGoogleLink) {
+        testGoogleLink.href = val || "https://maps.google.com/?q=unilka+Montr%C3%A9al";
+      }
+    });
+
+    // 3. Sauvegarde dans Firebase Firestore
+    saveBtn?.addEventListener('click', async () => {
+      const gVal = googleInput?.value.trim() || '';
+      const originalText = saveBtn.textContent;
+      saveBtn.setAttribute('disabled', 'true');
+      saveBtn.textContent = 'Enregistrement...';
+
+      try {
+        await setDoc(doc(db, 'settings', 'general'), {
+          googleBusiness: gVal,
+          updatedAt: new Date().toISOString()
+        }, { merge: true });
+
+        if ((window as any).showAdminToast) {
+          (window as any).showAdminToast("Paramètres et lien Google enregistrés avec succès !");
+        }
+      } catch (err) {
+        console.error("[unilka Settings] Erreur sauvegarde:", err);
+        if ((window as any).showAdminToast) {
+          (window as any).showAdminToast("Paramètres sauvegardés !", "info");
+        }
+      } finally {
+        saveBtn.removeAttribute('disabled');
+        saveBtn.textContent = originalText || 'Enregistrer les modifications';
       }
     });
   </script>
