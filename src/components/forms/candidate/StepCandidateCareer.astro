@@ -1,0 +1,234 @@
+---
+// Étape 2 : Situation légale, type de travail recherché & expérience professionnelle
+---
+
+<fieldset class="relative bg-white rounded-3xl border border-[#0E7C86]/20 p-6 sm:p-10 shadow-[0_12px_40px_rgba(11,42,46,0.06)] space-y-8 overflow-hidden">
+  
+  <!-- Accent décoratif d'arrière-plan -->
+  <div class="absolute -top-24 -right-24 w-64 h-64 bg-gradient-to-br from-[#E3F4F5]/60 to-transparent rounded-full blur-2xl pointer-events-none" aria-hidden="true"></div>
+
+  <!-- En-tête éditorial de l'étape -->
+  <div class="relative border-b border-[#0E7C86]/12 pb-6 space-y-2">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E3F4F5] border border-[#0E7C86]/20 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[#0A5A62]">
+      <span class="w-2 h-2 rounded-full bg-[#0E7C86]"></span>
+      <span>Étape 02 • Parcours & Expérience</span>
+    </div>
+    
+    <legend class="text-2xl sm:text-3xl font-extrabold text-[#0B2A2E] tracking-tight block">
+      Votre statut et votre expérience
+    </legend>
+    
+    <p class="text-sm sm:text-base text-[#3D5A5E] leading-relaxed max-w-2xl">
+      Que vous débutiez avec rigueur et motivation ou que vous cumuliez plusieurs années d'expérience en hôtellerie ou chez des particuliers, chaque profil sérieux est le bienvenu.
+    </p>
+  </div>
+
+  <!-- 1. AUTORISATION DE TRAVAIL AU CANADA -->
+  <div class="space-y-3">
+    <label class="flex items-center justify-between text-xs font-black uppercase tracking-wider text-[#0B2A2E]">
+      <span>Êtes-vous légalement autorisé(e) à travailler au Canada ? <span class="text-[#0E7C86]" aria-hidden="true">*</span></span>
+      <span class="text-[11px] font-semibold text-[#3D5A5E]/70 normal-case">Citoyen, RP, permis de travail</span>
+    </label>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      {[
+        { value: "Oui", label: "Oui, autorisé(e)" },
+        { value: "Non", label: "Non" },
+        { value: "Je dois vérifier ma situation", label: "À vérifier / En démarche" }
+      ].map((opt, idx) => (
+        <label class="flex items-center gap-3 p-4 rounded-xl border border-[#0E7C86]/20 bg-[#F8FCFC] text-xs sm:text-sm font-semibold text-[#0B2A2E] cursor-pointer hover:bg-white hover:border-[#0E7C86]/40 has-[:checked]:bg-[#E3F4F5] has-[:checked]:border-[#0E7C86] has-[:checked]:ring-2 has-[:checked]:ring-[#0E7C86]/20 transition-all duration-150 shadow-2xs group">
+          <input
+            type="radio"
+            name="workAuth"
+            value={opt.value}
+            checked={idx === 0}
+            class="w-4 h-4 text-[#0E7C86] shrink-0"
+            required
+          />
+          <span>{opt.label}</span>
+        </label>
+      ))}
+    </div>
+  </div>
+
+  <!-- 2. SITUATION ACTUELLE -->
+  <div class="space-y-3 pt-5 border-t border-[#0E7C86]/12">
+    <label class="flex items-center justify-between text-xs font-black uppercase tracking-wider text-[#0B2A2E]">
+      <span>Quelle est votre situation actuelle ? <span class="text-[#0E7C86]" aria-hidden="true">*</span></span>
+      <span class="text-[11px] font-semibold text-[#3D5A5E]/70 normal-case">Choisissez 1 option</span>
+    </label>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {[
+        "À la recherche d'un emploi",
+        "En emploi et je cherche un emploi complémentaire",
+        "Étudiant(e)",
+        "Travailleur(se) autonome",
+        "Autre"
+      ].map((sit, idx) => (
+        <label class="flex items-center gap-3 p-3.5 rounded-xl border border-[#0E7C86]/20 bg-[#F8FCFC] text-xs sm:text-sm font-semibold text-[#0B2A2E] cursor-pointer hover:bg-white hover:border-[#0E7C86]/40 has-[:checked]:bg-[#E3F4F5] has-[:checked]:border-[#0E7C86] has-[:checked]:ring-2 has-[:checked]:ring-[#0E7C86]/20 transition-all duration-150 shadow-2xs">
+          <input
+            type="radio"
+            name="currentSituation"
+            value={sit}
+            id={`sit-${idx}`}
+            checked={idx === 0}
+            class="w-4 h-4 text-[#0E7C86] shrink-0"
+            required
+          />
+          <span>{sit}</span>
+        </label>
+      ))}
+    </div>
+
+    <div id="cand-situationOtherContainer" class="hidden max-w-md mt-3">
+      <label for="cand-situationOther" class="block text-xs font-bold text-[#0B2A2E] mb-1">Précisez votre situation</label>
+      <input
+        type="text"
+        id="cand-situationOther"
+        name="currentSituationOther"
+        placeholder="Décrivez votre statut actuel..."
+        class="w-full px-3.5 py-2.5 rounded-xl bg-[#F8FCFC] border border-[#0E7C86]/20 text-xs font-semibold text-[#0B2A2E] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0E7C86]/25"
+      />
+    </div>
+  </div>
+
+  <!-- 3. TYPE DE TRAVAIL RECHERCHÉ -->
+  <div class="space-y-3 pt-5 border-t border-[#0E7C86]/12">
+    <label class="flex items-center justify-between text-xs font-black uppercase tracking-wider text-[#0B2A2E]">
+      <span>Type de travail recherché <span class="text-[#0E7C86]" aria-hidden="true">*</span></span>
+      <span class="text-[11px] font-semibold text-[#3D5A5E]/70 normal-case">Au moins 1 choix</span>
+    </label>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      {[
+        "Travail à temps plein",
+        "Travail à temps partiel",
+        "Job ponctuel",
+        "Emploi permanent",
+        "Contrat temporaire",
+        "Je suis ouvert(e) à plusieurs possibilités"
+      ].map((job, idx) => (
+        <label class="flex items-center gap-2.5 p-3.5 rounded-xl border border-[#0E7C86]/20 bg-[#F8FCFC] text-xs sm:text-sm font-semibold text-[#0B2A2E] cursor-pointer hover:bg-white hover:border-[#0E7C86]/40 has-[:checked]:bg-[#E3F4F5] has-[:checked]:border-[#0E7C86] has-[:checked]:ring-2 has-[:checked]:ring-[#0E7C86]/20 transition-all duration-150 shadow-2xs">
+          <input
+            type="checkbox"
+            name="desiredWorkTypes"
+            value={job}
+            checked={idx === 0 || idx === 1}
+            class="w-4 h-4 text-[#0E7C86] rounded"
+          />
+          <span>{job}</span>
+        </label>
+      ))}
+    </div>
+    
+    <span id="cand-desiredWorkTypes-error" class="hidden text-xs font-semibold text-brand-error mt-2 flex items-center gap-1.5" role="alert">
+      <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+      <span>Veuillez choisir au moins un type de travail recherché.</span>
+    </span>
+  </div>
+
+  <!-- 4. EXPÉRIENCE DANS LE DOMAINE -->
+  <div class="space-y-4 pt-5 border-t border-[#0E7C86]/12">
+    <div>
+      <label class="flex items-center justify-between text-xs font-black uppercase tracking-wider text-[#0B2A2E] mb-2">
+        <span>Avez-vous déjà travaillé dans l'entretien ménager ou l'hôtellerie ? <span class="text-[#0E7C86]" aria-hidden="true">*</span></span>
+      </label>
+      <div class="grid grid-cols-2 gap-3 max-w-sm">
+        <label class="flex items-center justify-center gap-2.5 p-3.5 rounded-xl border border-[#0E7C86]/20 bg-[#F8FCFC] text-xs sm:text-sm font-bold text-[#0B2A2E] cursor-pointer hover:bg-white has-[:checked]:bg-[#E3F4F5] has-[:checked]:border-[#0E7C86] has-[:checked]:ring-2 has-[:checked]:ring-[#0E7C86]/20 transition-all">
+          <input type="radio" name="hasExperience" value="Oui" id="exp-yes" class="w-4 h-4 text-[#0E7C86]" required />
+          <span>Oui, j'ai de l'expérience</span>
+        </label>
+        <label class="flex items-center justify-center gap-2.5 p-3.5 rounded-xl border border-[#0E7C86]/20 bg-[#F8FCFC] text-xs sm:text-sm font-bold text-[#0B2A2E] cursor-pointer hover:bg-white has-[:checked]:bg-[#E3F4F5] has-[:checked]:border-[#0E7C86] has-[:checked]:ring-2 has-[:checked]:ring-[#0E7C86]/20 transition-all">
+          <input type="radio" name="hasExperience" value="Non" id="exp-no" checked class="w-4 h-4 text-[#0E7C86]" />
+          <span>Non, débutant motivé</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Détails d'expérience (si Oui) -->
+    <div id="cand-experienceDetailsBlock" class="hidden space-y-4 pt-4 border-t border-dashed border-[#0E7C86]/20 bg-[#F8FCFC]/60 p-5 rounded-2xl">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label for="cand-yearsExp" class="block text-xs font-black uppercase tracking-wider text-[#0B2A2E] mb-1.5">
+            Nombre d'années d'expérience
+          </label>
+          <div class="relative">
+            <select
+              id="cand-yearsExp"
+              name="experienceYears"
+              class="w-full px-4 py-3 rounded-xl bg-white border border-[#0E7C86]/20 text-xs sm:text-sm font-semibold text-[#0B2A2E] focus:outline-none focus:ring-4 focus:ring-[#0E7C86]/12 focus:border-[#0E7C86] transition-all appearance-none cursor-pointer"
+            >
+              <option value="Moins d'un an">Moins d'un an</option>
+              <option value="1 à 2 ans">1 à 2 ans</option>
+              <option value="3 à 5 ans">3 à 5 ans</option>
+              <option value="Plus de 5 ans">Plus de 5 ans</option>
+            </select>
+            <div class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-[#0E7C86]">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label for="cand-expType" class="block text-xs font-black uppercase tracking-wider text-[#0B2A2E] mb-1.5">
+            Type d'expérience
+          </label>
+          <input
+            type="text"
+            id="cand-expType"
+            name="experienceType"
+            placeholder="Ex. Résidentiel haut de gamme, hôtels, bureaux"
+            class="w-full px-4 py-3 rounded-xl bg-white border border-[#0E7C86]/20 text-xs sm:text-sm font-semibold text-[#0B2A2E] placeholder:text-[#3D5A5E]/40 focus:outline-none focus:ring-4 focus:ring-[#0E7C86]/12 focus:border-[#0E7C86] transition-all"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label for="cand-tasks" class="block text-xs font-black uppercase tracking-wider text-[#0B2A2E] mb-1.5">
+          Principales tâches réalisées
+        </label>
+        <textarea
+          id="cand-tasks"
+          name="tasksDone"
+          rows="2"
+          maxlength="800"
+          placeholder="Décrivez brièvement vos responsabilités antérieures..."
+          class="w-full px-4 py-3 rounded-xl bg-white border border-[#0E7C86]/20 text-xs sm:text-sm font-semibold text-[#0B2A2E] placeholder:text-[#3D5A5E]/40 focus:outline-none focus:ring-4 focus:ring-[#0E7C86]/12 focus:border-[#0E7C86] transition-all resize-none"
+        ></textarea>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label for="cand-employer" class="block text-xs font-black uppercase tracking-wider text-[#0B2A2E] mb-1.5">
+            Dernier employeur (facultatif)
+          </label>
+          <input
+            type="text"
+            id="cand-employer"
+            name="lastEmployer"
+            placeholder="Nom de l'entreprise ou particulier"
+            class="w-full px-4 py-3 rounded-xl bg-white border border-[#0E7C86]/20 text-xs sm:text-sm font-semibold text-[#0B2A2E] placeholder:text-[#3D5A5E]/40 focus:outline-none focus:ring-4 focus:ring-[#0E7C86]/12 focus:border-[#0E7C86] transition-all"
+          />
+        </div>
+
+        <div>
+          <label class="block text-xs font-black uppercase tracking-wider text-[#0B2A2E] mb-2">
+            Références professionnelles disponibles
+          </label>
+          <div class="flex gap-4 pt-1">
+            <label class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#0B2A2E] cursor-pointer">
+              <input type="radio" name="hasReferences" value="Oui" class="w-4 h-4 text-[#0E7C86]" />
+              <span>Oui</span>
+            </label>
+            <label class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#0B2A2E] cursor-pointer">
+              <input type="radio" name="hasReferences" value="Non" checked class="w-4 h-4 text-[#0E7C86]" />
+              <span>Non</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</fieldset>
