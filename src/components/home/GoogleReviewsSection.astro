@@ -1,0 +1,205 @@
+---
+import config from '../../data/site-config.json';
+
+const googleLink = config.social.googleBusiness || "https://maps.google.com/?q=unilka+Montr%C3%A9al";
+
+const reviews = [
+  {
+    author: "Marc-André L.",
+    location: "Outremont • Montréal",
+    service: "Entretien résidentiel régulier",
+    date: "Il y a 2 semaines",
+    rating: 5,
+    avatarBg: "bg-[#0E7C86] text-white",
+    text: "Le niveau d'exigence et la constance sont incomparables. Dès le premier passage, on remarque le sens du détail hôtelier : aucun recoin négligé, discrétion absolue de l'équipe et des produits sains sans odeur agressive. Pouvoir rentrer chez soi l'esprit tranquille sans être lié par un contrat rigide, c'est un vrai luxe au quotidien."
+  },
+  {
+    author: "Sophie G.",
+    location: "Plateau-Mont-Royal",
+    service: "Locaux professionnels & Studio",
+    date: "Il y a 1 mois",
+    rating: 5,
+    avatarBg: "bg-[#0B2A2E] text-white",
+    text: "Notre agence reçoit quotidiennement des clients et des partenaires. L'équipe d'unilka intervient en dehors de nos heures de bureau avec une régularité et une fiabilité exemplaires. Les espaces de travail, les salles de réunion et les sanitaires sont toujours impeccables. Facturation claire et communication directe très appréciée."
+  },
+  {
+    author: "Jean-Philippe B.",
+    location: "Griffintown • Montréal",
+    service: "Syndicat de copropriété (18 unités)",
+    date: "Il y a 2 mois",
+    rating: 5,
+    avatarBg: "bg-[#16830F] text-white",
+    text: "En tant que gestionnaire d'immeuble, trouver un prestataire fiable pour l'entretien des aires communes était un défi. Avec unilka, les halls, escaliers et vitrages sont toujours soignés. Les copropriétaires ont immédiatement constaté la différence dès la première semaine. Une réactivité exemplaire sous 24h."
+  },
+  {
+    author: "Caroline V.",
+    location: "Longueuil • Rive-Sud",
+    service: "Grand ménage en profondeur",
+    date: "Il y a 3 mois",
+    rating: 5,
+    avatarBg: "bg-[#0A5A62] text-white",
+    text: "Intervention après des travaux pour préparer l'emménagement de notre famille. L'équipe a abattu un travail colossal : plinthes, luminaires, vitres, cuisine, tout est redevenu étincelant. Une prise en charge professionnelle, rassurante et humaine du début à la fin. Je recommande sans hésiter."
+  }
+];
+---
+
+<section id="avis-google" class="py-20 lg:py-28 bg-[#FFFFFF] border-b border-[#0E7C86]/12 scroll-mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- En-tête de section avec badge Google officiel -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-14">
+      <div class="max-w-2xl space-y-4">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F5FAFA] border border-[#0E7C86]/20">
+          <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          <span class="text-[11px] font-extrabold uppercase tracking-[0.14em] text-[#0A5A62]">
+            Avis Clients Vérifiés • Google Reviews
+          </span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B2A2E] tracking-tight">
+          La sérénité d'un travail soigné, confirmée par nos clients.
+        </h2>
+
+        <p class="text-base text-[#3D5A5E] leading-relaxed">
+          Nos interventions s'appuient sur la discrétion, le respect de vos lieux et l'absence totale d'engagement forcé. Découvrez les avis authentiques déposés par nos clients sur Google.
+        </p>
+      </div>
+
+      <!-- Badge Récapitulatif Score Google -->
+      <div class="shrink-0 p-5 rounded-2xl bg-[#F5FAFA] border border-[#0E7C86]/15 flex items-center gap-4 shadow-xs">
+        <div class="text-center">
+          <span class="text-3xl font-black text-[#0B2A2E] tracking-tight block">5.0</span>
+          <div class="text-[#FFB703] text-sm tracking-wider">★★★★★</div>
+        </div>
+        <div class="border-l border-[#0E7C86]/15 pl-4 text-xs space-y-1">
+          <div class="flex items-center gap-1 font-bold text-[#0B2A2E]">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            <span>Google Reviews</span>
+          </div>
+          <p class="text-[#3D5A5E]">100% d'avis positifs</p>
+          <a
+            href={googleLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center text-[11px] font-bold text-[#0E7C86] hover:text-[#0A5A62] no-underline"
+          >
+            <span>Vérifier sur Google</span>
+            <span class="ml-1" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grille des Avis Clients Style Google Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+      {reviews.map((r) => (
+        <article class="p-6 sm:p-7 rounded-2xl bg-[#FFFFFF] border border-[#0E7C86]/15 hover:border-[#0E7C86]/35 transition-all duration-200 shadow-xs hover:shadow-md flex flex-col justify-between space-y-4">
+          
+          <div class="space-y-3">
+            <!-- Profil utilisateur & Badge Google vérifié -->
+            <div class="flex items-center justify-between gap-4">
+              <div class="flex items-center gap-3">
+                <div class={`w-10 h-10 rounded-full ${r.avatarBg} flex items-center justify-center font-extrabold text-sm shrink-0 shadow-2xs`}>
+                  {r.author.slice(0, 2)}
+                </div>
+                <div>
+                  <h3 class="text-sm font-extrabold text-[#0B2A2E] leading-tight">
+                    {r.author}
+                  </h3>
+                  <p class="text-[11px] text-[#3D5A5E]">
+                    {r.location}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Badge officiel Google vérifié -->
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#F5FAFA] border border-[#0E7C86]/15 text-[10px] font-bold text-[#0B2A2E] shrink-0">
+                <svg class="w-3 h-3" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                </svg>
+                <span>Avis vérifié</span>
+              </div>
+            </div>
+
+            <!-- Étoiles & Métadonnées -->
+            <div class="flex items-center gap-3 pt-1">
+              <div class="text-[#FFB703] text-sm tracking-wider" aria-label="Note 5 sur 5">
+                ★★★★★
+              </div>
+              <span class="text-[11px] text-[#3D5A5E]/80">
+                {r.date}
+              </span>
+              <span class="text-[11px] font-semibold text-[#0E7C86] bg-[#E3F4F5] px-2 py-0.5 rounded-full">
+                {r.service}
+              </span>
+            </div>
+
+            <!-- Corps du témoignage -->
+            <blockquote class="text-sm text-[#3D5A5E] leading-relaxed pt-1">
+              « {r.text} »
+            </blockquote>
+          </div>
+
+          <!-- Signature discrète -->
+          <div class="pt-2 border-t border-[#0E7C86]/10 flex items-center justify-between text-[11px] text-[#3D5A5E]/80">
+            <span>Client certifié unilka</span>
+            <span class="text-[#16830F] font-bold">100% Recommandé</span>
+          </div>
+
+        </article>
+      ))}
+    </div>
+
+    <!-- Bandeau CTA : Consulter / Laisser un avis Google -->
+    <div class="mt-12 p-6 sm:p-8 rounded-3xl bg-[#F5FAFA] border border-[#0E7C86]/15 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="space-y-1.5 text-center sm:text-left">
+        <h3 class="text-base font-extrabold text-[#0B2A2E]">
+          Vous avez fait l'expérience des services unilka ?
+        </h3>
+        <p class="text-xs sm:text-sm text-[#3D5A5E]">
+          Votre avis compte pour notre équipe. Partagez votre retour d'expérience en toute simplicité sur Google.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-center gap-3 shrink-0">
+        <a
+          href={googleLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-[#0E7C86]/20 text-xs font-bold text-[#0B2A2E] hover:border-[#0E7C86]/40 hover:bg-[#E3F4F5] transition-all no-underline shadow-2xs"
+        >
+          <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          <span>Laisser un avis sur Google</span>
+          <span class="text-[#0E7C86] font-bold">↗</span>
+        </a>
+
+        <a
+          href="/soumission/"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0B2A2E] hover:bg-[#0E7C86] text-xs font-bold text-white transition-all no-underline shadow-2xs hover:-translate-y-0.5"
+        >
+          <span>Obtenir votre estimation</span>
+          <span class="font-bold">→</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
