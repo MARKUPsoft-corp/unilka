@@ -2,10 +2,10 @@
 // Étape 3 : Disponibilités, horaires et mobilité géographique
 ---
 
-<fieldset class="relative bg-white rounded-3xl border border-[#0E7C86]/20 p-6 sm:p-10 shadow-[0_12px_40px_rgba(11,42,46,0.06)] space-y-8 overflow-hidden">
+<fieldset class="relative bg-white rounded-2xl sm:rounded-3xl border border-[#0E7C86]/20 p-4 sm:p-10 shadow-[0_12px_40px_rgba(11,42,46,0.06)] space-y-6 sm:space-y-8 overflow-hidden w-full max-w-full">
   
   <!-- Accent décoratif d'arrière-plan -->
-  <div class="absolute -top-24 -right-24 w-64 h-64 bg-gradient-to-br from-[#E3F4F5]/60 to-transparent rounded-full blur-2xl pointer-events-none" aria-hidden="true"></div>
+  <div class="absolute top-0 right-0 w-36 h-36 sm:w-56 sm:h-56 bg-gradient-to-br from-[#E3F4F5]/60 to-transparent rounded-full blur-2xl pointer-events-none" aria-hidden="true"></div>
 
   <!-- En-tête éditorial de l'étape -->
   <div class="relative border-b border-[#0E7C86]/12 pb-6 space-y-2">
@@ -170,7 +170,7 @@
       <label class="block text-xs font-black uppercase tracking-wider text-[#0B2A2E]">
         En mesure de vous déplacer pour vos missions ? <span class="text-[#0E7C86]" aria-hidden="true">*</span>
       </label>
-      <div class="grid grid-cols-3 gap-2">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-2.5">
         {["Oui", "Non", "Selon la distance"].map((opt, idx) => (
           <label class="flex items-center justify-center gap-2 p-3 rounded-xl border border-[#0E7C86]/20 bg-[#F8FCFC] text-xs font-bold text-[#0B2A2E] cursor-pointer hover:bg-white has-[:checked]:bg-[#E3F4F5] has-[:checked]:border-[#0E7C86] has-[:checked]:ring-2 has-[:checked]:ring-[#0E7C86]/20 transition-all text-center">
             <input type="radio" name="canTravel" value={opt} checked={idx === 0} class="w-3.5 h-3.5 text-[#0E7C86]" required />

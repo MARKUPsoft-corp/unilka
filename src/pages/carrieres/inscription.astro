@@ -28,9 +28,9 @@ const breadcrumbs = [
             <span>Talents & Savoir-Faire • Recrutement Continu</span>
           </div>
 
-          <h1 class="text-[clamp(42px,11.5vw,56px)] sm:text-6xl lg:text-7xl xl:text-[76px] font-bold text-[#0B2A2E] tracking-[-0.035em] leading-[1.06] mt-7 mb-0">
-            <span class="block font-bold text-[#0B2A2E] whitespace-nowrap">Cadre respectueux.</span>
-            <span class="block font-serif italic font-normal text-[#0E7C86] mt-1 whitespace-nowrap">Métier valorisé.</span>
+          <h1 class="text-[clamp(32px,8.5vw,56px)] sm:text-6xl lg:text-7xl xl:text-[76px] font-bold text-[#0B2A2E] tracking-[-0.035em] leading-[1.08] mt-6 mb-0">
+            <span class="block font-bold text-[#0B2A2E]">Cadre respectueux.</span>
+            <span class="block font-serif italic font-normal text-[#0E7C86] mt-1">Métier valorisé.</span>
           </h1>
 
           <p class="text-base sm:text-lg text-[#3D5A5E] leading-[1.75] max-w-xl mt-6">
@@ -111,15 +111,15 @@ const breadcrumbs = [
   </section>
 
   <!-- 2. CONTENEUR DU FORMULAIRE EN STEPPER PROGRESSIF -->
-  <section class="py-12 sm:py-16 bg-[#F5FAFA] min-h-[60vh]">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section class="py-10 sm:py-16 bg-[#F5FAFA] min-h-[60vh] overflow-x-clip">
+    <div class="max-w-4xl mx-auto px-3.5 sm:px-6 lg:px-8 w-full max-w-full overflow-hidden">
       
       <!-- TIMELINE STEPPER CHECKPOINTS -->
-      <div class="mb-8" id="candidate-stepper">
-        <div class="bg-white rounded-3xl border border-[#0E7C86]/15 p-4 sm:p-6 shadow-xs">
+      <div class="mb-8 overflow-hidden" id="candidate-stepper">
+        <div class="bg-white rounded-2xl sm:rounded-3xl border border-[#0E7C86]/15 p-3.5 sm:p-6 shadow-xs overflow-hidden">
           
           <!-- Statut mobile de l'étape courante -->
-          <div class="sm:hidden flex items-center justify-between pb-3 mb-4 border-b border-[#0E7C86]/10 text-xs">
+          <div class="sm:hidden flex items-center justify-between pb-3 mb-3 border-b border-[#0E7C86]/10 text-xs">
             <span class="font-extrabold text-[#0E7C86] uppercase tracking-wider" id="cand-mobile-step-indicator">
               Étape 1 sur 4
             </span>
@@ -129,9 +129,9 @@ const breadcrumbs = [
           </div>
 
           <!-- Conteneur de la timeline avec ligne de progression -->
-          <div class="relative px-2 sm:px-6">
+          <div class="relative px-1 sm:px-6">
             <!-- Barre de progression en arrière-plan -->
-            <div class="absolute top-5 sm:top-6 left-8 right-8 sm:left-14 sm:right-14 h-1 bg-[#E3F4F5] -translate-y-1/2 z-0 rounded-full">
+            <div class="absolute top-4 sm:top-6 left-6 right-6 sm:left-14 sm:right-14 h-1 bg-[#E3F4F5] -translate-y-1/2 z-0 rounded-full">
               <div
                 id="cand-timeline-progress-bar"
                 class="h-full bg-[#0E7C86] rounded-full transition-all duration-500 ease-out"
@@ -140,28 +140,28 @@ const breadcrumbs = [
             </div>
 
             <!-- Noeuds checkpoints -->
-            <div class="relative z-10 grid grid-cols-4 gap-2 sm:gap-4" role="tablist" aria-label="Étapes de la candidature">
+            <div class="relative z-10 grid grid-cols-4 gap-1 sm:gap-4" role="tablist" aria-label="Étapes de la candidature">
               
               <!-- Noeud 1 : Profil -->
               <button
                 type="button"
-                class="cand-step-checkpoint group flex flex-col items-center focus:outline-none cursor-pointer"
+                class="cand-step-checkpoint group flex flex-col items-center focus:outline-none cursor-pointer w-full max-w-full overflow-hidden p-0.5 sm:p-1"
                 data-step-target="1"
                 id="cand-checkpoint-1"
                 aria-selected="true"
                 aria-controls="cand-step-panel-1"
               >
-                <div class="checkpoint-node w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-extrabold text-sm sm:text-base transition-all duration-300 shadow-xs bg-[#0E7C86] text-white ring-4 ring-[#0E7C86]/20">
+                <div class="checkpoint-node w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-extrabold text-xs sm:text-base transition-all duration-300 shadow-xs bg-[#0E7C86] text-white ring-4 ring-[#0E7C86]/20 shrink-0">
                   <span class="checkpoint-number">01</span>
-                  <svg class="checkpoint-check hidden w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                  <svg class="checkpoint-check hidden w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <div class="mt-2.5 text-center">
-                  <span class="checkpoint-label text-xs sm:text-sm font-extrabold text-[#0E7C86] block transition-colors">
+                <div class="mt-1.5 sm:mt-2.5 text-center w-full overflow-hidden">
+                  <span class="checkpoint-label text-[11px] sm:text-sm font-extrabold text-[#0E7C86] block transition-colors truncate">
                     Profil
                   </span>
-                  <span class="checkpoint-sub hidden md:block text-[11px] text-[#3D5A5E] mt-0.5">
+                  <span class="checkpoint-sub hidden md:block text-[11px] text-[#3D5A5E] mt-0.5 truncate">
                     Identité & contact
                   </span>
                 </div>
@@ -170,23 +170,23 @@ const breadcrumbs = [
               <!-- Noeud 2 : Parcours -->
               <button
                 type="button"
-                class="cand-step-checkpoint group flex flex-col items-center focus:outline-none cursor-not-allowed opacity-60"
+                class="cand-step-checkpoint group flex flex-col items-center focus:outline-none cursor-not-allowed opacity-60 w-full max-w-full overflow-hidden p-0.5 sm:p-1"
                 data-step-target="2"
                 id="cand-checkpoint-2"
                 aria-selected="false"
                 aria-controls="cand-step-panel-2"
               >
-                <div class="checkpoint-node w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-extrabold text-sm sm:text-base transition-all duration-300 shadow-xs bg-white text-[#3D5A5E] border-2 border-[#0E7C86]/25">
+                <div class="checkpoint-node w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-extrabold text-xs sm:text-base transition-all duration-300 shadow-xs bg-white text-[#3D5A5E] border-2 border-[#0E7C86]/25 shrink-0">
                   <span class="checkpoint-number">02</span>
-                  <svg class="checkpoint-check hidden w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                  <svg class="checkpoint-check hidden w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <div class="mt-2.5 text-center">
-                  <span class="checkpoint-label text-xs sm:text-sm font-semibold text-[#3D5A5E] block transition-colors">
+                <div class="mt-1.5 sm:mt-2.5 text-center w-full overflow-hidden">
+                  <span class="checkpoint-label text-[11px] sm:text-sm font-semibold text-[#3D5A5E] block transition-colors truncate">
                     Parcours
                   </span>
-                  <span class="checkpoint-sub hidden md:block text-[11px] text-[#3D5A5E]/70 mt-0.5">
+                  <span class="checkpoint-sub hidden md:block text-[11px] text-[#3D5A5E]/70 mt-0.5 truncate">
                     Statut & expérience
                   </span>
                 </div>
@@ -195,23 +195,23 @@ const breadcrumbs = [
               <!-- Noeud 3 : Disponibilités -->
               <button
                 type="button"
-                class="cand-step-checkpoint group flex flex-col items-center focus:outline-none cursor-not-allowed opacity-60"
+                class="cand-step-checkpoint group flex flex-col items-center focus:outline-none cursor-not-allowed opacity-60 w-full max-w-full overflow-hidden p-0.5 sm:p-1"
                 data-step-target="3"
                 id="cand-checkpoint-3"
                 aria-selected="false"
                 aria-controls="cand-step-panel-3"
               >
-                <div class="checkpoint-node w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-extrabold text-sm sm:text-base transition-all duration-300 shadow-xs bg-white text-[#3D5A5E] border-2 border-[#0E7C86]/25">
+                <div class="checkpoint-node w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-extrabold text-xs sm:text-base transition-all duration-300 shadow-xs bg-white text-[#3D5A5E] border-2 border-[#0E7C86]/25 shrink-0">
                   <span class="checkpoint-number">03</span>
-                  <svg class="checkpoint-check hidden w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                  <svg class="checkpoint-check hidden w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <div class="mt-2.5 text-center">
-                  <span class="checkpoint-label text-xs sm:text-sm font-semibold text-[#3D5A5E] block transition-colors">
-                    Disponibilités
+                <div class="mt-1.5 sm:mt-2.5 text-center w-full overflow-hidden">
+                  <span class="checkpoint-label text-[11px] sm:text-sm font-semibold text-[#3D5A5E] block transition-colors truncate">
+                    <span class="hidden sm:inline">Disponibilités</span><span class="sm:hidden">Dispos</span>
                   </span>
-                  <span class="checkpoint-sub hidden md:block text-[11px] text-[#3D5A5E]/70 mt-0.5">
+                  <span class="checkpoint-sub hidden md:block text-[11px] text-[#3D5A5E]/70 mt-0.5 truncate">
                     Horaires & mobilité
                   </span>
                 </div>
@@ -220,23 +220,23 @@ const breadcrumbs = [
               <!-- Noeud 4 : Validation -->
               <button
                 type="button"
-                class="cand-step-checkpoint group flex flex-col items-center focus:outline-none cursor-not-allowed opacity-60"
+                class="cand-step-checkpoint group flex flex-col items-center focus:outline-none cursor-not-allowed opacity-60 w-full max-w-full overflow-hidden p-0.5 sm:p-1"
                 data-step-target="4"
                 id="cand-checkpoint-4"
                 aria-selected="false"
                 aria-controls="cand-step-panel-4"
               >
-                <div class="checkpoint-node w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-extrabold text-sm sm:text-base transition-all duration-300 shadow-xs bg-white text-[#3D5A5E] border-2 border-[#0E7C86]/25">
+                <div class="checkpoint-node w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-extrabold text-xs sm:text-base transition-all duration-300 shadow-xs bg-white text-[#3D5A5E] border-2 border-[#0E7C86]/25 shrink-0">
                   <span class="checkpoint-number">04</span>
-                  <svg class="checkpoint-check hidden w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                  <svg class="checkpoint-check hidden w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <div class="mt-2.5 text-center">
-                  <span class="checkpoint-label text-xs sm:text-sm font-semibold text-[#3D5A5E] block transition-colors">
-                    Validation
+                <div class="mt-1.5 sm:mt-2.5 text-center w-full overflow-hidden">
+                  <span class="checkpoint-label text-[11px] sm:text-sm font-semibold text-[#3D5A5E] block transition-colors truncate">
+                    <span class="hidden sm:inline">Validation</span><span class="sm:hidden">Envoi</span>
                   </span>
-                  <span class="checkpoint-sub hidden md:block text-[11px] text-[#3D5A5E]/70 mt-0.5">
+                  <span class="checkpoint-sub hidden md:block text-[11px] text-[#3D5A5E]/70 mt-0.5 truncate">
                     Consentement & envoi
                   </span>
                 </div>
@@ -251,11 +251,11 @@ const breadcrumbs = [
       <div
         id="cand-error-summary"
         tabindex="-1"
-        class="hidden mb-8 p-6 rounded-2xl bg-red-50 border-2 border-red-500 text-red-800 shadow-sm focus:outline-none focus:ring-4 focus:ring-red-200"
+        class="hidden mb-8 p-5 sm:p-6 rounded-2xl bg-red-50 border-2 border-red-500 text-red-800 shadow-sm focus:outline-none focus:ring-4 focus:ring-red-200 overflow-hidden"
         role="alert"
         aria-labelledby="cand-error-summary-heading"
       >
-        <h2 id="cand-error-summary-heading" class="text-lg font-bold text-red-800 mb-2 flex items-center gap-2">
+        <h2 id="cand-error-summary-heading" class="text-base sm:text-lg font-bold text-red-800 mb-2 flex items-center gap-2">
           <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
           </svg>
@@ -265,71 +265,71 @@ const breadcrumbs = [
       </div>
 
       <!-- FORMULAIRE CANDIDAT EN STEPPER PROGRESSIF -->
-      <form id="candidate-form" novalidate class="space-y-8">
+      <form id="candidate-form" novalidate class="space-y-6 sm:space-y-8 w-full max-w-full overflow-hidden">
         
         <!-- ÉTAPE 1 : PROFIL & COORDONNÉES -->
-        <div id="cand-step-panel-1" class="cand-step-panel space-y-6" role="tabpanel" aria-labelledby="cand-checkpoint-1">
+        <div id="cand-step-panel-1" class="cand-step-panel space-y-6 w-full max-w-full overflow-hidden" role="tabpanel" aria-labelledby="cand-checkpoint-1">
           <StepCandidateProfile />
           <div class="flex justify-end pt-2">
             <button
               type="button"
-              class="btn-step-next inline-flex items-center justify-center px-8 py-4 text-sm font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full shadow-[0_4px_18px_rgba(14,124,134,0.25)] hover:shadow-[0_8px_24px_rgba(14,124,134,0.35)] transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
+              class="btn-step-next w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 text-xs sm:text-sm font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full shadow-[0_4px_18px_rgba(14,124,134,0.25)] hover:shadow-[0_8px_24px_rgba(14,124,134,0.35)] transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
               data-target="2"
             >
               <span>Continuer vers votre parcours</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
             </button>
           </div>
         </div>
 
         <!-- ÉTAPE 2 : PARCOURS & EXPÉRIENCE -->
-        <div id="cand-step-panel-2" class="cand-step-panel hidden space-y-6" role="tabpanel" aria-labelledby="cand-checkpoint-2">
+        <div id="cand-step-panel-2" class="cand-step-panel hidden space-y-6 w-full max-w-full overflow-hidden" role="tabpanel" aria-labelledby="cand-checkpoint-2">
           <StepCandidateCareer />
-          <div class="flex items-center justify-between pt-2">
+          <div class="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2">
             <button
               type="button"
-              class="btn-step-prev inline-flex items-center justify-center px-6 py-3.5 text-xs font-bold text-[#0B2A2E] hover:text-[#0E7C86] bg-white border border-[#0E7C86]/20 hover:bg-[#E3F4F5] rounded-full transition-colors shadow-2xs cursor-pointer"
+              class="btn-step-prev w-full sm:w-auto inline-flex items-center justify-center px-5 sm:px-6 py-3.5 text-xs font-bold text-[#0B2A2E] hover:text-[#0E7C86] bg-white border border-[#0E7C86]/20 hover:bg-[#E3F4F5] rounded-full transition-colors shadow-2xs cursor-pointer"
               data-target="1"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
               <span>Étape précédente</span>
             </button>
             <button
               type="button"
-              class="btn-step-next inline-flex items-center justify-center px-8 py-4 text-sm font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full shadow-[0_4px_18px_rgba(14,124,134,0.25)] hover:shadow-[0_8px_24px_rgba(14,124,134,0.35)] transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
+              class="btn-step-next w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 text-xs sm:text-sm font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full shadow-[0_4px_18px_rgba(14,124,134,0.25)] hover:shadow-[0_8px_24px_rgba(14,124,134,0.35)] transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
               data-target="3"
             >
               <span>Continuer vers vos disponibilités</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
             </button>
           </div>
         </div>
 
         <!-- ÉTAPE 3 : DISPONIBILITÉS & MOBILITÉ -->
-        <div id="cand-step-panel-3" class="cand-step-panel hidden space-y-6" role="tabpanel" aria-labelledby="cand-checkpoint-3">
+        <div id="cand-step-panel-3" class="cand-step-panel hidden space-y-6 w-full max-w-full overflow-hidden" role="tabpanel" aria-labelledby="cand-checkpoint-3">
           <StepCandidateAvailability />
-          <div class="flex items-center justify-between pt-2">
+          <div class="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2">
             <button
               type="button"
-              class="btn-step-prev inline-flex items-center justify-center px-6 py-3.5 text-xs font-bold text-[#0B2A2E] hover:text-[#0E7C86] bg-white border border-[#0E7C86]/20 hover:bg-[#E3F4F5] rounded-full transition-colors shadow-2xs cursor-pointer"
+              class="btn-step-prev w-full sm:w-auto inline-flex items-center justify-center px-5 sm:px-6 py-3.5 text-xs font-bold text-[#0B2A2E] hover:text-[#0E7C86] bg-white border border-[#0E7C86]/20 hover:bg-[#E3F4F5] rounded-full transition-colors shadow-2xs cursor-pointer"
               data-target="2"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
               <span>Étape précédente</span>
             </button>
             <button
               type="button"
-              class="btn-step-next inline-flex items-center justify-center px-8 py-4 text-sm font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full shadow-[0_4px_18px_rgba(14,124,134,0.25)] hover:shadow-[0_8px_24px_rgba(14,124,134,0.35)] transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
+              class="btn-step-next w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 text-xs sm:text-sm font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full shadow-[0_4px_18px_rgba(14,124,134,0.25)] hover:shadow-[0_8px_24px_rgba(14,124,134,0.35)] transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
               data-target="4"
             >
               <span>Continuer vers la validation</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
             </button>
           </div>
         </div>
 
         <!-- ÉTAPE 4 : FORMATION, CONSENTEMENTS & ENVOI -->
-        <div id="cand-step-panel-4" class="cand-step-panel hidden space-y-6" role="tabpanel" aria-labelledby="cand-checkpoint-4">
+        <div id="cand-step-panel-4" class="cand-step-panel hidden space-y-6 w-full max-w-full overflow-hidden" role="tabpanel" aria-labelledby="cand-checkpoint-4">
           <StepCandidateConsent />
         </div>
 

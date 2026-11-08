@@ -2,10 +2,10 @@
 // Étape 4 : Formations souhaitées, atouts personnels, consentements Loi 25 et envoi
 ---
 
-<fieldset class="relative bg-white rounded-3xl border border-[#0E7C86]/20 p-6 sm:p-10 shadow-[0_12px_40px_rgba(11,42,46,0.06)] space-y-8 overflow-hidden">
+<fieldset class="relative bg-white rounded-2xl sm:rounded-3xl border border-[#0E7C86]/20 p-4 sm:p-10 shadow-[0_12px_40px_rgba(11,42,46,0.06)] space-y-6 sm:space-y-8 overflow-hidden w-full max-w-full">
   
   <!-- Accent décoratif d'arrière-plan -->
-  <div class="absolute -top-24 -right-24 w-64 h-64 bg-gradient-to-br from-[#E3F4F5]/60 to-transparent rounded-full blur-2xl pointer-events-none" aria-hidden="true"></div>
+  <div class="absolute top-0 right-0 w-36 h-36 sm:w-56 sm:h-56 bg-gradient-to-br from-[#E3F4F5]/60 to-transparent rounded-full blur-2xl pointer-events-none" aria-hidden="true"></div>
 
   <!-- En-tête éditorial de l'étape -->
   <div class="relative border-b border-[#0E7C86]/12 pb-6 space-y-2">
@@ -190,24 +190,24 @@
 
   <!-- 4. BARRE D'ACTIONS & SOUMISSION FINALE -->
   <div class="pt-5 border-t border-[#0E7C86]/12 space-y-4">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div class="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2">
       <button
         type="button"
-        class="btn-step-prev inline-flex items-center justify-center px-6 py-4 text-xs font-bold text-[#0B2A2E] hover:text-[#0E7C86] bg-[#F8FCFC] border border-[#0E7C86]/20 hover:bg-white rounded-full transition-all duration-150 shadow-2xs hover:shadow-xs cursor-pointer active:scale-[0.98]"
+        class="btn-step-prev w-full sm:w-auto inline-flex items-center justify-center px-5 sm:px-6 py-3.5 text-xs font-bold text-[#0B2A2E] hover:text-[#0E7C86] bg-[#F8FCFC] border border-[#0E7C86]/20 hover:bg-white rounded-full transition-all duration-150 shadow-2xs hover:shadow-xs cursor-pointer active:scale-[0.98]"
         data-target="3"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
         <span>Retour aux disponibilités</span>
       </button>
 
       <button
         type="submit"
         id="cand-submit-btn"
-        class="w-full sm:w-auto inline-flex items-center justify-center px-9 py-4 text-sm sm:text-base font-extrabold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full shadow-[0_6px_24px_rgba(14,124,134,0.30)] hover:shadow-[0_10px_30px_rgba(14,124,134,0.40)] transition-all duration-200 transform hover:-translate-y-0.5 active:scale-[0.98] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+        class="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-9 py-3.5 sm:py-4 text-xs sm:text-base font-extrabold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full shadow-[0_6px_24px_rgba(14,124,134,0.30)] hover:shadow-[0_10px_30px_rgba(14,124,134,0.40)] transition-all duration-200 transform hover:-translate-y-0.5 active:scale-[0.98] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
       >
         <span id="cand-submit-text" class="flex items-center gap-2">
           <span>Envoyer mon dossier de candidature</span>
-          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          <svg class="w-4 h-4 sm:w-5 sm:h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </span>
         <span id="cand-submit-spinner" class="hidden ml-2">
           <svg class="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">

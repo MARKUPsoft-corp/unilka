@@ -2,10 +2,10 @@
 // Étape 2 : Situation légale, type de travail recherché & expérience professionnelle
 ---
 
-<fieldset class="relative bg-white rounded-3xl border border-[#0E7C86]/20 p-6 sm:p-10 shadow-[0_12px_40px_rgba(11,42,46,0.06)] space-y-8 overflow-hidden">
+<fieldset class="relative bg-white rounded-2xl sm:rounded-3xl border border-[#0E7C86]/20 p-4 sm:p-10 shadow-[0_12px_40px_rgba(11,42,46,0.06)] space-y-6 sm:space-y-8 overflow-hidden w-full max-w-full">
   
   <!-- Accent décoratif d'arrière-plan -->
-  <div class="absolute -top-24 -right-24 w-64 h-64 bg-gradient-to-br from-[#E3F4F5]/60 to-transparent rounded-full blur-2xl pointer-events-none" aria-hidden="true"></div>
+  <div class="absolute top-0 right-0 w-36 h-36 sm:w-56 sm:h-56 bg-gradient-to-br from-[#E3F4F5]/60 to-transparent rounded-full blur-2xl pointer-events-none" aria-hidden="true"></div>
 
   <!-- En-tête éditorial de l'étape -->
   <div class="relative border-b border-[#0E7C86]/12 pb-6 space-y-2">
@@ -134,7 +134,7 @@
       <label class="flex items-center justify-between text-xs font-black uppercase tracking-wider text-[#0B2A2E] mb-2">
         <span>Avez-vous déjà travaillé dans l'entretien ménager ou l'hôtellerie ? <span class="text-[#0E7C86]" aria-hidden="true">*</span></span>
       </label>
-      <div class="grid grid-cols-2 gap-3 max-w-sm">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 max-w-sm">
         <label class="flex items-center justify-center gap-2.5 p-3.5 rounded-xl border border-[#0E7C86]/20 bg-[#F8FCFC] text-xs sm:text-sm font-bold text-[#0B2A2E] cursor-pointer hover:bg-white has-[:checked]:bg-[#E3F4F5] has-[:checked]:border-[#0E7C86] has-[:checked]:ring-2 has-[:checked]:ring-[#0E7C86]/20 transition-all">
           <input type="radio" name="hasExperience" value="Oui" id="exp-yes" class="w-4 h-4 text-[#0E7C86]" required />
           <span>Oui, j'ai de l'expérience</span>
