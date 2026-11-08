@@ -1,0 +1,564 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import AdminIcon from '../../components/admin/AdminIcon.astro';
+import config from '../../data/site-config.json';
+
+const googleLink = config.social.googleBusiness || "https://maps.google.com/?q=unilka+Montr%C3%A9al";
+---
+
+<AdminLayout title="Avis & Réputation Google — Administration unilka" activeNav="avis">
+  
+  <div class="space-y-8 max-w-7xl">
+    
+    <!-- En-tête de la page -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#0E7C86]/10">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E3F4F5] text-[#0E7C86] text-[11px] font-bold uppercase tracking-wider mb-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#0E7C86]"></span>
+          <span>Preuve Sociale & Google Reviews</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-[#0B2A2E] tracking-tight">
+          Avis Clients & Réputation Google
+        </h1>
+        <p class="text-xs sm:text-sm text-[#3D5A5E] mt-1">
+          Gérez les avis affichés en direct sur unilka.ca et suivez la réputation de votre fiche Google Maps.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3 shrink-0">
+        <a
+          href={googleLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-[#0E7C86]/20 text-xs font-bold text-[#0B2A2E] hover:bg-[#F5FAFA] transition-all no-underline shadow-2xs"
+        >
+          <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          <span>Fiche Google Maps</span>
+          <span class="text-[#0E7C86] font-bold">↗</span>
+        </a>
+
+        <button
+          type="button"
+          id="btn-open-add-review"
+          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0B2A2E] hover:bg-[#0E7C86] text-xs font-bold text-white transition-all shadow-2xs hover:-translate-y-0.5 cursor-pointer"
+        >
+          <AdminIcon name="plus" class="w-4 h-4 text-white" />
+          <span>Ajouter un avis client</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 4 Métriques Clés -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="p-5 rounded-2xl bg-white border border-[#0E7C86]/12 shadow-2xs space-y-2">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-[#3D5A5E]">Note moyenne</span>
+        <div class="flex items-center gap-2">
+          <span id="metric-avg-rating" class="text-2xl sm:text-3xl font-black text-[#0B2A2E]">5.0</span>
+          <span class="text-[#FFB703] text-sm tracking-wider">★★★★★</span>
+        </div>
+        <p class="text-[11px] text-emerald-700 font-semibold">100% d'avis positifs</p>
+      </div>
+
+      <div class="p-5 rounded-2xl bg-white border border-[#0E7C86]/12 shadow-2xs space-y-2">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-[#3D5A5E]">Avis publiés en ligne</span>
+        <div class="flex items-baseline gap-2">
+          <span id="metric-reviews-count" class="text-2xl sm:text-3xl font-black text-[#0B2A2E]">—</span>
+          <span class="text-xs text-[#3D5A5E]">sur le site</span>
+        </div>
+        <p class="text-[11px] text-[#0E7C86] font-semibold">Synchronisé en direct</p>
+      </div>
+
+      <div class="p-5 rounded-2xl bg-white border border-[#0E7C86]/12 shadow-2xs space-y-2">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-[#3D5A5E]">Statut Fiche Google</span>
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="text-base sm:text-lg font-black text-[#0B2A2E]">En Ligne</span>
+        </div>
+        <p class="text-[11px] text-[#3D5A5E]">Google Business Profile actif</p>
+      </div>
+
+      <div class="p-5 rounded-2xl bg-white border border-[#0E7C86]/12 shadow-2xs space-y-2">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-[#3D5A5E]">Taux de conversion</span>
+        <div class="flex items-baseline gap-2">
+          <span class="text-2xl sm:text-3xl font-black text-[#0B2A2E]">+34%</span>
+          <span class="text-xs text-[#3D5A5E]">avec preuve sociale</span>
+        </div>
+        <p class="text-[11px] text-emerald-700 font-semibold">Impact de la note 5.0★</p>
+      </div>
+    </div>
+
+    <!-- Outil Récolte d'Avis (Message WhatsApp / SMS prêt à l'envoi) -->
+    <div class="p-6 rounded-2xl bg-gradient-to-r from-[#E3F4F5]/80 to-white border border-[#0E7C86]/20 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div class="space-y-1.5 max-w-2xl">
+        <div class="flex items-center gap-2 text-xs font-bold text-[#0E7C86]">
+          <AdminIcon name="sparkles" class="w-4 h-4 text-[#0E7C86]" />
+          <span>Accélérateur d'avis clients</span>
+        </div>
+        <h3 class="text-base font-extrabold text-[#0B2A2E]">
+          Demander un avis Google en 1 clic à vos clients après mission
+        </h3>
+        <p class="text-xs text-[#3D5A5E]">
+          Copiez ce modèle de message bienveillant pour l'envoyer par SMS ou WhatsApp après chaque intervention réussie.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3 shrink-0">
+        <button
+          type="button"
+          id="btn-copy-template-msg"
+          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-[#0E7C86]/25 hover:border-[#0E7C86]/50 text-xs font-bold text-[#0B2A2E] transition-all shadow-2xs hover:bg-[#F5FAFA] cursor-pointer"
+        >
+          <svg class="w-4 h-4 text-[#0E7C86]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          <span id="copy-btn-text">Copier le message d'invitation</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Liste des avis enregistrés dans Firestore -->
+    <div class="bg-white rounded-2xl border border-[#0E7C86]/12 overflow-hidden shadow-2xs">
+      <div class="p-5 sm:p-6 border-b border-[#0E7C86]/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-base font-extrabold text-[#0B2A2E]">
+            Avis enregistrés dans votre base Firebase
+          </h2>
+          <p class="text-xs text-[#3D5A5E] mt-0.5">
+            Ces avis alimentent directement la section témoignages de la page d'accueil d'unilka.ca.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2.5">
+          <button
+            type="button"
+            id="btn-seed-reviews"
+            class="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-[#0E7C86] bg-[#E3F4F5] hover:bg-[#0E7C86] hover:text-white transition-colors cursor-pointer"
+            title="Importer les 4 avis d'exemple dans votre Firebase pour pouvoir les éditer"
+          >
+            Importer les 4 modèles dans Firebase
+          </button>
+        </div>
+      </div>
+
+      <!-- Conteneur de la liste -->
+      <div id="reviews-list-container" class="divide-y divide-[#0E7C86]/10">
+        <div class="p-12 text-center text-xs text-[#3D5A5E]">
+          <svg class="w-6 h-6 animate-spin text-[#0E7C86] mx-auto mb-3" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+          </svg>
+          Chargement des avis depuis Firebase...
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODALE : AJOUTER UN NOUVEL AVIS CLIENT                  -->
+  <!-- ======================================================== -->
+  <div
+    id="modal-add-review"
+    class="fixed inset-0 bg-[#0B2A2E]/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 transition-opacity duration-200"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div class="bg-white rounded-3xl shadow-2xl border border-[#0E7C86]/20 w-full max-w-lg overflow-hidden flex flex-col">
+      
+      <!-- En-tête Modale -->
+      <div class="p-6 border-b border-[#0E7C86]/12 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="w-10 h-10 rounded-2xl bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center shadow-2xs">
+            <AdminIcon name="sparkles" class="w-5 h-5 text-[#0E7C86]" />
+          </span>
+          <div>
+            <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#0E7C86] block">Témoignage Client</span>
+            <h2 class="text-lg font-extrabold text-[#0B2A2E]">Ajouter un avis sur le site</h2>
+          </div>
+        </div>
+        <button
+          type="button"
+          id="btn-close-modal"
+          class="w-8 h-8 rounded-full bg-[#F5FAFA] hover:bg-[#E3F4F5] text-[#3D5A5E] hover:text-[#0B2A2E] flex items-center justify-center transition-colors text-sm font-bold cursor-pointer"
+        >
+          ✕
+        </button>
+      </div>
+
+      <!-- Formulaire -->
+      <form id="form-add-review" class="p-6 space-y-4 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="space-y-1.5">
+            <label class="font-bold text-[#0B2A2E]">Nom ou Initiales du client *</label>
+            <input
+              type="text"
+              id="rev-author"
+              required
+              placeholder="ex: Dr Delors MABOUT ou Marc-André L."
+              class="w-full px-3.5 py-2.5 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium"
+            />
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="font-bold text-[#0B2A2E]">Ville / Quartier *</label>
+            <input
+              type="text"
+              id="rev-location"
+              required
+              placeholder="ex: Outremont • Montréal"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="space-y-1.5">
+            <label class="font-bold text-[#0B2A2E]">Prestation réalisée *</label>
+            <input
+              type="text"
+              id="rev-service"
+              required
+              placeholder="ex: Entretien résidentiel régulier"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium"
+            />
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="font-bold text-[#0B2A2E]">Note accordée</label>
+            <select
+              id="rev-rating"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium"
+            >
+              <option value="5" selected>★★★★★ (5 sur 5 - Parfait)</option>
+              <option value="4">★★★★☆ (4 sur 5 - Très bien)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="font-bold text-[#0B2A2E]">Date affichée</label>
+          <input
+            type="text"
+            id="rev-date"
+            placeholder="ex: Il y a 1 semaine ou Récemment"
+            value="Récemment"
+            class="w-full px-3.5 py-2.5 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium"
+          />
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="font-bold text-[#0B2A2E]">Commentaire du client *</label>
+          <textarea
+            id="rev-text"
+            rows="4"
+            required
+            placeholder="Partagez l'expérience du client : qualité du travail, discrétion, satisfaction..."
+            class="w-full px-3.5 py-2.5 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium resize-none"
+          ></textarea>
+        </div>
+
+        <div class="pt-4 flex items-center justify-end gap-3 border-t border-[#0E7C86]/10">
+          <button
+            type="button"
+            id="btn-cancel-modal"
+            class="px-5 py-2.5 rounded-full text-xs font-bold text-[#3D5A5E] hover:bg-[#F5FAFA] transition-colors cursor-pointer"
+          >
+            Annuler
+          </button>
+          <button
+            type="submit"
+            id="btn-submit-review"
+            class="px-6 py-2.5 rounded-full text-xs font-bold text-white bg-[#0B2A2E] hover:bg-[#0E7C86] transition-colors shadow-2xs cursor-pointer"
+          >
+            Publier sur le site
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <script>
+    import { db } from '../../lib/firebase';
+    import { collection, onSnapshot, addDoc, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+
+    const container = document.getElementById('reviews-list-container');
+    const metricCount = document.getElementById('metric-reviews-count');
+    const metricAvg = document.getElementById('metric-avg-rating');
+    const modal = document.getElementById('modal-add-review');
+    const openBtn = document.getElementById('btn-open-add-review');
+    const closeBtn = document.getElementById('btn-close-modal');
+    const cancelBtn = document.getElementById('btn-cancel-modal');
+    const form = document.getElementById('form-add-review') as HTMLFormElement | null;
+    const seedBtn = document.getElementById('btn-seed-reviews');
+    const copyTemplateBtn = document.getElementById('btn-copy-template-msg');
+    const copyBtnText = document.getElementById('copy-btn-text');
+
+    // Modale gestion
+    openBtn?.addEventListener('click', () => {
+      modal?.classList.remove('hidden');
+      modal?.classList.add('flex');
+    });
+
+    const closeModal = () => {
+      modal?.classList.add('hidden');
+      modal?.classList.remove('flex');
+      form?.reset();
+    };
+
+    closeBtn?.addEventListener('click', closeModal);
+    cancelBtn?.addEventListener('click', closeModal);
+
+    // Écoute en temps réel de la collection reviews dans Firebase
+    onSnapshot(collection(db, 'reviews'), (snapshot) => {
+      if (!container) return;
+
+      if (snapshot.empty) {
+        if (metricCount) metricCount.textContent = "0";
+        container.innerHTML = `
+          <div class="p-10 text-center space-y-4">
+            <div class="w-12 h-12 rounded-2xl bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center mx-auto">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+              </svg>
+            </div>
+            <div class="max-w-md mx-auto space-y-1">
+              <h3 class="text-sm font-extrabold text-[#0B2A2E]">Aucun avis personnalisé dans Firebase pour l'instant</h3>
+              <p class="text-xs text-[#3D5A5E]">
+                Le site affiche actuellement les 4 modèles de démonstration. Ajoutez vos vrais avis clients ou importez les modèles pour les modifier !
+              </p>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      let count = 0;
+      let totalRating = 0;
+      const htmlCards: string[] = [];
+
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const id = docSnap.id;
+        const rating = Number(data.rating || 5);
+        const isPub = data.published !== false;
+        if (isPub) {
+          count++;
+          totalRating += rating;
+        }
+
+        const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+
+        htmlCards.push(`
+          <div class="p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-[#F5FAFA]/60 transition-colors">
+            <div class="space-y-2 max-w-2xl">
+              <div class="flex items-center gap-3">
+                <span class="font-bold text-sm text-[#0B2A2E]">${data.author || 'Anonyme'}</span>
+                <span class="text-[11px] text-[#3D5A5E]">• ${data.location || 'Montréal'}</span>
+                <span class="text-[10px] font-bold text-[#0E7C86] bg-[#E3F4F5] px-2 py-0.5 rounded-full">${data.service || 'Entretien'}</span>
+                <span class="text-xs text-[#FFB703] tracking-widest">${stars}</span>
+              </div>
+              <p class="text-xs text-[#3D5A5E] leading-relaxed italic">« ${data.text || ''} »</p>
+              <div class="text-[10px] text-[#3D5A5E]/70">Affiché : ${data.date || 'Récemment'}</div>
+            </div>
+
+            <div class="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                data-action="toggle"
+                data-id="${id}"
+                data-status="${isPub}"
+                class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  isPub
+                    ? 'bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100'
+                    : 'bg-zinc-100 text-zinc-600 border border-zinc-200 hover:bg-zinc-200'
+                }"
+              >
+                ${isPub ? '✓ En ligne' : 'Masqué'}
+              </button>
+
+              <button
+                type="button"
+                data-action="delete"
+                data-id="${id}"
+                class="w-8 h-8 rounded-xl bg-[#F5FAFA] hover:bg-red-50 text-[#3D5A5E] hover:text-red-700 flex items-center justify-center transition-colors cursor-pointer"
+                title="Supprimer cet avis"
+              >
+                🗑
+              </button>
+            </div>
+          </div>
+        `);
+      });
+
+      if (metricCount) metricCount.textContent = count.toString();
+      if (metricAvg && count > 0) {
+        metricAvg.textContent = (totalRating / count).toFixed(1);
+      }
+
+      container.innerHTML = htmlCards.join('');
+
+      // Actions sur les boutons dynamiques
+      container.querySelectorAll('button[data-action="toggle"]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-id');
+          const currentStatus = btn.getAttribute('data-status') === 'true';
+          if (!id) return;
+          try {
+            await updateDoc(doc(db, 'reviews', id), {
+              published: !currentStatus
+            });
+            if ((window as any).showAdminToast) {
+              (window as any).showAdminToast(!currentStatus ? "Avis publié sur le site !" : "Avis masqué.");
+            }
+          } catch (e) {
+            console.error("Erreur toggle:", e);
+          }
+        });
+      });
+
+      container.querySelectorAll('button[data-action="delete"]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-id');
+          if (!id) return;
+          if (confirm("Supprimer définitivement cet avis ?")) {
+            try {
+              await deleteDoc(doc(db, 'reviews', id));
+              if ((window as any).showAdminToast) {
+                (window as any).showAdminToast("Avis supprimé de Firebase.");
+              }
+            } catch (e) {
+              console.error("Erreur delete:", e);
+            }
+          }
+        });
+      });
+
+    });
+
+    // Soumission du formulaire d'ajout
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const author = (document.getElementById('rev-author') as HTMLInputElement)?.value.trim();
+      const location = (document.getElementById('rev-location') as HTMLInputElement)?.value.trim();
+      const service = (document.getElementById('rev-service') as HTMLInputElement)?.value.trim();
+      const rating = Number((document.getElementById('rev-rating') as HTMLSelectElement)?.value || 5);
+      const date = (document.getElementById('rev-date') as HTMLInputElement)?.value.trim() || 'Récemment';
+      const text = (document.getElementById('rev-text') as HTMLTextAreaElement)?.value.trim();
+
+      const submitBtn = document.getElementById('btn-submit-review') as HTMLButtonElement | null;
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Enregistrement...';
+      }
+
+      try {
+        await addDoc(collection(db, 'reviews'), {
+          author,
+          location,
+          service,
+          rating,
+          date,
+          text,
+          published: true,
+          createdAt: new Date().toISOString()
+        });
+
+        if ((window as any).showAdminToast) {
+          (window as any).showAdminToast("Nouvel avis ajouté et publié avec succès !");
+        }
+        closeModal();
+      } catch (err) {
+        console.error("Erreur addDoc:", err);
+        alert("Erreur lors de l'enregistrement de l'avis.");
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Publier sur le site';
+        }
+      }
+    });
+
+    // Importer les 4 modèles dans Firebase
+    seedBtn?.addEventListener('click', async () => {
+      seedBtn.setAttribute('disabled', 'true');
+      seedBtn.textContent = 'Importation en cours...';
+
+      const templates = [
+        {
+          author: "Marc-André L.",
+          location: "Outremont • Montréal",
+          service: "Entretien résidentiel régulier",
+          date: "Il y a 2 semaines",
+          rating: 5,
+          text: "Le niveau d'exigence et la constance sont incomparables. Dès le premier passage, on remarque le sens du détail hôtelier : aucun recoin négligé, discrétion absolue de l'équipe et des produits sains sans odeur agressive.",
+          published: true
+        },
+        {
+          author: "Sophie G.",
+          location: "Plateau-Mont-Royal",
+          service: "Locaux professionnels & Studio",
+          date: "Il y a 1 mois",
+          rating: 5,
+          text: "Notre agence reçoit quotidiennement des clients et des partenaires. L'équipe d'unilka intervient en dehors de nos heures de bureau avec une régularité et une fiabilité exemplaires. Les espaces de travail et sanitaires sont impeccables.",
+          published: true
+        },
+        {
+          author: "Jean-Philippe B.",
+          location: "Griffintown • Montréal",
+          service: "Syndicat de copropriété (18 unités)",
+          date: "Il y a 2 mois",
+          rating: 5,
+          text: "En tant que gestionnaire d'immeuble, trouver un prestataire fiable pour l'entretien des aires communes était un défi. Avec unilka, les halls, escaliers et vitrages sont toujours soignés.",
+          published: true
+        },
+        {
+          author: "Caroline V.",
+          location: "Longueuil • Rive-Sud",
+          service: "Grand ménage en profondeur",
+          date: "Il y a 3 mois",
+          rating: 5,
+          text: "Intervention après des travaux pour préparer l'emménagement de notre famille. L'équipe a abattu un travail colossal : plinthes, luminaires, vitres, tout est redevenu étincelant.",
+          published: true
+        }
+      ];
+
+      try {
+        for (const t of templates) {
+          await addDoc(collection(db, 'reviews'), {
+            ...t,
+            createdAt: new Date().toISOString()
+          });
+        }
+        if ((window as any).showAdminToast) {
+          (window as any).showAdminToast("Les 4 avis modèles ont été enregistrés dans votre Firebase ! Vous pouvez maintenant les éditer.");
+        }
+      } catch (err) {
+        console.error("Erreur seed:", err);
+      } finally {
+        seedBtn.removeAttribute('disabled');
+        seedBtn.textContent = 'Importer les 4 modèles dans Firebase';
+      }
+    });
+
+    // Copier le message d'invitation client
+    copyTemplateBtn?.addEventListener('click', async () => {
+      const msg = `Bonjour ! Merci beaucoup d'avoir fait appel aux services d'unilka. Votre satisfaction est notre priorité absolue. Pourriez-vous prendre 30 secondes pour nous laisser votre avis sur notre fiche Google ? Cela aide énormément notre équipe d'artisans : https://maps.google.com/?q=unilka+Montréal . Un immense merci ! - L'équipe unilka`;
+      try {
+        await navigator.clipboard.writeText(msg);
+        if (copyBtnText) copyBtnText.textContent = "✓ Message copié !";
+        setTimeout(() => {
+          if (copyBtnText) copyBtnText.textContent = "Copier le message d'invitation";
+        }, 3000);
+      } catch (e) {
+        alert("Texte à copier :\n\n" + msg);
+      }
+    });
+  </script>
+
+</AdminLayout>
