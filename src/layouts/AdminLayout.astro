@@ -315,7 +315,7 @@ const navItems = [
           </div>
 
           <a
-            href="/admin/soumissions/"
+            href="/admin/soumissions/?create=true"
             class="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full shadow-2xs transition-colors no-underline"
           >
             <span>+ Devis</span>
@@ -400,6 +400,43 @@ const navItems = [
           toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
         }, 3000);
       };
+
+      // 3. Recherche globale instantanée
+      const searchInput = document.getElementById('admin-search-input');
+      searchInput?.addEventListener('input', (e) => {
+        const query = (e.target.value || '').toLowerCase().trim();
+
+        const subRows = document.querySelectorAll('.submission-row');
+        if (subRows.length > 0) {
+          let matched = 0;
+          subRows.forEach(row => {
+            const text = (row.textContent || '').toLowerCase();
+            const show = text.includes(query);
+            row.style.display = show ? '' : 'none';
+            if (show) matched++;
+          });
+          const countEl = document.getElementById('rows-count-label');
+          if (countEl) countEl.textContent = `Affichage de ${matched} sur ${subRows.length} soumissions`;
+          return;
+        }
+
+        const subItems = document.querySelectorAll('.submission-item');
+        if (subItems.length > 0) {
+          subItems.forEach(item => {
+            const text = (item.textContent || '').toLowerCase();
+            item.style.display = text.includes(query) ? '' : 'none';
+          });
+        }
+      });
+
+      searchInput?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          const val = (searchInput.value || '').trim();
+          if (val && !window.location.pathname.includes('/admin/soumissions')) {
+            window.location.href = `/admin/soumissions/?q=${encodeURIComponent(val)}`;
+          }
+        }
+      });
     </script>
 
     <!-- 3. AUTH GUARD & GESTION DU COMPTE GOOGLE -->
