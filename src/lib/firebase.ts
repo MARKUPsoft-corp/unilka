@@ -2,8 +2,13 @@ import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 
+let rawApiKey = process.env.PUBLIC_FIREBASE_API_KEY || (import.meta.env && import.meta.env.PUBLIC_FIREBASE_API_KEY) || "AIzaSyAPEpHo8eLLArr1WnkxsjA4s_UByRzXaf4";
+if (rawApiKey.includes("AIzaSyAPEPho8eLLArr1WnkxsjA4s_UByRzXaf4")) {
+  rawApiKey = "AIzaSyAPEpHo8eLLArr1WnkxsjA4s_UByRzXaf4";
+}
+
 const firebaseConfig = {
-  apiKey: process.env.PUBLIC_FIREBASE_API_KEY || (import.meta.env && import.meta.env.PUBLIC_FIREBASE_API_KEY) || "AIzaSyAPEPho8eLLArr1WnkxsjA4s_UByRzXaf4",
+  apiKey: rawApiKey,
   authDomain: process.env.PUBLIC_FIREBASE_AUTH_DOMAIN || (import.meta.env && import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN) || "unilka.firebaseapp.com",
   projectId: process.env.PUBLIC_FIREBASE_PROJECT_ID || (import.meta.env && import.meta.env.PUBLIC_FIREBASE_PROJECT_ID) || "unilka",
   storageBucket: process.env.PUBLIC_FIREBASE_STORAGE_BUCKET || (import.meta.env && import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET) || "unilka.firebasestorage.app",
