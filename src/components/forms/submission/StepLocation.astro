@@ -4,7 +4,7 @@
 <fieldset class="relative bg-white rounded-3xl border border-[#0E7C86]/20 p-6 sm:p-10 shadow-[0_12px_40px_rgba(11,42,46,0.06)] space-y-8 overflow-hidden">
   
   <!-- Accent décoratif d'arrière-plan -->
-  <div class="absolute -top-24 -right-24 w-64 h-64 bg-gradient-to-br from-[#E3F4F5]/60 to-transparent rounded-full blur-2xl pointer-events-none" aria-hidden="true"></div>
+  <div class="absolute top-0 right-0 w-36 h-36 sm:w-56 sm:h-56 bg-gradient-to-br from-[#E3F4F5]/60 to-transparent rounded-full blur-2xl pointer-events-none" aria-hidden="true"></div>
 
   <!-- En-tête éditorial de l'étape -->
   <div class="relative border-b border-[#0E7C86]/12 pb-6 space-y-2">
@@ -22,14 +22,13 @@
     </p>
   </div>
 
-  <!-- Champs Ville & Code postal -->
+  <!-- Champs Ville & Adresse -->
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
     
-    <!-- Ville (Obligatoire) -->
+    <!-- Ville -->
     <div class="space-y-2">
-      <label for="city" class="flex items-center justify-between text-xs font-black uppercase tracking-wider text-[#0B2A2E]">
+      <label for="city" class="block text-xs font-black uppercase tracking-wider text-[#0B2A2E]">
         <span>Ville <span class="text-[#0E7C86]" aria-hidden="true">*</span></span>
-        <span class="text-[11px] font-semibold text-[#3D5A5E]/70 normal-case">Obligatoire</span>
       </label>
       
       <div class="relative group">
@@ -55,74 +54,33 @@
       </span>
     </div>
 
-    <!-- Code postal canadien (Obligatoire) -->
+    <!-- Adresse civique complète -->
     <div class="space-y-2">
-      <label for="postalCode" class="flex items-center justify-between text-xs font-black uppercase tracking-wider text-[#0B2A2E]">
-        <span>Code postal <span class="text-[#0E7C86]" aria-hidden="true">*</span></span>
-        <span class="text-[11px] font-semibold text-[#3D5A5E]/70 normal-case">Format H2X 1Y4</span>
+      <label for="address" class="block text-xs font-black uppercase tracking-wider text-[#0B2A2E]">
+        <span>Adresse civique complète</span>
       </label>
       
       <div class="relative group">
         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#0E7C86]/70 group-focus-within:text-[#0E7C86] transition-colors">
-          <!-- Icône Pin Géolocalisation -->
+          <!-- Icône Maison / Porte -->
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
         </div>
         <input
           type="text"
-          id="postalCode"
-          name="postalCode"
-          required
-          autocomplete="postal-code"
-          placeholder="Ex. H2X 1Y4"
-          maxlength="7"
-          class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-[#F8FCFC] border border-[#0E7C86]/20 text-sm font-semibold text-[#0B2A2E] placeholder:text-[#3D5A5E]/40 focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#0E7C86]/12 focus:border-[#0E7C86] transition-all duration-200 uppercase shadow-2xs tracking-wider"
+          id="address"
+          name="address"
+          autocomplete="street-address"
+          placeholder="Numéro civique, rue, app / suite"
+          class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-[#F8FCFC] border border-[#0E7C86]/20 text-sm font-semibold text-[#0B2A2E] placeholder:text-[#3D5A5E]/40 focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#0E7C86]/12 focus:border-[#0E7C86] transition-all duration-200 shadow-2xs"
         />
       </div>
-      <p class="text-xs text-[#3D5A5E]/80 flex items-center gap-1.5 pt-0.5">
-        <svg class="w-3.5 h-3.5 text-[#0E7C86] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-        <span>Vérifie la disponibilité immédiate de nos équipes dans votre secteur.</span>
+      <p class="text-xs text-[#3D5A5E]/80">
+        Précise le lieu d'intervention pour planifier le passage.
       </p>
-      <span id="postalCode-error" class="hidden text-xs font-semibold text-brand-error mt-1.5 flex items-center gap-1.5" role="alert">
-        <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-        <span>Veuillez saisir un code postal canadien valide (ex. H2X 1Y4).</span>
-      </span>
     </div>
 
-  </div>
-
-  <!-- Adresse complète (Facultatif) -->
-  <div class="space-y-2 pt-2">
-    <div class="flex items-center justify-between">
-      <label for="address" class="text-xs font-black uppercase tracking-wider text-[#0B2A2E]">
-        Adresse civique complète
-      </label>
-      <span class="text-[11px] font-semibold text-[#0E7C86] bg-[#E3F4F5] px-2.5 py-0.5 rounded-full">
-        Facultatif à cette étape
-      </span>
-    </div>
-    
-    <div class="relative group">
-      <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#0E7C86]/70 group-focus-within:text-[#0E7C86] transition-colors">
-        <!-- Icône Maison / Porte -->
-        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-        </svg>
-      </div>
-      <input
-        type="text"
-        id="address"
-        name="address"
-        autocomplete="street-address"
-        placeholder="Numéro civique, nom de la rue, appartement / suite"
-        class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-[#F8FCFC] border border-[#0E7C86]/20 text-sm font-semibold text-[#0B2A2E] placeholder:text-[#3D5A5E]/40 focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#0E7C86]/12 focus:border-[#0E7C86] transition-all duration-200 shadow-2xs"
-      />
-    </div>
-    <p class="text-xs text-[#3D5A5E]/80">
-      Nécessaire uniquement au moment de confirmer l'intervention et le calendrier de passage.
-    </p>
   </div>
 
   <!-- Bannière de réassurance géographique -->

@@ -323,6 +323,27 @@ export function initCandidateForm() {
     // ignore
   }
 
+  // Connecteur calendrier natif pour cand-startDate
+  const candStartDateInput = document.getElementById('cand-startDate');
+  const candStartDateBtn = document.getElementById('btn-cand-startDate-picker');
+  const candStartDateNative = document.getElementById('cand-startDate-native-picker');
+
+  if (candStartDateBtn && candStartDateNative && candStartDateInput) {
+    candStartDateBtn.addEventListener('click', () => {
+      if (typeof candStartDateNative.showPicker === 'function') {
+        candStartDateNative.showPicker();
+      } else {
+        candStartDateNative.focus();
+      }
+    });
+
+    candStartDateNative.addEventListener('change', () => {
+      if (candStartDateNative.value) {
+        candStartDateInput.value = candStartDateNative.value;
+      }
+    });
+  }
+
   // Initialisation UI
   updateStepperUI();
 

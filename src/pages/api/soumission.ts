@@ -16,7 +16,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // Validation minimale côté serveur
-    if (!data.serviceType || !data.frequency || !data.city || !data.postalCode || !data.firstName) {
+    if (!data.serviceType || !data.frequency || !data.city || !data.firstName) {
       return new Response(
         JSON.stringify({
           success: false,
@@ -26,8 +26,8 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // Validation code postal canadien
-    if (!isValidCanadianPostalCode(data.postalCode)) {
+    // Validation code postal canadien (uniquement si renseigné)
+    if (data.postalCode && !isValidCanadianPostalCode(data.postalCode)) {
       return new Response(
         JSON.stringify({
           success: false,
@@ -133,8 +133,8 @@ export const POST: APIRoute = async ({ request }) => {
         frequency: frequencyDisplay,
         frequencyCode: data.frequency,
         city: data.city,
-        postalCode: data.postalCode,
-        location: `${data.city}, QC`,
+        postalCode: data.postalCode || '',
+        location: data.address ? `${data.address}, ${data.city}, QC` : `${data.city}, QC`,
         address: data.address || '',
         surface: surfaceDisplay || 'Non spécifiée',
         client: `${data.firstName} ${data.lastName || ''}`.trim(),

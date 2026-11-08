@@ -28,6 +28,27 @@ async function testEndpoints() {
   assert.strictEqual(data1.redirectUrl, '/soumission/merci/');
   console.log('✓ Soumission nominale acceptée avec statut 200.');
 
+  // Test Soumission : Cas sans code postal (juste adresse)
+  console.log('\n[API 1c] Soumission sans code postal (juste adresse)...');
+  const req1c = new Request('http://localhost/api/soumission', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      serviceType: 'residentiel',
+      frequency: 'ponctuel',
+      city: 'Montréal',
+      address: '1234 Rue Sherbrooke Ouest',
+      firstName: 'Sophie',
+      phone: '514 555 7788',
+      consent: true
+    })
+  });
+  const res1c = await handleSoumission({ request: req1c } as any);
+  const data1c = await res1c.json();
+  assert.strictEqual(res1c.status, 200);
+  assert.strictEqual(data1c.success, true);
+  console.log('✓ Soumission sans code postal traitée avec succès statut 200.');
+
   // Test Soumission avec photo Cloudinary
   console.log('\n[API 1b] Soumission avec photo Cloudinary...');
   const samplePhoto = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";

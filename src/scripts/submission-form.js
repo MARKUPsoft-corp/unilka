@@ -170,7 +170,8 @@ export function initSubmissionForm() {
 
     if (step === 2) {
       const city = document.getElementById('city')?.value.trim();
-      const postalCode = document.getElementById('postalCode')?.value.trim();
+      const postalCodeInput = document.getElementById('postalCode');
+      const postalCode = postalCodeInput ? postalCodeInput.value.trim() : '';
       let valid = true;
 
       if (!city) {
@@ -179,9 +180,9 @@ export function initSubmissionForm() {
         valid = false;
       }
 
-      if (!postalCode || !isValidCanadianPostalCode(postalCode)) {
+      if (postalCode && !isValidCanadianPostalCode(postalCode)) {
         document.getElementById('postalCode-error')?.classList.remove('hidden');
-        if (valid) document.getElementById('postalCode')?.focus();
+        if (valid) postalCodeInput?.focus();
         valid = false;
       }
 
@@ -343,6 +344,27 @@ export function initSubmissionForm() {
     // ignore
   }
 
+  // Connecteur calendrier natif pour desiredDate
+  const desiredDateInput = document.getElementById('desiredDate');
+  const desiredDateBtn = document.getElementById('btn-desiredDate-picker');
+  const desiredDateNative = document.getElementById('desiredDate-native-picker');
+
+  if (desiredDateBtn && desiredDateNative && desiredDateInput) {
+    desiredDateBtn.addEventListener('click', () => {
+      if (typeof desiredDateNative.showPicker === 'function') {
+        desiredDateNative.showPicker();
+      } else {
+        desiredDateNative.focus();
+      }
+    });
+
+    desiredDateNative.addEventListener('change', () => {
+      if (desiredDateNative.value) {
+        desiredDateInput.value = desiredDateNative.value;
+      }
+    });
+  }
+
   // Initialisation UI stepper
   updateStepperUI();
 
@@ -363,7 +385,8 @@ export function initSubmissionForm() {
 
     const serviceType = form.querySelector('input[name="serviceType"]:checked')?.value;
     const city = document.getElementById('city')?.value.trim();
-    const postalCode = document.getElementById('postalCode')?.value.trim();
+    const postalCodeInput = document.getElementById('postalCode');
+    const postalCode = postalCodeInput ? postalCodeInput.value.trim() : '';
     const firstName = document.getElementById('firstName')?.value.trim();
     const phone = document.getElementById('phone')?.value.trim();
     const email = document.getElementById('email')?.value.trim();
@@ -375,8 +398,8 @@ export function initSubmissionForm() {
       document.getElementById('city-error')?.classList.remove('hidden');
     }
 
-    // 2. Code postal canadien
-    if (!postalCode || !isValidCanadianPostalCode(postalCode)) {
+    // 2. Code postal canadien (si renseigné)
+    if (postalCode && !isValidCanadianPostalCode(postalCode)) {
       errors.push({ step: 2, id: 'postalCode', message: "Veuillez saisir un code postal valide (ex. H2X 1Y4)." });
       document.getElementById('postalCode-error')?.classList.remove('hidden');
     }
