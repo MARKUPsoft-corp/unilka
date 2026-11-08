@@ -6,10 +6,17 @@ interface Props {
 
 const { currentPath = Astro.url.pathname } = Astro.props;
 
-const navLinks = [
+interface NavLinkItem {
+  label: string;
+  href: string;
+  badge?: string;
+}
+
+const navLinks: NavLinkItem[] = [
   { label: "Nos services", href: "/#services" },
   { label: "Notre méthode", href: "/a-propos/" },
   { label: "Zones desservies", href: "/zones-desservies/" },
+  { label: "Carrières", href: "/carrieres/", badge: "On recrute" },
   { label: "FAQ", href: "/faq/" }
 ];
 ---
@@ -33,10 +40,16 @@ const navLinks = [
     <!-- Navigation Centrale Bureau -->
     <nav class="island-desktop-nav" aria-label="Navigation principale">
       {navLinks.map((link) => {
-        const isActive = currentPath === link.href;
+        const isActive = currentPath === link.href || (link.href !== '/' && link.href !== '/#services' && currentPath.startsWith(link.href));
         return (
           <a href={link.href} class={`island-nav-link ${isActive ? "active-link" : ""}`}>
-            {link.label}
+            <span>{link.label}</span>
+            {link.badge && (
+              <span class="inline-flex items-center gap-1 px-1.5 py-0.5 ml-1.5 text-[9px] font-extrabold uppercase tracking-wider bg-[#E3F4F5] text-[#0E7C86] rounded-full border border-[#0E7C86]/25 align-middle shadow-2xs">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>{link.badge}</span>
+              </span>
+            )}
           </a>
         );
       })}
@@ -97,21 +110,41 @@ const navLinks = [
     </div>
 
     <nav class="mobile-drawer-nav">
-      {navLinks.map((link) => (
-        <a href={link.href} class="mobile-drawer-link">
-          <span>{link.label}</span>
-          <span class="drawer-arrow">↗</span>
-        </a>
-      ))}
+      {navLinks.map((link) => {
+        const isActive = currentPath === link.href || (link.href !== '/' && link.href !== '/#services' && currentPath.startsWith(link.href));
+        return (
+          <a href={link.href} class={`mobile-drawer-link ${isActive ? "text-[#0E7C86]" : ""}`}>
+            <span class="inline-flex items-center gap-2">
+              <span>{link.label}</span>
+              {link.badge && (
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider bg-[#E3F4F5] text-[#0E7C86] rounded-full border border-[#0E7C86]/25">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span>{link.badge}</span>
+                </span>
+              )}
+            </span>
+            <span class="drawer-arrow">↗</span>
+          </a>
+        );
+      })}
     </nav>
 
-    <div class="drawer-footer">
+    <div class="drawer-footer space-y-3">
       <a class="island-cta-btn w-full justify-center py-3.5 text-sm" href="/soumission/">
         <span>Obtenir une soumission</span>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="island-cta-arrow" aria-hidden="true">
           <path d="M7 7h10v10"></path>
           <path d="M7 17 17 7"></path>
         </svg>
+      </a>
+
+      <!-- Accès direct Recrutement & Carrières Mobile -->
+      <a
+        href="/carrieres/"
+        class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-full text-xs font-bold text-[#0E7C86] bg-[#E3F4F5] hover:bg-[#D5EEF0] border border-[#0E7C86]/25 transition-colors no-underline shadow-2xs"
+      >
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>Rejoindre notre équipe d'entretien ↗</span>
       </a>
     </div>
 
@@ -281,8 +314,8 @@ const navLinks = [
      5. NAVIGATION CENTRALE BUREAU
      ========================================================================== */
   .island-desktop-nav {
-    gap: 26px;
-    font-size: 14.5px;
+    gap: 18px;
+    font-size: 14px;
     font-weight: 600;
     letter-spacing: -0.01em;
     display: flex;
@@ -292,7 +325,14 @@ const navLinks = [
 
   @media (min-width: 1024px) {
     .island-desktop-nav {
-      gap: 32px;
+      gap: 22px;
+      font-size: 14.5px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .island-desktop-nav {
+      gap: 26px;
       font-size: 15px;
     }
   }
@@ -303,6 +343,8 @@ const navLinks = [
     color: #0B2A2E;
     text-decoration: none;
     transition: color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
   }
 
   .island-nav-link::after {
@@ -408,7 +450,7 @@ const navLinks = [
   /* ==========================================================================
      8. MEDIA QUERIES RESPONSIVE
      ========================================================================== */
-  @media (max-width: 860px) {
+  @media (max-width: 940px) {
     .island-desktop-nav {
       display: none;
     }
