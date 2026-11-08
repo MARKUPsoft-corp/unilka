@@ -2,723 +2,7 @@
 import AdminLayout from '../../layouts/AdminLayout.astro';
 import AdminIcon from '../../components/admin/AdminIcon.astro';
 
-// Jours de la semaine de référence
-const weekDays = [
-  { day: "Lundi", date: "26 oct.", fullDate: "2026-10-26", isToday: false, count: 4 },
-  { day: "Mardi", date: "27 oct.", fullDate: "2026-10-27", isToday: true, count: 3 },
-  { day: "Mercredi", date: "28 oct.", fullDate: "2026-10-28", isToday: false, count: 5 },
-  { day: "Jeudi", date: "29 oct.", fullDate: "2026-10-29", isToday: false, count: 4 },
-  { day: "Vendredi", date: "30 oct.", fullDate: "2026-10-30", isToday: false, count: 6 },
-  { day: "Samedi", date: "31 oct.", fullDate: "2026-10-31", isToday: false, count: 3 }
-];
-
-// Missions planifiées initiales (enrichies pour le mois et la semaine)
-const initialMissions = [
-  // Semaine du 26 au 31 oct
-  {
-    id: "MIS-840",
-    date: "2026-10-26",
-    day: "Lundi 26 oct.",
-    time: "08:30 — 11:30",
-    client: "Résidence M. Gagnon",
-    phone: "+1 514 555-0140",
-    email: "gagnon.westmount@gmail.com",
-    address: "Westmount, Av. Lansdowne (H3Z 2X1)",
-    service: "Entretien résidentiel régulier (Hebdo)",
-    category: "residentiel",
-    staff: "Fatou D.",
-    staffRole: "Préposée senior",
-    staffPhoto: "/images/admin/staff-fatou.jpg",
-    status: "Terminé",
-    statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
-    checklist: "42/42 points validés",
-    checklistProgress: 100,
-    accessKey: "Code portail #2940"
-  },
-  {
-    id: "MIS-840B",
-    date: "2026-10-26",
-    day: "Lundi 26 oct.",
-    time: "12:30 — 14:30",
-    client: "Clinique Physiothérapie Mont-Royal",
-    phone: "+1 514 555-0141",
-    email: "contact@physiomontroyal.ca",
-    address: "Plateau, Av. du Mont-Royal (H2J 1Y5)",
-    service: "Nettoyage commercial & désinfection",
-    category: "commercial",
-    staff: "Assane N.",
-    staffRole: "Spécialiste commercial",
-    staffPhoto: "",
-    status: "Terminé",
-    statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
-    checklist: "42/42 points validés",
-    checklistProgress: 100,
-    accessKey: "Clé sous paillasson bureau"
-  },
-  {
-    id: "MIS-840C",
-    date: "2026-10-26",
-    day: "Lundi 26 oct.",
-    time: "14:00 — 16:30",
-    client: "Condo M. Nadeau",
-    phone: "+1 514 555-0142",
-    email: "nadeau.griffintown@gmail.com",
-    address: "Griffintown, Rue des Bassins (H3J 0A1)",
-    service: "Entretien résidentiel bimensuel",
-    category: "residentiel",
-    staff: "Khadija B.",
-    staffRole: "Préposée certifiée",
-    staffPhoto: "",
-    status: "Terminé",
-    statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
-    checklist: "42/42 points validés",
-    checklistProgress: 100,
-    accessKey: "Boîte à clés code #8812"
-  },
-  {
-    id: "MIS-840D",
-    date: "2026-10-26",
-    day: "Lundi 26 oct.",
-    time: "18:00 — 21:00",
-    client: "Bureaux Fintech Montréal",
-    phone: "+1 514 555-0143",
-    email: "admin@fintechmtl.io",
-    address: "Centre-ville, Boulevard René-Lévesque (H3B 4W8)",
-    service: "Entretien bureaux & vitrages",
-    category: "commercial",
-    staff: "Assane N.",
-    staffRole: "Spécialiste commercial",
-    staffPhoto: "",
-    status: "Terminé",
-    statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
-    checklist: "42/42 points validés",
-    checklistProgress: 100,
-    accessKey: "Badge d'accès bureau confié"
-  },
-  {
-    id: "MIS-841",
-    date: "2026-10-27",
-    day: "Mardi 27 oct.",
-    time: "08:30 — 11:30",
-    client: "Résidence Mme Vachon",
-    phone: "+1 514 892-4182",
-    email: "vachon.westmount@gmail.com",
-    address: "Westmount, Av. Clarke (H3Y 3C7)",
-    service: "Entretien résidentiel régulier (Hebdo)",
-    category: "residentiel",
-    staff: "Fatou D.",
-    staffRole: "Préposée senior",
-    staffPhoto: "/images/admin/staff-fatou.jpg",
-    status: "Terminé",
-    statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
-    checklist: "42/42 points validés",
-    checklistProgress: 100,
-    accessKey: "Boîte à clés code #4182"
-  },
-  {
-    id: "MIS-842",
-    date: "2026-10-27",
-    day: "Mardi 27 oct.",
-    time: "12:30 — 15:30",
-    client: "Appartement M. Lefebvre",
-    phone: "+1 514 771-9034",
-    email: "lefebvre.plateau@gmail.com",
-    address: "Plateau-Mont-Royal, Rue Saint-Denis (H2X 3K4)",
-    service: "Grand ménage d'automne",
-    category: "grand-menage",
-    staff: "Khadija B. & Jean-Marc T.",
-    staffRole: "Binôme d'intervention",
-    staffPhoto: "/images/admin/staff-jeanmarc.jpg",
-    status: "En cours",
-    statusColor: "bg-sky-100 text-sky-800 border-sky-200",
-    checklist: "Étape 2/3 (Sanitaires en cours)",
-    checklistProgress: 67,
-    accessKey: "Client présent sur place"
-  },
-  {
-    id: "MIS-843",
-    date: "2026-10-27",
-    day: "Mardi 27 oct.",
-    time: "18:00 — 20:30",
-    client: "Agence Numérique Pixel",
-    phone: "+1 514 312-5509",
-    email: "contact@pixelagence.ca",
-    address: "Vieux-Montréal, Rue Saint-Paul (H2Y 1H7)",
-    service: "Nettoyage bureaux & vitrages",
-    category: "commercial",
-    staff: "Assane N.",
-    staffRole: "Spécialiste commercial",
-    staffPhoto: "",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "Inspection départ programmée",
-    checklistProgress: 0,
-    accessKey: "Badge d'accès bureau confié"
-  },
-  {
-    id: "MIS-844",
-    date: "2026-10-28",
-    day: "Mercredi 28 oct.",
-    time: "09:00 — 12:00",
-    client: "Maison M. & Mme Bédard",
-    phone: "+1 514 620-3341",
-    email: "bedard.brossard@sympatico.ca",
-    address: "Brossard, Rue de Chateauneuf (J4X 2T9)",
-    service: "Entretien régulier bimensuel",
-    category: "residentiel",
-    staff: "Fatou D.",
-    staffRole: "Préposée dédiée",
-    staffPhoto: "/images/admin/staff-fatou.jpg",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "Grille hôtelière 42 pts",
-    checklistProgress: 0,
-    accessKey: "Code garage transmis"
-  },
-  {
-    id: "MIS-845",
-    date: "2026-10-28",
-    day: "Mercredi 28 oct.",
-    time: "13:30 — 16:30",
-    client: "Condo M. Roy",
-    phone: "+1 514 905-2287",
-    email: "roy.condos@outlook.com",
-    address: "Griffintown, Rue Wellington (H3C 0K7)",
-    service: "Nettoyage spécialisé (Canapé & tapis)",
-    category: "specialise",
-    staff: "Jean-Marc T.",
-    staffRole: "Technicien injection-extraction",
-    staffPhoto: "/images/admin/staff-jeanmarc.jpg",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "Protocole séchage rapide",
-    checklistProgress: 0,
-    accessKey: "Concierge de l'immeuble"
-  },
-  {
-    id: "MIS-845B",
-    date: "2026-10-28",
-    day: "Mercredi 28 oct.",
-    time: "10:00 — 13:00",
-    client: "Résidence Mme Tessier",
-    phone: "+1 514 555-0145",
-    email: "tessier.outremont@videotron.ca",
-    address: "Outremont, Av. Maplewood (H2V 2M1)",
-    service: "Entretien résidentiel régulier",
-    category: "residentiel",
-    staff: "Khadija B.",
-    staffRole: "Préposée certifiée",
-    staffPhoto: "",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "Grille hôtelière 42 pts",
-    checklistProgress: 0,
-    accessKey: "Clé remise à la voisine"
-  },
-  {
-    id: "MIS-845C",
-    date: "2026-10-28",
-    day: "Mercredi 28 oct.",
-    time: "14:00 — 16:30",
-    client: "Studio Yoga Shanti",
-    phone: "+1 514 555-0146",
-    email: "info@yogashanti.ca",
-    address: "Mile-End, Rue Saint-Viateur (H2T 1B6)",
-    service: "Nettoyage écologique & désinfection",
-    category: "commercial",
-    staff: "Marie-Louise P.",
-    staffRole: "Préposée polyvalente",
-    staffPhoto: "",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "Sols bois franc & vestiaires",
-    checklistProgress: 0,
-    accessKey: "Digicode studio #4088"
-  },
-  {
-    id: "MIS-845D",
-    date: "2026-10-28",
-    day: "Mercredi 28 oct.",
-    time: "17:30 — 20:00",
-    client: "Cabinet Notarial Cartier",
-    phone: "+1 514 555-0147",
-    email: "contact@cartiernotaires.qc.ca",
-    address: "Vieux-Montréal, Rue Notre-Dame (H2Y 1T6)",
-    service: "Nettoyage corporatif après fermeture",
-    category: "commercial",
-    staff: "Assane N.",
-    staffRole: "Spécialiste commercial",
-    staffPhoto: "",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "Confidentialité bureaux validée",
-    checklistProgress: 0,
-    accessKey: "Carte magnétique d'accès"
-  },
-  {
-    id: "MIS-846",
-    date: "2026-10-29",
-    day: "Jeudi 29 oct.",
-    time: "08:30 — 12:00",
-    client: "Résidence Mme Fortin",
-    phone: "+1 514 555-0148",
-    email: "fortin.tmr@gmail.com",
-    address: "Mont-Royal, Av. Morrison (H3R 1K2)",
-    service: "Entretien résidentiel régulier (Hebdo)",
-    category: "residentiel",
-    staff: "Fatou D.",
-    staffRole: "Préposée senior",
-    staffPhoto: "/images/admin/staff-fatou.jpg",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "Protocole 42 points",
-    checklistProgress: 0,
-    accessKey: "Boîte à clés arrière #9123"
-  },
-  {
-    id: "MIS-847",
-    date: "2026-10-29",
-    day: "Jeudi 29 oct.",
-    time: "13:00 — 15:30",
-    client: "Clinique Dentaire Laurier",
-    phone: "+1 514 555-0149",
-    email: "reception@dentairelaurier.com",
-    address: "Plateau, Av. Laurier Est (H2J 1G2)",
-    service: "Nettoyage médical normé",
-    category: "commercial",
-    staff: "Khadija B.",
-    staffRole: "Préposée certifiée",
-    staffPhoto: "",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "Protocole clinique hygiène",
-    checklistProgress: 0,
-    accessKey: "Personnel présent"
-  },
-  {
-    id: "MIS-848",
-    date: "2026-10-29",
-    day: "Jeudi 29 oct.",
-    time: "14:00 — 17:30",
-    client: "Penthouse M. Simard",
-    phone: "+1 514 555-0150",
-    email: "simard.ids@gmail.com",
-    address: "Île-des-Soeurs, Chemin de la Pointe-Sud (H3E 0B2)",
-    service: "Grand ménage vitrages & marbre",
-    category: "grand-menage",
-    staff: "Jean-Marc T.",
-    staffRole: "Technicien qualifié",
-    staffPhoto: "/images/admin/staff-jeanmarc.jpg",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "Vitrages panoramiques",
-    checklistProgress: 0,
-    accessKey: "Concierge de garde"
-  },
-  {
-    id: "MIS-849",
-    date: "2026-10-29",
-    day: "Jeudi 29 oct.",
-    time: "18:00 — 21:00",
-    client: "Bureau Architecture Lemay",
-    phone: "+1 514 555-0151",
-    email: "facilities@lemayarch.ca",
-    address: "Centre-ville, Rue Sainte-Catherine (H3A 1L8)",
-    service: "Entretien bureaux & open-space",
-    category: "commercial",
-    staff: "Assane N.",
-    staffRole: "Spécialiste commercial",
-    staffPhoto: "",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "Sols béton ciré",
-    checklistProgress: 0,
-    accessKey: "Code d'alarme transmis"
-  },
-  {
-    id: "MIS-850",
-    date: "2026-10-30",
-    day: "Vendredi 30 oct.",
-    time: "08:30 — 12:30",
-    client: "Maison M. Tremblay",
-    phone: "+1 514 555-0152",
-    email: "tremblay.westmount@gmail.com",
-    address: "Westmount, Av. Forden (H3Y 2Y6)",
-    service: "Entretien complet grand domaine",
-    category: "residentiel",
-    staff: "Fatou D. & Khadija B.",
-    staffRole: "Binôme d'intervention",
-    staffPhoto: "/images/admin/staff-fatou.jpg",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "42 points + lingerie",
-    checklistProgress: 0,
-    accessKey: "Gouvernante sur place"
-  },
-  {
-    id: "MIS-851",
-    date: "2026-10-30",
-    day: "Vendredi 30 oct.",
-    time: "10:00 — 12:30",
-    client: "Condo Mme Marchand",
-    phone: "+1 514 555-0153",
-    email: "marchand.outremont@gmail.com",
-    address: "Outremont, Rue Bernard (H2V 1V1)",
-    service: "Entretien résidentiel régulier",
-    category: "residentiel",
-    staff: "Marie-Louise P.",
-    staffRole: "Préposée polyvalente",
-    staffPhoto: "",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "Protocole résidentiel",
-    checklistProgress: 0,
-    accessKey: "Boîte à clés code #7180"
-  },
-  {
-    id: "MIS-852",
-    date: "2026-10-30",
-    day: "Vendredi 30 oct.",
-    time: "13:30 — 16:00",
-    client: "Appartement M. Côté",
-    phone: "+1 514 555-0154",
-    email: "cote.mileend@gmail.com",
-    address: "Mile-End, Av. Esplanade (H2T 2Z8)",
-    service: "Entretien régulier",
-    category: "residentiel",
-    staff: "Khadija B.",
-    staffRole: "Préposée certifiée",
-    staffPhoto: "",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "Grille hôtelière",
-    checklistProgress: 0,
-    accessKey: "Client présent"
-  },
-  {
-    id: "MIS-853",
-    date: "2026-10-30",
-    day: "Vendredi 30 oct.",
-    time: "14:30 — 17:00",
-    client: "Loft Mme Beaulieu",
-    phone: "+1 514 555-0155",
-    email: "beaulieu.griffintown@gmail.com",
-    address: "Griffintown, Rue des Seigneurs (H3J 1X8)",
-    service: "Nettoyage spécialisé tapis persans",
-    category: "specialise",
-    staff: "Jean-Marc T.",
-    staffRole: "Technicien spécialisé",
-    staffPhoto: "/images/admin/staff-jeanmarc.jpg",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "Nettoyage à sec spécialisé",
-    checklistProgress: 0,
-    accessKey: "Code d'entrée #1109"
-  },
-  {
-    id: "MIS-854",
-    date: "2026-10-30",
-    day: "Vendredi 30 oct.",
-    time: "17:00 — 20:30",
-    client: "Bureaux Investissement Saint-Jacques",
-    phone: "+1 514 555-0156",
-    email: "ops@investstjacques.ca",
-    address: "Vieux-Montréal, Rue Saint-Jacques (H2Y 1L3)",
-    service: "Entretien corporatif prestige",
-    category: "commercial",
-    staff: "Assane N.",
-    staffRole: "Spécialiste commercial",
-    staffPhoto: "",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "Salons d'honneur & bureaux",
-    checklistProgress: 0,
-    accessKey: "Poste de sécurité"
-  },
-  {
-    id: "MIS-855",
-    date: "2026-10-30",
-    day: "Vendredi 30 oct.",
-    time: "18:30 — 21:00",
-    client: "Galerie d'Art Contemporain",
-    phone: "+1 514 555-0157",
-    email: "contact@galeriedartmtl.ca",
-    address: "Vieux-Montréal, Rue Saint-Paul (H2Y 1G8)",
-    service: "Entretien verrières & éclairages",
-    category: "commercial",
-    staff: "Assane N.",
-    staffRole: "Spécialiste commercial",
-    staffPhoto: "",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "Sols poli miroir",
-    checklistProgress: 0,
-    accessKey: "Directrice présente"
-  },
-  {
-    id: "MIS-856",
-    date: "2026-10-31",
-    day: "Samedi 31 oct.",
-    time: "09:00 — 14:00",
-    client: "Domaine M. Charest",
-    phone: "+1 514 555-0158",
-    email: "charest.laval@gmail.com",
-    address: "Laval-sur-le-Lac, Rue Les Érables (H7R 1B2)",
-    service: "Grand ménage d'automne & baies vitrées",
-    category: "grand-menage",
-    staff: "Fatou D. & Jean-Marc T.",
-    staffRole: "Binôme d'intervention",
-    staffPhoto: "/images/admin/staff-fatou.jpg",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "Intérieur & vitres extérieures",
-    checklistProgress: 0,
-    accessKey: "Code portail principal"
-  },
-  {
-    id: "MIS-857",
-    date: "2026-10-31",
-    day: "Samedi 31 oct.",
-    time: "10:30 — 13:30",
-    client: "Résidence Mme Poulin",
-    phone: "+1 514 555-0159",
-    email: "poulin.tmr@gmail.com",
-    address: "Town of Mount Royal, Av. Dunvegan (H3R 2Z5)",
-    service: "Entretien résidentiel régulier",
-    category: "residentiel",
-    staff: "Khadija B.",
-    staffRole: "Préposée certifiée",
-    staffPhoto: "",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "Grille hôtelière 42 pts",
-    checklistProgress: 0,
-    accessKey: "Boîte à clés code #5502"
-  },
-  {
-    id: "MIS-858",
-    date: "2026-10-31",
-    day: "Samedi 31 oct.",
-    time: "14:00 — 17:00",
-    client: "Condo M. Dionne",
-    phone: "+1 514 555-0160",
-    email: "dionne.plateau@gmail.com",
-    address: "Plateau-Mont-Royal, Rue Saint-Hubert (H2L 3Z7)",
-    service: "Grand ménage après rénovation",
-    category: "grand-menage",
-    staff: "Marie-Louise P.",
-    staffRole: "Préposée polyvalente",
-    staffPhoto: "",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "Aspiration poussières fines",
-    checklistProgress: 0,
-    accessKey: "Client sur place"
-  },
-  // Autres dates d'octobre pour un calendrier riche
-  {
-    id: "MIS-810",
-    date: "2026-10-01",
-    day: "Jeudi 1 oct.",
-    time: "08:30 — 11:30",
-    client: "Résidence Mme Lemaire",
-    phone: "+1 514 555-0101",
-    email: "lemaire.westmount@gmail.com",
-    address: "Westmount, Av. Wood (H3Z 1Z2)",
-    service: "Entretien régulier",
-    category: "residentiel",
-    staff: "Fatou D.",
-    staffRole: "Préposée senior",
-    staffPhoto: "/images/admin/staff-fatou.jpg",
-    status: "Terminé",
-    statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
-    checklist: "42/42 points validés",
-    checklistProgress: 100,
-    accessKey: "Boîte à clés #1201"
-  },
-  {
-    id: "MIS-812",
-    date: "2026-10-02",
-    day: "Vendredi 2 oct.",
-    time: "18:00 — 20:30",
-    client: "Studio Art & Design",
-    phone: "+1 514 555-0102",
-    email: "contact@artdesignmtl.ca",
-    address: "Plateau, Rue Saint-Laurent (H2T 1R2)",
-    service: "Entretien bureaux créatifs",
-    category: "commercial",
-    staff: "Assane N.",
-    staffRole: "Spécialiste commercial",
-    staffPhoto: "",
-    status: "Terminé",
-    statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
-    checklist: "42/42 points validés",
-    checklistProgress: 100,
-    accessKey: "Badge magnétique"
-  },
-  {
-    id: "MIS-815",
-    date: "2026-10-06",
-    day: "Mardi 6 oct.",
-    time: "09:00 — 12:00",
-    client: "Résidence M. Archambault",
-    phone: "+1 514 555-0103",
-    email: "archambault.outremont@gmail.com",
-    address: "Outremont, Av. Rockland (H2V 2V3)",
-    service: "Entretien régulier",
-    category: "residentiel",
-    staff: "Fatou D.",
-    staffRole: "Préposée senior",
-    staffPhoto: "/images/admin/staff-fatou.jpg",
-    status: "Terminé",
-    statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
-    checklist: "42/42 points validés",
-    checklistProgress: 100,
-    accessKey: "Code garage #9941"
-  },
-  {
-    id: "MIS-818",
-    date: "2026-10-08",
-    day: "Jeudi 8 oct.",
-    time: "13:00 — 15:30",
-    client: "Condo Mme Dubois",
-    phone: "+1 514 555-0104",
-    email: "dubois.griffintown@gmail.com",
-    address: "Griffintown, Rue Ottawa (H3C 1S8)",
-    service: "Entretien bimensuel",
-    category: "residentiel",
-    staff: "Khadija B.",
-    staffRole: "Préposée certifiée",
-    staffPhoto: "",
-    status: "Terminé",
-    statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
-    checklist: "42/42 points validés",
-    checklistProgress: 100,
-    accessKey: "Concierge #302"
-  },
-  {
-    id: "MIS-822",
-    date: "2026-10-14",
-    day: "Mercredi 14 oct.",
-    time: "08:30 — 11:30",
-    client: "Mme Vachon (Passage régulier)",
-    phone: "+1 514 892-4182",
-    email: "vachon.westmount@gmail.com",
-    address: "Westmount, Av. Clarke (H3Y 3C7)",
-    service: "Entretien régulier hebdomadaire",
-    category: "residentiel",
-    staff: "Fatou D.",
-    staffRole: "Préposée senior",
-    staffPhoto: "/images/admin/staff-fatou.jpg",
-    status: "Terminé",
-    statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
-    checklist: "42/42 points validés",
-    checklistProgress: 100,
-    accessKey: "Boîte à clés code #4182"
-  },
-  {
-    id: "MIS-825",
-    date: "2026-10-16",
-    day: "Vendredi 16 oct.",
-    time: "14:00 — 17:30",
-    client: "Clinique Dentaire Rive-Nord",
-    phone: "+1 514 555-0105",
-    email: "contact@dentairerivenord.ca",
-    address: "Laval, Boulevard Saint-Martin (H7T 1B1)",
-    service: "Nettoyage médical normé",
-    category: "commercial",
-    staff: "Marie-Louise P.",
-    staffRole: "Préposée polyvalente",
-    staffPhoto: "",
-    status: "Terminé",
-    statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
-    checklist: "42/42 points validés",
-    checklistProgress: 100,
-    accessKey: "Clé remise au responsable"
-  },
-  {
-    id: "MIS-830",
-    date: "2026-10-21",
-    day: "Mercredi 21 oct.",
-    time: "08:30 — 11:30",
-    client: "Mme Vachon (Passage régulier)",
-    phone: "+1 514 892-4182",
-    email: "vachon.westmount@gmail.com",
-    address: "Westmount, Av. Clarke (H3Y 3C7)",
-    service: "Entretien régulier hebdomadaire",
-    category: "residentiel",
-    staff: "Fatou D.",
-    staffRole: "Préposée senior",
-    staffPhoto: "/images/admin/staff-fatou.jpg",
-    status: "Terminé",
-    statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
-    checklist: "42/42 points validés",
-    checklistProgress: 100,
-    accessKey: "Boîte à clés code #4182"
-  },
-  {
-    id: "MIS-832",
-    date: "2026-10-22",
-    day: "Jeudi 22 oct.",
-    time: "09:00 — 13:00",
-    client: "Maison M. Bélanger",
-    phone: "+1 514 555-0106",
-    email: "belanger.outremont@gmail.com",
-    address: "Outremont, Av. Bernard (H2V 1T8)",
-    service: "Grand ménage & moquette",
-    category: "grand-menage",
-    staff: "Jean-Marc T.",
-    staffRole: "Technicien qualifié",
-    staffPhoto: "/images/admin/staff-jeanmarc.jpg",
-    status: "Terminé",
-    statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
-    checklist: "42/42 points validés",
-    checklistProgress: 100,
-    accessKey: "Code d'accès #8012"
-  },
-  // Quelques missions prévues en novembre pour le calendrier futur
-  {
-    id: "MIS-860",
-    date: "2026-11-03",
-    day: "Mardi 3 nov.",
-    time: "08:30 — 11:30",
-    client: "Résidence Mme Vachon",
-    phone: "+1 514 892-4182",
-    email: "vachon.westmount@gmail.com",
-    address: "Westmount, Av. Clarke (H3Y 3C7)",
-    service: "Entretien régulier hebdomadaire",
-    category: "residentiel",
-    staff: "Fatou D.",
-    staffRole: "Préposée senior",
-    staffPhoto: "/images/admin/staff-fatou.jpg",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "À réaliser",
-    checklistProgress: 0,
-    accessKey: "Boîte à clés code #4182"
-  },
-  {
-    id: "MIS-862",
-    date: "2026-11-05",
-    day: "Jeudi 5 nov.",
-    time: "18:00 — 21:00",
-    client: "Agence Numérique Pixel",
-    phone: "+1 514 312-5509",
-    email: "contact@pixelagence.ca",
-    address: "Vieux-Montréal, Rue Saint-Paul (H2Y 1H7)",
-    service: "Nettoyage bureaux & vitrages",
-    category: "commercial",
-    staff: "Assane N.",
-    staffRole: "Spécialiste commercial",
-    staffPhoto: "",
-    status: "Planifié",
-    statusColor: "bg-gray-100 text-gray-800 border-gray-200",
-    checklist: "À réaliser",
-    checklistProgress: 0,
-    accessKey: "Badge d'accès bureau"
-  }
-];
-
+// Disponibilité des équipes de référence
 const staffAvailabilities = [
   { name: "Fatou D.", photo: "/images/admin/staff-fatou.jpg", initials: "FD", status: "En mission", todayMissions: 2, sector: "Montréal Centre / Ouest" },
   { name: "Khadija B.", photo: "", initials: "KB", status: "En mission", todayMissions: 1, sector: "Plateau & Rosemont" },
@@ -740,7 +24,7 @@ const staffAvailabilities = [
         Planning des interventions
       </h1>
       <p class="text-xs sm:text-sm text-[#3D5A5E]" id="planning-subtitle-counter">
-        Chargement des interventions planifiées dans le Grand Montréal…
+        Synchronisation avec Firebase Firestore en cours…
       </p>
     </div>
 
@@ -820,10 +104,10 @@ const staffAvailabilities = [
 
         <div>
           <h2 id="calendar-current-label" class="text-lg sm:text-xl font-extrabold text-[#0B2A2E]">
-            Octobre 2026
+            Mois en cours
           </h2>
           <span id="calendar-month-count-label" class="text-xs text-[#3D5A5E] font-medium block">
-            28 interventions planifiées
+            Chargement des missions…
           </span>
         </div>
       </div>
@@ -884,12 +168,14 @@ const staffAvailabilities = [
         <div class="py-3 px-1 text-[#0E7C86]"><span class="hidden sm:inline">Dimanche</span><span class="sm:hidden">Dim</span></div>
       </div>
 
-      <!-- Cellules du Mois (Générées interactivement en JS) -->
+      <!-- Cellules du Mois (Générées interactivement en JS synchronisé avec Firestore) -->
       <div
         id="calendar-cells-grid"
         class="grid grid-cols-7 divide-x divide-y divide-[#0E7C86]/10 bg-gray-50/50"
       >
-        <!-- Rendu dynamique JS -->
+        <div class="col-span-7 p-12 text-center text-xs text-[#3D5A5E]">
+          Chargement du calendrier en direct…
+        </div>
       </div>
 
     </div>
@@ -901,27 +187,9 @@ const staffAvailabilities = [
   <!-- ======================================================== -->
   <div id="view-week-container" class="space-y-6 hidden transition-all duration-200">
     
-    <!-- Sélecteur de jour de la semaine -->
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3" id="planning-days-bar">
-      {weekDays.map((wd) => (
-        <div
-          class={`day-card p-3.5 rounded-2xl border transition-all cursor-pointer ${
-            wd.isToday
-              ? 'active-day bg-[#E3F4F5] border-[#0E7C86] text-[#0E7C86] shadow-2xs font-extrabold'
-              : 'bg-white border-[#0E7C86]/12 text-[#0B2A2E] hover:border-[#0E7C86]/30'
-          }`}
-          data-day={wd.day}
-          data-fulldate={wd.fullDate}
-        >
-          <div class="flex items-center justify-between text-xs">
-            <span>{wd.day}</span>
-            <span class={`day-count text-[10px] px-2 py-0.5 rounded-full font-bold ${wd.isToday ? 'bg-[#0E7C86] text-white' : 'bg-[#F5FAFA] text-[#3D5A5E]'}`}>
-              {wd.count}
-            </span>
-          </div>
-          <span class="text-lg font-black block mt-1">{wd.date}</span>
-        </div>
-      ))}
+    <!-- Sélecteur dynamique des jours de la semaine active -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3" id="planning-days-bar">
+      <!-- Rendu dynamique JS -->
     </div>
 
     <!-- Contenu de la semaine : Cartes de missions à gauche (8 cols), Disponibilités à droite (4 cols) -->
@@ -931,13 +199,13 @@ const staffAvailabilities = [
       <div class="lg:col-span-8 space-y-4">
         <div class="flex items-center justify-between">
           <h2 class="text-base font-extrabold text-[#0B2A2E]" id="week-selected-title">
-            Missions du Mardi 27 octobre 2026 (3 missions)
+            Missions de la journée
           </h2>
           <span class="text-xs text-[#3D5A5E]">Trié par chronologie</span>
         </div>
 
         <div class="space-y-4" id="week-missions-container">
-          <!-- Les cartes de la semaine sont injectées et filtrées ici -->
+          <!-- Injecté dynamiquement par JS -->
         </div>
       </div>
 
@@ -1018,7 +286,6 @@ const staffAvailabilities = [
     class="fixed inset-0 bg-[#0B2A2E]/60 backdrop-blur-sm z-50 hidden items-center justify-center p-3 sm:p-5 md:p-8 transition-opacity duration-200"
     role="dialog"
     aria-modal="true"
-    aria-labelledby="modal-mission-title"
   >
     <div
       id="mission-detail-card"
@@ -1039,7 +306,7 @@ const staffAvailabilities = [
                 Terminé
               </span>
             </div>
-            <h2 id="modal-mission-title" class="text-lg sm:text-xl font-extrabold text-[#0B2A2E] leading-tight mt-0.5">
+            <h2 class="text-lg sm:text-xl font-extrabold text-[#0B2A2E] leading-tight mt-0.5">
               Mission #<span id="modal-mission-id">MIS-841</span> — <span id="modal-mission-client">Résidence Mme Vachon</span>
             </h2>
           </div>
@@ -1068,7 +335,7 @@ const staffAvailabilities = [
               <AdminIcon name="clock" class="w-4 h-4 text-[#0E7C86]" />
               <span id="modal-mission-time">08:30 — 11:30</span>
             </div>
-            <p id="modal-mission-day" class="text-xs text-[#3D5A5E] font-medium">Mardi 27 octobre 2026</p>
+            <p id="modal-mission-day" class="text-xs text-[#3D5A5E] font-medium">Aujourd'hui</p>
           </div>
 
           <div class="p-4 rounded-2xl bg-[#F5FAFA] border border-[#0E7C86]/10 space-y-2">
@@ -1152,7 +419,7 @@ const staffAvailabilities = [
                   <option value="Assane N.">Assane N. (Spécialiste commercial)</option>
                   <option value="Marie-Louise P.">Marie-Louise P. (Préposée polyvalente)</option>
                 </select>
-                <span class="text-[10px] text-[#3D5A5E] block mt-0.5">Vous pouvez réassigner instantanément l'intervention</span>
+                <span class="text-[10px] text-[#3D5A5E] block mt-0.5">Réassignable instantanément dans Firestore</span>
               </div>
             </div>
           </div>
@@ -1255,7 +522,7 @@ const staffAvailabilities = [
             id="btn-save-mission-changes"
             class="px-5 py-2.5 rounded-full text-xs font-extrabold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-sm transition-all"
           >
-            Enregistrer les modifications
+            Enregistrer dans Firebase
           </button>
         </div>
       </div>
@@ -1271,7 +538,6 @@ const staffAvailabilities = [
     class="fixed inset-0 bg-[#0B2A2E]/60 backdrop-blur-sm z-50 hidden items-center justify-center p-3 sm:p-5 md:p-8 transition-opacity duration-200"
     role="dialog"
     aria-modal="true"
-    aria-labelledby="new-mission-title"
   >
     <div
       id="new-mission-card"
@@ -1286,7 +552,7 @@ const staffAvailabilities = [
             <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#0E7C86] block">
               Planification Rapide
             </span>
-            <h2 id="new-mission-title" class="text-lg sm:text-xl font-extrabold text-[#0B2A2E]">
+            <h2 class="text-lg sm:text-xl font-extrabold text-[#0B2A2E]">
               Nouvelle Intervention
             </h2>
           </div>
@@ -1310,7 +576,6 @@ const staffAvailabilities = [
               type="date"
               id="new-date"
               required
-              value="2026-10-27"
               class="w-full px-3 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/20 font-bold text-[#0B2A2E] focus:border-[#0E7C86] outline-hidden"
             />
           </div>
@@ -1402,9 +667,10 @@ const staffAvailabilities = [
           </button>
           <button
             type="submit"
+            id="btn-submit-new-mission"
             class="px-5 py-2.5 rounded-full font-extrabold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-sm transition-all"
           >
-            Créer et planifier l'intervention
+            Enregistrer dans Firebase
           </button>
         </div>
 
@@ -1413,731 +679,1221 @@ const staffAvailabilities = [
   </div>
 
   <!-- ======================================================== -->
-  <!-- 6. LOGIQUE CLIENT CALENDRIER & INTERACTIVITÉ -->
+  <!-- 6. LOGIQUE CLIENT CALENDRIER & SYNCHRONISATION FIREBASE -->
   <!-- ======================================================== -->
-  <script is:inline define:vars={{ initialMissions }}>
-    (function() {
-      // 1. Stockage réactif des missions
-      let missions = [];
-      try {
-        const stored = localStorage.getItem('unilka_calendar_missions');
-        if (stored) {
-          missions = JSON.parse(stored);
-        } else {
-          missions = [...initialMissions];
-          localStorage.setItem('unilka_calendar_missions', JSON.stringify(missions));
-        }
-      } catch (e) {
-        missions = [...initialMissions];
+  <script>
+    import { db } from '../../lib/firebase';
+    import {
+      collection,
+      onSnapshot,
+      addDoc,
+      doc,
+      updateDoc,
+      setDoc,
+      serverTimestamp
+    } from 'firebase/firestore';
+
+    // 1. Initialisation de la date d'aujourd'hui en temps réel
+    const now = new Date();
+    const todayYear = now.getFullYear();
+    const todayMonth = now.getMonth();
+    const todayDay = now.getDate();
+    const todayDateStr = `${todayYear}-${String(todayMonth + 1).padStart(2, '0')}-${String(todayDay).padStart(2, '0')}`;
+
+    let currentYear = todayYear;
+    let currentMonth = todayMonth;
+    let activeFilter = 'all';
+    let activeDayFullDate = todayDateStr;
+    let missions: any[] = [];
+    let isSeeding = false;
+
+    const MONTH_NAMES = [
+      "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+      "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+    ];
+
+    const MONTH_NAMES_SHORT = [
+      "janv.", "févr.", "mars", "avr.", "mai", "juin",
+      "juil.", "août", "sept.", "oct.", "nov.", "déc."
+    ];
+
+    const DAY_NAMES = [
+      "Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"
+    ];
+
+    // Helper couleur de statut
+    function getStatusColor(status: string): string {
+      if (status === 'Terminé') return 'bg-emerald-100 text-emerald-800 border-emerald-200';
+      if (status === 'En cours') return 'bg-sky-100 text-sky-800 border-sky-200';
+      return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+
+    // Helper formatage date française
+    function formatFrenchDate(dateStr: string): string {
+      const d = new Date(dateStr + 'T12:00:00');
+      return `${DAY_NAMES[d.getDay()]} ${d.getDate()} ${MONTH_NAMES_SHORT[d.getMonth()]}`;
+    }
+
+    // Helper pour générer une date relative (en jours par rapport à aujourd'hui)
+    function getRelativeDateStr(offsetDays: number): string {
+      const d = new Date(now);
+      d.setDate(now.getDate() + offsetDays);
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    }
+
+    // Helper pour générer un jour spécifique du mois en cours
+    function getMonthDayStr(year: number, monthIndex: number, dayNum: number): string {
+      return `${year}-${String(monthIndex + 1).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`;
+    }
+
+    // Éléments DOM
+    const viewWeekBtn = document.getElementById('btn-view-week');
+    const viewMonthBtn = document.getElementById('btn-view-month');
+    const viewWeekContainer = document.getElementById('view-week-container');
+    const viewMonthContainer = document.getElementById('view-month-container');
+    const calendarCellsGrid = document.getElementById('calendar-cells-grid');
+    const currentMonthHeading = document.getElementById('calendar-current-label');
+    const currentMonthCountLabel = document.getElementById('calendar-month-count-label');
+    const subtitleCounter = document.getElementById('planning-subtitle-counter');
+    const statusFilters = document.querySelectorAll('.cal-status-filter');
+
+    // 2. Bascule Vue Semaine / Vue Mois
+    function setView(view: 'week' | 'month') {
+      if (view === 'week') {
+        viewWeekBtn?.classList.add('bg-[#0E7C86]', 'text-white', 'font-extrabold', 'shadow-2xs');
+        viewWeekBtn?.classList.remove('text-[#3D5A5E]', 'font-bold');
+
+        viewMonthBtn?.classList.remove('bg-[#0E7C86]', 'text-white', 'font-extrabold', 'shadow-2xs');
+        viewMonthBtn?.classList.add('text-[#3D5A5E]', 'font-bold');
+
+        viewWeekContainer?.classList.remove('hidden');
+        viewMonthContainer?.classList.add('hidden');
+        renderWeekBar();
+        renderWeekMissions(activeDayFullDate);
+      } else {
+        viewMonthBtn?.classList.add('bg-[#0E7C86]', 'text-white', 'font-extrabold', 'shadow-2xs');
+        viewMonthBtn?.classList.remove('text-[#3D5A5E]', 'font-bold');
+
+        viewWeekBtn?.classList.remove('bg-[#0E7C86]', 'text-white', 'font-extrabold', 'shadow-2xs');
+        viewWeekBtn?.classList.add('text-[#3D5A5E]', 'font-bold');
+
+        viewMonthContainer?.classList.remove('hidden');
+        viewWeekContainer?.classList.add('hidden');
+        renderMonthlyCalendar();
+      }
+    }
+
+    viewWeekBtn?.addEventListener('click', () => setView('week'));
+    viewMonthBtn?.addEventListener('click', () => setView('month'));
+
+    // 3. Rendu du Calendrier Mensuel avec missions dans chaque case
+    function renderMonthlyCalendar() {
+      if (!calendarCellsGrid) return;
+      calendarCellsGrid.innerHTML = '';
+
+      if (currentMonthHeading) {
+        currentMonthHeading.textContent = `${MONTH_NAMES[currentMonth]} ${currentYear}`;
       }
 
-      function saveMissions() {
-        try {
-          localStorage.setItem('unilka_calendar_missions', JSON.stringify(missions));
-        } catch (e) {}
+      const firstDay = new Date(currentYear, currentMonth, 1);
+      let startingDayIndex = firstDay.getDay() - 1;
+      if (startingDayIndex === -1) startingDayIndex = 6;
+
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+      const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
+
+      const monthPrefix = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
+      const currentMonthMissions = missions.filter(m => m.date && m.date.startsWith(monthPrefix));
+      
+      if (currentMonthCountLabel) {
+        currentMonthCountLabel.textContent = `${currentMonthMissions.length} intervention(s) planifiée(s)`;
+      }
+      if (subtitleCounter) {
+        subtitleCounter.textContent = `${currentMonthMissions.length} interventions planifiées en ${MONTH_NAMES[currentMonth]} ${currentYear} dans le Grand Montréal.`;
       }
 
-      // Date active du calendrier (Année et Mois)
-      let currentYear = 2026;
-      let currentMonth = 9; // Octobre = index 9 (0-11)
-      let activeFilter = 'all';
-      let activeDayFullDate = '2026-10-27'; // Mardi 27 oct. par défaut
-
-      const MONTH_NAMES = [
-        "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
-        "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
-      ];
-
-      // Éléments DOM
-      const viewWeekBtn = document.getElementById('btn-view-week');
-      const viewMonthBtn = document.getElementById('btn-view-month');
-      const viewWeekContainer = document.getElementById('view-week-container');
-      const viewMonthContainer = document.getElementById('view-month-container');
-      const calendarCellsGrid = document.getElementById('calendar-cells-grid');
-      const currentMonthHeading = document.getElementById('calendar-current-label');
-      const currentMonthCountLabel = document.getElementById('calendar-month-count-label');
-      const subtitleCounter = document.getElementById('planning-subtitle-counter');
-      const statusFilters = document.querySelectorAll('.cal-status-filter');
-
-      // 2. Gestion de la Bascule de Vue (Semaine / Mois)
-      function setView(view) {
-        if (view === 'week') {
-          viewWeekBtn.classList.add('bg-[#0E7C86]', 'text-white', 'font-extrabold', 'shadow-2xs');
-          viewWeekBtn.classList.remove('text-[#3D5A5E]', 'font-bold');
-
-          viewMonthBtn.classList.remove('bg-[#0E7C86]', 'text-white', 'font-extrabold', 'shadow-2xs');
-          viewMonthBtn.classList.add('text-[#3D5A5E]', 'font-bold');
-
-          viewWeekContainer.classList.remove('hidden');
-          viewMonthContainer.classList.add('hidden');
-          renderWeekMissions(activeDayFullDate);
-        } else {
-          viewMonthBtn.classList.add('bg-[#0E7C86]', 'text-white', 'font-extrabold', 'shadow-2xs');
-          viewMonthBtn.classList.remove('text-[#3D5A5E]', 'font-bold');
-
-          viewWeekBtn.classList.remove('bg-[#0E7C86]', 'text-white', 'font-extrabold', 'shadow-2xs');
-          viewWeekBtn.classList.add('text-[#3D5A5E]', 'font-bold');
-
-          viewMonthContainer.classList.remove('hidden');
-          viewWeekContainer.classList.add('hidden');
-          renderMonthlyCalendar();
-        }
+      // Cases du mois précédent
+      for (let i = startingDayIndex - 1; i >= 0; i--) {
+        const dayNum = daysInPrevMonth - i;
+        const cell = document.createElement('div');
+        cell.className = 'min-h-[120px] sm:min-h-[135px] p-2 bg-[#F5FAFA]/40 text-[#3D5A5E]/40 flex flex-col justify-between';
+        cell.innerHTML = `
+          <div class="flex items-center justify-between text-xs font-bold opacity-40">
+            <span>${dayNum}</span>
+          </div>
+          <div class="flex-1 mt-1"></div>
+        `;
+        calendarCellsGrid.appendChild(cell);
       }
 
-      viewWeekBtn?.addEventListener('click', () => setView('week'));
-      viewMonthBtn?.addEventListener('click', () => setView('month'));
+      // Cases du mois en cours
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const isToday = (dateStr === todayDateStr);
 
-      // 3. Rendu du Calendrier Mensuel avec les Missions dans les cases
-      function renderMonthlyCalendar() {
-        if (!calendarCellsGrid) return;
-        calendarCellsGrid.innerHTML = '';
-
-        if (currentMonthHeading) {
-          currentMonthHeading.textContent = `${MONTH_NAMES[currentMonth]} ${currentYear}`;
+        let dayMissions = missions.filter(m => m.date === dateStr);
+        if (activeFilter !== 'all') {
+          dayMissions = dayMissions.filter(m => m.status === activeFilter);
         }
 
-        // Premier jour du mois
-        const firstDay = new Date(currentYear, currentMonth, 1);
-        // Dimanche = 0 -> adapter pour Lundi = 0
-        let startingDayIndex = firstDay.getDay() - 1;
-        if (startingDayIndex === -1) startingDayIndex = 6;
+        const cell = document.createElement('div');
+        cell.className = `min-h-[120px] sm:min-h-[135px] p-2 bg-white flex flex-col justify-between transition-all duration-150 relative group cursor-pointer hover:bg-[#F5FAFA]/80 ${
+          isToday ? 'bg-[#E3F4F5]/30 ring-2 ring-inset ring-[#0E7C86]' : ''
+        }`;
+        cell.dataset.date = dateStr;
 
-        // Nombre de jours dans le mois
-        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-        // Nombre de jours dans le mois précédent
-        const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
+        // En-tête de la case
+        const header = document.createElement('div');
+        header.className = 'flex items-center justify-between text-xs font-extrabold pb-1';
 
-        // Calculer missions du mois
-        const monthPrefix = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
-        const currentMonthMissions = missions.filter(m => m.date.startsWith(monthPrefix));
-        
-        if (currentMonthCountLabel) {
-          currentMonthCountLabel.textContent = `${currentMonthMissions.length} interventions planifiées`;
-        }
-        if (subtitleCounter) {
-          subtitleCounter.textContent = `${currentMonthMissions.length} interventions planifiées en ${MONTH_NAMES[currentMonth]} ${currentYear} dans le Grand Montréal.`;
-        }
-
-        // Cases du mois précédent (inactives)
-        for (let i = startingDayIndex - 1; i >= 0; i--) {
-          const dayNum = daysInPrevMonth - i;
-          const cell = document.createElement('div');
-          cell.className = 'min-h-[120px] sm:min-h-[135px] p-2 bg-[#F5FAFA]/40 text-[#3D5A5E]/40 flex flex-col justify-between';
-          cell.innerHTML = `
-            <div class="flex items-center justify-between text-xs font-bold opacity-50">
-              <span>${dayNum}</span>
-            </div>
-            <div class="flex-1 mt-1"></div>
+        const leftBox = document.createElement('div');
+        leftBox.className = 'flex items-center gap-1.5';
+        if (isToday) {
+          leftBox.innerHTML = `
+            <span class="w-6 h-6 rounded-full bg-[#0E7C86] text-white flex items-center justify-center font-black text-xs shadow-xs">
+              ${day}
+            </span>
+            <span class="text-[9px] font-extrabold uppercase text-[#0E7C86] hidden sm:inline">Auj.</span>
           `;
-          calendarCellsGrid.appendChild(cell);
+        } else {
+          leftBox.innerHTML = `<span class="text-[#0B2A2E] text-xs font-bold pl-1">${day}</span>`;
         }
 
-        // Cases du mois en cours
-        for (let day = 1; day <= daysInMonth; day++) {
-          const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-          const isToday = (dateStr === '2026-10-27'); // Démo calée sur le 27 oct 2026
-
-          // Filtrer les missions de ce jour
-          let dayMissions = missions.filter(m => m.date === dateStr);
-          if (activeFilter !== 'all') {
-            dayMissions = dayMissions.filter(m => m.status === activeFilter);
-          }
-
-          const cell = document.createElement('div');
-          cell.className = `min-h-[120px] sm:min-h-[135px] p-2 bg-white flex flex-col justify-between transition-all duration-150 relative group cursor-pointer hover:bg-[#F5FAFA]/80 ${
-            isToday ? 'bg-[#E3F4F5]/30 ring-2 ring-inset ring-[#0E7C86]' : ''
-          }`;
-          cell.dataset.date = dateStr;
-
-          // En-tête de la case du jour
-          const header = document.createElement('div');
-          header.className = 'flex items-center justify-between text-xs font-extrabold pb-1';
-
-          const leftBox = document.createElement('div');
-          leftBox.className = 'flex items-center gap-1.5';
-          if (isToday) {
-            leftBox.innerHTML = `
-              <span class="w-6 h-6 rounded-full bg-[#0E7C86] text-white flex items-center justify-center font-black text-xs shadow-xs">
-                ${day}
-              </span>
-              <span class="text-[9px] font-extrabold uppercase text-[#0E7C86] hidden sm:inline">Auj.</span>
-            `;
-          } else {
-            leftBox.innerHTML = `<span class="text-[#0B2A2E] text-xs font-bold pl-1">${day}</span>`;
-          }
-
-          const rightBox = document.createElement('div');
-          rightBox.className = 'flex items-center gap-1';
-          if (dayMissions.length > 0) {
-            rightBox.innerHTML += `
-              <span class="text-[10px] px-1.5 py-0.5 rounded-full font-extrabold ${
-                isToday ? 'bg-[#0E7C86] text-white' : 'bg-[#E3F4F5] text-[#0E7C86]'
-              }">
-                ${dayMissions.length}
-              </span>
-            `;
-          }
+        const rightBox = document.createElement('div');
+        rightBox.className = 'flex items-center gap-1';
+        if (dayMissions.length > 0) {
           rightBox.innerHTML += `
-            <button
-              type="button"
-              class="btn-add-day-mission opacity-0 group-hover:opacity-100 transition-opacity w-5 h-5 rounded-full bg-[#E3F4F5] hover:bg-[#0E7C86] text-[#0E7C86] hover:text-white flex items-center justify-center text-xs font-bold"
-              data-date="${dateStr}"
-              title="Ajouter une intervention ce jour"
-            >+</button>
+            <span class="text-[10px] px-1.5 py-0.5 rounded-full font-extrabold ${
+              isToday ? 'bg-[#0E7C86] text-white' : 'bg-[#E3F4F5] text-[#0E7C86]'
+            }">
+              ${dayMissions.length}
+            </span>
           `;
+        }
+        rightBox.innerHTML += `
+          <button
+            type="button"
+            class="btn-add-day-mission opacity-0 group-hover:opacity-100 transition-opacity w-5 h-5 rounded-full bg-[#E3F4F5] hover:bg-[#0E7C86] text-[#0E7C86] hover:text-white flex items-center justify-center text-xs font-bold"
+            data-date="${dateStr}"
+            title="Ajouter une intervention ce jour"
+          >+</button>
+        `;
 
-          header.appendChild(leftBox);
-          header.appendChild(rightBox);
-          cell.appendChild(header);
+        header.appendChild(leftBox);
+        header.appendChild(rightBox);
+        cell.appendChild(header);
 
-          // Conteneur des missions dans la case du jour
-          const missionsContainer = document.createElement('div');
-          missionsContainer.className = 'space-y-1.5 overflow-hidden flex-1 mt-1';
+        // Conteneur des missions dans la case du jour
+        const missionsContainer = document.createElement('div');
+        missionsContainer.className = 'space-y-1.5 overflow-hidden flex-1 mt-1';
 
-          const visibleMissions = dayMissions.slice(0, 3);
-          visibleMissions.forEach((mis, idx) => {
-            const chip = document.createElement('div');
-            
-            // Couleurs selon statut
-            let statusClasses = 'bg-[#F5FAFA] text-[#0B2A2E] border-[#0E7C86]/15 hover:border-[#0E7C86]/40';
-            let dotColor = 'bg-amber-500';
-            if (mis.status === 'Terminé') {
-              statusClasses = 'bg-emerald-50 text-emerald-900 border-emerald-200/80 hover:bg-emerald-100/70';
-              dotColor = 'bg-emerald-500';
-            } else if (mis.status === 'En cours') {
-              statusClasses = 'bg-sky-50 text-sky-900 border-sky-200/80 hover:bg-sky-100/70';
-              dotColor = 'bg-sky-500';
-            }
-
-            chip.className = `mission-chip p-1.5 rounded-xl border text-[11px] font-semibold leading-tight flex items-center justify-between gap-1 shadow-2xs hover:shadow-xs transform hover:-translate-y-0.5 transition-all duration-150 cursor-pointer ${statusClasses}`;
-            chip.dataset.id = mis.id;
-            chip.style.animation = `fadeIn 200ms ease-out ${idx * 40}ms forwards`;
-
-            chip.innerHTML = `
-              <div class="flex items-center gap-1.5 min-w-0">
-                <span class="w-1.5 h-1.5 rounded-full ${dotColor} shrink-0"></span>
-                <span class="font-extrabold text-[10px] shrink-0 text-[#0E7C86]">${mis.time.split(' ')[0]}</span>
-                <span class="truncate font-bold text-[#0B2A2E]">${mis.client}</span>
-              </div>
-              <span class="text-[9px] font-bold text-[#3D5A5E] shrink-0 px-1 rounded bg-white/70">${mis.staff.split(' ')[0]}</span>
-            `;
-
-            chip.addEventListener('click', (e) => {
-              e.stopPropagation();
-              openMissionModal(mis);
-            });
-
-            missionsContainer.appendChild(chip);
-          });
-
-          if (dayMissions.length > 3) {
-            const moreBadge = document.createElement('div');
-            moreBadge.className = 'text-[10px] font-extrabold text-[#0E7C86] hover:underline text-center pt-0.5';
-            moreBadge.textContent = `+ ${dayMissions.length - 3} autre(s)...`;
-            moreBadge.addEventListener('click', (e) => {
-              e.stopPropagation();
-              activeDayFullDate = dateStr;
-              setView('week');
-            });
-            missionsContainer.appendChild(moreBadge);
+        const visibleMissions = dayMissions.slice(0, 3);
+        visibleMissions.forEach((mis, idx) => {
+          const chip = document.createElement('div');
+          
+          let statusClasses = 'bg-[#F5FAFA] text-[#0B2A2E] border-[#0E7C86]/15 hover:border-[#0E7C86]/40';
+          let dotColor = 'bg-amber-500';
+          if (mis.status === 'Terminé') {
+            statusClasses = 'bg-emerald-50 text-emerald-900 border-emerald-200/80 hover:bg-emerald-100/70';
+            dotColor = 'bg-emerald-500';
+          } else if (mis.status === 'En cours') {
+            statusClasses = 'bg-sky-50 text-sky-900 border-sky-200/80 hover:bg-sky-100/70';
+            dotColor = 'bg-sky-500';
           }
 
-          cell.appendChild(missionsContainer);
+          chip.className = `mission-chip p-1.5 rounded-xl border text-[11px] font-semibold leading-tight flex items-center justify-between gap-1 shadow-2xs hover:shadow-xs transform hover:-translate-y-0.5 transition-all duration-150 cursor-pointer ${statusClasses}`;
+          chip.dataset.id = mis.id;
+          chip.style.animation = `fadeIn 200ms ease-out ${idx * 40}ms forwards`;
 
-          // Clic sur la case elle-même pour ouvrir le jour
-          cell.addEventListener('click', (e) => {
-            if (e.target.closest('.btn-add-day-mission')) return;
-            activeDayFullDate = dateStr;
-            // Si le jour a des missions, on peut naviguer ou ouvrir la première
-            if (dayMissions.length > 0) {
-              openMissionModal(dayMissions[0]);
-            } else {
-              openNewMissionModal(dateStr);
-            }
-          });
+          const clientName = mis.client || 'Client';
+          const startTime = (mis.time || '09:00').split(' ')[0];
+          const staffInitial = (mis.staff || 'Staff').split(' ')[0];
 
-          calendarCellsGrid.appendChild(cell);
-        }
-
-        // Cases de fin de grille pour compléter le 7x5 ou 7x6
-        const totalRendered = startingDayIndex + daysInMonth;
-        const remainingCells = (Math.ceil(totalRendered / 7) * 7) - totalRendered;
-        for (let j = 1; j <= remainingCells; j++) {
-          const cell = document.createElement('div');
-          cell.className = 'min-h-[120px] sm:min-h-[135px] p-2 bg-[#F5FAFA]/40 text-[#3D5A5E]/40 flex flex-col justify-between';
-          cell.innerHTML = `
-            <div class="flex items-center justify-between text-xs font-bold opacity-50">
-              <span>${j}</span>
+          chip.innerHTML = `
+            <div class="flex items-center gap-1.5 min-w-0">
+              <span class="w-1.5 h-1.5 rounded-full ${dotColor} shrink-0"></span>
+              <span class="font-extrabold text-[10px] shrink-0 text-[#0E7C86]">${startTime}</span>
+              <span class="truncate font-bold text-[#0B2A2E]">${clientName}</span>
             </div>
-            <div class="flex-1 mt-1"></div>
+            <span class="text-[9px] font-bold text-[#3D5A5E] shrink-0 px-1 rounded bg-white/70">${staffInitial}</span>
           `;
-          calendarCellsGrid.appendChild(cell);
-        }
 
-        // Attacher listener aux boutons + des cases
-        document.querySelectorAll('.btn-add-day-mission').forEach(btn => {
-          btn.addEventListener('click', (e) => {
+          // Clic direct sur la pastille -> Ouvre la modale des détails
+          chip.addEventListener('click', (e) => {
             e.stopPropagation();
-            const targetDate = btn.dataset.date;
-            openNewMissionModal(targetDate);
-          });
-        });
-      }
-
-      // 4. Navigation Mois Précédent / Mois Suivant
-      document.getElementById('cal-prev-month')?.addEventListener('click', () => {
-        currentMonth--;
-        if (currentMonth < 0) {
-          currentMonth = 11;
-          currentYear--;
-        }
-        renderMonthlyCalendar();
-      });
-
-      document.getElementById('cal-next-month')?.addEventListener('click', () => {
-        currentMonth++;
-        if (currentMonth > 11) {
-          currentMonth = 0;
-          currentYear++;
-        }
-        renderMonthlyCalendar();
-      });
-
-      document.getElementById('cal-today-btn')?.addEventListener('click', () => {
-        currentYear = 2026;
-        currentMonth = 9; // Octobre 2026
-        renderMonthlyCalendar();
-        if (window.showAdminToast) {
-          window.showAdminToast("Retour à la date d'aujourd'hui (27 oct. 2026)");
-        }
-      });
-
-      // 5. Filtres par Statut dans la vue Mois
-      statusFilters.forEach(btn => {
-        btn.addEventListener('click', () => {
-          statusFilters.forEach(b => {
-            b.classList.remove('active', 'bg-[#0E7C86]', 'text-white');
-            b.classList.add('bg-[#F5FAFA]', 'text-[#3D5A5E]');
-          });
-          btn.classList.add('active', 'bg-[#0E7C86]', 'text-white');
-          btn.classList.remove('bg-[#F5FAFA]', 'text-[#3D5A5E]');
-
-          activeFilter = btn.dataset.filter || 'all';
-          renderMonthlyCalendar();
-        });
-      });
-
-      // 6. Rendu de la Vue Semaine
-      const weekMissionsContainer = document.getElementById('week-missions-container');
-      const weekSelectedTitle = document.getElementById('week-selected-title');
-      const weekDayCards = document.querySelectorAll('.day-card');
-
-      function renderWeekMissions(targetFullDate) {
-        if (!weekMissionsContainer) return;
-        weekMissionsContainer.innerHTML = '';
-
-        const dayMissions = missions.filter(m => m.date === targetFullDate);
-        
-        // Mettre à jour titre
-        const matchedDay = Array.from(weekDayCards).find(c => c.dataset.fulldate === targetFullDate);
-        const dayName = matchedDay ? matchedDay.dataset.day : targetFullDate;
-        if (weekSelectedTitle) {
-          weekSelectedTitle.textContent = `Missions du ${dayName} (${dayMissions.length} intervention(s))`;
-        }
-
-        // Mettre à jour l'apparence des onglets jours
-        weekDayCards.forEach(c => {
-          const isSelected = (c.dataset.fulldate === targetFullDate);
-          if (isSelected) {
-            c.classList.add('active-day', 'bg-[#E3F4F5]', 'border-[#0E7C86]', 'text-[#0E7C86]', 'font-extrabold', 'shadow-2xs');
-            c.classList.remove('bg-white', 'border-[#0E7C86]/12', 'text-[#0B2A2E]');
-            const badge = c.querySelector('.day-count');
-            if (badge) {
-              badge.classList.add('bg-[#0E7C86]', 'text-white');
-              badge.classList.remove('bg-[#F5FAFA]', 'text-[#3D5A5E]');
-            }
-          } else {
-            c.classList.remove('active-day', 'bg-[#E3F4F5]', 'border-[#0E7C86]', 'text-[#0E7C86]', 'font-extrabold', 'shadow-2xs');
-            c.classList.add('bg-white', 'border-[#0E7C86]/12', 'text-[#0B2A2E]');
-            const badge = c.querySelector('.day-count');
-            if (badge) {
-              badge.classList.remove('bg-[#0E7C86]', 'text-white');
-              badge.classList.add('bg-[#F5FAFA]', 'text-[#3D5A5E]');
-            }
-          }
-        });
-
-        if (dayMissions.length === 0) {
-          weekMissionsContainer.innerHTML = `
-            <div class="p-8 text-center bg-white rounded-2xl border border-[#0E7C86]/12 space-y-3">
-              <span class="w-12 h-12 rounded-full bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center mx-auto text-lg font-black">
-                !
-              </span>
-              <h3 class="text-sm font-bold text-[#0B2A2E]">Aucune mission programmée pour cette journée</h3>
-              <p class="text-xs text-[#3D5A5E]">Vous pouvez planifier une intervention dès maintenant.</p>
-              <button
-                type="button"
-                class="btn-plan-for-day px-4 py-2 rounded-full text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62]"
-                data-date="${targetFullDate}"
-              >
-                + Planifier une intervention
-              </button>
-            </div>
-          `;
-          weekMissionsContainer.querySelector('.btn-plan-for-day')?.addEventListener('click', () => {
-            openNewMissionModal(targetFullDate);
-          });
-          return;
-        }
-
-        dayMissions.forEach((mis, index) => {
-          const card = document.createElement('div');
-          card.className = "bg-white rounded-2xl border border-[#0E7C86]/12 p-6 shadow-2xs hover:border-[#0E7C86]/30 transition-all space-y-4";
-          card.style.animation = `fadeIn 250ms ease-out ${index * 60}ms forwards`;
-
-          card.innerHTML = `
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#0E7C86]/10">
-              <div class="flex items-center gap-2">
-                <span class="px-2.5 py-1 rounded-md bg-[#E3F4F5] text-[#0E7C86] text-xs font-black">
-                  ${mis.time}
-                </span>
-                <span class="text-xs font-bold text-[#3D5A5E]">${mis.day}</span>
-                <span class="text-xs font-mono text-[#3D5A5E]/60">#${mis.id}</span>
-              </div>
-
-              <div class="flex items-center gap-2">
-                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold border ${mis.statusColor}">
-                  ${mis.status}
-                </span>
-                <span class="text-[11px] font-semibold text-[#0E7C86] bg-[#F5FAFA] px-2 py-0.5 rounded">
-                  ${mis.checklist}
-                </span>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-              <div class="space-y-1">
-                <h3 class="text-sm font-extrabold text-[#0B2A2E]">${mis.client}</h3>
-                <p class="text-[#3D5A5E] flex items-center gap-1.5">
-                  <svg class="w-3.5 h-3.5 text-[#0E7C86] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                  <span>${mis.address}</span>
-                </p>
-                <p class="text-[#0E7C86] font-semibold">Prestation : ${mis.service}</p>
-              </div>
-
-              <div class="space-y-1 sm:border-l sm:border-[#0E7C86]/10 sm:pl-4">
-                <div class="flex items-center gap-2.5">
-                  ${mis.staffPhoto ? `
-                    <img src="${mis.staffPhoto}" alt="${mis.staff}" class="w-8 h-8 rounded-full object-cover border border-[#0E7C86]/20 shrink-0" />
-                  ` : `
-                    <span class="w-8 h-8 rounded-full bg-[#E3F4F5] text-[#0E7C86] font-bold text-[10px] flex items-center justify-center shrink-0">
-                      ${mis.staff.split(' ').map(n=>n[0]).join('')}
-                    </span>
-                  `}
-                  <div>
-                    <p class="text-[#3D5A5E]">
-                      Préposé(e) : <strong class="text-[#0B2A2E]">${mis.staff}</strong>
-                    </p>
-                    <p class="text-[#3D5A5E] text-[11px]">${mis.staffRole}</p>
-                  </div>
-                </div>
-
-                <div class="pt-1">
-                  <span class="inline-flex items-center gap-1.5 text-amber-800 bg-amber-50 px-2 py-1 rounded text-[11px] font-medium border border-amber-200/50">
-                    <svg class="w-3.5 h-3.5 text-amber-700 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-1.5 1.5L16 7l-2-2-1.5 1.5 2 2L13 10l-2-2-1.5 1.5 2 2L10 13l-1.5-1.5L7 13l-1-1L2 16v6h6l4-4-1-1 1.5-1.5L14 16l1.5-1.5-2-2 1.5-1.5 2 2 1.5-1.5-2-2 2-2 1.5 1.5z"></path><circle cx="18" cy="6" r="3"></circle></svg>
-                    <span>${mis.accessKey}</span>
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="pt-2 flex items-center justify-end gap-2 border-t border-[#0E7C86]/08">
-              <button
-                type="button"
-                class="btn-open-detail px-4 py-1.5 text-xs font-bold text-[#0E7C86] bg-[#E3F4F5] hover:bg-[#0E7C86] hover:text-white rounded-full transition-colors"
-                data-id="${mis.id}"
-              >
-                Inspecter la fiche
-              </button>
-            </div>
-          `;
-
-          card.querySelector('.btn-open-detail')?.addEventListener('click', () => {
             openMissionModal(mis);
           });
 
-          weekMissionsContainer.appendChild(card);
+          missionsContainer.appendChild(chip);
         });
+
+        if (dayMissions.length > 3) {
+          const moreBadge = document.createElement('div');
+          moreBadge.className = 'text-[10px] font-extrabold text-[#0E7C86] hover:underline text-center pt-0.5 cursor-pointer';
+          moreBadge.textContent = `+ ${dayMissions.length - 3} autre(s)...`;
+          moreBadge.addEventListener('click', (e) => {
+            e.stopPropagation();
+            activeDayFullDate = dateStr;
+            setView('week');
+          });
+          missionsContainer.appendChild(moreBadge);
+        }
+
+        cell.appendChild(missionsContainer);
+
+        // Clic sur la case elle-même
+        cell.addEventListener('click', (e) => {
+          if ((e.target as HTMLElement).closest('.btn-add-day-mission') || (e.target as HTMLElement).closest('.mission-chip')) return;
+          activeDayFullDate = dateStr;
+          if (dayMissions.length > 0) {
+            openMissionModal(dayMissions[0]);
+          } else {
+            openNewMissionModal(dateStr);
+          }
+        });
+
+        calendarCellsGrid.appendChild(cell);
       }
 
-      weekDayCards.forEach(c => {
-        c.addEventListener('click', () => {
-          activeDayFullDate = c.dataset.fulldate || '2026-10-27';
+      // Cases de fin de grille
+      const totalRendered = startingDayIndex + daysInMonth;
+      const remainingCells = (Math.ceil(totalRendered / 7) * 7) - totalRendered;
+      for (let j = 1; j <= remainingCells; j++) {
+        const cell = document.createElement('div');
+        cell.className = 'min-h-[120px] sm:min-h-[135px] p-2 bg-[#F5FAFA]/40 text-[#3D5A5E]/40 flex flex-col justify-between';
+        cell.innerHTML = `
+          <div class="flex items-center justify-between text-xs font-bold opacity-40">
+            <span>${j}</span>
+          </div>
+          <div class="flex-1 mt-1"></div>
+        `;
+        calendarCellsGrid.appendChild(cell);
+      }
+
+      // Attacher listener aux boutons + des cases
+      document.querySelectorAll('.btn-add-day-mission').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const targetDate = (btn as HTMLElement).dataset.date;
+          openNewMissionModal(targetDate);
+        });
+      });
+    }
+
+    // 4. Navigation Mois Précédent / Mois Suivant / Aujourd'hui
+    document.getElementById('cal-prev-month')?.addEventListener('click', () => {
+      currentMonth--;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      renderMonthlyCalendar();
+    });
+
+    document.getElementById('cal-next-month')?.addEventListener('click', () => {
+      currentMonth++;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      renderMonthlyCalendar();
+    });
+
+    document.getElementById('cal-today-btn')?.addEventListener('click', () => {
+      currentYear = todayYear;
+      currentMonth = todayMonth;
+      activeDayFullDate = todayDateStr;
+      renderMonthlyCalendar();
+      if ((window as any).showAdminToast) {
+        (window as any).showAdminToast(`Retour à aujourd'hui (${formatFrenchDate(todayDateStr)})`);
+      }
+    });
+
+    // 5. Filtres par Statut
+    statusFilters.forEach(btn => {
+      btn.addEventListener('click', () => {
+        statusFilters.forEach(b => {
+          b.classList.remove('active', 'bg-[#0E7C86]', 'text-white');
+          b.classList.add('bg-[#F5FAFA]', 'text-[#3D5A5E]');
+        });
+        btn.classList.add('active', 'bg-[#0E7C86]', 'text-white');
+        btn.classList.remove('bg-[#F5FAFA]', 'text-[#3D5A5E]');
+
+        activeFilter = (btn as HTMLElement).dataset.filter || 'all';
+        renderMonthlyCalendar();
+      });
+    });
+
+    // 6. Rendu dynamique de la barre de la semaine
+    const planningDaysBar = document.getElementById('planning-days-bar');
+    const weekMissionsContainer = document.getElementById('week-missions-container');
+    const weekSelectedTitle = document.getElementById('week-selected-title');
+
+    function renderWeekBar() {
+      if (!planningDaysBar) return;
+      planningDaysBar.innerHTML = '';
+
+      // Calculer le lundi de la semaine active
+      const ref = new Date(activeDayFullDate + 'T12:00:00');
+      let dayOfWeek = ref.getDay();
+      let mondayDiff = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+      const monday = new Date(ref);
+      monday.setDate(ref.getDate() + mondayDiff);
+
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(monday);
+        d.setDate(monday.getDate() + i);
+        const dStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        const dayCount = missions.filter(m => m.date === dStr).length;
+        const isToday = (dStr === todayDateStr);
+        const isSelected = (dStr === activeDayFullDate);
+
+        const card = document.createElement('div');
+        card.className = `day-card p-3.5 rounded-2xl border transition-all cursor-pointer ${
+          isSelected
+            ? 'active-day bg-[#E3F4F5] border-[#0E7C86] text-[#0E7C86] shadow-2xs font-extrabold'
+            : 'bg-white border-[#0E7C86]/12 text-[#0B2A2E] hover:border-[#0E7C86]/30'
+        }`;
+        card.dataset.fulldate = dStr;
+        card.dataset.day = `${DAY_NAMES[d.getDay()]} ${d.getDate()} ${MONTH_NAMES_SHORT[d.getMonth()]}`;
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between text-xs">
+            <span>${DAY_NAMES[d.getDay()]}</span>
+            <span class="day-count text-[10px] px-2 py-0.5 rounded-full font-bold ${
+              isSelected ? 'bg-[#0E7C86] text-white' : 'bg-[#F5FAFA] text-[#3D5A5E]'
+            }">
+              ${dayCount}
+            </span>
+          </div>
+          <div class="flex items-center gap-1.5 mt-1">
+            <span class="text-lg font-black block">${d.getDate()} ${MONTH_NAMES_SHORT[d.getMonth()]}</span>
+            ${isToday ? '<span class="text-[9px] font-black uppercase text-[#0E7C86] bg-[#E3F4F5] px-1.5 py-0.5 rounded">Auj.</span>' : ''}
+          </div>
+        `;
+
+        card.addEventListener('click', () => {
+          activeDayFullDate = dStr;
+          renderWeekBar();
           renderWeekMissions(activeDayFullDate);
         });
-      });
 
-      // 7. Modale Détail de la Mission
-      const detailModal = document.getElementById('mission-detail-modal');
-      const detailCard = document.getElementById('mission-detail-card');
-      const btnCloseDetail = document.getElementById('btn-close-mission-modal');
-      const btnCloseDetailFooter = document.getElementById('btn-close-mission-modal-footer');
-      const staffSelect = document.getElementById('modal-mission-staff-select');
-      const btnToggleStatus = document.getElementById('btn-toggle-mission-status');
-      const btnSaveMission = document.getElementById('btn-save-mission-changes');
-      const btnCopyAccessKey = document.getElementById('btn-copy-access-key');
+        planningDaysBar.appendChild(card);
+      }
+    }
 
-      let currentSelectedMission = null;
+    function renderWeekMissions(targetFullDate: string) {
+      if (!weekMissionsContainer) return;
+      weekMissionsContainer.innerHTML = '';
 
-      function openMissionModal(mis) {
-        if (!detailModal || !detailCard) return;
-        currentSelectedMission = mis;
-
-        document.getElementById('modal-mission-id').textContent = mis.id;
-        document.getElementById('modal-mission-title').textContent = `${mis.client} (#${mis.id})`;
-        document.getElementById('modal-mission-client').textContent = mis.client;
-        document.getElementById('modal-mission-client-detail').textContent = mis.client;
-        document.getElementById('modal-mission-time').textContent = mis.time;
-        document.getElementById('modal-mission-day').textContent = mis.day || mis.date;
-        document.getElementById('modal-mission-address').textContent = mis.address;
-        document.getElementById('modal-mission-service').textContent = mis.service;
-        document.getElementById('modal-mission-access-notes').textContent = mis.accessKey;
-
-        // Statut
-        const statusEl = document.getElementById('modal-mission-status');
-        if (statusEl) {
-          statusEl.textContent = mis.status;
-          statusEl.className = `px-2.5 py-0.5 rounded-full text-[10px] font-extrabold border ${mis.statusColor}`;
-        }
-
-        // Téléphone & Courriel
-        const phoneLink = document.getElementById('modal-mission-phone');
-        const phoneLabel = document.getElementById('modal-mission-phone-label');
-        if (phoneLink && phoneLabel) {
-          phoneLink.href = `tel:${mis.phone || '+15148924182'}`;
-          phoneLabel.textContent = mis.phone || '+1 (514) 892-4182';
-        }
-
-        const emailLink = document.getElementById('modal-mission-email');
-        if (emailLink) {
-          emailLink.href = `mailto:${mis.email || 'client@unilka.ca'}`;
-        }
-
-        // Google Maps
-        const mapsLink = document.getElementById('modal-mission-maps-link');
-        if (mapsLink) {
-          mapsLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mis.address)}`;
-        }
-
-        // Staff Select
-        if (staffSelect) {
-          staffSelect.value = mis.staff;
-        }
-
-        // Staff Avatar
-        const avatarImg = document.getElementById('modal-mission-staff-img');
-        const avatarInitials = document.getElementById('modal-mission-staff-initials');
-        if (mis.staffPhoto && avatarImg) {
-          avatarImg.src = mis.staffPhoto;
-          avatarImg.classList.remove('hidden');
-          if (avatarInitials) avatarInitials.classList.add('hidden');
-        } else {
-          if (avatarImg) avatarImg.classList.add('hidden');
-          if (avatarInitials) {
-            avatarInitials.textContent = mis.staff.split(' ').map(n=>n[0]).join('');
-            avatarInitials.classList.remove('hidden');
-          }
-        }
-
-        // Afficher modale avec animation
-        detailModal.classList.remove('hidden');
-        detailModal.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-
-        requestAnimationFrame(() => {
-          detailCard.classList.remove('scale-95', 'opacity-0');
-          detailCard.classList.add('scale-100', 'opacity-100');
-        });
+      const dayMissions = missions.filter(m => m.date === targetFullDate);
+      
+      if (weekSelectedTitle) {
+        weekSelectedTitle.textContent = `Missions du ${formatFrenchDate(targetFullDate)} (${dayMissions.length} intervention(s))`;
       }
 
-      function closeMissionModal() {
-        if (!detailModal || !detailCard) return;
-        detailCard.classList.remove('scale-100', 'opacity-100');
-        detailCard.classList.add('scale-95', 'opacity-0');
-        document.body.style.overflow = '';
-        setTimeout(() => {
-          detailModal.classList.add('hidden');
-          detailModal.classList.remove('flex');
-        }, 200);
+      if (dayMissions.length === 0) {
+        weekMissionsContainer.innerHTML = `
+          <div class="p-8 text-center bg-white rounded-2xl border border-[#0E7C86]/12 space-y-3">
+            <span class="w-12 h-12 rounded-full bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center mx-auto text-lg font-black">
+              !
+            </span>
+            <h3 class="text-sm font-bold text-[#0B2A2E]">Aucune mission programmée pour cette journée</h3>
+            <p class="text-xs text-[#3D5A5E]">Vous pouvez planifier une intervention dès maintenant.</p>
+            <button
+              type="button"
+              class="btn-plan-for-day px-4 py-2 rounded-full text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62]"
+            >
+              + Planifier une intervention
+            </button>
+          </div>
+        `;
+        weekMissionsContainer.querySelector('.btn-plan-for-day')?.addEventListener('click', () => {
+          openNewMissionModal(targetFullDate);
+        });
+        return;
       }
 
-      btnCloseDetail?.addEventListener('click', closeMissionModal);
-      btnCloseDetailFooter?.addEventListener('click', closeMissionModal);
-      detailModal?.addEventListener('click', (e) => {
-        if (e.target === detailModal) closeMissionModal();
-      });
+      dayMissions.forEach((mis, index) => {
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-2xl border border-[#0E7C86]/12 p-6 shadow-2xs hover:border-[#0E7C86]/30 transition-all space-y-4";
+        card.style.animation = `fadeIn 250ms ease-out ${index * 60}ms forwards`;
 
-      // Copier les consignes d'accès
-      btnCopyAccessKey?.addEventListener('click', () => {
-        const text = document.getElementById('modal-mission-access-notes')?.textContent || '';
-        navigator.clipboard.writeText(text).then(() => {
-          if (window.showAdminToast) {
-            window.showAdminToast("Consignes d'accès copiées dans le presse-papier !");
-          }
+        card.innerHTML = `
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#0E7C86]/10">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 rounded-md bg-[#E3F4F5] text-[#0E7C86] text-xs font-black">
+                ${mis.time || '09:00 — 12:00'}
+              </span>
+              <span class="text-xs font-bold text-[#3D5A5E]">${mis.day || formatFrenchDate(mis.date)}</span>
+              <span class="text-xs font-mono text-[#3D5A5E]/60">#${mis.code || mis.id}</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold border ${mis.statusColor || getStatusColor(mis.status)}">
+                ${mis.status}
+              </span>
+              <span class="text-[11px] font-semibold text-[#0E7C86] bg-[#F5FAFA] px-2 py-0.5 rounded">
+                ${mis.checklist || '42 points'}
+              </span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div class="space-y-1">
+              <h3 class="text-sm font-extrabold text-[#0B2A2E]">${mis.client}</h3>
+              <p class="text-[#3D5A5E] flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-[#0E7C86] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <span>${mis.address}</span>
+              </p>
+              <p class="text-[#0E7C86] font-semibold">Prestation : ${mis.service}</p>
+            </div>
+
+            <div class="space-y-1 sm:border-l sm:border-[#0E7C86]/10 sm:pl-4">
+              <div class="flex items-center gap-2.5">
+                ${mis.staffPhoto ? `
+                  <img src="${mis.staffPhoto}" alt="${mis.staff}" class="w-8 h-8 rounded-full object-cover border border-[#0E7C86]/20 shrink-0" />
+                ` : `
+                  <span class="w-8 h-8 rounded-full bg-[#E3F4F5] text-[#0E7C86] font-bold text-[10px] flex items-center justify-center shrink-0">
+                    ${(mis.staff || 'Staff').split(' ').map((n: string)=>n[0]).join('')}
+                  </span>
+                `}
+                <div>
+                  <p class="text-[#3D5A5E]">
+                    Préposé(e) : <strong class="text-[#0B2A2E]">${mis.staff}</strong>
+                  </p>
+                  <p class="text-[#3D5A5E] text-[11px]">${mis.staffRole || 'Préposé(e) dédié(e)'}</p>
+                </div>
+              </div>
+
+              <div class="pt-1">
+                <span class="inline-flex items-center gap-1.5 text-amber-800 bg-amber-50 px-2 py-1 rounded text-[11px] font-medium border border-amber-200/50">
+                  <svg class="w-3.5 h-3.5 text-amber-700 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-1.5 1.5L16 7l-2-2-1.5 1.5 2 2L13 10l-2-2-1.5 1.5 2 2L10 13l-1.5-1.5L7 13l-1-1L2 16v6h6l4-4-1-1 1.5-1.5L14 16l1.5-1.5-2-2 1.5-1.5 2 2 1.5-1.5-2-2 2-2 1.5 1.5z"></path><circle cx="18" cy="6" r="3"></circle></svg>
+                  <span>${mis.accessKey || 'Consignes à confirmer'}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-2 flex items-center justify-end gap-2 border-t border-[#0E7C86]/08">
+            <button
+              type="button"
+              class="btn-open-detail px-4 py-1.5 text-xs font-bold text-[#0E7C86] bg-[#E3F4F5] hover:bg-[#0E7C86] hover:text-white rounded-full transition-colors"
+            >
+              Inspecter la fiche
+            </button>
+          </div>
+        `;
+
+        card.querySelector('.btn-open-detail')?.addEventListener('click', () => {
+          openMissionModal(mis);
         });
+
+        weekMissionsContainer.appendChild(card);
       });
+    }
 
-      // Basculer statut
-      btnToggleStatus?.addEventListener('click', () => {
-        if (!currentSelectedMission) return;
-        if (currentSelectedMission.status === 'Terminé') {
-          currentSelectedMission.status = 'En cours';
-          currentSelectedMission.statusColor = 'bg-sky-100 text-sky-800 border-sky-200';
-        } else if (currentSelectedMission.status === 'En cours') {
-          currentSelectedMission.status = 'Planifié';
-          currentSelectedMission.statusColor = 'bg-gray-100 text-gray-800 border-gray-200';
-        } else {
-          currentSelectedMission.status = 'Terminé';
-          currentSelectedMission.statusColor = 'bg-emerald-100 text-emerald-800 border-emerald-200';
+    // 7. Modale Détail de la Mission (Protégée et Sécurisée)
+    const detailModal = document.getElementById('mission-detail-modal');
+    const detailCard = document.getElementById('mission-detail-card');
+    const btnCloseDetail = document.getElementById('btn-close-mission-modal');
+    const btnCloseDetailFooter = document.getElementById('btn-close-mission-modal-footer');
+    const staffSelect = document.getElementById('modal-mission-staff-select') as HTMLSelectElement | null;
+    const btnToggleStatus = document.getElementById('btn-toggle-mission-status');
+    const btnSaveMission = document.getElementById('btn-save-mission-changes');
+    const btnCopyAccessKey = document.getElementById('btn-copy-access-key');
+
+    let currentSelectedMission: any = null;
+
+    function openMissionModal(mis: any) {
+      if (!detailModal || !detailCard || !mis) return;
+      currentSelectedMission = mis;
+
+      // Assignation ultra-sécurisée avec vérification d'existence
+      const idEl = document.getElementById('modal-mission-id');
+      if (idEl) idEl.textContent = mis.code || mis.id || '';
+
+      const clientEl = document.getElementById('modal-mission-client');
+      if (clientEl) clientEl.textContent = mis.client || '';
+
+      const clientDetailEl = document.getElementById('modal-mission-client-detail');
+      if (clientDetailEl) clientDetailEl.textContent = mis.client || '';
+
+      const timeEl = document.getElementById('modal-mission-time');
+      if (timeEl) timeEl.textContent = mis.time || '09:00 — 12:00';
+
+      const dayEl = document.getElementById('modal-mission-day');
+      if (dayEl) dayEl.textContent = mis.day || formatFrenchDate(mis.date);
+
+      const addressEl = document.getElementById('modal-mission-address');
+      if (addressEl) addressEl.textContent = mis.address || '';
+
+      const serviceEl = document.getElementById('modal-mission-service');
+      if (serviceEl) serviceEl.textContent = mis.service || '';
+
+      const accessEl = document.getElementById('modal-mission-access-notes');
+      if (accessEl) accessEl.textContent = mis.accessKey || 'Consignes à confirmer avec le client';
+
+      // Statut
+      const statusEl = document.getElementById('modal-mission-status');
+      if (statusEl) {
+        statusEl.textContent = mis.status || 'Planifié';
+        statusEl.className = `px-2.5 py-0.5 rounded-full text-[10px] font-extrabold border ${mis.statusColor || getStatusColor(mis.status)}`;
+      }
+
+      // Téléphone & Courriel
+      const phoneLink = document.getElementById('modal-mission-phone') as HTMLAnchorElement | null;
+      const phoneLabel = document.getElementById('modal-mission-phone-label');
+      if (phoneLink && phoneLabel) {
+        phoneLink.href = `tel:${mis.phone || '+15148924182'}`;
+        phoneLabel.textContent = mis.phone || '+1 (514) 892-4182';
+      }
+
+      const emailLink = document.getElementById('modal-mission-email') as HTMLAnchorElement | null;
+      if (emailLink) {
+        emailLink.href = `mailto:${mis.email || 'client@unilka.ca'}`;
+      }
+
+      // Google Maps
+      const mapsLink = document.getElementById('modal-mission-maps-link') as HTMLAnchorElement | null;
+      if (mapsLink) {
+        mapsLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mis.address || 'Montréal')}`;
+      }
+
+      // Staff Select
+      if (staffSelect) {
+        staffSelect.value = mis.staff || 'Fatou D.';
+      }
+
+      // Staff Avatar
+      const avatarImg = document.getElementById('modal-mission-staff-img') as HTMLImageElement | null;
+      const avatarInitials = document.getElementById('modal-mission-staff-initials');
+      if (mis.staffPhoto && avatarImg) {
+        avatarImg.src = mis.staffPhoto;
+        avatarImg.classList.remove('hidden');
+        if (avatarInitials) avatarInitials.classList.add('hidden');
+      } else {
+        if (avatarImg) avatarImg.classList.add('hidden');
+        if (avatarInitials) {
+          avatarInitials.textContent = (mis.staff || 'UN').split(' ').map((n: string) => n[0]).join('');
+          avatarInitials.classList.remove('hidden');
         }
+      }
 
-        const statusEl = document.getElementById('modal-mission-status');
-        if (statusEl) {
-          statusEl.textContent = currentSelectedMission.status;
-          statusEl.className = `px-2.5 py-0.5 rounded-full text-[10px] font-extrabold border ${currentSelectedMission.statusColor}`;
-        }
+      // Afficher modale avec animation fluide
+      detailModal.classList.remove('hidden');
+      detailModal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
 
-        saveMissions();
-        renderMonthlyCalendar();
-        renderWeekMissions(activeDayFullDate);
-        if (window.showAdminToast) {
-          window.showAdminToast(`Statut mis à jour : ${currentSelectedMission.status}`);
+      requestAnimationFrame(() => {
+        detailCard.classList.remove('scale-95', 'opacity-0');
+        detailCard.classList.add('scale-100', 'opacity-100');
+      });
+    }
+
+    function closeMissionModal() {
+      if (!detailModal || !detailCard) return;
+      detailCard.classList.remove('scale-100', 'opacity-100');
+      detailCard.classList.add('scale-95', 'opacity-0');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        detailModal.classList.add('hidden');
+        detailModal.classList.remove('flex');
+      }, 200);
+    }
+
+    btnCloseDetail?.addEventListener('click', closeMissionModal);
+    btnCloseDetailFooter?.addEventListener('click', closeMissionModal);
+    detailModal?.addEventListener('click', (e) => {
+      if (e.target === detailModal) closeMissionModal();
+    });
+
+    // Copier consignes d'accès
+    btnCopyAccessKey?.addEventListener('click', () => {
+      const text = document.getElementById('modal-mission-access-notes')?.textContent || '';
+      navigator.clipboard?.writeText(text).then(() => {
+        if ((window as any).showAdminToast) {
+          (window as any).showAdminToast("Consignes d'accès copiées dans le presse-papier !");
         }
       });
+    });
 
-      // Enregistrer changements de préposé
-      btnSaveMission?.addEventListener('click', () => {
-        if (!currentSelectedMission || !staffSelect) return;
-        const newStaff = staffSelect.value;
-        currentSelectedMission.staff = newStaff;
-        saveMissions();
-        renderMonthlyCalendar();
-        renderWeekMissions(activeDayFullDate);
+    // Basculer statut dans Firebase
+    btnToggleStatus?.addEventListener('click', async () => {
+      if (!currentSelectedMission) return;
+      let newStatus = 'En cours';
+      let newColor = 'bg-sky-100 text-sky-800 border-sky-200';
+
+      if (currentSelectedMission.status === 'Terminé') {
+        newStatus = 'En cours';
+        newColor = 'bg-sky-100 text-sky-800 border-sky-200';
+      } else if (currentSelectedMission.status === 'En cours') {
+        newStatus = 'Planifié';
+        newColor = 'bg-gray-100 text-gray-800 border-gray-200';
+      } else {
+        newStatus = 'Terminé';
+        newColor = 'bg-emerald-100 text-emerald-800 border-emerald-200';
+      }
+
+      currentSelectedMission.status = newStatus;
+      currentSelectedMission.statusColor = newColor;
+
+      const statusEl = document.getElementById('modal-mission-status');
+      if (statusEl) {
+        statusEl.textContent = newStatus;
+        statusEl.className = `px-2.5 py-0.5 rounded-full text-[10px] font-extrabold border ${newColor}`;
+      }
+
+      try {
+        if (currentSelectedMission.id) {
+          await updateDoc(doc(db, 'interventions', currentSelectedMission.id), {
+            status: newStatus,
+            statusColor: newColor,
+            updatedAt: serverTimestamp()
+          });
+        }
+      } catch (err) {
+        console.warn('Erreur mise à jour Firebase :', err);
+      }
+
+      renderMonthlyCalendar();
+      renderWeekMissions(activeDayFullDate);
+      if ((window as any).showAdminToast) {
+        (window as any).showAdminToast(`Statut mis à jour : ${newStatus}`);
+      }
+    });
+
+    // Enregistrer modifications préposé dans Firebase
+    btnSaveMission?.addEventListener('click', async () => {
+      if (!currentSelectedMission || !staffSelect) return;
+      const newStaff = staffSelect.value;
+      const newPhoto = newStaff === 'Fatou D.' ? '/images/admin/staff-fatou.jpg' : (newStaff === 'Jean-Marc T.' ? '/images/admin/staff-jeanmarc.jpg' : '');
+
+      currentSelectedMission.staff = newStaff;
+      currentSelectedMission.staffPhoto = newPhoto;
+
+      try {
+        if (currentSelectedMission.id) {
+          await updateDoc(doc(db, 'interventions', currentSelectedMission.id), {
+            staff: newStaff,
+            staffPhoto: newPhoto,
+            updatedAt: serverTimestamp()
+          });
+        }
+      } catch (err) {
+        console.warn('Erreur réassignation Firebase :', err);
+      }
+
+      renderMonthlyCalendar();
+      renderWeekMissions(activeDayFullDate);
+      closeMissionModal();
+      if ((window as any).showAdminToast) {
+        (window as any).showAdminToast(`Mission réassignée à ${newStaff} !`);
+      }
+    });
+
+    // 8. Modale Nouvelle Intervention avec synchronisation Firebase
+    const newMissionModal = document.getElementById('new-mission-modal');
+    const newMissionCard = document.getElementById('new-mission-card');
+    const btnOpenNew = document.getElementById('btn-open-new-mission');
+    const btnCloseNew = document.getElementById('btn-close-new-mission');
+    const btnCancelNew = document.getElementById('btn-cancel-new-mission');
+    const newMissionForm = document.getElementById('new-mission-form');
+
+    function openNewMissionModal(prefillDate?: string) {
+      if (!newMissionModal || !newMissionCard) return;
+      const dateInput = document.getElementById('new-date') as HTMLInputElement | null;
+      if (dateInput) {
+        dateInput.value = prefillDate || todayDateStr;
+      }
+
+      newMissionModal.classList.remove('hidden');
+      newMissionModal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+
+      requestAnimationFrame(() => {
+        newMissionCard.classList.remove('scale-95', 'opacity-0');
+        newMissionCard.classList.add('scale-100', 'opacity-100');
+      });
+    }
+
+    function closeNewMissionModal() {
+      if (!newMissionModal || !newMissionCard) return;
+      newMissionCard.classList.remove('scale-100', 'opacity-100');
+      newMissionCard.classList.add('scale-95', 'opacity-0');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        newMissionModal.classList.add('hidden');
+        newMissionModal.classList.remove('flex');
+      }, 200);
+    }
+
+    btnOpenNew?.addEventListener('click', () => openNewMissionModal(activeDayFullDate));
+    btnCloseNew?.addEventListener('click', closeNewMissionModal);
+    btnCancelNew?.addEventListener('click', closeNewMissionModal);
+    newMissionModal?.addEventListener('click', (e) => {
+      if (e.target === newMissionModal) closeNewMissionModal();
+    });
+
+    // Création dans Firestore
+    newMissionForm?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const dateInput = document.getElementById('new-date') as HTMLInputElement | null;
+      const timeSelect = document.getElementById('new-time') as HTMLSelectElement | null;
+      const clientInput = document.getElementById('new-client') as HTMLInputElement | null;
+      const addressInput = document.getElementById('new-address') as HTMLInputElement | null;
+      const serviceSelect = document.getElementById('new-service') as HTMLSelectElement | null;
+      const staffSelectEl = document.getElementById('new-staff') as HTMLSelectElement | null;
+      const accessInput = document.getElementById('new-access') as HTMLInputElement | null;
+
+      const date = dateInput?.value || todayDateStr;
+      const time = timeSelect?.value || '09:00 — 12:00';
+      const client = (clientInput?.value || '').trim();
+      const address = (addressInput?.value || '').trim();
+      const service = serviceSelect?.value || 'Entretien résidentiel régulier';
+      const staff = staffSelectEl?.value || 'Fatou D.';
+      const access = (accessInput?.value || '').trim() || 'À confirmer avec le client';
+
+      const newCode = `MIS-${Math.floor(860 + Math.random() * 90)}`;
+      const dayFormatted = formatFrenchDate(date);
+      const staffPhoto = staff === 'Fatou D.' ? '/images/admin/staff-fatou.jpg' : (staff === 'Jean-Marc T.' ? '/images/admin/staff-jeanmarc.jpg' : '');
+
+      const missionData = {
+        code: newCode,
+        date: date,
+        day: dayFormatted,
+        time: time,
+        client: client,
+        phone: "+1 514 555-0199",
+        email: "client@unilka.ca",
+        address: address,
+        service: service,
+        category: (service.toLowerCase().includes('bureau') || service.toLowerCase().includes('commercial')) ? 'commercial' : 'residentiel',
+        staff: staff,
+        staffRole: "Préposé(e) dédié(e)",
+        staffPhoto: staffPhoto,
+        status: "Planifié",
+        statusColor: "bg-gray-100 text-gray-800 border-gray-200",
+        checklist: "Grille hôtelière 42 pts",
+        checklistProgress: 0,
+        accessKey: access,
+        createdAt: serverTimestamp()
+      };
+
+      try {
+        const docRef = await addDoc(collection(db, 'interventions'), missionData);
+        closeNewMissionModal();
+        (newMissionForm as HTMLFormElement).reset();
+
+        activeDayFullDate = date;
+        if ((window as any).showAdminToast) {
+          (window as any).showAdminToast(`Intervention #${newCode} enregistrée dans Firebase !`);
+        }
+      } catch (err) {
+        console.error('Erreur ajout Firestore :', err);
+        if ((window as any).showAdminToast) {
+          (window as any).showAdminToast("Erreur lors de l'enregistrement dans Firebase");
+        }
+      }
+    });
+
+    // Touche Échap
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
         closeMissionModal();
-        if (window.showAdminToast) {
-          window.showAdminToast(`Mission #${currentSelectedMission.id} assignée à ${newStaff} !`);
-        }
-      });
-
-      // 8. Modale Nouvelle Intervention
-      const newMissionModal = document.getElementById('new-mission-modal');
-      const newMissionCard = document.getElementById('new-mission-card');
-      const btnOpenNew = document.getElementById('btn-open-new-mission');
-      const btnCloseNew = document.getElementById('btn-close-new-mission');
-      const btnCancelNew = document.getElementById('btn-cancel-new-mission');
-      const newMissionForm = document.getElementById('new-mission-form');
-
-      function openNewMissionModal(prefillDate) {
-        if (!newMissionModal || !newMissionCard) return;
-        const dateInput = document.getElementById('new-date');
-        if (dateInput && prefillDate) {
-          dateInput.value = prefillDate;
-        }
-
-        newMissionModal.classList.remove('hidden');
-        newMissionModal.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-
-        requestAnimationFrame(() => {
-          newMissionCard.classList.remove('scale-95', 'opacity-0');
-          newMissionCard.classList.add('scale-100', 'opacity-100');
-        });
+        closeNewMissionModal();
       }
+    });
 
-      function closeNewMissionModal() {
-        if (!newMissionModal || !newMissionCard) return;
-        newMissionCard.classList.remove('scale-100', 'opacity-100');
-        newMissionCard.classList.add('scale-95', 'opacity-0');
-        document.body.style.overflow = '';
-        setTimeout(() => {
-          newMissionModal.classList.add('hidden');
-          newMissionModal.classList.remove('flex');
-        }, 200);
-      }
-
-      btnOpenNew?.addEventListener('click', () => openNewMissionModal(activeDayFullDate));
-      btnCloseNew?.addEventListener('click', closeNewMissionModal);
-      btnCancelNew?.addEventListener('click', closeNewMissionModal);
-      newMissionModal?.addEventListener('click', (e) => {
-        if (e.target === newMissionModal) closeNewMissionModal();
-      });
-
-      // Soumission formulaire nouvelle intervention
-      newMissionForm?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const date = document.getElementById('new-date').value;
-        const time = document.getElementById('new-time').value;
-        const client = document.getElementById('new-client').value.trim();
-        const address = document.getElementById('new-address').value.trim();
-        const service = document.getElementById('new-service').value;
-        const staff = document.getElementById('new-staff').value;
-        const access = document.getElementById('new-access').value.trim() || 'À confirmer avec le client';
-
-        const newId = `MIS-${Math.floor(860 + Math.random() * 90)}`;
-        const dateObj = new Date(date + 'T12:00:00');
-        const dayFormatted = `${['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'][dateObj.getDay()]} ${dateObj.getDate()} ${MONTH_NAMES[dateObj.getMonth()].slice(0,3)}.`;
-
-        const newMission = {
-          id: newId,
-          date: date,
-          day: dayFormatted,
-          time: time,
-          client: client,
-          phone: "+1 514 555-0199",
-          email: "client@unilka.ca",
-          address: address,
-          service: service,
-          category: service.toLowerCase().includes('bureau') ? 'commercial' : 'residentiel',
-          staff: staff,
-          staffRole: "Préposé(e) dédié(e)",
-          staffPhoto: staff === 'Fatou D.' ? '/images/admin/staff-fatou.jpg' : (staff === 'Jean-Marc T.' ? '/images/admin/staff-jeanmarc.jpg' : ''),
+    // 9. Seeder automatique si la collection 'interventions' est vide
+    async function seedInitialInterventions() {
+      const seeds = [
+        // Aujourd'hui
+        {
+          code: "MIS-841",
+          date: todayDateStr,
+          day: formatFrenchDate(todayDateStr),
+          time: "08:30 — 11:30",
+          client: "Résidence Mme Vachon",
+          phone: "+1 514 892-4182",
+          email: "vachon.westmount@gmail.com",
+          address: "Westmount, Av. Clarke (H3Y 3C7)",
+          service: "Entretien résidentiel régulier (Hebdo)",
+          category: "residentiel",
+          staff: "Fatou D.",
+          staffRole: "Préposée senior",
+          staffPhoto: "/images/admin/staff-fatou.jpg",
+          status: "Terminé",
+          statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
+          checklist: "42/42 points validés",
+          checklistProgress: 100,
+          accessKey: "Boîte à clés code #4182"
+        },
+        {
+          code: "MIS-842",
+          date: todayDateStr,
+          day: formatFrenchDate(todayDateStr),
+          time: "12:30 — 15:30",
+          client: "Appartement M. Lefebvre",
+          phone: "+1 514 771-9034",
+          email: "lefebvre.plateau@gmail.com",
+          address: "Plateau-Mont-Royal, Rue Saint-Denis (H2X 3K4)",
+          service: "Grand ménage d'automne",
+          category: "grand-menage",
+          staff: "Khadija B. & Jean-Marc T.",
+          staffRole: "Binôme d'intervention",
+          staffPhoto: "/images/admin/staff-jeanmarc.jpg",
+          status: "En cours",
+          statusColor: "bg-sky-100 text-sky-800 border-sky-200",
+          checklist: "Étape 2/3 (Sanitaires en cours)",
+          checklistProgress: 67,
+          accessKey: "Client présent sur place"
+        },
+        {
+          code: "MIS-843",
+          date: todayDateStr,
+          day: formatFrenchDate(todayDateStr),
+          time: "18:00 — 20:30",
+          client: "Agence Numérique Pixel",
+          phone: "+1 514 312-5509",
+          email: "contact@pixelagence.ca",
+          address: "Vieux-Montréal, Rue Saint-Paul (H2Y 1H7)",
+          service: "Nettoyage bureaux & vitrages",
+          category: "commercial",
+          staff: "Assane N.",
+          staffRole: "Spécialiste commercial",
+          staffPhoto: "",
+          status: "Planifié",
+          statusColor: "bg-gray-100 text-gray-800 border-gray-200",
+          checklist: "Inspection départ programmée",
+          checklistProgress: 0,
+          accessKey: "Badge d'accès bureau confié"
+        },
+        // Hier
+        {
+          code: "MIS-840",
+          date: getRelativeDateStr(-1),
+          day: formatFrenchDate(getRelativeDateStr(-1)),
+          time: "08:30 — 11:30",
+          client: "Résidence M. Gagnon",
+          phone: "+1 514 555-0140",
+          email: "gagnon.westmount@gmail.com",
+          address: "Westmount, Av. Lansdowne (H3Z 2X1)",
+          service: "Entretien résidentiel régulier",
+          category: "residentiel",
+          staff: "Fatou D.",
+          staffRole: "Préposée senior",
+          staffPhoto: "/images/admin/staff-fatou.jpg",
+          status: "Terminé",
+          statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
+          checklist: "42/42 points validés",
+          checklistProgress: 100,
+          accessKey: "Code portail #2940"
+        },
+        {
+          code: "MIS-840B",
+          date: getRelativeDateStr(-1),
+          day: formatFrenchDate(getRelativeDateStr(-1)),
+          time: "14:00 — 16:30",
+          client: "Condo M. Nadeau",
+          phone: "+1 514 555-0142",
+          email: "nadeau.griffintown@gmail.com",
+          address: "Griffintown, Rue des Bassins (H3J 0A1)",
+          service: "Entretien résidentiel bimensuel",
+          category: "residentiel",
+          staff: "Khadija B.",
+          staffRole: "Préposée certifiée",
+          staffPhoto: "",
+          status: "Terminé",
+          statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
+          checklist: "42/42 points validés",
+          checklistProgress: 100,
+          accessKey: "Boîte à clés code #8812"
+        },
+        // Demain
+        {
+          code: "MIS-844",
+          date: getRelativeDateStr(1),
+          day: formatFrenchDate(getRelativeDateStr(1)),
+          time: "09:00 — 12:00",
+          client: "Maison M. & Mme Bédard",
+          phone: "+1 514 620-3341",
+          email: "bedard.brossard@sympatico.ca",
+          address: "Brossard, Rue de Chateauneuf (J4X 2T9)",
+          service: "Entretien régulier bimensuel",
+          category: "residentiel",
+          staff: "Fatou D.",
+          staffRole: "Préposée dédiée",
+          staffPhoto: "/images/admin/staff-fatou.jpg",
           status: "Planifié",
           statusColor: "bg-gray-100 text-gray-800 border-gray-200",
           checklist: "Grille hôtelière 42 pts",
           checklistProgress: 0,
-          accessKey: access
-        };
-
-        missions.unshift(newMission);
-        saveMissions();
-
-        // Réinitialiser formulaire
-        newMissionForm.reset();
-        closeNewMissionModal();
-
-        // Mettre à jour calendriers
-        activeDayFullDate = date;
-        renderMonthlyCalendar();
-        renderWeekMissions(date);
-
-        if (window.showAdminToast) {
-          window.showAdminToast(`Intervention #${newId} pour ${client} planifiée avec succès !`);
+          accessKey: "Code garage transmis"
+        },
+        {
+          code: "MIS-845",
+          date: getRelativeDateStr(1),
+          day: formatFrenchDate(getRelativeDateStr(1)),
+          time: "13:30 — 16:30",
+          client: "Condo M. Roy",
+          phone: "+1 514 905-2287",
+          email: "roy.condos@outlook.com",
+          address: "Griffintown, Rue Wellington (H3C 0K7)",
+          service: "Nettoyage spécialisé (Canapé & tapis)",
+          category: "specialise",
+          staff: "Jean-Marc T.",
+          staffRole: "Technicien injection-extraction",
+          staffPhoto: "/images/admin/staff-jeanmarc.jpg",
+          status: "Planifié",
+          statusColor: "bg-gray-100 text-gray-800 border-gray-200",
+          checklist: "Protocole séchage rapide",
+          checklistProgress: 0,
+          accessKey: "Concierge de l'immeuble"
+        },
+        // Après-demain (+2 jours)
+        {
+          code: "MIS-846",
+          date: getRelativeDateStr(2),
+          day: formatFrenchDate(getRelativeDateStr(2)),
+          time: "08:30 — 12:00",
+          client: "Résidence Mme Fortin",
+          phone: "+1 514 555-0148",
+          email: "fortin.tmr@gmail.com",
+          address: "Mont-Royal, Av. Morrison (H3R 1K2)",
+          service: "Entretien résidentiel régulier (Hebdo)",
+          category: "residentiel",
+          staff: "Fatou D.",
+          staffRole: "Préposée senior",
+          staffPhoto: "/images/admin/staff-fatou.jpg",
+          status: "Planifié",
+          statusColor: "bg-gray-100 text-gray-800 border-gray-200",
+          checklist: "Protocole 42 points",
+          checklistProgress: 0,
+          accessKey: "Boîte à clés arrière #9123"
+        },
+        {
+          code: "MIS-847",
+          date: getRelativeDateStr(2),
+          day: formatFrenchDate(getRelativeDateStr(2)),
+          time: "13:00 — 15:30",
+          client: "Clinique Dentaire Laurier",
+          phone: "+1 514 555-0149",
+          email: "reception@dentairelaurier.com",
+          address: "Plateau, Av. Laurier Est (H2J 1G2)",
+          service: "Nettoyage médical normé",
+          category: "commercial",
+          staff: "Khadija B.",
+          staffRole: "Préposée certifiée",
+          staffPhoto: "",
+          status: "Planifié",
+          statusColor: "bg-gray-100 text-gray-800 border-gray-200",
+          checklist: "Protocole clinique hygiène",
+          checklistProgress: 0,
+          accessKey: "Personnel présent"
+        },
+        // +3 jours
+        {
+          code: "MIS-850",
+          date: getRelativeDateStr(3),
+          day: formatFrenchDate(getRelativeDateStr(3)),
+          time: "08:30 — 12:30",
+          client: "Maison M. Tremblay",
+          phone: "+1 514 555-0152",
+          email: "tremblay.westmount@gmail.com",
+          address: "Westmount, Av. Forden (H3Y 2Y6)",
+          service: "Entretien complet grand domaine",
+          category: "residentiel",
+          staff: "Fatou D.",
+          staffRole: "Binôme d'intervention",
+          staffPhoto: "/images/admin/staff-fatou.jpg",
+          status: "Planifié",
+          statusColor: "bg-gray-100 text-gray-800 border-gray-200",
+          checklist: "42 points + lingerie",
+          checklistProgress: 0,
+          accessKey: "Gouvernante sur place"
+        },
+        // +4 jours
+        {
+          code: "MIS-856",
+          date: getRelativeDateStr(4),
+          day: formatFrenchDate(getRelativeDateStr(4)),
+          time: "09:00 — 14:00",
+          client: "Domaine M. Charest",
+          phone: "+1 514 555-0158",
+          email: "charest.laval@gmail.com",
+          address: "Laval-sur-le-Lac, Rue Les Érables (H7R 1B2)",
+          service: "Grand ménage baies vitrées",
+          category: "grand-menage",
+          staff: "Jean-Marc T.",
+          staffRole: "Technicien qualifié",
+          staffPhoto: "/images/admin/staff-jeanmarc.jpg",
+          status: "Planifié",
+          statusColor: "bg-gray-100 text-gray-800 border-gray-200",
+          checklist: "Intérieur & vitres extérieures",
+          checklistProgress: 0,
+          accessKey: "Code portail principal"
+        },
+        // Jours fixes du mois pour garnir la grille mensuelle
+        {
+          code: "MIS-810",
+          date: getMonthDayStr(currentYear, currentMonth, 2),
+          day: formatFrenchDate(getMonthDayStr(currentYear, currentMonth, 2)),
+          time: "08:30 — 11:30",
+          client: "Résidence Mme Lemaire",
+          phone: "+1 514 555-0101",
+          email: "lemaire.westmount@gmail.com",
+          address: "Westmount, Av. Wood (H3Z 1Z2)",
+          service: "Entretien régulier",
+          category: "residentiel",
+          staff: "Fatou D.",
+          staffRole: "Préposée senior",
+          staffPhoto: "/images/admin/staff-fatou.jpg",
+          status: "Terminé",
+          statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
+          checklist: "42/42 points validés",
+          checklistProgress: 100,
+          accessKey: "Boîte à clés #1201"
+        },
+        {
+          code: "MIS-815",
+          date: getMonthDayStr(currentYear, currentMonth, 6),
+          day: formatFrenchDate(getMonthDayStr(currentYear, currentMonth, 6)),
+          time: "09:00 — 12:00",
+          client: "Résidence M. Archambault",
+          phone: "+1 514 555-0103",
+          email: "archambault.outremont@gmail.com",
+          address: "Outremont, Av. Rockland (H2V 2V3)",
+          service: "Entretien régulier",
+          category: "residentiel",
+          staff: "Fatou D.",
+          staffRole: "Préposée senior",
+          staffPhoto: "/images/admin/staff-fatou.jpg",
+          status: "Terminé",
+          statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
+          checklist: "42/42 points validés",
+          checklistProgress: 100,
+          accessKey: "Code garage #9941"
+        },
+        {
+          code: "MIS-820",
+          date: getMonthDayStr(currentYear, currentMonth, 12),
+          day: formatFrenchDate(getMonthDayStr(currentYear, currentMonth, 12)),
+          time: "18:00 — 21:00",
+          client: "Galerie d'Art Saint-Paul",
+          phone: "+1 514 555-0107",
+          email: "galerie@saintpaul.ca",
+          address: "Vieux-Montréal, Rue Saint-Paul (H2Y 1G8)",
+          service: "Bureaux & sols marbre",
+          category: "commercial",
+          staff: "Assane N.",
+          staffRole: "Spécialiste commercial",
+          staffPhoto: "",
+          status: "Planifié",
+          statusColor: "bg-gray-100 text-gray-800 border-gray-200",
+          checklist: "Grille hôtelière",
+          checklistProgress: 0,
+          accessKey: "Badge sécurité"
+        },
+        {
+          code: "MIS-825",
+          date: getMonthDayStr(currentYear, currentMonth, 16),
+          day: formatFrenchDate(getMonthDayStr(currentYear, currentMonth, 16)),
+          time: "14:00 — 17:30",
+          client: "Clinique Dentaire Rive-Nord",
+          phone: "+1 514 555-0105",
+          email: "contact@dentairerivenord.ca",
+          address: "Laval, Boulevard Saint-Martin (H7T 1B1)",
+          service: "Nettoyage médical normé",
+          category: "commercial",
+          staff: "Marie-Louise P.",
+          staffRole: "Préposée polyvalente",
+          staffPhoto: "",
+          status: "Planifié",
+          statusColor: "bg-gray-100 text-gray-800 border-gray-200",
+          checklist: "Protocole hygiène",
+          checklistProgress: 0,
+          accessKey: "Clé au responsable"
+        },
+        {
+          code: "MIS-830",
+          date: getMonthDayStr(currentYear, currentMonth, 20),
+          day: formatFrenchDate(getMonthDayStr(currentYear, currentMonth, 20)),
+          time: "10:00 — 13:00",
+          client: "Résidence Mme Tessier",
+          phone: "+1 514 555-0145",
+          email: "tessier.outremont@videotron.ca",
+          address: "Outremont, Av. Maplewood (H2V 2M1)",
+          service: "Entretien résidentiel régulier",
+          category: "residentiel",
+          staff: "Khadija B.",
+          staffRole: "Préposée certifiée",
+          staffPhoto: "",
+          status: "Planifié",
+          statusColor: "bg-gray-100 text-gray-800 border-gray-200",
+          checklist: "Grille hôtelière 42 pts",
+          checklistProgress: 0,
+          accessKey: "Clé remise à la voisine"
         }
+      ];
+
+      for (const item of seeds) {
+        try {
+          await addDoc(collection(db, 'interventions'), {
+            ...item,
+            createdAt: serverTimestamp()
+          });
+        } catch (e) {
+          console.warn('Erreur insertion seed :', e);
+        }
+      }
+    }
+
+    // 10. Écoute temps réel Firestore
+    onSnapshot(collection(db, 'interventions'), async (snapshot) => {
+      if (snapshot.empty && !isSeeding) {
+        isSeeding = true;
+        await seedInitialInterventions();
+        return;
+      }
+
+      const list: any[] = [];
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        list.push({
+          id: docSnap.id,
+          code: data.code || `MIS-${docSnap.id.slice(0, 5)}`,
+          date: data.date,
+          day: data.day || formatFrenchDate(data.date),
+          time: data.time || '09:00 — 12:00',
+          client: data.client || 'Client',
+          phone: data.phone || '+1 (514) 892-4182',
+          email: data.email || 'client@unilka.ca',
+          address: data.address || 'Montréal',
+          service: data.service || 'Entretien résidentiel',
+          category: data.category || 'residentiel',
+          staff: data.staff || 'Fatou D.',
+          staffRole: data.staffRole || 'Préposé(e) certifié(e)',
+          staffPhoto: data.staffPhoto || (data.staff === 'Fatou D.' ? '/images/admin/staff-fatou.jpg' : (data.staff === 'Jean-Marc T.' ? '/images/admin/staff-jeanmarc.jpg' : '')),
+          status: data.status || 'Planifié',
+          statusColor: data.statusColor || getStatusColor(data.status),
+          checklist: data.checklist || 'Grille hôtelière 42 pts',
+          checklistProgress: data.checklistProgress ?? (data.status === 'Terminé' ? 100 : (data.status === 'En cours' ? 67 : 0)),
+          accessKey: data.accessKey || 'Consignes à confirmer'
+        });
       });
 
-      // Fermeture des modales avec la touche Échap
-      window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          closeMissionModal();
-          closeNewMissionModal();
-        }
-      });
-
-      // 9. Initialisation par défaut : vue Mois
-      setView('month');
+      missions = list;
       renderMonthlyCalendar();
+      renderWeekBar();
+      renderWeekMissions(activeDayFullDate);
+    }, (error) => {
+      console.error('Erreur écoute Firestore interventions :', error);
+    });
 
-    })();
+    // 11. Initialisation de la vue Mois par défaut
+    setView('month');
+
   </script>
 
   <style>
