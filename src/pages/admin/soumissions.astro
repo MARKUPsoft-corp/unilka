@@ -149,6 +149,7 @@ try {
     const photoUrl = data.photoUrl || (Array.isArray(data.photos) && data.photos[0]?.url) || '';
 
     return {
+      rawId: doc.id,
       id: `SOU-${doc.id.substring(0, 5).toUpperCase()}`,
       date: formattedDate,
       client: data.client || `${data.firstName || ''} ${data.lastName || ''}`.trim() || 'Client',
@@ -173,7 +174,7 @@ try {
   console.warn('[Admin Soumissions] Chargement Firestore en direct échoué (mode démo actif) :', err?.message);
 }
 
-const submissions = liveSubmissions.length > 0 ? [...liveSubmissions, ...defaultSubmissions] : defaultSubmissions;
+const submissions = liveSubmissions.length > 0 ? liveSubmissions : defaultSubmissions;
 
 const countAll = submissions.length;
 const countPending = submissions.filter(s => s.status === 'À traiter' || s.status === 'Nouveau' || s.status === 'nouveau').length;
@@ -298,6 +299,7 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
             <tr
               class="submission-row hover:bg-[#F5FAFA] transition-colors group cursor-pointer"
               data-id={sub.id}
+              data-rawid={sub.rawId || sub.id}
               data-client={sub.client}
               data-email={sub.email}
               data-phone={sub.phone}
@@ -679,8 +681,11 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
     const closeDrawerBtn = document.getElementById('close-drawer-btn');
     const cancelDrawerBtn = document.getElementById('btn-cancel-drawer');
 
+    let currentOpenRow = null;
+
     function openDrawer(row) {
       if (!drawer || !backdrop) return;
+      currentOpenRow = row;
 
       const id = row.dataset.id;
       const client = row.dataset.client;
@@ -763,6 +768,24 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
     cancelDrawerBtn?.addEventListener('click', closeDrawer);
     backdrop?.addEventListener('click', closeDrawer);
 
+    // Auto-ouverture si paramètre ?id= dans l'URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetParamId = urlParams.get('id');
+    if (targetParamId) {
+      const match = Array.from(rows).find(r => 
+        r.dataset.id === targetParamId ||
+        r.dataset.rawid === targetParamId ||
+        (r.dataset.id && r.dataset.id.toLowerCase().includes(targetParamId.toLowerCase())) ||
+        (r.dataset.rawid && r.dataset.rawid.toLowerCase().includes(targetParamId.toLowerCase()))
+      );
+      if (match) {
+        setTimeout(() => {
+          openDrawer(match);
+          match.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 150);
+      }
+    }
+
     // 3. Calculateur de devis
     const hoursInput = document.getElementById('calc-hours');
     const rateInput = document.getElementById('calc-rate');
@@ -816,9 +839,32 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
     });
 
     const sendQuoteBtn = document.getElementById('btn-send-quote-email');
-    sendQuoteBtn?.addEventListener('click', () => {
+    sendQuoteBtn?.addEventListener('click', async () => {
       const id = document.getElementById('drawer-id')?.textContent || 'SOU-1042';
       const client = document.getElementById('drawer-client')?.textContent || 'Client';
+
+      try {
+        const { db } = await import('../../lib/firebase');
+        const { doc, updateDoc } = await import('firebase/firestore');
+        const rawId = currentOpenRow?.dataset.rawid;
+        if (rawId) {
+          await updateDoc(doc(db, 'submissions', rawId), {
+            status: 'Devis envoyé',
+            statusColor: 'bg-blue-100 text-blue-800 border-blue-200'
+          });
+          const badge = document.getElementById('drawer-status-badge');
+          if (badge) {
+            badge.textContent = 'Devis envoyé';
+            badge.className = 'px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-blue-100 text-blue-800 border border-blue-200';
+          }
+          if (currentOpenRow) {
+            currentOpenRow.dataset.status = 'Devis envoyé';
+          }
+        }
+      } catch (e) {
+        console.warn('Mise à jour statut Firestore :', e);
+      }
+
       if (window.showAdminToast) {
         window.showAdminToast(`Devis ${id} officiellement transmis à ${client} !`);
       }

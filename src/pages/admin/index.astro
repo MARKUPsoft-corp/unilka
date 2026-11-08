@@ -64,14 +64,36 @@ const defaultPendingSubmissions = [
   }
 ];
 
+function formatRelativeTime(dateStr: string | undefined): string {
+  if (!dateStr) return 'Récemment';
+  const diffMs = Date.now() - new Date(dateStr).getTime();
+  const diffMins = Math.floor(diffMs / (1000 * 60));
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  if (diffMins < 1) return "À l'instant";
+  if (diffMins < 60) return `Il y a ${diffMins} min`;
+  if (diffHours < 24) return `Il y a ${diffHours}h`;
+  if (diffDays === 1) return `Hier`;
+  return `Il y a ${diffDays} jours`;
+}
+
 let livePendingSubmissions: any[] = [];
+let totalSubmissionsCount = 0;
+let pendingSubmissionsCount = 0;
+let candidatesCount = 0;
+let liveActivities: any[] = [];
+
 try {
   const { db } = await import('../../lib/firebase');
   const { collection, getDocs, query, orderBy, limit } = await import('firebase/firestore');
 
-  const q = query(collection(db, 'submissions'), orderBy('createdAt', 'desc'), limit(10));
-  const snap = await getDocs(q);
-  livePendingSubmissions = snap.docs.map(doc => {
+  // 1. Récupération des soumissions Firestore
+  const qSub = query(collection(db, 'submissions'), orderBy('createdAt', 'desc'), limit(50));
+  const snap = await getDocs(qSub);
+  totalSubmissionsCount = snap.size;
+
+  const rawSubmissions = snap.docs.map(doc => {
     const data = doc.data();
     const d = data.createdAt ? new Date(data.createdAt) : new Date();
     const formattedDate = d.toLocaleDateString('fr-CA', {
@@ -82,9 +104,13 @@ try {
     });
 
     const hasPhotos = Boolean(data.hasPhotos || (Array.isArray(data.photos) && data.photos.length > 0));
-    const image = data.photoUrl || (Array.isArray(data.photos) && data.photos[0]?.url) || '/images/service-regular.jpg';
+    const image = data.photoUrl || (Array.isArray(data.photos) && data.photos[0]?.url) || '';
+
+    const isPending = !data.status || data.status === 'À traiter' || data.status === 'Nouveau' || data.status === 'nouveau';
+    if (isPending) pendingSubmissionsCount++;
 
     return {
+      rawId: doc.id,
       id: `SOU-${doc.id.substring(0, 5).toUpperCase()}`,
       client: data.client || `${data.firstName || ''} ${data.lastName || ''}`.trim() || 'Client',
       email: data.email || '',
@@ -96,14 +122,85 @@ try {
       status: data.status === 'À traiter' ? 'Nouveau' : (data.status || 'Nouveau'),
       statusColor: data.statusColor || 'bg-amber-100 text-amber-900 border-amber-200',
       image,
-      hasPhotos
+      hasPhotos,
+      createdAt: data.createdAt,
+      isPending
     };
   });
+
+  livePendingSubmissions = rawSubmissions.filter(s => s.isPending);
+  if (livePendingSubmissions.length === 0 && rawSubmissions.length > 0) {
+    livePendingSubmissions = rawSubmissions.slice(0, 10);
+  }
+
+  // 2. Récupération des candidatures Firestore
+  const qCand = query(collection(db, 'candidates'), orderBy('createdAt', 'desc'), limit(20));
+  const candSnap = await getDocs(qCand);
+  candidatesCount = candSnap.size;
+
+  // 3. Activités récentes dynamiques
+  const subActs = rawSubmissions.slice(0, 3).map(s => ({
+    type: "soumission",
+    title: "Nouvelle soumission reçue",
+    desc: `${s.client} a demandé un devis (${s.service}, ${s.location}).`,
+    time: formatRelativeTime(s.createdAt),
+    timestamp: s.createdAt ? new Date(s.createdAt).getTime() : 0,
+    badge: "Soumission"
+  }));
+
+  const candActs = candSnap.docs.slice(0, 3).map(doc => {
+    const data = doc.data();
+    const name = data.candidateName || data.name || `${data.firstName || ''} ${data.lastName || ''}`.trim() || 'Candidat';
+    return {
+      type: "candidature",
+      title: "Nouvelle candidature reçue",
+      desc: `${name} a postulé (${data.availability || 'Dispo'}, ${data.city || 'Montréal'}).`,
+      time: formatRelativeTime(data.createdAt),
+      timestamp: data.createdAt ? new Date(data.createdAt).getTime() : 0,
+      badge: "Recrutement"
+    };
+  });
+
+  liveActivities = [...subActs, ...candActs].sort((a, b) => b.timestamp - a.timestamp).slice(0, 4);
+
 } catch (err: any) {
   console.warn('[Admin Dashboard] Chargement Firestore échoué (mode démo actif) :', err?.message);
 }
 
-const pendingSubmissions = livePendingSubmissions.length > 0 ? [...livePendingSubmissions, ...defaultPendingSubmissions] : defaultPendingSubmissions;
+const pendingSubmissions = livePendingSubmissions.length > 0 ? livePendingSubmissions : defaultPendingSubmissions;
+const pendingCount = pendingSubmissionsCount || (livePendingSubmissions.length > 0 ? livePendingSubmissions.length : defaultPendingSubmissions.length);
+const totalCount = totalSubmissionsCount || pendingCount;
+const candCount = candidatesCount || 11;
+const recentActivities = liveActivities.length > 0 ? liveActivities : [
+  {
+    type: "candidature",
+    title: "Nouvelle candidature reçue",
+    desc: "Marie-Claire K. a postulé comme préposée (Dispo temps plein, Lanaudière).",
+    time: "Il y a 28 min",
+    badge: "Recrutement"
+  },
+  {
+    type: "paiement",
+    title: "Paiement Stripe confirmé",
+    desc: "Facture #FAC-2026-118 réglée par carte de crédit (345,00 $ CAD).",
+    time: "Il y a 1h 40m",
+    badge: "Stripe"
+  },
+  {
+    type: "soumission",
+    title: "Devis accepté par le client",
+    desc: "Devis SOU-1035 validé par M. Bédard (Résidence Brossard).",
+    time: "Il y a 3h",
+    badge: "Devis"
+  },
+  {
+    type: "checklist",
+    title: "Checklist 42 points validée",
+    desc: "Mission MIS-841 à Westmount inspectée sans réserve.",
+    time: "Il y a 4h 15m",
+    badge: "Qualité"
+  }
+];
 
 const todaysMissions = [
   {
@@ -143,37 +240,6 @@ const todaysMissions = [
     checklistColor: "bg-gray-100 text-gray-700 border-gray-200"
   }
 ];
-
-const recentActivities = [
-  {
-    type: "candidature",
-    title: "Nouvelle candidature reçue",
-    desc: "Marie-Claire K. a postulé comme préposée (Dispo temps plein, Lanaudière).",
-    time: "Il y a 28 min",
-    badge: "Recrutement"
-  },
-  {
-    type: "paiement",
-    title: "Paiement Stripe confirmé",
-    desc: "Facture #FAC-2026-118 réglée par carte de crédit (345,00 $ CAD).",
-    time: "Il y a 1h 40m",
-    badge: "Stripe"
-  },
-  {
-    type: "soumission",
-    title: "Devis accepté par le client",
-    desc: "Devis SOU-1035 validé par M. Bédard (Résidence Brossard).",
-    time: "Il y a 3h",
-    badge: "Devis"
-  },
-  {
-    type: "checklist",
-    title: "Checklist 42 points validée",
-    desc: "Mission MIS-841 à Westmount inspectée sans réserve.",
-    time: "Il y a 4h 15m",
-    badge: "Qualité"
-  }
-];
 ---
 
 <AdminLayout title="Vue d'ensemble" activeNav="dashboard">
@@ -198,7 +264,7 @@ const recentActivities = [
         href="/admin/soumissions/"
         class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-sm transition-all no-underline"
       >
-        <span>Traiter les 4 soumissions</span>
+        <span id="btn-pending-count">Traiter les {pendingCount} soumissions</span>
         <AdminIcon name="arrow-right" class="w-3.5 h-3.5" />
       </a>
     </div>
@@ -211,13 +277,13 @@ const recentActivities = [
     <div class="p-6 rounded-2xl bg-white border border-[#0E7C86]/12 shadow-2xs space-y-3">
       <div class="flex items-center justify-between text-[#3D5A5E]">
         <span class="text-xs font-extrabold uppercase tracking-wider text-[#0E7C86]">Soumissions</span>
-        <span class="w-7 h-7 rounded-lg bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center text-xs font-black">
-          4
+        <span id="kpi-submissions-badge" class="w-7 h-7 rounded-lg bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center text-xs font-black">
+          {pendingCount}
         </span>
       </div>
       <div>
-        <span class="text-3xl font-black text-[#0B2A2E] tracking-tight">4 en attente</span>
-        <p class="text-xs text-[#3D5A5E] mt-1">Délai moyen de réponse : <strong>2h 15m</strong></p>
+        <span id="kpi-submissions-val" class="text-3xl font-black text-[#0B2A2E] tracking-tight">{pendingCount} en attente</span>
+        <p id="kpi-submissions-sub" class="text-xs text-[#3D5A5E] mt-1">{pendingCount > 0 ? "Délai moyen de réponse : 2h 15m" : "Toutes les demandes sont traitées"}</p>
       </div>
       <div class="pt-2 border-t border-[#0E7C86]/10 flex items-center justify-between text-[11px] text-[#0E7C86] font-bold">
         <span>Objectif : &lt; 24h ouvrées</span>
@@ -232,12 +298,12 @@ const recentActivities = [
     <div class="p-6 rounded-2xl bg-white border border-[#0E7C86]/12 shadow-2xs space-y-3">
       <div class="flex items-center justify-between text-[#3D5A5E]">
         <span class="text-xs font-extrabold uppercase tracking-wider text-[#0E7C86]">Missions du jour</span>
-        <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs font-black">
-          3
+        <span id="kpi-missions-badge" class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs font-black">
+          {todaysMissions.length}
         </span>
       </div>
       <div>
-        <span class="text-3xl font-black text-[#0B2A2E] tracking-tight">3 prévues</span>
+        <span id="kpi-missions-val" class="text-3xl font-black text-[#0B2A2E] tracking-tight">{todaysMissions.length} prévues</span>
         <p class="text-xs text-[#3D5A5E] mt-1">1 terminée, 1 en cours, 1 ce soir</p>
       </div>
       <div class="pt-2 border-t border-[#0E7C86]/10 flex items-center justify-between text-[11px] text-emerald-700 font-bold">
@@ -313,31 +379,38 @@ const recentActivities = [
       <div class="bg-white rounded-2xl border border-[#0E7C86]/12 overflow-hidden shadow-2xs">
         <div class="p-5 sm:p-6 border-b border-[#0E7C86]/10 flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
             <h2 class="text-base font-extrabold text-[#0B2A2E]">
               Soumissions entrantes à chiffrer sous 24h
             </h2>
           </div>
-          <span class="text-xs font-bold text-[#0E7C86] bg-[#E3F4F5] px-2.5 py-1 rounded-full">
-            4 demandes en attente
+          <span id="table-pending-count" class="text-xs font-bold text-[#0E7C86] bg-[#E3F4F5] px-2.5 py-1 rounded-full">
+            {pendingCount} demandes en attente
           </span>
         </div>
 
-        <div class="divide-y divide-[#0E7C86]/08">
+        <div class="divide-y divide-[#0E7C86]/08" id="submissions-list-container">
           {pendingSubmissions.map((sub) => (
-            <div class="p-5 sm:p-6 hover:bg-[#F5FAFA] transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="p-5 sm:p-6 hover:bg-[#F5FAFA] transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4 submission-item" data-id={sub.rawId || sub.id}>
               
               <div class="flex items-start gap-4 flex-1">
                 <!-- Miniature photo réelle de l'espace ou de la demande -->
-                <div class="relative w-20 h-20 rounded-xl overflow-hidden shrink-0 border border-[#0E7C86]/15 bg-gray-100">
-                  <img
-                    src={sub.image}
-                    alt={sub.service}
-                    class="w-full h-full object-cover"
-                    loading="lazy"
-                  />
+                <div class="relative w-20 h-20 rounded-xl overflow-hidden shrink-0 border border-[#0E7C86]/15 bg-gray-100 flex items-center justify-center">
+                  {sub.image ? (
+                    <img
+                      src={sub.image}
+                      alt={sub.service}
+                      class="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div class="w-full h-full bg-[#E3F4F5] flex flex-col items-center justify-center text-[#0E7C86]">
+                      <AdminIcon name="document" class="w-6 h-6 opacity-60" />
+                      <span class="text-[9px] font-bold mt-1">Devis</span>
+                    </div>
+                  )}
                   {sub.hasPhotos && (
-                    <span class="absolute bottom-1 right-1 bg-[#0B2A2E]/80 text-white p-1 rounded-md">
+                    <span class="absolute bottom-1 right-1 bg-[#0B2A2E]/80 text-white p-1 rounded-md" title="Photos jointes par le client">
                       <AdminIcon name="camera" class="w-3 h-3 text-white" />
                     </span>
                   )}
@@ -372,7 +445,7 @@ const recentActivities = [
 
               <div class="flex items-center gap-2 shrink-0 sm:self-center">
                 <a
-                  href={`/admin/soumissions/?id=${sub.id}`}
+                  href={`/admin/soumissions/?id=${sub.rawId || sub.id}`}
                   class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full transition-colors no-underline shadow-2xs"
                 >
                   <span>Chiffrer</span>
@@ -384,8 +457,8 @@ const recentActivities = [
         </div>
 
         <div class="p-4 bg-[#F5FAFA] border-t border-[#0E7C86]/10 text-center">
-          <a href="/admin/soumissions/" class="text-xs font-bold text-[#0E7C86] hover:underline inline-flex items-center gap-1">
-            <span>Consulter l'historique complet de toutes les soumissions (18)</span>
+          <a id="total-submissions-link" href="/admin/soumissions/" class="text-xs font-bold text-[#0E7C86] hover:underline inline-flex items-center gap-1">
+            <span>Consulter l'historique complet de toutes les soumissions ({totalCount})</span>
             <AdminIcon name="arrow-right" class="w-3 h-3" />
           </a>
         </div>
@@ -508,7 +581,7 @@ const recentActivities = [
           >
             <div class="flex items-center gap-2.5">
               <AdminIcon name="users" class="w-4 h-4 text-[#0E7C86]" />
-              <span>Voir les candidatures reçues (3)</span>
+              <span id="quick-action-candidates-count">Voir les candidatures reçues ({candCount})</span>
             </div>
             <span class="w-2 h-2 rounded-full bg-[#FFB703]"></span>
           </a>
@@ -553,17 +626,20 @@ const recentActivities = [
           <h3 class="text-xs font-extrabold uppercase tracking-wider text-[#0E7C86]">
             Activités Récentes
           </h3>
-          <span class="text-[10px] text-[#3D5A5E]">Temps réel</span>
+          <span class="text-[10px] text-[#3D5A5E] flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#0E7C86] animate-pulse"></span>
+            <span>Temps réel</span>
+          </span>
         </div>
 
-        <div class="space-y-4">
+        <div class="space-y-4" id="recent-activities-container">
           {recentActivities.map((act) => (
             <div class="flex items-start gap-3 text-xs pb-3 border-b border-[#0E7C86]/08 last:border-0 last:pb-0">
-              <span class="w-2 h-2 rounded-full bg-[#0E7C86] shrink-0 mt-1.5"></span>
+              <span class={`w-2 h-2 rounded-full ${act.type === 'soumission' ? 'bg-[#0E7C86]' : 'bg-[#FFB703]'} shrink-0 mt-1.5`}></span>
               <div class="space-y-0.5">
                 <div class="flex items-center gap-2">
                   <span class="font-bold text-[#0B2A2E]">{act.title}</span>
-                  <span class="text-[9px] font-extrabold bg-[#E3F4F5] text-[#0E7C86] px-1.5 py-0.2 rounded">
+                  <span class={`text-[9px] font-extrabold ${act.type === 'soumission' ? 'bg-[#E3F4F5] text-[#0E7C86]' : 'bg-[#FFB703]/20 text-[#0B2A2E]'} px-1.5 py-0.2 rounded`}>
                     {act.badge}
                   </span>
                 </div>
@@ -578,5 +654,244 @@ const recentActivities = [
     </div>
 
   </div>
+
+  <!-- Synchronisation temps réel Firestore du Dashboard -->
+  <script>
+    import { db } from '../../lib/firebase';
+    import { collection, onSnapshot, query, orderBy, limit } from 'firebase/firestore';
+
+    let isInitialSubLoad = true;
+    let latestSubmissions: any[] = [];
+    let latestCandidates: any[] = [];
+
+    function getRelativeTime(timestamp: number): string {
+      const diffMs = Date.now() - timestamp;
+      const diffMins = Math.floor(diffMs / 60000);
+      const diffHours = Math.floor(diffMs / 3600000);
+      const diffDays = Math.floor(diffMs / 86400000);
+      if (diffMins < 1) return "À l'instant";
+      if (diffMins < 60) return `Il y a ${diffMins} min`;
+      if (diffHours < 24) return `Il y a ${diffHours}h`;
+      if (diffDays === 1) return `Hier`;
+      return `Il y a ${diffDays} jours`;
+    }
+
+    function updateActivitiesFeed() {
+      const actContainer = document.getElementById('recent-activities-container');
+      if (!actContainer) return;
+
+      const subActs = latestSubmissions.slice(0, 3).map(s => ({
+        type: "soumission",
+        title: "Nouvelle soumission reçue",
+        desc: `${s.client} a demandé un devis (${s.service}, ${s.location}).`,
+        time: getRelativeTime(s.timestamp),
+        timestamp: s.timestamp,
+        badge: "Soumission"
+      }));
+
+      const candActs = latestCandidates.slice(0, 3).map(c => ({
+        type: "candidature",
+        title: "Nouvelle candidature reçue",
+        desc: `${c.name} a postulé (${c.availability || 'Dispo'}, ${c.city || 'Montréal'}).`,
+        time: getRelativeTime(c.timestamp),
+        timestamp: c.timestamp,
+        badge: "Recrutement"
+      }));
+
+      const merged = [...subActs, ...candActs].sort((a, b) => b.timestamp - a.timestamp).slice(0, 4);
+      if (merged.length > 0) {
+        actContainer.innerHTML = merged.map(act => `
+          <div class="flex items-start gap-3 text-xs pb-3 border-b border-[#0E7C86]/08 last:border-0 last:pb-0">
+            <span class="w-2 h-2 rounded-full ${act.type === 'soumission' ? 'bg-[#0E7C86]' : 'bg-[#FFB703]'} shrink-0 mt-1.5"></span>
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-[#0B2A2E]">${act.title}</span>
+                <span class="text-[9px] font-extrabold ${act.type === 'soumission' ? 'bg-[#E3F4F5] text-[#0E7C86]' : 'bg-[#FFB703]/20 text-[#0B2A2E]'} px-1.5 py-0.2 rounded">
+                  ${act.badge}
+                </span>
+              </div>
+              <p class="text-[#3D5A5E] leading-relaxed text-[11px]">${act.desc}</p>
+              <span class="text-[10px] text-[#3D5A5E]/60">${act.time}</span>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    try {
+      // 1. Écouteur en direct sur les soumissions
+      const subQ = query(collection(db, 'submissions'), orderBy('createdAt', 'desc'), limit(50));
+      onSnapshot(subQ, (snapshot) => {
+        const totalCount = snapshot.size;
+        let pendingCount = 0;
+        const items: any[] = [];
+
+        snapshot.docs.forEach(doc => {
+          const data = doc.data();
+          const isPending = !data.status || data.status === 'À traiter' || data.status === 'Nouveau' || data.status === 'nouveau';
+          if (isPending) pendingCount++;
+
+          const ts = data.createdAt ? new Date(data.createdAt).getTime() : Date.now();
+          const d = new Date(ts);
+          const formattedDate = d.toLocaleDateString('fr-CA', {
+            day: 'numeric',
+            month: 'short',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+
+          const hasPhotos = Boolean(data.hasPhotos || (Array.isArray(data.photos) && data.photos.length > 0));
+          const image = data.photoUrl || (Array.isArray(data.photos) && data.photos[0]?.url) || '';
+
+          items.push({
+            rawId: doc.id,
+            id: `SOU-${doc.id.substring(0, 5).toUpperCase()}`,
+            client: data.client || `${data.firstName || ''} ${data.lastName || ''}`.trim() || 'Client',
+            service: `${data.service || 'Nettoyage résidentiel'} (${data.frequency || 'Ponctuel'})`,
+            location: data.location || (data.city ? `${data.city}, QC` : 'Montréal'),
+            dateDesired: formattedDate,
+            surface: data.surface || 'Non spécifiée',
+            status: data.status === 'À traiter' ? 'Nouveau' : (data.status || 'Nouveau'),
+            statusColor: data.statusColor || 'bg-amber-100 text-amber-900 border-amber-200',
+            image,
+            hasPhotos,
+            timestamp: ts,
+            isPending
+          });
+        });
+
+        latestSubmissions = items;
+
+        // Mise à jour des compteurs et KPI
+        const btnCount = document.getElementById('btn-pending-count');
+        if (btnCount) btnCount.textContent = `Traiter les ${pendingCount || totalCount} soumissions`;
+
+        const kpiBadge = document.getElementById('kpi-submissions-badge');
+        if (kpiBadge) kpiBadge.textContent = String(pendingCount || totalCount);
+
+        const kpiVal = document.getElementById('kpi-submissions-val');
+        if (kpiVal) kpiVal.textContent = `${pendingCount || totalCount} en attente`;
+
+        const kpiSub = document.getElementById('kpi-submissions-sub');
+        if (kpiSub) {
+          kpiSub.innerHTML = pendingCount > 0 
+            ? 'Délai moyen de réponse : <strong>2h 15m</strong>' 
+            : 'Toutes les demandes sont traitées';
+        }
+
+        const tableBadge = document.getElementById('table-pending-count');
+        if (tableBadge) tableBadge.textContent = `${pendingCount || totalCount} demandes en attente`;
+
+        const totalLink = document.getElementById('total-submissions-link');
+        if (totalLink) {
+          totalLink.innerHTML = `<span>Consulter l'historique complet de toutes les soumissions (${totalCount})</span><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>`;
+        }
+
+        // Mise à jour du tableau des soumissions entrantes
+        const container = document.getElementById('submissions-list-container');
+        const pendingItems = items.filter(i => i.isPending);
+        const displayItems = pendingItems.length > 0 ? pendingItems.slice(0, 10) : items.slice(0, 10);
+
+        if (container && displayItems.length > 0) {
+          container.innerHTML = displayItems.map(sub => `
+            <div class="p-5 sm:p-6 hover:bg-[#F5FAFA] transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4 submission-item" data-id="${sub.rawId}">
+              <div class="flex items-start gap-4 flex-1">
+                <div class="relative w-20 h-20 rounded-xl overflow-hidden shrink-0 border border-[#0E7C86]/15 bg-gray-100 flex items-center justify-center">
+                  ${sub.image 
+                    ? `<img src="${sub.image}" alt="${sub.service}" class="w-full h-full object-cover" loading="lazy" />`
+                    : `<div class="w-full h-full bg-[#E3F4F5] flex flex-col items-center justify-center text-[#0E7C86]">
+                         <svg class="w-6 h-6 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                         <span class="text-[9px] font-bold mt-1">Devis</span>
+                       </div>`
+                  }
+                  ${sub.hasPhotos ? `
+                    <span class="absolute bottom-1 right-1 bg-[#0B2A2E]/80 text-white p-1 rounded-md" title="Photos jointes par le client">
+                      <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    </span>
+                  ` : ''}
+                </div>
+
+                <div class="space-y-1.5 flex-1 min-w-0">
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-black text-[#0B2A2E]">${sub.client}</span>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${sub.statusColor}">
+                      ${sub.status}
+                    </span>
+                    <span class="text-[11px] text-[#3D5A5E]/70 font-mono">#${sub.id}</span>
+                  </div>
+                  <p class="text-xs font-bold text-[#0E7C86] truncate">${sub.service}</p>
+                  
+                  <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-[#3D5A5E]">
+                    <span class="inline-flex items-center gap-1">
+                      <svg class="w-3.5 h-3.5 text-[#0E7C86]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                      ${sub.location}
+                    </span>
+                    <span class="inline-flex items-center gap-1">
+                      <svg class="w-3.5 h-3.5 text-[#0E7C86]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                      ${sub.surface}
+                    </span>
+                    <span class="inline-flex items-center gap-1">
+                      <svg class="w-3.5 h-3.5 text-[#0E7C86]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                      ${sub.dateDesired}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2 shrink-0 sm:self-center">
+                <a
+                  href="/admin/soumissions/?id=${sub.rawId}"
+                  class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full transition-colors no-underline shadow-2xs"
+                >
+                  <span>Chiffrer</span>
+                  <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </a>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        updateActivitiesFeed();
+
+        // Notification toast en direct si une soumission est ajoutée pendant la session
+        if (!isInitialSubLoad) {
+          snapshot.docChanges().forEach(change => {
+            if (change.type === 'added') {
+              const d = change.doc.data();
+              const clientName = d.client || `${d.firstName || ''} ${d.lastName || ''}`.trim() || 'Un client';
+              if ((window as any).showAdminToast) {
+                (window as any).showAdminToast(`Nouvelle soumission en direct : ${clientName} (${d.service || 'Ménage'})`);
+              }
+            }
+          });
+        }
+        isInitialSubLoad = false;
+      });
+
+      // 2. Écouteur en direct sur les candidats
+      const candQ = query(collection(db, 'candidates'), orderBy('createdAt', 'desc'), limit(20));
+      onSnapshot(candQ, (snapshot) => {
+        const count = snapshot.size;
+        const quickBtn = document.getElementById('quick-action-candidates-count');
+        if (quickBtn) quickBtn.textContent = `Voir les candidatures reçues (${count})`;
+
+        latestCandidates = snapshot.docs.map(doc => {
+          const data = doc.data();
+          const name = data.candidateName || data.name || `${data.firstName || ''} ${data.lastName || ''}`.trim() || 'Candidat';
+          const ts = data.createdAt ? new Date(data.createdAt).getTime() : Date.now();
+          return {
+            name,
+            city: data.city || 'Montréal',
+            availability: data.availability || 'Dispo',
+            timestamp: ts
+          };
+        });
+
+        updateActivitiesFeed();
+      });
+    } catch (err) {
+      console.warn('[Admin Dashboard] Erreur synchronisation temps réel :', err);
+    }
+  </script>
 
 </AdminLayout>

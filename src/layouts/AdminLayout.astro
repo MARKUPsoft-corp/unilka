@@ -20,7 +20,7 @@ const navItems = [
     label: "Soumissions & Devis",
     href: '/admin/soumissions/',
     icon: 'inbox',
-    badge: '4'
+    badge: '23'
   },
   {
     id: 'planning',
@@ -40,7 +40,7 @@ const navItems = [
     label: "Équipe & Candidats",
     href: '/admin/equipe/',
     icon: 'badge-check',
-    badge: '2'
+    badge: '11'
   },
   {
     id: 'facturation',
@@ -227,7 +227,9 @@ const navItems = [
               </div>
 
               {item.badge && (
-                <span class={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${
+                <span
+                  id={`nav-badge-${item.id}`}
+                  class={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${
                   item.id === 'soumissions'
                     ? 'bg-[#0E7C86] text-white'
                     : item.id === 'planning'
@@ -444,6 +446,30 @@ const navItems = [
           }
         }
       });
+
+      // Synchronisation en temps réel des compteurs du menu latéral
+      try {
+        const { db } = await import('../lib/firebase');
+        const { collection, onSnapshot } = await import('firebase/firestore');
+
+        onSnapshot(collection(db, 'submissions'), (snap) => {
+          let pendingCount = 0;
+          snap.docs.forEach((doc) => {
+            const data = doc.data();
+            const isPending = !data.status || data.status === 'À traiter' || data.status === 'Nouveau' || data.status === 'nouveau';
+            if (isPending) pendingCount++;
+          });
+          const badge = document.getElementById('nav-badge-soumissions');
+          if (badge) badge.textContent = String(pendingCount || snap.size);
+        });
+
+        onSnapshot(collection(db, 'candidates'), (snap) => {
+          const badge = document.getElementById('nav-badge-equipe');
+          if (badge) badge.textContent = String(snap.size);
+        });
+      } catch (err) {
+        console.warn('[Admin Layout] Synchronisation badges en direct :', err);
+      }
 
       // Déconnexion
       document.getElementById('admin-logout-btn')?.addEventListener('click', async () => {
