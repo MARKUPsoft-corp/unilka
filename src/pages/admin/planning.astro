@@ -419,7 +419,7 @@ const staffAvailabilities = [
                   <option value="Assane N.">Assane N. (Spécialiste commercial)</option>
                   <option value="Marie-Louise P.">Marie-Louise P. (Préposée polyvalente)</option>
                 </select>
-                <span class="text-[10px] text-[#3D5A5E] block mt-0.5">Réassignable instantanément dans Firestore</span>
+                <span class="text-[10px] text-[#3D5A5E] block mt-0.5">Réassignable instantanément</span>
               </div>
             </div>
           </div>
@@ -522,7 +522,7 @@ const staffAvailabilities = [
             id="btn-save-mission-changes"
             class="px-5 py-2.5 rounded-full text-xs font-extrabold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-sm transition-all"
           >
-            Enregistrer dans Firebase
+            Enregistrer
           </button>
         </div>
       </div>
@@ -670,7 +670,7 @@ const staffAvailabilities = [
             id="btn-submit-new-mission"
             class="px-5 py-2.5 rounded-full font-extrabold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-sm transition-all"
           >
-            Enregistrer dans Firebase
+            Enregistrer
           </button>
         </div>
 
@@ -1487,12 +1487,12 @@ const staffAvailabilities = [
 
         activeDayFullDate = date;
         if ((window as any).showAdminToast) {
-          (window as any).showAdminToast(`Intervention #${newCode} enregistrée dans Firebase !`);
+          (window as any).showAdminToast(`Intervention #${newCode} enregistrée !`);
         }
       } catch (err) {
         console.error('Erreur ajout Firestore :', err);
         if ((window as any).showAdminToast) {
-          (window as any).showAdminToast("Erreur lors de l'enregistrement dans Firebase");
+          (window as any).showAdminToast("Erreur lors de l'enregistrement de l'intervention");
         }
       }
     });
