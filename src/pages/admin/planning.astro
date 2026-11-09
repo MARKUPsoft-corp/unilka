@@ -283,7 +283,7 @@ const staffAvailabilities = [
   <!-- ======================================================== -->
   <div
     id="mission-detail-modal"
-    class="fixed inset-0 bg-[#0B2A2E]/60 backdrop-blur-sm z-50 hidden items-center justify-center p-3 sm:p-5 md:p-8 transition-opacity duration-200"
+    class="fixed inset-0 bg-[#0B2A2E]/60 backdrop-blur-sm z-[80] hidden items-center justify-center p-3 sm:p-5 md:p-8 transition-opacity duration-200"
     role="dialog"
     aria-modal="true"
   >
@@ -535,7 +535,7 @@ const staffAvailabilities = [
   <!-- ======================================================== -->
   <div
     id="new-mission-modal"
-    class="fixed inset-0 bg-[#0B2A2E]/60 backdrop-blur-sm z-50 hidden items-center justify-center p-3 sm:p-5 md:p-8 transition-opacity duration-200"
+    class="fixed inset-0 bg-[#0B2A2E]/60 backdrop-blur-sm z-[80] hidden items-center justify-center p-3 sm:p-5 md:p-8 transition-opacity duration-200"
     role="dialog"
     aria-modal="true"
   >
@@ -1202,8 +1202,12 @@ const staffAvailabilities = [
     const btnToggleStatus = document.getElementById('btn-toggle-mission-status');
     const btnSaveMission = document.getElementById('btn-save-mission-changes');
     const btnCopyAccessKey = document.getElementById('btn-copy-access-key');
-
     let currentSelectedMission: any = null;
+
+    // Téléportation vers document.body pour que le flou couvre 100% de la fenêtre (y compris le header supérieur)
+    if (detailModal && detailModal.parentElement !== document.body) {
+      document.body.appendChild(detailModal);
+    }
 
     function openMissionModal(mis: any) {
       if (!detailModal || !detailCard || !mis) return;
@@ -1399,6 +1403,11 @@ const staffAvailabilities = [
     const btnCloseNew = document.getElementById('btn-close-new-mission');
     const btnCancelNew = document.getElementById('btn-cancel-new-mission');
     const newMissionForm = document.getElementById('new-mission-form');
+
+    // Téléportation vers document.body pour que le flou couvre 100% de la fenêtre (y compris le header supérieur)
+    if (newMissionModal && newMissionModal.parentElement !== document.body) {
+      document.body.appendChild(newMissionModal);
+    }
 
     function openNewMissionModal(prefillDate?: string) {
       if (!newMissionModal || !newMissionCard) return;

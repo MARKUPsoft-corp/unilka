@@ -164,7 +164,7 @@ const googleLink = config.social.googleBusiness || "https://maps.google.com/?q=u
   <!-- ======================================================== -->
   <div
     id="modal-add-review"
-    class="fixed inset-0 bg-[#0B2A2E]/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 transition-opacity duration-200"
+    class="fixed inset-0 bg-[#0B2A2E]/60 backdrop-blur-sm z-[80] hidden items-center justify-center p-4 transition-opacity duration-200"
     role="dialog"
     aria-modal="true"
   >
@@ -298,6 +298,11 @@ const googleLink = config.social.googleBusiness || "https://maps.google.com/?q=u
     const seedBtn = document.getElementById('btn-seed-reviews');
     const copyTemplateBtn = document.getElementById('btn-copy-template-msg');
     const copyBtnText = document.getElementById('copy-btn-text');
+
+    // Téléportation vers document.body pour que le flou couvre 100% de la fenêtre (y compris le header supérieur)
+    if (modal && modal.parentElement !== document.body) {
+      document.body.appendChild(modal);
+    }
 
     // Modale gestion
     openBtn?.addEventListener('click', () => {

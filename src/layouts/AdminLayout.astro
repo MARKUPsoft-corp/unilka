@@ -410,7 +410,19 @@ const navItems = [
         }, 3000);
       };
 
-      // 3. Recherche globale instantanée
+      // 3. Téléportation automatique des modales vers <body> pour garantir un flou total (couvre 100% de la fenêtre, y compris la barre supérieure)
+      function teleportModalsToBody() {
+        document.querySelectorAll('[role="dialog"].fixed, [id*="modal"].fixed, [id*="drawer"].fixed').forEach((el) => {
+          if (el.parentElement && el.parentElement !== document.body) {
+            document.body.appendChild(el);
+          }
+        });
+      }
+      teleportModalsToBody();
+      window.addEventListener('DOMContentLoaded', teleportModalsToBody);
+      setTimeout(teleportModalsToBody, 150);
+
+      // 4. Recherche globale instantanée
       const searchInput = document.getElementById('admin-search-input');
       searchInput?.addEventListener('input', (e) => {
         const query = (e.target.value || '').toLowerCase().trim();
