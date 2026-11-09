@@ -650,10 +650,20 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
           <button
             type="button"
             id="btn-copy-stripe"
-            class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-xs font-extrabold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-sm transition-all"
+            class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold text-[#0E7C86] bg-[#E3F4F5] hover:bg-[#0E7C86] hover:text-white transition-all cursor-pointer"
           >
-            <AdminIcon name="credit-card" class="w-4 h-4 text-white" />
-            <span>Copier le lien Stripe Canada</span>
+            <AdminIcon name="credit-card" class="w-4 h-4" />
+            <span>Lien Stripe</span>
+          </button>
+
+          <button
+            type="button"
+            id="btn-convert-to-client"
+            class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-xs font-extrabold text-white bg-emerald-700 hover:bg-emerald-800 shadow-sm transition-all cursor-pointer"
+            title="Convertir automatiquement cette soumission en compte Client régulier sans rien ressaisir"
+          >
+            <AdminIcon name="shield-check" class="w-4 h-4 text-white" />
+            <span>Convertir en Client & Forfait</span>
           </button>
         </div>
       </div>
@@ -750,6 +760,100 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
           </button>
           <button type="submit" id="submit-create-btn" class="px-5 py-2 rounded-full bg-[#0E7C86] hover:bg-[#0A5A62] text-white font-bold shadow-sm transition-all cursor-pointer">
             Créer la soumission
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 6. MODALE CONVERSION AUTOMATIQUE SOUMISSION -> CLIENT & FORFAIT -->
+  <div
+    id="modal-convert-client"
+    class="fixed inset-0 z-[80] items-center justify-center p-4 bg-[#0B2A2E]/60 backdrop-blur-sm hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="convert-modal-title"
+  >
+    <div class="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-[#0E7C86]/20 transform transition-all duration-200">
+      <div class="p-5 border-b border-[#0E7C86]/10 flex items-center justify-between bg-gradient-to-r from-emerald-50 to-white">
+        <div class="flex items-center gap-3">
+          <span class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+            <AdminIcon name="shield-check" class="w-5 h-5 text-emerald-700" />
+          </span>
+          <div>
+            <h2 id="convert-modal-title" class="text-base font-extrabold text-[#0B2A2E]">
+              Passerelle Devis → Client & Forfait
+            </h2>
+            <p class="text-[11px] text-[#3D5A5E]">
+              Conversion automatique sans ressaisir les données
+            </p>
+          </div>
+        </div>
+        <button type="button" id="close-convert-modal" class="p-2 text-[#3D5A5E] hover:text-[#0B2A2E] rounded-xl hover:bg-[#F5FAFA] cursor-pointer" aria-label="Fermer">
+          <AdminIcon name="close" class="w-4 h-4" />
+        </button>
+      </div>
+
+      <form id="form-convert-client" class="p-6 space-y-4 text-xs">
+        <div class="p-3 rounded-xl bg-[#E3F4F5]/60 border border-[#0E7C86]/15 flex items-center justify-between text-xs">
+          <div>
+            <span class="text-[10px] uppercase font-bold text-[#3D5A5E] block">Devis source</span>
+            <span id="convert-display-quote" class="font-mono font-bold text-[#0E7C86]">SOU-1042</span>
+          </div>
+          <div class="text-right">
+            <span class="text-[10px] uppercase font-bold text-[#3D5A5E] block">Forfait mensuel calculé</span>
+            <span id="convert-display-price" class="font-black text-emerald-700 text-sm">390,00 $ CAD</span>
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <label class="block font-bold text-[#0B2A2E]">Nom du client</label>
+          <input type="text" id="convert-client-name" readonly class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-bold cursor-not-allowed" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="space-y-1">
+            <label class="block font-bold text-[#0B2A2E]">Courriel</label>
+            <input type="email" id="convert-client-email" readonly class="w-full px-3 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#3D5A5E] cursor-not-allowed" />
+          </div>
+          <div class="space-y-1">
+            <label class="block font-bold text-[#0B2A2E]">Téléphone</label>
+            <input type="tel" id="convert-client-phone" readonly class="w-full px-3 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#3D5A5E] cursor-not-allowed" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="space-y-1">
+            <label class="block font-bold text-[#0B2A2E]">Secteur</label>
+            <input type="text" id="convert-client-sector" readonly class="w-full px-3 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#3D5A5E] cursor-not-allowed" />
+          </div>
+          <div class="space-y-1">
+            <label class="block font-bold text-[#0B2A2E]">Fréquence forfait</label>
+            <input type="text" id="convert-client-frequency" readonly class="w-full px-3 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0E7C86] font-bold cursor-not-allowed" />
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <label class="block font-bold text-[#0B2A2E]">Préposé(e) attitré(e) pour les passages récurrents *</label>
+          <select id="convert-client-staff" class="w-full px-3 py-2 rounded-xl bg-white border border-[#0E7C86]/25 text-[#0B2A2E] font-semibold focus:border-[#0E7C86] focus:outline-none">
+            <option value="Fatou D.">Fatou D. (Westmount, Outremont, Ville-Marie)</option>
+            <option value="Khadija B.">Khadija B. (Plateau, Rosemont, Brossard)</option>
+            <option value="Jean-Marc T.">Jean-Marc T. (Montréal, Rive-Sud, Lanaudière)</option>
+            <option value="Assane N.">Assane N. (Vieux-Montréal, Ville-Marie)</option>
+          </select>
+        </div>
+
+        <div class="space-y-1">
+          <label class="block font-bold text-[#0B2A2E]">Consignes d'accès, boîte à clés & alarme</label>
+          <textarea id="convert-client-notes" rows="2" class="w-full px-3 py-2 rounded-xl border border-[#0E7C86]/20 text-[#0B2A2E] focus:outline-none focus:border-[#0E7C86]"></textarea>
+        </div>
+
+        <div class="flex items-center justify-between pt-3 border-t border-[#0E7C86]/10">
+          <button type="button" id="cancel-convert-modal" class="px-4 py-2 rounded-full border border-[#0E7C86]/20 text-[#3D5A5E] hover:bg-[#F5FAFA] cursor-pointer">
+            Annuler
+          </button>
+          <button type="submit" id="submit-convert-btn" class="px-5 py-2.5 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold shadow-sm transition-all cursor-pointer">
+            Valider et activer le client en 1 clic
           </button>
         </div>
       </form>
@@ -1235,6 +1339,147 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
         if (submitBtn) {
           submitBtn.removeAttribute('disabled');
           submitBtn.textContent = 'Créer la soumission';
+        }
+      }
+    });
+
+    // 7. Modal de conversion automatique : Devis -> Client & Forfait
+    const convertModal = document.getElementById('modal-convert-client');
+    const openConvertBtn = document.getElementById('btn-convert-to-client');
+    const closeConvertBtn = document.getElementById('close-convert-modal');
+    const cancelConvertBtn = document.getElementById('cancel-convert-modal');
+    const formConvert = document.getElementById('form-convert-client');
+
+    function teleportConvertModal() {
+      if (convertModal && convertModal.parentElement !== document.body) {
+        document.body.appendChild(convertModal);
+      }
+    }
+    teleportConvertModal();
+
+    function openConvertModal() {
+      if (!convertModal || !currentOpenRow) return;
+      teleportConvertModal();
+
+      const name = currentOpenRow.dataset.client || '';
+      const email = currentOpenRow.dataset.email || '';
+      const phone = currentOpenRow.dataset.phone || '';
+      const location = currentOpenRow.dataset.location || '';
+      const postalCode = currentOpenRow.dataset.postalcode || '';
+      const frequency = currentOpenRow.dataset.frequency || 'Hebdomadaire';
+      const notes = currentOpenRow.dataset.notes || '';
+      const quoteId = currentOpenRow.dataset.id || 'SOU';
+      const calculatedPrice = document.getElementById('calc-total')?.textContent || '390,00 $ CAD';
+
+      const quoteEl = document.getElementById('convert-display-quote');
+      const priceEl = document.getElementById('convert-display-price');
+      const nameInp = document.getElementById('convert-client-name') as HTMLInputElement | null;
+      const emailInp = document.getElementById('convert-client-email') as HTMLInputElement | null;
+      const phoneInp = document.getElementById('convert-client-phone') as HTMLInputElement | null;
+      const sectorInp = document.getElementById('convert-client-sector') as HTMLInputElement | null;
+      const freqInp = document.getElementById('convert-client-frequency') as HTMLInputElement | null;
+      const notesInp = document.getElementById('convert-client-notes') as HTMLTextAreaElement | null;
+
+      if (quoteEl) quoteEl.textContent = quoteId;
+      if (priceEl) priceEl.textContent = calculatedPrice;
+      if (nameInp) nameInp.value = name;
+      if (emailInp) emailInp.value = email;
+      if (phoneInp) phoneInp.value = phone;
+      if (sectorInp) sectorInp.value = `${location} (${postalCode})`.trim();
+      if (freqInp) freqInp.value = frequency;
+      if (notesInp) notesInp.value = notes || 'Consignes à confirmer avec le client.';
+
+      convertModal.classList.remove('hidden');
+      convertModal.classList.add('flex');
+    }
+
+    function closeConvertModal() {
+      if (!convertModal) return;
+      convertModal.classList.add('hidden');
+      convertModal.classList.remove('flex');
+    }
+
+    openConvertBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      openConvertModal();
+    });
+
+    closeConvertBtn?.addEventListener('click', closeConvertModal);
+    cancelConvertBtn?.addEventListener('click', closeConvertModal);
+    convertModal?.addEventListener('click', (e) => {
+      if (e.target === convertModal) closeConvertModal();
+    });
+
+    formConvert?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('submit-convert-btn');
+      if (submitBtn) {
+        submitBtn.setAttribute('disabled', 'true');
+        submitBtn.textContent = 'Activation en cours…';
+      }
+
+      const clientName = (document.getElementById('convert-client-name') as HTMLInputElement)?.value.trim() || 'Client';
+      const email = (document.getElementById('convert-client-email') as HTMLInputElement)?.value.trim() || '';
+      const phone = (document.getElementById('convert-client-phone') as HTMLInputElement)?.value.trim() || '';
+      const sector = (document.getElementById('convert-client-sector') as HTMLInputElement)?.value.trim() || 'Montréal';
+      const frequency = (document.getElementById('convert-client-frequency') as HTMLInputElement)?.value || 'Hebdomadaire';
+      const staff = (document.getElementById('convert-client-staff') as HTMLSelectElement)?.value || 'Fatou D.';
+      const notes = (document.getElementById('convert-client-notes') as HTMLTextAreaElement)?.value.trim() || '';
+      const priceText = document.getElementById('convert-display-price')?.textContent || '390,00 $ CAD';
+
+      const service = currentOpenRow?.dataset.service || '';
+      const isCommercial = service.toLowerCase().includes('commercial') || service.toLowerCase().includes('bureau');
+      const typeLabel = isCommercial ? 'Commercial & Bureaux' : 'Résidence privée';
+      const category = isCommercial ? 'commercial' : 'residentiel';
+      const rawId = currentOpenRow?.dataset.rawid;
+
+      try {
+        // 1. Ajouter le client directement dans Firestore
+        await addDoc(collection(db, 'clients'), {
+          name: clientName,
+          email,
+          phone,
+          category,
+          type: typeLabel,
+          sector,
+          address: sector,
+          frequency,
+          regularStaff: staff,
+          monthlyRevenue: priceText,
+          accessNotes: notes,
+          status: 'Actif',
+          since: new Date().toLocaleDateString('fr-CA', { month: 'long', year: 'numeric' }),
+          sourceSubmissionId: rawId || currentOpenRow?.dataset.id || '',
+          createdAt: new Date().toISOString()
+        });
+
+        // 2. Mettre à jour le statut du devis dans Firestore
+        if (rawId) {
+          await updateDoc(doc(db, 'submissions', rawId), {
+            status: 'Confirmé & Client actif',
+            statusColor: 'bg-emerald-100 text-emerald-800 border-emerald-200'
+          });
+        }
+
+        closeConvertModal();
+        closeDrawer();
+
+        if ((window as any).showAdminToast) {
+          (window as any).showAdminToast(`Devis converti avec succès ! Forfait actif créé pour ${clientName}.`);
+        }
+
+        // Redirection fluide vers l'annuaire des clients
+        setTimeout(() => {
+          window.location.href = '/admin/clients/';
+        }, 1200);
+
+      } catch (err) {
+        console.error('Erreur conversion devis vers client :', err);
+        alert('Erreur lors de la conversion automatique. Veuillez vérifier la connexion.');
+      } finally {
+        if (submitBtn) {
+          submitBtn.removeAttribute('disabled');
+          submitBtn.textContent = 'Valider et activer le client en 1 clic';
         }
       }
     });

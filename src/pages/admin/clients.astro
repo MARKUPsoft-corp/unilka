@@ -1,8 +1,10 @@
 ---
+export const prerender = false;
+
 import AdminLayout from '../../layouts/AdminLayout.astro';
 import AdminIcon from '../../components/admin/AdminIcon.astro';
 
-const clients = [
+const defaultClients = [
   {
     id: "CLI-01",
     name: "Alexandre & Sophie Tremblay",
@@ -143,6 +145,45 @@ const clients = [
     address: "4110 Rue Saint-Denis, Montréal, QC H2W 2M5"
   }
 ];
+
+let liveClients: any[] = [];
+try {
+  const { db } = await import('../../lib/firebase');
+  const { collection, getDocs, query, orderBy, limit } = await import('firebase/firestore');
+
+  const q = query(collection(db, 'clients'), orderBy('createdAt', 'desc'), limit(50));
+  const snap = await getDocs(q);
+  liveClients = snap.docs.map(doc => {
+    const data = doc.data();
+    const isCommercial = data.category === 'commercial' || (data.type && data.type.toLowerCase().includes('commercial'));
+    const isPonctuel = data.category === 'ponctuel';
+    const badge = isCommercial ? 'bg-blue-100 text-blue-800' : (isPonctuel ? 'bg-amber-100 text-amber-900' : 'bg-emerald-100 text-emerald-800');
+
+    return {
+      id: doc.id.startsWith('CLI-') ? doc.id : `CLI-${doc.id.substring(0, 4).toUpperCase()}`,
+      rawId: doc.id,
+      name: data.name || 'Client Unilka',
+      type: data.type || (isCommercial ? 'Commercial & Bureaux' : 'Résidence privée'),
+      category: data.category || (isCommercial ? 'commercial' : 'residentiel'),
+      typeBadge: badge,
+      sector: data.sector || 'Montréal',
+      photo: data.photo || '',
+      frequency: data.frequency || 'Hebdomadaire',
+      regularStaff: data.regularStaff || 'Fatou D.',
+      monthlyRevenue: data.monthlyRevenue || '390,00 $ CAD',
+      since: data.since || '2026',
+      accessNotes: data.accessNotes || 'Accès standard.',
+      status: data.status || 'Actif',
+      phone: data.phone || '',
+      email: data.email || '',
+      address: data.address || `${data.sector || 'Montréal'}, QC`
+    };
+  });
+} catch (e: any) {
+  console.warn('[Admin Clients] Chargement Firestore échoué :', e?.message);
+}
+
+const clients = [...liveClients, ...defaultClients];
 ---
 
 <AdminLayout title="Clients & Forfaits" activeNav="clients">
