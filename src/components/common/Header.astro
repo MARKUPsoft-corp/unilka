@@ -13,7 +13,7 @@ interface NavLinkItem {
 }
 
 const navLinks: NavLinkItem[] = [
-  { label: "Nos services", href: "/#services" },
+  { label: "Nos services", href: "/services/" },
   { label: "Notre méthode", href: "/a-propos/" },
   { label: "Zones desservies", href: "/zones-desservies/" },
   { label: "Carrières", href: "/carrieres/", badge: "On recrute" },
@@ -37,7 +37,7 @@ const navLinks: NavLinkItem[] = [
     <!-- Navigation Centrale Bureau -->
     <nav class="island-desktop-nav" aria-label="Navigation principale">
       {navLinks.map((link) => {
-        const isActive = currentPath === link.href || (link.href !== '/' && link.href !== '/#services' && currentPath.startsWith(link.href));
+        const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
         return (
           <a href={link.href} class={`island-nav-link ${isActive ? "active-link" : ""}`}>
             <span>{link.label}</span>
@@ -105,7 +105,7 @@ const navLinks: NavLinkItem[] = [
 
     <nav class="mobile-drawer-nav">
       {navLinks.map((link) => {
-        const isActive = currentPath === link.href || (link.href !== '/' && link.href !== '/#services' && currentPath.startsWith(link.href));
+        const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
         return (
           <a href={link.href} class={`mobile-drawer-link ${isActive ? "text-[#0E7C86]" : ""}`}>
             <span class="inline-flex items-center gap-2">

@@ -26,84 +26,179 @@ const {
   breadcrumbs
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, config.business.siteUrl || 'https://www.unilka.ca');
+const siteBaseUrl = config.business.siteUrl || 'https://www.unilka.ca';
+const canonicalURL = new URL(Astro.url.pathname, siteBaseUrl);
 const showBreadcrumbs = breadcrumbs && breadcrumbs.length > 0 && Astro.url.pathname !== '/';
+const isHomePage = Astro.url.pathname === '/' || Astro.url.pathname === '';
+
+// 1. Nœud WebSite (Brand Entity)
+const websiteNode = {
+  "@type": "WebSite",
+  "@id": `${siteBaseUrl}/#website`,
+  "url": `${siteBaseUrl}/`,
+  "name": "unilka",
+  "alternateName": ["unilka Canada", "unilka Montréal", "UNILKA Nettoyage"],
+  "description": "Conciergerie et entretien ménager haut de gamme à Montréal, Rive-Sud et Lanaudière.",
+  "inLanguage": "fr-CA",
+  "publisher": {
+    "@id": `${siteBaseUrl}/#business`
+  }
+};
+
+// 2. Nœud Entreprise (Organization / LocalBusiness)
+const businessNode = {
+  "@type": "HomeAndConstructionBusiness",
+  "@id": `${siteBaseUrl}/#business`,
+  "name": "unilka",
+  "url": `${siteBaseUrl}/`,
+  "telephone": config.business.phone || "+1-450-421-2635",
+  "email": config.business.email || "bonjour@unilka.ca",
+  "logo": `${siteBaseUrl}/favicon.svg`,
+  "image": `${siteBaseUrl}/images/service-residential.jpg`,
+  "priceRange": "$$",
+  "currenciesAccepted": "CAD",
+  "paymentAccepted": "Virement Interac, Carte de crédit",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Montréal",
+    "addressRegion": "QC",
+    "addressCountry": "CA"
+  },
+  "areaServed": [
+    { "@type": "AdministrativeArea", "name": "Montréal" },
+    { "@type": "AdministrativeArea", "name": "Rive-Sud de Montréal" },
+    { "@type": "AdministrativeArea", "name": "Lanaudière" }
+  ],
+  "sameAs": [
+    "https://www.instagram.com/unilk_ca/"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Prestations d'entretien et de conciergerie unilka",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Nettoyage Résidentiel Prestige",
+          "url": `${siteBaseUrl}/services/nettoyage-residentiel/`
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Nettoyage Commercial & Espaces Corporatifs",
+          "url": `${siteBaseUrl}/services/nettoyage-commercial/`
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Nettoyage Spécialisé & Surfaces Délicates",
+          "url": `${siteBaseUrl}/services/nettoyage-specialise/`
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Entretien Régulier Hôtelier 5 Étoiles",
+          "url": `${siteBaseUrl}/services/entretien-regulier/`
+        }
+      }
+    ]
+  }
+};
+
+// 3. Nœud WebPage pour relier chaque page fille à l'entité mère
+const webpageNode = {
+  "@type": "WebPage",
+  "@id": `${canonicalURL.href}#webpage`,
+  "url": canonicalURL.href,
+  "name": title,
+  "description": description,
+  "isPartOf": {
+    "@id": `${siteBaseUrl}/#website`
+  },
+  "inLanguage": "fr-CA"
+};
+
+// 4. Nœud BreadcrumbList Schema.org (Fondamental pour que Google structure les résultats et produise des sitelinks)
+const breadcrumbNode = showBreadcrumbs ? {
+  "@type": "BreadcrumbList",
+  "@id": `${canonicalURL.href}#breadcrumb`,
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Accueil",
+      "item": `${siteBaseUrl}/`
+    },
+    ...breadcrumbs.map((b, idx) => ({
+      "@type": "ListItem",
+      "position": idx + 2,
+      "name": b.label,
+      ...(b.href ? { "item": new URL(b.href, siteBaseUrl).href } : {})
+    }))
+  ]
+} : null;
+
+// 5. Nœud SiteNavigationElement (Indique formellement à Google les liens annexes prioritaires)
+const siteNavigationNode = isHomePage ? {
+  "@type": "ItemList",
+  "@id": `${siteBaseUrl}/#navigation`,
+  "name": "Navigation Principale & Liens Rapides",
+  "itemListElement": [
+    {
+      "@type": "SiteNavigationElement",
+      "position": 1,
+      "name": "Nos Services",
+      "url": `${siteBaseUrl}/services/`
+    },
+    {
+      "@type": "SiteNavigationElement",
+      "position": 2,
+      "name": "Obtenir une Soumission",
+      "url": `${siteBaseUrl}/soumission/`
+    },
+    {
+      "@type": "SiteNavigationElement",
+      "position": 3,
+      "name": "Carrières & Recrutement",
+      "url": `${siteBaseUrl}/carrieres/`
+    },
+    {
+      "@type": "SiteNavigationElement",
+      "position": 4,
+      "name": "Zones Desservies",
+      "url": `${siteBaseUrl}/zones-desservies/`
+    },
+    {
+      "@type": "SiteNavigationElement",
+      "position": 5,
+      "name": "Notre Méthode",
+      "url": `${siteBaseUrl}/a-propos/`
+    },
+    {
+      "@type": "SiteNavigationElement",
+      "position": 6,
+      "name": "Foire Aux Questions",
+      "url": `${siteBaseUrl}/faq/`
+    }
+  ]
+} : null;
 
 // Données structurées enrichies Schema.org pour Google Sitelinks & Knowledge Panel
 const schemaData = {
   "@context": "https://schema.org",
   "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://www.unilka.ca/#website",
-      "url": "https://www.unilka.ca/",
-      "name": "unilka",
-      "alternateName": "unilka Montréal",
-      "description": "Conciergerie et entretien ménager haut de gamme à Montréal, Rive-Sud et Lanaudière.",
-      "inLanguage": "fr-CA"
-    },
-    {
-      "@type": "HomeAndConstructionBusiness",
-      "@id": "https://www.unilka.ca/#business",
-      "name": "unilka",
-      "url": "https://www.unilka.ca/",
-      "telephone": config.business.phone || "+1-450-421-2635",
-      "logo": "https://www.unilka.ca/favicon.svg",
-      "image": "https://www.unilka.ca/favicon.svg",
-      "description": description,
-      "priceRange": "$$",
-      "currenciesAccepted": "CAD",
-      "paymentAccepted": "Virement Interac, Carte de crédit",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Montréal",
-        "addressRegion": "QC",
-        "addressCountry": "CA"
-      },
-      "areaServed": [
-        { "@type": "AdministrativeArea", "name": "Montréal" },
-        { "@type": "AdministrativeArea", "name": "Rive-Sud de Montréal" },
-        { "@type": "AdministrativeArea", "name": "Lanaudière" }
-      ],
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Prestations d'entretien et de conciergerie",
-        "itemListElement": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Nettoyage Résidentiel Prestige",
-              "url": "https://www.unilka.ca/services/nettoyage-residentiel/"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Nettoyage Commercial & Espaces Corporatifs",
-              "url": "https://www.unilka.ca/services/nettoyage-commercial/"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Nettoyage Spécialisé & Après Rénovation",
-              "url": "https://www.unilka.ca/services/nettoyage-specialise/"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Entretien Régulier Hôtelier 5 Étoiles",
-              "url": "https://www.unilka.ca/services/entretien-regulier/"
-            }
-          }
-        ]
-      }
-    }
+    websiteNode,
+    businessNode,
+    webpageNode,
+    ...(breadcrumbNode ? [breadcrumbNode] : []),
+    ...(siteNavigationNode ? [siteNavigationNode] : [])
   ]
 };
 ---
