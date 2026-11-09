@@ -244,9 +244,17 @@ const invoices = [
               <td class="py-4 px-4 text-right">
                 <button
                   type="button"
-                  class="btn-pdf-receipt inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[#0E7C86] hover:bg-[#E3F4F5] font-bold transition-colors"
+                  class="btn-pdf-receipt inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[#0E7C86] hover:bg-[#E3F4F5] font-bold transition-colors cursor-pointer"
                   data-id={inv.id}
+                  data-quote={inv.quoteId}
                   data-client={inv.client}
+                  data-service={inv.service}
+                  data-date={inv.date}
+                  data-gross={inv.grossAmount}
+                  data-fee={inv.stripeFee}
+                  data-net={inv.netAmount}
+                  data-method={inv.method}
+                  data-status={inv.status}
                 >
                   <span>PDF</span>
                   <AdminIcon name="download" class="w-3.5 h-3.5" />
@@ -369,6 +377,193 @@ const invoices = [
     </div>
   </div>
 
+  <!-- 6. MODAL REÇU OFFICIEL PDF & FACTURE IMPRIMABLE -->
+  <div
+    id="modal-invoice-receipt"
+    class="fixed inset-0 z-[80] hidden items-center justify-center p-3 sm:p-5"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="receipt-title"
+  >
+    <div class="fixed inset-0 bg-[#0B2A2E]/60 backdrop-blur-sm -z-10 modal-receipt-backdrop"></div>
+    <div class="bg-white rounded-3xl border border-[#0E7C86]/20 shadow-2xl max-w-2xl w-full max-h-[92vh] flex flex-col overflow-hidden transform scale-95 opacity-0 transition-all duration-200 modal-card printable-receipt">
+      
+      <!-- En-tête Facture / Reçu -->
+      <div class="p-6 border-b border-[#0E7C86]/10 flex items-start justify-between bg-gradient-to-r from-[#E3F4F5]/60 to-white">
+        <div class="flex items-center gap-3">
+          <img
+            src="/images/logo-unilka-transparent.png"
+            alt="Unilka Logo"
+            class="h-10 w-auto object-contain"
+          />
+          <div>
+            <h2 id="receipt-title" class="text-base font-extrabold text-[#0B2A2E]">
+              Reçu Officiel & Facture de Paiement
+            </h2>
+            <p class="text-[11px] text-[#3D5A5E]">
+              Unilka Inc. • NEQ : 1178942301 • Grand Montréal, QC
+            </p>
+          </div>
+        </div>
+        <button
+          type="button"
+          id="close-receipt-modal-btn"
+          class="p-2 rounded-xl text-[#3D5A5E] hover:text-[#0B2A2E] hover:bg-white/80 transition-colors cursor-pointer"
+          aria-label="Fermer"
+        >
+          <AdminIcon name="close" class="w-4 h-4" />
+        </button>
+      </div>
+
+      <!-- Corps du reçu -->
+      <div class="p-6 overflow-y-auto space-y-6 text-xs text-[#0B2A2E]">
+        
+        <!-- Métadonnées transaction -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 rounded-2xl bg-[#F5FAFA] border border-[#0E7C86]/10 text-xs">
+          <div>
+            <span class="text-[10px] font-bold text-[#3D5A5E] uppercase block">N° Facture</span>
+            <span id="receipt-inv-id" class="font-mono font-extrabold text-[#0E7C86]">FAC-2026-118</span>
+          </div>
+          <div>
+            <span class="text-[10px] font-bold text-[#3D5A5E] uppercase block">Devis Source</span>
+            <span id="receipt-quote-id" class="font-mono font-bold text-[#0B2A2E]">SOU-1035</span>
+          </div>
+          <div>
+            <span class="text-[10px] font-bold text-[#3D5A5E] uppercase block">Date règlement</span>
+            <span id="receipt-date" class="font-medium">27 oct. 2026</span>
+          </div>
+          <div>
+            <span class="text-[10px] font-bold text-[#3D5A5E] uppercase block">Statut</span>
+            <span class="inline-flex items-center gap-1 font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 text-[10px]">
+              <AdminIcon name="shield-check" class="w-3 h-3 text-emerald-700" />
+              <span id="receipt-status">Payé</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Informations Client & Entreprise -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs">
+          <div class="p-4 rounded-xl border border-[#0E7C86]/12 space-y-1">
+            <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#0E7C86] block">Émetteur du service</span>
+            <strong class="block text-[#0B2A2E]">UNILKA INC.</strong>
+            <p class="text-[#3D5A5E]">Services d'entretien hôtelier & commercial</p>
+            <p class="text-[#3D5A5E]">Montréal (Québec), Canada</p>
+            <p class="text-[#3D5A5E] font-mono text-[11px]">TPS : 789456123 RT0001 • TVQ : 1234567890 TQ0001</p>
+          </div>
+
+          <div class="p-4 rounded-xl border border-[#0E7C86]/12 space-y-1">
+            <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#0E7C86] block">Facturé à</span>
+            <strong id="receipt-client-name" class="block text-[#0B2A2E] text-sm">Alexandre Tremblay</strong>
+            <p class="text-[#3D5A5E]">Client résidentiel régulier</p>
+            <p class="text-[#3D5A5E]" id="receipt-payment-method">Stripe (Visa •••• 4242)</p>
+            <p class="text-emerald-700 font-semibold text-[11px]">Transaction sécurisée certifiée PCI-DSS</p>
+          </div>
+        </div>
+
+        <!-- Tableau des lignes de facturation -->
+        <div class="rounded-xl border border-[#0E7C86]/12 overflow-hidden">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-[#F5FAFA] border-b border-[#0E7C86]/10 text-[10px] font-bold text-[#3D5A5E] uppercase">
+              <tr>
+                <th class="p-3">Désignation de la prestation</th>
+                <th class="p-3 text-right">Qté</th>
+                <th class="p-3 text-right">Montant Hors Taxes</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[#0E7C86]/08">
+              <tr>
+                <td class="p-3 font-semibold" id="receipt-service-name">Grand ménage résidentiel approfondi</td>
+                <td class="p-3 text-right font-mono">1</td>
+                <td class="p-3 text-right font-bold" id="receipt-subtotal">300,00 $ CAD</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Décomposition Fiscale & Totaux (Loi fiscale Québec) -->
+        <div class="flex justify-end">
+          <div class="w-full sm:w-72 space-y-2 text-xs">
+            <div class="flex justify-between text-[#3D5A5E]">
+              <span>Sous-total HT :</span>
+              <span id="receipt-subtotal-val" class="font-bold">300,00 $</span>
+            </div>
+            <div class="flex justify-between text-[#3D5A5E]">
+              <span>TPS (5.000%) :</span>
+              <span id="receipt-tps-val">15,00 $</span>
+            </div>
+            <div class="flex justify-between text-[#3D5A5E]">
+              <span>TVQ (9.975%) :</span>
+              <span id="receipt-tvq-val">29,93 $</span>
+            </div>
+            <div class="pt-2 border-t border-[#0E7C86]/20 flex justify-between font-black text-sm text-[#0B2A2E]">
+              <span>Total payé ($ CAD) :</span>
+              <span id="receipt-total-val" class="text-base text-[#0E7C86]">345,00 $</span>
+            </div>
+            <div class="pt-1 text-[10px] text-[#3D5A5E] text-right italic">
+              Dont commissions Stripe : <span id="receipt-fee-val">10,31 $</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Actions impression & partage -->
+      <div id="receipt-actions-bar" class="p-5 bg-[#F5FAFA] border-t border-[#0E7C86]/10 flex items-center justify-between">
+        <button
+          type="button"
+          id="btn-close-receipt"
+          class="text-xs font-bold text-[#3D5A5E] hover:text-[#0B2A2E] cursor-pointer"
+        >
+          Fermer
+        </button>
+        <div class="flex items-center gap-2">
+          <button
+            type="button"
+            id="btn-print-receipt"
+            class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-sm transition-all cursor-pointer"
+          >
+            <AdminIcon name="download" class="w-3.5 h-3.5" />
+            <span>Imprimer / Télécharger en PDF</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <style>
+    @media print {
+      body * {
+        visibility: hidden !important;
+      }
+      #modal-invoice-receipt, #modal-invoice-receipt * {
+        visibility: visible !important;
+      }
+      #modal-invoice-receipt {
+        position: fixed !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        background: white !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        z-index: 99999 !important;
+        display: block !important;
+      }
+      .modal-receipt-backdrop, #receipt-actions-bar, #close-receipt-modal-btn {
+        display: none !important;
+      }
+      .modal-card {
+        box-shadow: none !important;
+        border: none !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        transform: none !important;
+      }
+    }
+  </style>
+
   <script is:inline>
     // 1. Modal Stripe Link
     const modalBackdrop = document.getElementById('payment-modal-backdrop');
@@ -382,13 +577,22 @@ const invoices = [
     const feeEl = document.getElementById('modal-stripe-fee');
     const netEl = document.getElementById('modal-net-amount');
 
-    // Téléportation vers document.body pour que le flou couvre 100% de la fenêtre (y compris le header supérieur)
-    if (modalBackdrop && modalBackdrop.parentElement !== document.body) {
-      document.body.appendChild(modalBackdrop);
+    // 2. Modal Reçu PDF
+    const modalReceipt = document.getElementById('modal-invoice-receipt');
+    const closeReceiptBtn = document.getElementById('close-receipt-modal-btn');
+    const btnCloseReceipt = document.getElementById('btn-close-receipt');
+    const btnPrintReceipt = document.getElementById('btn-print-receipt');
+    const receiptBackdrop = document.querySelector('.modal-receipt-backdrop');
+
+    // Téléportation vers document.body
+    function teleport(el) {
+      if (el && el.parentElement !== document.body) {
+        document.body.appendChild(el);
+      }
     }
-    if (modal && modal.parentElement !== document.body) {
-      document.body.appendChild(modal);
-    }
+    teleport(modalBackdrop);
+    teleport(modal);
+    teleport(modalReceipt);
 
     function calculateStripeFee() {
       const gross = parseFloat(amountInput?.value || 0);
@@ -403,12 +607,8 @@ const invoices = [
 
     function openModal() {
       if (!modal || !modalBackdrop || !modalCard) return;
-      if (modalBackdrop.parentElement !== document.body) {
-        document.body.appendChild(modalBackdrop);
-      }
-      if (modal.parentElement !== document.body) {
-        document.body.appendChild(modal);
-      }
+      teleport(modalBackdrop);
+      teleport(modal);
       calculateStripeFee();
       modal.classList.remove('hidden');
       modalBackdrop.classList.remove('hidden');
@@ -451,15 +651,102 @@ const invoices = [
       closeModal();
     });
 
-    // 2. Boutons PDF
+    // 3. Gestionnaire Reçu Officiel PDF
+    function openReceiptModal(data) {
+      if (!modalReceipt) return;
+      teleport(modalReceipt);
+
+      // Remplissage des champs
+      const invIdEl = document.getElementById('receipt-inv-id');
+      const quoteIdEl = document.getElementById('receipt-quote-id');
+      const dateEl = document.getElementById('receipt-date');
+      const statusEl = document.getElementById('receipt-status');
+      const clientNameEl = document.getElementById('receipt-client-name');
+      const methodEl = document.getElementById('receipt-payment-method');
+      const serviceEl = document.getElementById('receipt-service-name');
+      const subtotalEl = document.getElementById('receipt-subtotal');
+      const subtotalValEl = document.getElementById('receipt-subtotal-val');
+      const tpsValEl = document.getElementById('receipt-tps-val');
+      const tvqValEl = document.getElementById('receipt-tvq-val');
+      const totalValEl = document.getElementById('receipt-total-val');
+      const feeValEl = document.getElementById('receipt-fee-val');
+
+      if (invIdEl) invIdEl.textContent = data.id || 'FAC-2026';
+      if (quoteIdEl) quoteIdEl.textContent = data.quote || 'SOU-1035';
+      if (dateEl) dateEl.textContent = data.date || '27 oct. 2026';
+      if (statusEl) statusEl.textContent = data.status || 'Payé';
+      if (clientNameEl) clientNameEl.textContent = data.client || 'Client Unilka';
+      if (methodEl) methodEl.textContent = data.method || 'Carte de crédit';
+      if (serviceEl) serviceEl.textContent = data.service || 'Service de nettoyage';
+
+      // Calcul des montants avec taxes QC
+      const grossNum = parseFloat((data.gross || '345,00').replace(/[^0-9.,]/g, '').replace(',', '.')) || 345.00;
+      // Total = HT * (1 + 0.05 + 0.09975) = HT * 1.14975
+      const htNum = grossNum / 1.14975;
+      const tpsNum = htNum * 0.05;
+      const tvqNum = htNum * 0.09975;
+
+      const fmt = (n) => `${n.toFixed(2).replace('.', ',')} $ CAD`;
+      if (subtotalEl) subtotalEl.textContent = fmt(htNum);
+      if (subtotalValEl) subtotalValEl.textContent = fmt(htNum);
+      if (tpsValEl) tpsValEl.textContent = fmt(tpsNum);
+      if (tvqValEl) tvqValEl.textContent = fmt(tvqNum);
+      if (totalValEl) totalValEl.textContent = fmt(grossNum);
+      if (feeValEl) feeValEl.textContent = data.fee || '10,31 $ CAD';
+
+      modalReceipt.classList.remove('hidden');
+      modalReceipt.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+      const card = modalReceipt.querySelector('.modal-card');
+      setTimeout(() => {
+        card?.classList.remove('scale-95', 'opacity-0');
+        card?.classList.add('scale-100', 'opacity-100');
+      }, 10);
+    }
+
+    function closeReceiptModal() {
+      if (!modalReceipt) return;
+      const card = modalReceipt.querySelector('.modal-card');
+      card?.classList.remove('scale-100', 'opacity-100');
+      card?.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        modalReceipt.classList.remove('flex');
+        modalReceipt.classList.add('hidden');
+        document.body.style.overflow = '';
+      }, 180);
+    }
+
     document.querySelectorAll('.btn-pdf-receipt').forEach((btn) => {
       btn.addEventListener('click', () => {
-        const id = btn.dataset.id;
-        const client = btn.dataset.client;
-        if (window.showAdminToast) {
-          window.showAdminToast(`Génération du reçu officiel PDF #${id} pour ${client}...`);
-        }
+        const data = {
+          id: btn.dataset.id,
+          quote: btn.dataset.quote,
+          client: btn.dataset.client,
+          service: btn.dataset.service,
+          date: btn.dataset.date,
+          gross: btn.dataset.gross,
+          fee: btn.dataset.fee,
+          net: btn.dataset.net,
+          method: btn.dataset.method,
+          status: btn.dataset.status
+        };
+        openReceiptModal(data);
       });
+    });
+
+    closeReceiptBtn?.addEventListener('click', closeReceiptModal);
+    btnCloseReceipt?.addEventListener('click', closeReceiptModal);
+    receiptBackdrop?.addEventListener('click', closeReceiptModal);
+
+    btnPrintReceipt?.addEventListener('click', () => {
+      window.print();
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        closeReceiptModal();
+      }
     });
   </script>
 

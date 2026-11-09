@@ -382,9 +382,9 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
     <div class="p-4 bg-[#F5FAFA] border-t border-[#0E7C86]/10 flex items-center justify-between text-xs text-[#3D5A5E]">
       <span id="rows-count-label">Affichage de {submissions.length} soumissions</span>
       <div class="flex items-center gap-1">
-        <button type="button" class="px-2.5 py-1 rounded border border-[#0E7C86]/20 bg-white hover:bg-[#E3F4F5]">Précédent</button>
-        <button type="button" class="px-2.5 py-1 rounded bg-[#0E7C86] text-white font-bold">1</button>
-        <button type="button" class="px-2.5 py-1 rounded border border-[#0E7C86]/20 bg-white hover:bg-[#E3F4F5]">Suivant</button>
+        <button type="button" id="btn-pagination-prev" class="px-2.5 py-1 rounded border border-[#0E7C86]/20 bg-white hover:bg-[#E3F4F5] transition-colors cursor-pointer" title="Page précédente">Précédent</button>
+        <button type="button" class="px-2.5 py-1 rounded bg-[#0E7C86] text-white font-bold cursor-default">1</button>
+        <button type="button" id="btn-pagination-next" class="px-2.5 py-1 rounded border border-[#0E7C86]/20 bg-white hover:bg-[#E3F4F5] transition-colors cursor-pointer" title="Page suivante">Suivant</button>
       </div>
     </div>
   </div>
@@ -1238,6 +1238,18 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
           submitBtn.removeAttribute('disabled');
           submitBtn.textContent = 'Créer la soumission';
         }
+      }
+    });
+
+    // Pagination
+    document.getElementById('btn-pagination-prev')?.addEventListener('click', () => {
+      if (window.showAdminToast) {
+        window.showAdminToast("Page 1 sur 1 — Toutes les soumissions sont déjà affichées.");
+      }
+    });
+    document.getElementById('btn-pagination-next')?.addEventListener('click', () => {
+      if (window.showAdminToast) {
+        window.showAdminToast("Page 1 sur 1 — Toutes les soumissions sont déjà affichées.");
       }
     });
   </script>

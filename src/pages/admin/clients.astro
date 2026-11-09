@@ -7,6 +7,7 @@ const clients = [
     id: "CLI-01",
     name: "Alexandre & Sophie Tremblay",
     type: "Résidence privée",
+    category: "residentiel",
     typeBadge: "bg-emerald-100 text-emerald-800",
     sector: "Outremont, Montréal",
     photo: "/images/admin/submission-condo.jpg",
@@ -15,12 +16,16 @@ const clients = [
     monthlyRevenue: "390,00 $ CAD",
     since: "Avril 2026",
     accessNotes: "Boîte à clés sécurisée #4182. Chien très calme.",
-    status: "Actif"
+    status: "Actif",
+    phone: "(514) 829-1029",
+    email: "a.tremblay@email.ca",
+    address: "742 Av. Elm, Outremont, QC H2V 2X7"
   },
   {
     id: "CLI-02",
     name: "Cabinet Dentaire Saint-Laurent",
     type: "Clinique & Bureaux",
+    category: "commercial",
     typeBadge: "bg-blue-100 text-blue-800",
     sector: "Ville-Marie, Montréal",
     photo: "/images/admin/submission-clinic.jpg",
@@ -29,12 +34,16 @@ const clients = [
     monthlyRevenue: "960,00 $ CAD",
     since: "Janvier 2026",
     accessNotes: "Alarme code #9021. Badge remis.",
-    status: "Actif"
+    status: "Actif",
+    phone: "(514) 845-2200",
+    email: "direction@dentairesaintlaurent.qc.ca",
+    address: "2150 Boul. Saint-Laurent, Ville-Marie, QC H2X 2T2"
   },
   {
     id: "CLI-03",
     name: "Mme Claire Vachon",
     type: "Résidence privée",
+    category: "residentiel",
     typeBadge: "bg-emerald-100 text-emerald-800",
     sector: "Westmount, Montréal",
     photo: "",
@@ -43,12 +52,16 @@ const clients = [
     monthlyRevenue: "880,00 $ CAD",
     since: "Février 2026",
     accessNotes: "Parquet ancien huilé. Produits doux bio Unilka.",
-    status: "Actif"
+    status: "Actif",
+    phone: "(514) 935-7182",
+    email: "c.vachon@westmount.ca",
+    address: "32 Av. Clarke, Westmount, QC H3Y 3C7"
   },
   {
     id: "CLI-04",
     name: "Agence Numérique Pixel Inc.",
     type: "Espace bureaux",
+    category: "commercial",
     typeBadge: "bg-blue-100 text-blue-800",
     sector: "Vieux-Montréal",
     frequency: "Hebdomadaire (lundi soir)",
@@ -56,12 +69,16 @@ const clients = [
     monthlyRevenue: "440,00 $ CAD",
     since: "Juin 2026",
     accessNotes: "Entrée principale, code ascenseur #304.",
-    status: "Actif"
+    status: "Actif",
+    phone: "(514) 500-8890",
+    email: "ops@pixelmontreal.agency",
+    address: "410 Rue Saint-Paul Ouest, Vieux-Montréal, QC H2Y 2A6"
   },
   {
     id: "CLI-05",
     name: "Famille Bédard",
     type: "Maison unifamiliale",
+    category: "residentiel",
     typeBadge: "bg-emerald-100 text-emerald-800",
     sector: "Brossard, Rive-Sud",
     frequency: "Bimensuel (mercredi matin)",
@@ -69,12 +86,16 @@ const clients = [
     monthlyRevenue: "420,00 $ CAD",
     since: "Août 2026",
     accessNotes: "Code garage envoyé par SMS la veille.",
-    status: "Actif"
+    status: "Actif",
+    phone: "(450) 672-4411",
+    email: "famille.bedard@brossard.net",
+    address: "8120 Rue de Charny, Brossard, QC J4X 2T9"
   },
   {
     id: "CLI-06",
     name: "Boutique Mode Laurier",
     type: "Commerce & Showroom",
+    category: "commercial",
     typeBadge: "bg-purple-100 text-purple-800",
     sector: "Plateau-Mont-Royal",
     frequency: "Hebdomadaire (lundi matin avant ouverture)",
@@ -82,7 +103,44 @@ const clients = [
     monthlyRevenue: "360,00 $ CAD",
     since: "Mars 2026",
     accessNotes: "Clé remise à la gérante le matin.",
-    status: "Actif"
+    status: "Actif",
+    phone: "(514) 279-5050",
+    email: "contact@modelaurier.ca",
+    address: "1040 Av. Laurier Ouest, Montréal, QC H2V 2K8"
+  },
+  {
+    id: "CLI-07",
+    name: "Jean-Philippe Roy",
+    type: "Grand ménage ponctuel",
+    category: "ponctuel",
+    typeBadge: "bg-amber-100 text-amber-900",
+    sector: "Rosemont, Montréal",
+    frequency: "Mission ponctuelle (Déménagement)",
+    regularStaff: "Fatou D. & Jean-Marc T.",
+    monthlyRevenue: "380,00 $ CAD",
+    since: "Octobre 2026",
+    accessNotes: "Présent sur place pour accueil et remise des clés.",
+    status: "Actif",
+    phone: "(514) 778-9012",
+    email: "jp.roy@service.ca",
+    address: "5420 4e Avenue, Rosemont, QC H1Y 2V5"
+  },
+  {
+    id: "CLI-08",
+    name: "Immeuble Le Saint-Denis (Syndicat)",
+    type: "Nettoyage approfondi annuel",
+    category: "ponctuel",
+    typeBadge: "bg-amber-100 text-amber-900",
+    sector: "Plateau-Mont-Royal",
+    frequency: "Mission ponctuelle (Parties communes)",
+    regularStaff: "Assane N.",
+    monthlyRevenue: "1 250,00 $ CAD",
+    since: "Septembre 2026",
+    accessNotes: "Interphone syndicat #01. Local poubelles et hall.",
+    status: "Actif",
+    phone: "(514) 902-3344",
+    email: "syndic.stdenis@copropriete.ca",
+    address: "4110 Rue Saint-Denis, Montréal, QC H2W 2M5"
   }
 ];
 ---
@@ -106,7 +164,8 @@ const clients = [
     <div class="flex items-center gap-3">
       <button
         type="button"
-        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-sm transition-colors"
+        id="btn-open-create-client"
+        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-sm transition-colors cursor-pointer"
       >
         <span>+ Ajouter un nouveau client</span>
       </button>
@@ -115,17 +174,33 @@ const clients = [
 
   <!-- 2. RECHERCHE & FILTRES -->
   <div class="bg-white rounded-2xl border border-[#0E7C86]/12 p-4 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-4">
-    <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-      <button type="button" class="px-4 py-2 rounded-full text-xs font-extrabold bg-[#0E7C86] text-white">
+    <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto" id="client-filter-tabs">
+      <button
+        type="button"
+        data-filter="all"
+        class="client-filter-tab px-4 py-2 rounded-full text-xs font-extrabold bg-[#0E7C86] text-white transition-all cursor-pointer shadow-2xs"
+      >
         Tous (42)
       </button>
-      <button type="button" class="px-4 py-2 rounded-full text-xs font-bold bg-[#F5FAFA] text-[#0B2A2E] hover:bg-[#E3F4F5] border border-[#0E7C86]/15 transition-colors">
+      <button
+        type="button"
+        data-filter="residentiel"
+        class="client-filter-tab px-4 py-2 rounded-full text-xs font-bold bg-[#F5FAFA] text-[#0B2A2E] hover:bg-[#E3F4F5] border border-[#0E7C86]/15 transition-all cursor-pointer"
+      >
         Résidentiel régulier (19)
       </button>
-      <button type="button" class="px-4 py-2 rounded-full text-xs font-bold bg-[#F5FAFA] text-[#0B2A2E] hover:bg-[#E3F4F5] border border-[#0E7C86]/15 transition-colors">
+      <button
+        type="button"
+        data-filter="commercial"
+        class="client-filter-tab px-4 py-2 rounded-full text-xs font-bold bg-[#F5FAFA] text-[#0B2A2E] hover:bg-[#E3F4F5] border border-[#0E7C86]/15 transition-all cursor-pointer"
+      >
         Commercial & Bureaux (9)
       </button>
-      <button type="button" class="px-4 py-2 rounded-full text-xs font-bold bg-[#F5FAFA] text-[#0B2A2E] hover:bg-[#E3F4F5] border border-[#0E7C86]/15 transition-colors">
+      <button
+        type="button"
+        data-filter="ponctuel"
+        class="client-filter-tab px-4 py-2 rounded-full text-xs font-bold bg-[#F5FAFA] text-[#0B2A2E] hover:bg-[#E3F4F5] border border-[#0E7C86]/15 transition-all cursor-pointer"
+      >
         Missions ponctuelles (14)
       </button>
     </div>
@@ -133,6 +208,7 @@ const clients = [
     <div class="w-full sm:w-64">
       <input
         type="search"
+        id="client-search-input"
         placeholder="Filtrer par nom ou secteur..."
         class="w-full px-3.5 py-2 text-xs rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] placeholder-[#3D5A5E]/60 focus:outline-none focus:border-[#0E7C86]"
       />
@@ -155,9 +231,25 @@ const clients = [
             <th class="py-3.5 px-4 text-right">Actions</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-[#0E7C86]/08">
+        <tbody class="divide-y divide-[#0E7C86]/08" id="clients-table-body">
           {clients.map((cli) => (
-            <tr class="hover:bg-[#F5FAFA]/60 transition-colors client-row" data-name={cli.name.toLowerCase()} data-sector={cli.sector.toLowerCase()}>
+            <tr
+              class="hover:bg-[#F5FAFA]/60 transition-colors client-row cursor-pointer"
+              data-id={cli.id}
+              data-name={cli.name.toLowerCase()}
+              data-sector={cli.sector.toLowerCase()}
+              data-category={cli.category}
+              data-raw-name={cli.name}
+              data-phone={cli.phone}
+              data-email={cli.email}
+              data-address={cli.address}
+              data-frequency={cli.frequency}
+              data-staff={cli.regularStaff}
+              data-revenue={cli.monthlyRevenue}
+              data-notes={cli.accessNotes}
+              data-type={cli.type}
+              data-since={cli.since}
+            >
               <td class="py-4 px-4">
                 <div class="flex items-center gap-3">
                   {cli.photo ? (
@@ -169,7 +261,7 @@ const clients = [
                   )}
                   <div>
                     <span class="font-extrabold text-[#0B2A2E] block text-[13px]">{cli.name}</span>
-                    <span class="text-[10px] text-[#3D5A5E]/60 font-mono">Client depuis {cli.since}</span>
+                    <span class="text-[10px] text-[#3D5A5E]/60 font-mono">{cli.id} • Client depuis {cli.since}</span>
                   </div>
                 </div>
               </td>
@@ -207,7 +299,7 @@ const clients = [
                 <div class="inline-flex items-center gap-1.5">
                   <button
                     type="button"
-                    class="btn-client-history p-2 rounded-lg text-[#3D5A5E] hover:text-[#0E7C86] hover:bg-[#E3F4F5] transition-colors"
+                    class="btn-client-history p-2 rounded-lg text-[#3D5A5E] hover:text-[#0E7C86] hover:bg-[#E3F4F5] transition-colors cursor-pointer"
                     title="Voir historique des interventions"
                     data-client={cli.name}
                   >
@@ -215,7 +307,7 @@ const clients = [
                   </button>
                   <button
                     type="button"
-                    class="btn-open-client-card inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-2xs transition-colors"
+                    class="btn-open-client-card inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-2xs transition-colors cursor-pointer"
                     data-client={cli.name}
                   >
                     <span>Fiche client</span>
@@ -230,40 +322,668 @@ const clients = [
     </div>
   </div>
 
-  <script is:inline>
-    // Recherche et filtrage en temps réel
-    const searchInput = document.querySelector('input[type="search"]');
-    const clientRows = document.querySelectorAll('.client-row');
+  <!-- 4. MODALE FICHE CLIENT COMPLÈTE -->
+  <div
+    id="modal-client-card"
+    class="fixed inset-0 z-[80] hidden items-center justify-center p-3 sm:p-5"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="card-client-title"
+  >
+    <div class="fixed inset-0 bg-[#0B2A2E]/60 backdrop-blur-sm -z-10 modal-backdrop-click"></div>
+    <div class="bg-white rounded-3xl border border-[#0E7C86]/20 shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden transform scale-95 opacity-0 transition-all duration-200 modal-card">
+      
+      <!-- En-tête fiche client -->
+      <div class="p-6 border-b border-[#0E7C86]/10 flex items-start justify-between bg-gradient-to-r from-[#E3F4F5]/60 to-white">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-[#0E7C86] text-white flex items-center justify-center font-black text-xl shadow-md shrink-0" id="card-avatar">
+            AT
+          </div>
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800" id="card-status-badge">
+                Actif
+              </span>
+              <span class="text-xs font-mono text-[#3D5A5E]" id="card-id">CLI-01</span>
+            </div>
+            <h2 id="card-client-title" class="text-lg font-extrabold text-[#0B2A2E]">
+              Alexandre & Sophie Tremblay
+            </h2>
+            <p class="text-xs text-[#3D5A5E]" id="card-since">Client régulier depuis Avril 2026</p>
+          </div>
+        </div>
+        <button
+          type="button"
+          id="close-card-modal-btn"
+          class="p-2 rounded-xl text-[#3D5A5E] hover:text-[#0B2A2E] hover:bg-white/80 transition-colors cursor-pointer"
+          aria-label="Fermer la boîte de dialogue"
+        >
+          <AdminIcon name="close" class="w-4 h-4" />
+        </button>
+      </div>
 
-    searchInput?.addEventListener('input', (e) => {
-      const q = e.target.value.toLowerCase().trim();
-      clientRows.forEach((row) => {
+      <!-- Corps avec actions et détails -->
+      <div class="p-6 overflow-y-auto space-y-6 text-xs">
+        
+        <!-- Barres d'action rapide contact -->
+        <div class="p-4 rounded-2xl bg-[#F5FAFA] border border-[#0E7C86]/12 flex flex-wrap items-center justify-between gap-3">
+          <div class="space-y-0.5">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-[#3D5A5E]">Coordonnées directes</span>
+            <div class="flex items-center gap-4 text-[#0B2A2E] font-bold">
+              <span id="card-phone-text">(514) 829-1029</span>
+              <span class="text-gray-300">•</span>
+              <span id="card-email-text" class="font-normal text-[#3D5A5E]">a.tremblay@email.ca</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <a
+              id="card-call-link"
+              href="tel:5148291029"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-[#0E7C86] bg-white border border-[#0E7C86]/20 hover:bg-[#E3F4F5] transition-colors no-underline"
+            >
+              <AdminIcon name="phone" class="w-3.5 h-3.5" />
+              <span>Appeler</span>
+            </a>
+            <a
+              id="card-email-link"
+              href="mailto:a.tremblay@email.ca"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] transition-colors no-underline shadow-2xs"
+            >
+              <AdminIcon name="envelope" class="w-3.5 h-3.5" />
+              <span>Courriel</span>
+            </a>
+            <button
+              type="button"
+              id="btn-copy-card-info"
+              class="px-2.5 py-1.5 rounded-lg border border-[#0E7C86]/20 text-[#3D5A5E] hover:bg-white transition-colors cursor-pointer"
+              title="Copier les coordonnées complètes"
+            >
+              <AdminIcon name="document" class="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+
+        <!-- Détails forfait & intervention -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="p-4 rounded-xl bg-white border border-[#0E7C86]/12 space-y-1">
+            <span class="text-[10px] font-bold text-[#3D5A5E] uppercase tracking-wider">Adresse & Secteur</span>
+            <p class="font-bold text-[#0B2A2E] text-xs" id="card-address">742 Av. Elm, Outremont, QC H2V 2X7</p>
+            <p class="text-[11px] text-[#0E7C86]" id="card-sector">Outremont, Montréal</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-white border border-[#0E7C86]/12 space-y-1">
+            <span class="text-[10px] font-bold text-[#3D5A5E] uppercase tracking-wider">Fréquence de passage</span>
+            <p class="font-bold text-[#0E7C86] text-xs" id="card-frequency">Bimensuel (jeudi)</p>
+            <p class="text-[11px] text-[#3D5A5E]">Créneau habituel : Matinée 9h00</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-white border border-[#0E7C86]/12 space-y-1">
+            <span class="text-[10px] font-bold text-[#3D5A5E] uppercase tracking-wider">Préposé(e) dédié(e)</span>
+            <p class="font-bold text-[#0B2A2E] text-xs" id="card-staff">Fatou D.</p>
+            <span class="inline-flex items-center gap-1 text-[10px] text-emerald-600 font-bold">
+              <AdminIcon name="shield-check" class="w-3 h-3 text-emerald-600" />
+              <span>Cautionné(e) & Protocole Palace Unilka</span>
+            </span>
+          </div>
+
+          <div class="p-4 rounded-xl bg-white border border-[#0E7C86]/12 space-y-1">
+            <span class="text-[10px] font-bold text-[#3D5A5E] uppercase tracking-wider">Facturation mensuelle</span>
+            <p class="font-black text-[#0B2A2E] text-base" id="card-revenue">390,00 $ CAD</p>
+            <p class="text-[10px] text-emerald-700 font-medium">Prélèvement automatique Stripe actif</p>
+          </div>
+        </div>
+
+        <!-- Consignes d'accès -->
+        <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200/80 space-y-1 text-xs">
+          <div class="flex items-center gap-1.5 font-bold text-amber-900">
+            <AdminIcon name="key" class="w-3.5 h-3.5 text-amber-800" />
+            <span>Consignes d'accès, clés et sécurité</span>
+          </div>
+          <p class="text-[#0B2A2E] leading-relaxed text-[11px]" id="card-notes">
+            Boîte à clés sécurisée #4182. Chien très calme.
+          </p>
+        </div>
+
+        <!-- Historique récent -->
+        <div class="space-y-2">
+          <h3 class="text-xs font-extrabold text-[#0B2A2E] uppercase tracking-wider">
+            Dernières interventions validées (Checklist 42 points)
+          </h3>
+          <div class="space-y-2">
+            <div class="p-3 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/10 flex items-center justify-between">
+              <div>
+                <span class="font-bold text-[#0B2A2E] block">Jeudi 22 octobre 2026 — 09:00</span>
+                <span class="text-[10px] text-[#3D5A5E]">Intervention régulière par Fatou D.</span>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                42/42 points validés
+              </span>
+            </div>
+            <div class="p-3 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/10 flex items-center justify-between">
+              <div>
+                <span class="font-bold text-[#0B2A2E] block">Jeudi 8 octobre 2026 — 09:00</span>
+                <span class="text-[10px] text-[#3D5A5E]">Intervention régulière par Fatou D.</span>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                42/42 points validés
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bas modal -->
+      <div class="p-5 bg-[#F5FAFA] border-t border-[#0E7C86]/10 flex items-center justify-between">
+        <button
+          type="button"
+          id="btn-close-card"
+          class="text-xs font-bold text-[#3D5A5E] hover:text-[#0B2A2E] cursor-pointer"
+        >
+          Fermer le dossier
+        </button>
+        <div class="flex items-center gap-2">
+          <a
+            href="/admin/planning/"
+            class="px-4 py-2 rounded-full text-xs font-bold text-[#0E7C86] bg-white hover:bg-[#E3F4F5] border border-[#0E7C86]/20 transition-colors no-underline cursor-pointer"
+          >
+            Planifier dans le planning
+          </a>
+          <a
+            href="/admin/soumissions/?create=true"
+            class="px-4 py-2 rounded-full text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] transition-colors no-underline shadow-2xs cursor-pointer"
+          >
+            + Devis additionnel
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 5. MODALE AJOUTER UN NOUVEAU CLIENT -->
+  <div
+    id="modal-create-client"
+    class="fixed inset-0 z-[80] hidden items-center justify-center p-3 sm:p-5"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-create-client-title"
+  >
+    <div class="fixed inset-0 bg-[#0B2A2E]/60 backdrop-blur-sm -z-10 modal-backdrop-click"></div>
+    <div class="bg-white rounded-3xl border border-[#0E7C86]/20 shadow-2xl max-w-lg w-full max-h-[92vh] flex flex-col overflow-hidden transform scale-95 opacity-0 transition-all duration-200 modal-card">
+      
+      <div class="p-6 border-b border-[#0E7C86]/10 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="w-8 h-8 rounded-xl bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center">
+            <AdminIcon name="users" class="w-4 h-4 text-[#0E7C86]" />
+          </span>
+          <h2 id="modal-create-client-title" class="text-base font-extrabold text-[#0B2A2E]">
+            Ajouter un nouveau client au portefeuille
+          </h2>
+        </div>
+        <button
+          type="button"
+          id="close-create-client-btn"
+          class="p-1.5 rounded-lg text-[#3D5A5E] hover:text-[#0B2A2E] hover:bg-[#F5FAFA] cursor-pointer"
+          aria-label="Fermer la boîte de dialogue"
+        >
+          <AdminIcon name="close" class="w-4 h-4" />
+        </button>
+      </div>
+
+      <form id="form-create-client" class="p-6 space-y-4 text-xs overflow-y-auto">
+        <div class="space-y-1">
+          <label class="font-bold text-[#0B2A2E]">Nom du client ou Société *</label>
+          <input
+            type="text"
+            id="new-client-name"
+            required
+            placeholder="ex: Dr. Martin Leblanc ou Résidence Gagnon"
+            class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="space-y-1">
+            <label class="font-bold text-[#0B2A2E]">Courriel *</label>
+            <input
+              type="email"
+              id="new-client-email"
+              required
+              placeholder="client@domaine.ca"
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+            />
+          </div>
+          <div class="space-y-1">
+            <label class="font-bold text-[#0B2A2E]">Téléphone direct *</label>
+            <input
+              type="tel"
+              id="new-client-phone"
+              required
+              placeholder="(514) 000-0000"
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="space-y-1">
+            <label class="font-bold text-[#0B2A2E]">Typologie *</label>
+            <select
+              id="new-client-category"
+              class="w-full px-3 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+            >
+              <option value="residentiel">Résidentiel régulier</option>
+              <option value="commercial">Commercial & Bureaux</option>
+              <option value="ponctuel">Mission ponctuelle</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label class="font-bold text-[#0B2A2E]">Secteur *</label>
+            <input
+              type="text"
+              id="new-client-sector"
+              required
+              placeholder="ex: Outremont, Montréal"
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <label class="font-bold text-[#0B2A2E]">Adresse complète d'intervention</label>
+          <input
+            type="text"
+            id="new-client-address"
+            placeholder="Numéro, rue, appartement, code postal"
+            class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="space-y-1">
+            <label class="font-bold text-[#0B2A2E]">Fréquence de passage</label>
+            <select
+              id="new-client-frequency"
+              class="w-full px-3 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+            >
+              <option>Hebdomadaire (1x / semaine)</option>
+              <option>Bimensuel (aux 2 semaines)</option>
+              <option>Bihebdomadaire (2x / semaine)</option>
+              <option>Mensuel</option>
+              <option>Mission ponctuelle</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label class="font-bold text-[#0B2A2E]">Préposé(e) dédié(e)</label>
+            <select
+              id="new-client-staff"
+              class="w-full px-3 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+            >
+              <option>Fatou D.</option>
+              <option>Khadija B.</option>
+              <option>Jean-Marc T.</option>
+              <option>Assane N.</option>
+              <option>À assigner</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <label class="font-bold text-[#0B2A2E]">Volume mensuel récurrent ($ CAD)</label>
+          <input
+            type="text"
+            id="new-client-revenue"
+            placeholder="ex: 390,00 $ CAD"
+            value="390,00 $ CAD"
+            class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-extrabold focus:border-[#0E7C86] focus:outline-none"
+          />
+        </div>
+
+        <div class="space-y-1">
+          <label class="font-bold text-[#0B2A2E]">Consignes d'accès & Sécurité</label>
+          <textarea
+            id="new-client-notes"
+            rows="2"
+            placeholder="Code boîte à clés, alarme, animaux, instructions de stationnement..."
+            class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+          ></textarea>
+        </div>
+
+        <div class="p-6 -mx-6 -mb-6 bg-[#F5FAFA] border-t border-[#0E7C86]/10 flex items-center justify-between">
+          <button
+            type="button"
+            id="cancel-create-client-btn"
+            class="text-xs font-bold text-[#3D5A5E] hover:text-[#0B2A2E] cursor-pointer"
+          >
+            Annuler
+          </button>
+          <button
+            type="submit"
+            class="px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-sm transition-all cursor-pointer"
+          >
+            Enregistrer le client
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <script is:inline>
+    // 1. Recherche et filtrage combiné
+    const searchInput = document.getElementById('client-search-input');
+    const filterTabs = document.querySelectorAll('.client-filter-tab');
+    let currentFilter = 'all';
+
+    function applyClientFilters() {
+      const q = (searchInput?.value || '').toLowerCase().trim();
+      const rows = document.querySelectorAll('.client-row');
+
+      rows.forEach((row) => {
         const name = row.dataset.name || '';
         const sector = row.dataset.sector || '';
-        if (!q || name.includes(q) || sector.includes(q)) {
+        const staff = (row.dataset.staff || '').toLowerCase();
+        const type = (row.dataset.type || '').toLowerCase();
+        const category = row.dataset.category || '';
+
+        const matchesQuery = !q || name.includes(q) || sector.includes(q) || staff.includes(q) || type.includes(q);
+        const matchesCategory = currentFilter === 'all' || category === currentFilter;
+
+        if (matchesQuery && matchesCategory) {
           row.style.display = '';
         } else {
           row.style.display = 'none';
         }
       });
-    });
+    }
 
-    document.querySelectorAll('.btn-client-history').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const name = btn.dataset.client;
-        if (window.showAdminToast) {
-          window.showAdminToast(`Historique complet de ${name} chargé`);
-        }
+    searchInput?.addEventListener('input', applyClientFilters);
+
+    filterTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach((t) => {
+          t.classList.remove('bg-[#0E7C86]', 'text-white', 'font-extrabold', 'shadow-2xs');
+          t.classList.add('bg-[#F5FAFA]', 'text-[#0B2A2E]', 'font-bold', 'border', 'border-[#0E7C86]/15');
+        });
+        tab.classList.remove('bg-[#F5FAFA]', 'text-[#0B2A2E]', 'font-bold', 'border', 'border-[#0E7C86]/15');
+        tab.classList.add('bg-[#0E7C86]', 'text-white', 'font-extrabold', 'shadow-2xs');
+
+        currentFilter = tab.dataset.filter || 'all';
+        applyClientFilters();
       });
     });
 
-    document.querySelectorAll('.btn-open-client-card').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const name = btn.dataset.client;
-        if (window.showAdminToast) {
-          window.showAdminToast(`Ouverture du dossier client : ${name}`);
-        }
+    // 2. Gestion des modales avec téléportation vers document.body
+    const modalClientCard = document.getElementById('modal-client-card');
+    const modalCreateClient = document.getElementById('modal-create-client');
+
+    function teleportModal(m) {
+      if (m && m.parentElement !== document.body) {
+        document.body.appendChild(m);
+      }
+    }
+    teleportModal(modalClientCard);
+    teleportModal(modalCreateClient);
+
+    function showModal(modalEl) {
+      if (!modalEl) return;
+      teleportModal(modalEl);
+      modalEl.classList.remove('hidden');
+      modalEl.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+      const card = modalEl.querySelector('.modal-card');
+      setTimeout(() => {
+        card?.classList.remove('scale-95', 'opacity-0');
+        card?.classList.add('scale-100', 'opacity-100');
+      }, 10);
+    }
+
+    function hideModal(modalEl) {
+      if (!modalEl) return;
+      const card = modalEl.querySelector('.modal-card');
+      card?.classList.remove('scale-100', 'opacity-100');
+      card?.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        modalEl.classList.remove('flex');
+        modalEl.classList.add('hidden');
+        document.body.style.overflow = '';
+      }, 180);
+    }
+
+    // Fermeture avec touche Échap ou clic extérieur
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        hideModal(modalClientCard);
+        hideModal(modalCreateClient);
+      }
+    });
+
+    document.querySelectorAll('.modal-backdrop-click').forEach((bd) => {
+      bd.addEventListener('click', () => {
+        hideModal(modalClientCard);
+        hideModal(modalCreateClient);
       });
+    });
+
+    // 3. Fiche client : Remplissage dynamique et ouverture
+    function openClientCard(row) {
+      if (!row || !modalClientCard) return;
+
+      const rawName = row.dataset.rawName || 'Client Unilka';
+      const id = row.dataset.id || 'CLI-01';
+      const since = row.dataset.since || '2026';
+      const phone = row.dataset.phone || '(514) 000-0000';
+      const email = row.dataset.email || 'contact@client.ca';
+      const address = row.dataset.address || 'Grand Montréal, QC';
+      const sector = row.dataset.sector || 'Montréal';
+      const frequency = row.dataset.frequency || 'Régulier';
+      const staff = row.dataset.staff || 'Équipe Unilka';
+      const revenue = row.dataset.revenue || '390,00 $ CAD';
+      const notes = row.dataset.notes || 'Aucune consigne spécifique.';
+
+      // Initiales pour l'avatar
+      const parts = rawName.split(' ').filter(Boolean);
+      const initials = (parts[0]?.[0] || 'U') + (parts[1]?.[0] || 'N');
+
+      const avatarEl = document.getElementById('card-avatar');
+      const titleEl = document.getElementById('card-client-title');
+      const idEl = document.getElementById('card-id');
+      const sinceEl = document.getElementById('card-since');
+      const phoneTextEl = document.getElementById('card-phone-text');
+      const emailTextEl = document.getElementById('card-email-text');
+      const callLink = document.getElementById('card-call-link');
+      const emailLink = document.getElementById('card-email-link');
+      const addressEl = document.getElementById('card-address');
+      const sectorEl = document.getElementById('card-sector');
+      const freqEl = document.getElementById('card-frequency');
+      const staffEl = document.getElementById('card-staff');
+      const revEl = document.getElementById('card-revenue');
+      const notesEl = document.getElementById('card-notes');
+
+      if (avatarEl) avatarEl.textContent = initials.toUpperCase();
+      if (titleEl) titleEl.textContent = rawName;
+      if (idEl) idEl.textContent = id;
+      if (sinceEl) sinceEl.textContent = `Client régulier depuis ${since}`;
+      if (phoneTextEl) phoneTextEl.textContent = phone;
+      if (emailTextEl) emailTextEl.textContent = email;
+      if (callLink) callLink.href = `tel:${phone.replace(/[^0-9+]/g, '')}`;
+      if (emailLink) emailLink.href = `mailto:${email}?subject=unilka%20%E2%80%94%20Votre%20service%20d%27entretien`;
+      if (addressEl) addressEl.textContent = address;
+      if (sectorEl) sectorEl.textContent = sector;
+      if (freqEl) freqEl.textContent = frequency;
+      if (staffEl) staffEl.textContent = staff;
+      if (revEl) revEl.textContent = revenue;
+      if (notesEl) notesEl.textContent = notes;
+
+      showModal(modalClientCard);
+    }
+
+    // Attach row clicks
+    function bindRowEvents() {
+      document.querySelectorAll('.client-row').forEach((row) => {
+        row.onclick = (e) => {
+          if (e.target.closest('.btn-client-history')) return;
+          openClientCard(row);
+        };
+      });
+
+      document.querySelectorAll('.btn-open-client-card').forEach((btn) => {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          const row = btn.closest('.client-row');
+          openClientCard(row);
+        };
+      });
+
+      document.querySelectorAll('.btn-client-history').forEach((btn) => {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          const row = btn.closest('.client-row');
+          const name = btn.dataset.client;
+          if (window.showAdminToast) {
+            window.showAdminToast(`Historique complet des interventions pour ${name}`);
+          }
+          openClientCard(row);
+        };
+      });
+    }
+    bindRowEvents();
+
+    document.getElementById('close-card-modal-btn')?.addEventListener('click', () => hideModal(modalClientCard));
+    document.getElementById('btn-close-card')?.addEventListener('click', () => hideModal(modalClientCard));
+
+    document.getElementById('btn-copy-card-info')?.addEventListener('click', () => {
+      const name = document.getElementById('card-client-title')?.textContent || '';
+      const phone = document.getElementById('card-phone-text')?.textContent || '';
+      const email = document.getElementById('card-email-text')?.textContent || '';
+      const address = document.getElementById('card-address')?.textContent || '';
+      const text = `${name}\nTel : ${phone}\nEmail : ${email}\nAdresse : ${address}`;
+      navigator.clipboard?.writeText(text).then(() => {
+        window.showAdminToast?.("Coordonnées du client copiées dans le presse-papier !");
+      });
+    });
+
+    // 4. Ajouter un nouveau client
+    const openCreateBtn = document.getElementById('btn-open-create-client');
+    const closeCreateBtn = document.getElementById('close-create-client-btn');
+    const cancelCreateBtn = document.getElementById('cancel-create-client-btn');
+    const formCreateClient = document.getElementById('form-create-client');
+
+    openCreateBtn?.addEventListener('click', () => {
+      formCreateClient?.reset();
+      showModal(modalCreateClient);
+    });
+
+    closeCreateBtn?.addEventListener('click', () => hideModal(modalCreateClient));
+    cancelCreateBtn?.addEventListener('click', () => hideModal(modalCreateClient));
+
+    formCreateClient?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('new-client-name')?.value.trim() || 'Nouveau Client';
+      const email = document.getElementById('new-client-email')?.value.trim() || '';
+      const phone = document.getElementById('new-client-phone')?.value.trim() || '';
+      const category = document.getElementById('new-client-category')?.value || 'residentiel';
+      const sector = document.getElementById('new-client-sector')?.value.trim() || 'Montréal';
+      const address = document.getElementById('new-client-address')?.value.trim() || `${sector}, QC`;
+      const frequency = document.getElementById('new-client-frequency')?.value || 'Hebdomadaire';
+      const staff = document.getElementById('new-client-staff')?.value || 'Fatou D.';
+      const revenue = document.getElementById('new-client-revenue')?.value.trim() || '390,00 $ CAD';
+      const notes = document.getElementById('new-client-notes')?.value.trim() || 'Accès standard.';
+
+      const newId = `CLI-${String(Math.floor(Math.random() * 900) + 100)}`;
+      const typeLabel = category === 'commercial' ? 'Commercial & Bureaux' : (category === 'ponctuel' ? 'Mission ponctuelle' : 'Résidence privée');
+      const badgeClass = category === 'commercial' ? 'bg-blue-100 text-blue-800' : (category === 'ponctuel' ? 'bg-amber-100 text-amber-900' : 'bg-emerald-100 text-emerald-800');
+
+      const tbody = document.getElementById('clients-table-body');
+      if (tbody) {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-[#F5FAFA]/60 transition-colors client-row cursor-pointer bg-emerald-50/30';
+        tr.dataset.id = newId;
+        tr.dataset.name = name.toLowerCase();
+        tr.dataset.sector = sector.toLowerCase();
+        tr.dataset.category = category;
+        tr.dataset.rawName = name;
+        tr.dataset.phone = phone;
+        tr.dataset.email = email;
+        tr.dataset.address = address;
+        tr.dataset.frequency = frequency;
+        tr.dataset.staff = staff;
+        tr.dataset.revenue = revenue;
+        tr.dataset.notes = notes;
+        tr.dataset.type = typeLabel;
+        tr.dataset.since = "Novembre 2026";
+
+        tr.innerHTML = `
+          <td class="py-4 px-4">
+            <div class="flex items-center gap-3">
+              <span class="w-10 h-10 rounded-xl bg-[#E3F4F5] text-[#0E7C86] font-black flex items-center justify-center shrink-0">
+                ${name.substring(0, 2).toUpperCase()}
+              </span>
+              <div>
+                <span class="font-extrabold text-[#0B2A2E] block text-[13px]">${name}</span>
+                <span class="text-[10px] text-[#3D5A5E]/60 font-mono">${newId} • Client récent</span>
+              </div>
+            </div>
+          </td>
+          <td class="py-4 px-4">
+            <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold ${badgeClass}">
+              ${typeLabel}
+            </span>
+          </td>
+          <td class="py-4 px-4 font-medium text-[#0B2A2E]">
+            <span class="inline-flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-[#0E7C86] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              <span>${sector}</span>
+            </span>
+          </td>
+          <td class="py-4 px-4">
+            <span class="font-bold text-[#0E7C86]">${frequency}</span>
+          </td>
+          <td class="py-4 px-4">
+            <span class="font-semibold text-[#0B2A2E] block">${staff}</span>
+            <span class="inline-flex items-center gap-1 text-[10px] text-emerald-600 font-bold">
+              <svg class="w-3 h-3 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              <span>Cautionné(e)</span>
+            </span>
+          </td>
+          <td class="py-4 px-4">
+            <span class="font-black text-[#0B2A2E] text-sm">${revenue}</span>
+          </td>
+          <td class="py-4 px-4 max-w-xs">
+            <span class="inline-flex items-center gap-1.5 text-[#3D5A5E] text-[11px] truncate block" title="${notes}">
+              <svg class="w-3.5 h-3.5 text-amber-700 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+              <span class="truncate">${notes}</span>
+            </span>
+          </td>
+          <td class="py-4 px-4 text-right">
+            <div class="inline-flex items-center gap-1.5">
+              <button
+                type="button"
+                class="btn-client-history p-2 rounded-lg text-[#3D5A5E] hover:text-[#0E7C86] hover:bg-[#E3F4F5] transition-colors cursor-pointer"
+                title="Voir historique des interventions"
+                data-client="${name}"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              </button>
+              <button
+                type="button"
+                class="btn-open-client-card inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-2xs transition-colors cursor-pointer"
+                data-client="${name}"
+              >
+                <span>Fiche client</span>
+                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </button>
+            </div>
+          </td>
+        `;
+
+        tbody.insertBefore(tr, tbody.firstChild);
+        bindRowEvents();
+      }
+
+      hideModal(modalCreateClient);
+      window.showAdminToast?.(`Client « ${name} » enregistré avec succès !`);
     });
   </script>
 

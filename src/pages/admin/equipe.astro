@@ -114,6 +114,7 @@ const defaultCandidates = [
     trainingWish: "Produits éco-certifiés Unilka",
     loi25Consent: true,
     status: "Enquête antécédents",
+    statusColor: "bg-purple-100 text-purple-800 border-purple-200"
   }
 ];
 
@@ -171,14 +172,15 @@ const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCa
         Équipe active & Candidatures
       </h1>
       <p class="text-xs sm:text-sm text-[#3D5A5E]">
-        12 collaborateurs actifs • {pendingCandidates.length} candidatures reçues via le formulaire carrières.
+        12 collaborateurs actifs • <span id="candidates-count-badge">{pendingCandidates.length}</span> candidatures reçues via le formulaire carrières.
       </p>
     </div>
 
     <div class="flex items-center gap-3">
       <button
         type="button"
-        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-sm transition-colors"
+        id="btn-open-add-staff"
+        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-sm transition-colors cursor-pointer"
       >
         <span>+ Ajouter un préposé</span>
       </button>
@@ -201,10 +203,10 @@ const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCa
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       {pendingCandidates.map((can) => (
-        <div class="p-5 rounded-2xl bg-[#F5FAFA] border border-[#0E7C86]/12 space-y-3.5 flex flex-col justify-between shadow-2xs hover:border-[#0E7C86]/30 transition-all">
+        <div class="p-5 rounded-2xl bg-[#F5FAFA] border border-[#0E7C86]/12 space-y-3.5 flex flex-col justify-between shadow-2xs hover:border-[#0E7C86]/30 transition-all candidate-card" data-id={can.id} data-name={can.name} data-phone={can.phone} data-email={can.email}>
           <div class="space-y-2.5">
             <div class="flex items-center justify-between">
-              <span class={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border ${can.statusColor}`}>
+              <span class={`status-badge text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border ${can.statusColor}`}>
                 {can.status}
               </span>
               <span class="text-[10px] text-[#3D5A5E]/70 font-mono">{can.date.split(',')[0]}</span>
@@ -218,7 +220,7 @@ const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCa
               </p>
               <p class="text-xs text-[#3D5A5E] flex items-center gap-1.5 mt-0.5">
                 <AdminIcon name="phone" class="w-3.5 h-3.5 text-[#0E7C86] shrink-0" />
-                <span>{can.phone}</span>
+                <span>{can.phone || 'Non renseigné'}</span>
               </p>
             </div>
             
@@ -237,7 +239,7 @@ const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCa
           <div class="pt-3 border-t border-[#0E7C86]/10 flex items-center justify-between gap-2">
             <button
               type="button"
-              class="btn-call-candidate px-3 py-1.5 text-xs font-bold text-[#0E7C86] bg-white hover:bg-[#E3F4F5] border border-[#0E7C86]/20 rounded-full transition-colors"
+              class="btn-call-candidate px-3 py-1.5 text-xs font-bold text-[#0E7C86] bg-white hover:bg-[#E3F4F5] border border-[#0E7C86]/20 rounded-full transition-colors cursor-pointer"
               data-name={can.name}
               data-phone={can.phone}
             >
@@ -245,8 +247,13 @@ const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCa
             </button>
             <button
               type="button"
-              class="btn-schedule-interview inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full shadow-2xs transition-colors"
+              class="btn-schedule-interview inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full shadow-2xs transition-colors cursor-pointer"
+              data-id={can.id}
               data-name={can.name}
+              data-phone={can.phone}
+              data-email={can.email}
+              data-city={can.city}
+              data-role={can.trainingWish}
             >
               <span>Planifier entretien</span>
               <AdminIcon name="arrow-right" class="w-3 h-3" />
@@ -282,9 +289,9 @@ const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCa
             <th class="py-3.5 px-4 text-right">Actions</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-[#0E7C86]/08">
+        <tbody class="divide-y divide-[#0E7C86]/08" id="staff-table-body">
           {activeStaff.map((stf) => (
-            <tr class="hover:bg-[#F5FAFA]/60 transition-colors">
+            <tr class="hover:bg-[#F5FAFA]/60 transition-colors staff-row">
               <td class="py-4 px-4">
                 <div class="flex items-center gap-3">
                   {stf.photo ? (
@@ -326,7 +333,7 @@ const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCa
               <td class="py-4 px-4 text-right">
                 <a
                   href="/admin/planning/"
-                  class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-bold text-[#0E7C86] hover:bg-[#E3F4F5] transition-colors no-underline"
+                  class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-bold text-[#0E7C86] hover:bg-[#E3F4F5] transition-colors no-underline cursor-pointer"
                 >
                   <span>Planning préposé</span>
                   <AdminIcon name="arrow-right" class="w-3 h-3" />
@@ -339,24 +346,477 @@ const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCa
     </div>
   </div>
 
+  <!-- 4. MODALE PLANIFIER UN ENTRETIEN -->
+  <div
+    id="modal-schedule-interview"
+    class="fixed inset-0 z-[80] hidden items-center justify-center p-3 sm:p-5"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-interview-title"
+  >
+    <div class="fixed inset-0 bg-[#0B2A2E]/60 backdrop-blur-sm -z-10 modal-backdrop-click"></div>
+    <div class="bg-white rounded-3xl border border-[#0E7C86]/20 shadow-2xl max-w-lg w-full max-h-[92vh] flex flex-col overflow-hidden transform scale-95 opacity-0 transition-all duration-200 modal-card">
+      
+      <div class="p-6 border-b border-[#0E7C86]/10 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="w-8 h-8 rounded-xl bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center">
+            <AdminIcon name="calendar" class="w-4 h-4 text-[#0E7C86]" />
+          </span>
+          <div>
+            <h2 id="modal-interview-title" class="text-base font-extrabold text-[#0B2A2E]">
+              Planifier un entretien d'embauche
+            </h2>
+            <p class="text-xs text-[#3D5A5E]" id="interview-candidate-sub">Candidat : —</p>
+          </div>
+        </div>
+        <button
+          type="button"
+          id="close-interview-modal-btn"
+          class="p-1.5 rounded-lg text-[#3D5A5E] hover:text-[#0B2A2E] hover:bg-[#F5FAFA] cursor-pointer"
+          aria-label="Fermer la boîte de dialogue"
+        >
+          <AdminIcon name="close" class="w-4 h-4" />
+        </button>
+      </div>
+
+      <div class="p-6 space-y-4 text-xs overflow-y-auto">
+        <div class="grid grid-cols-2 gap-3">
+          <div class="space-y-1">
+            <label class="font-bold text-[#0B2A2E]">Date de l'entrevue</label>
+            <input
+              type="date"
+              id="interview-date"
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+            />
+          </div>
+          <div class="space-y-1">
+            <label class="font-bold text-[#0B2A2E]">Heure de rendez-vous</label>
+            <input
+              type="time"
+              id="interview-time"
+              value="10:00"
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <label class="font-bold text-[#0B2A2E]">Format de la rencontre</label>
+          <select
+            id="interview-format"
+            class="w-full px-3 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+          >
+            <option value="visio">Visioconférence Google Meet (Lien généré)</option>
+            <option value="phone">Entretien téléphonique direct</option>
+            <option value="in_person">Bureaux Unilka Montréal (1040 Av. Laurier Ouest)</option>
+          </select>
+        </div>
+
+        <!-- Modèle de message invitation -->
+        <div class="p-4 rounded-xl bg-[#E3F4F5]/60 border border-[#0E7C86]/15 space-y-2 text-[11px]">
+          <span class="font-bold text-[#0B2A2E] block">Aperçu de la convocation transmise au candidat :</span>
+          <p id="interview-preview-text" class="text-[#3D5A5E] leading-relaxed italic bg-white p-3 rounded-lg border border-[#0E7C86]/10">
+            « Bonjour, suite à votre candidature chez Unilka, nous souhaitons vous convier à un entretien officiel. »
+          </p>
+        </div>
+
+        <div class="pt-2 flex flex-col sm:flex-row gap-2">
+          <button
+            type="button"
+            id="btn-copy-interview-sms"
+            class="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full border border-[#0E7C86]/20 bg-white hover:bg-[#F5FAFA] text-xs font-bold text-[#0B2A2E] transition-colors cursor-pointer"
+          >
+            <AdminIcon name="document" class="w-3.5 h-3.5 text-[#0E7C86]" />
+            <span>Copier le SMS d'invitation</span>
+          </button>
+          <a
+            id="btn-email-interview"
+            href="#"
+            class="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full bg-[#0E7C86] hover:bg-[#0A5A62] text-xs font-bold text-white transition-colors no-underline cursor-pointer shadow-2xs"
+          >
+            <AdminIcon name="envelope" class="w-3.5 h-3.5 text-white" />
+            <span>Envoyer par courriel</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="p-5 bg-[#F5FAFA] border-t border-[#0E7C86]/10 flex items-center justify-between">
+        <button
+          type="button"
+          id="btn-cancel-interview"
+          class="text-xs font-bold text-[#3D5A5E] hover:text-[#0B2A2E] cursor-pointer"
+        >
+          Annuler
+        </button>
+        <button
+          type="button"
+          id="btn-confirm-interview-status"
+          class="px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#0B2A2E] hover:bg-[#0E7C86] transition-all cursor-pointer shadow-sm"
+        >
+          Valider l'entrevue
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 5. MODALE AJOUTER UN COLLABORATEUR -->
+  <div
+    id="modal-add-staff"
+    class="fixed inset-0 z-[80] hidden items-center justify-center p-3 sm:p-5"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-staff-title"
+  >
+    <div class="fixed inset-0 bg-[#0B2A2E]/60 backdrop-blur-sm -z-10 modal-backdrop-click"></div>
+    <div class="bg-white rounded-3xl border border-[#0E7C86]/20 shadow-2xl max-w-lg w-full max-h-[92vh] flex flex-col overflow-hidden transform scale-95 opacity-0 transition-all duration-200 modal-card">
+      
+      <div class="p-6 border-b border-[#0E7C86]/10 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="w-8 h-8 rounded-xl bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center">
+            <AdminIcon name="badge-check" class="w-4 h-4 text-[#0E7C86]" />
+          </span>
+          <h2 id="modal-staff-title" class="text-base font-extrabold text-[#0B2A2E]">
+            Ajouter un collaborateur ou préposé(e)
+          </h2>
+        </div>
+        <button
+          type="button"
+          id="close-staff-modal-btn"
+          class="p-1.5 rounded-lg text-[#3D5A5E] hover:text-[#0B2A2E] hover:bg-[#F5FAFA] cursor-pointer"
+          aria-label="Fermer la boîte de dialogue"
+        >
+          <AdminIcon name="close" class="w-4 h-4" />
+        </button>
+      </div>
+
+      <form id="form-add-staff" class="p-6 space-y-4 text-xs overflow-y-auto">
+        <div class="space-y-1">
+          <label class="font-bold text-[#0B2A2E]">Nom et Prénom *</label>
+          <input
+            type="text"
+            id="new-staff-name"
+            required
+            placeholder="ex: Patrick Gagnon"
+            class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+          />
+        </div>
+
+        <div class="space-y-1">
+          <label class="font-bold text-[#0B2A2E]">Rôle / Titre officiel *</label>
+          <select
+            id="new-staff-role"
+            class="w-full px-3 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+          >
+            <option>Préposée senior d'hôtellerie</option>
+            <option>Préposé(e) certifié(e) résidentiel</option>
+            <option>Technicien surfaces & textiles</option>
+            <option>Responsable entretien commercial</option>
+            <option>Superviseur(e) qualité 42 points</option>
+          </select>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="space-y-1">
+            <label class="font-bold text-[#0B2A2E]">Téléphone direct *</label>
+            <input
+              type="tel"
+              id="new-staff-phone"
+              required
+              placeholder="(514) 000-0000"
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+            />
+          </div>
+          <div class="space-y-1">
+            <label class="font-bold text-[#0B2A2E]">Courriel professionnel *</label>
+            <input
+              type="email"
+              id="new-staff-email"
+              required
+              placeholder="prenom.n@unilka.ca"
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <label class="font-bold text-[#0B2A2E]">Secteurs d'intervention réguliers *</label>
+          <input
+            type="text"
+            id="new-staff-sector"
+            required
+            placeholder="ex: Westmount, Outremont, Plateau-Mont-Royal"
+            class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="space-y-1">
+            <label class="font-bold text-[#0B2A2E]">Missions visées / sem.</label>
+            <input
+              type="number"
+              id="new-staff-missions"
+              value="7"
+              min="1"
+              max="15"
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-bold focus:border-[#0E7C86] focus:outline-none"
+            />
+          </div>
+          <div class="space-y-1">
+            <label class="font-bold text-[#0B2A2E]">Enquête antécédents</label>
+            <select
+              id="new-staff-check"
+              class="w-full px-3 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+            >
+              <option>Validé (Novembre 2026)</option>
+              <option>En cours de vérification</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="p-6 -mx-6 -mb-6 bg-[#F5FAFA] border-t border-[#0E7C86]/10 flex items-center justify-between">
+          <button
+            type="button"
+            id="cancel-staff-btn"
+            class="text-xs font-bold text-[#3D5A5E] hover:text-[#0B2A2E] cursor-pointer"
+          >
+            Annuler
+          </button>
+          <button
+            type="submit"
+            class="px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] shadow-sm transition-all cursor-pointer"
+          >
+            Enregistrer le préposé
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
   <script is:inline>
-    document.querySelectorAll('.btn-call-candidate').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const name = btn.dataset.name;
-        const phone = btn.dataset.phone;
-        if (window.showAdminToast) {
-          window.showAdminToast(`Appel vers ${name} (${phone}) initié`);
-        }
+    // 1. Téléportation des modales vers document.body
+    const modalInterview = document.getElementById('modal-schedule-interview');
+    const modalAddStaff = document.getElementById('modal-add-staff');
+
+    function teleportModal(m) {
+      if (m && m.parentElement !== document.body) {
+        document.body.appendChild(m);
+      }
+    }
+    teleportModal(modalInterview);
+    teleportModal(modalAddStaff);
+
+    function showModal(modalEl) {
+      if (!modalEl) return;
+      teleportModal(modalEl);
+      modalEl.classList.remove('hidden');
+      modalEl.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+      const card = modalEl.querySelector('.modal-card');
+      setTimeout(() => {
+        card?.classList.remove('scale-95', 'opacity-0');
+        card?.classList.add('scale-100', 'opacity-100');
+      }, 10);
+    }
+
+    function hideModal(modalEl) {
+      if (!modalEl) return;
+      const card = modalEl.querySelector('.modal-card');
+      card?.classList.remove('scale-100', 'opacity-100');
+      card?.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        modalEl.classList.remove('flex');
+        modalEl.classList.add('hidden');
+        document.body.style.overflow = '';
+      }, 180);
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        hideModal(modalInterview);
+        hideModal(modalAddStaff);
+      }
+    });
+
+    document.querySelectorAll('.modal-backdrop-click').forEach((bd) => {
+      bd.addEventListener('click', () => {
+        hideModal(modalInterview);
+        hideModal(modalAddStaff);
       });
     });
 
+    // 2. Boutons Appeler Candidat (ouvre tel: et affiche toast)
+    document.querySelectorAll('.btn-call-candidate').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const name = btn.dataset.name || 'Candidat';
+        const phone = btn.dataset.phone || '';
+        if (phone) {
+          window.location.href = `tel:${phone.replace(/[^0-9+]/g, '')}`;
+        }
+        window.showAdminToast?.(`Appel vers ${name} (${phone}) initié…`);
+      });
+    });
+
+    // 3. Planifier entretien
+    let currentInterviewCandidate = null;
+
+    // Définir la date par défaut sur demain à 10h
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const yyyy = tomorrow.getFullYear();
+    const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+    const dd = String(tomorrow.getDate()).padStart(2, '0');
+    const interviewDateInput = document.getElementById('interview-date');
+    if (interviewDateInput) {
+      interviewDateInput.value = `${yyyy}-${mm}-${dd}`;
+    }
+
+    function updateInterviewPreview() {
+      if (!currentInterviewCandidate) return;
+      const name = currentInterviewCandidate.name;
+      const date = interviewDateInput?.value || `${yyyy}-${mm}-${dd}`;
+      const time = document.getElementById('interview-time')?.value || '10:00';
+      const format = document.getElementById('interview-format')?.value || 'visio';
+      const formatLabel = format === 'visio' ? 'en visioconférence Google Meet' : (format === 'phone' ? 'par téléphone' : 'dans nos locaux à Montréal');
+
+      const text = `Bonjour ${name}, suite à l'analyse de votre candidature chez Unilka, nous avons le plaisir de vous inviter à un entretien officiel le ${date} à ${time} (${formatLabel}). Merci de nous confirmer votre disponibilité. L'équipe RH Unilka.`;
+
+      const previewEl = document.getElementById('interview-preview-text');
+      if (previewEl) previewEl.textContent = text;
+
+      const emailLink = document.getElementById('btn-email-interview');
+      if (emailLink && currentInterviewCandidate.email) {
+        const subject = encodeURIComponent("Invitation à un entretien d'embauche — Unilka");
+        const body = encodeURIComponent(text);
+        emailLink.href = `mailto:${currentInterviewCandidate.email}?subject=${subject}&body=${body}`;
+      }
+    }
+
+    interviewDateInput?.addEventListener('input', updateInterviewPreview);
+    document.getElementById('interview-time')?.addEventListener('input', updateInterviewPreview);
+    document.getElementById('interview-format')?.addEventListener('change', updateInterviewPreview);
+
     document.querySelectorAll('.btn-schedule-interview').forEach((btn) => {
       btn.addEventListener('click', () => {
-        const name = btn.dataset.name;
-        if (window.showAdminToast) {
-          window.showAdminToast(`Invitation à l'entretien officiel transmise à ${name}`);
-        }
+        currentInterviewCandidate = {
+          id: btn.dataset.id,
+          name: btn.dataset.name,
+          phone: btn.dataset.phone,
+          email: btn.dataset.email,
+          card: btn.closest('.candidate-card')
+        };
+
+        const subEl = document.getElementById('interview-candidate-sub');
+        if (subEl) subEl.textContent = `Candidat : ${currentInterviewCandidate.name} • ${currentInterviewCandidate.phone || currentInterviewCandidate.email}`;
+
+        updateInterviewPreview();
+        showModal(modalInterview);
       });
+    });
+
+    document.getElementById('close-interview-modal-btn')?.addEventListener('click', () => hideModal(modalInterview));
+    document.getElementById('btn-cancel-interview')?.addEventListener('click', () => hideModal(modalInterview));
+
+    document.getElementById('btn-copy-interview-sms')?.addEventListener('click', () => {
+      const text = document.getElementById('interview-preview-text')?.textContent || '';
+      navigator.clipboard?.writeText(text).then(() => {
+        window.showAdminToast?.("Modèle SMS copié dans le presse-papier !");
+      });
+    });
+
+    document.getElementById('btn-confirm-interview-status')?.addEventListener('click', () => {
+      if (currentInterviewCandidate?.card) {
+        const badge = currentInterviewCandidate.card.querySelector('.status-badge');
+        if (badge) {
+          badge.className = 'status-badge text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border bg-blue-100 text-blue-800 border-blue-200';
+          badge.textContent = 'Entrevue planifiée';
+        }
+      }
+      hideModal(modalInterview);
+      window.showAdminToast?.(`Entrevue planifiée avec succès pour ${currentInterviewCandidate?.name} !`);
+    });
+
+    // 4. Ajouter un préposé
+    const btnOpenAddStaff = document.getElementById('btn-open-add-staff');
+    const closeStaffModalBtn = document.getElementById('close-staff-modal-btn');
+    const cancelStaffBtn = document.getElementById('cancel-staff-btn');
+    const formAddStaff = document.getElementById('form-add-staff');
+
+    btnOpenAddStaff?.addEventListener('click', () => {
+      formAddStaff?.reset();
+      showModal(modalAddStaff);
+    });
+
+    closeStaffModalBtn?.addEventListener('click', () => hideModal(modalAddStaff));
+    cancelStaffBtn?.addEventListener('click', () => hideModal(modalAddStaff));
+
+    formAddStaff?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('new-staff-name')?.value.trim() || 'Collaborateur';
+      const role = document.getElementById('new-staff-role')?.value || 'Préposée certifiée';
+      const phone = document.getElementById('new-staff-phone')?.value.trim() || '(514) 000-0000';
+      const sector = document.getElementById('new-staff-sector')?.value.trim() || 'Montréal';
+      const missions = document.getElementById('new-staff-missions')?.value || '7';
+      const check = document.getElementById('new-staff-check')?.value || 'Validé';
+
+      const parts = name.split(' ').filter(Boolean);
+      const initials = (parts[0]?.[0] || 'U') + (parts[1]?.[0] || 'N');
+
+      const tbody = document.getElementById('staff-table-body');
+      if (tbody) {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-[#F5FAFA]/60 transition-colors staff-row bg-emerald-50/20';
+        tr.innerHTML = `
+          <td class="py-4 px-4">
+            <div class="flex items-center gap-3">
+              <span class="w-10 h-10 rounded-full bg-[#E3F4F5] text-[#0E7C86] font-bold text-xs flex items-center justify-center shrink-0">
+                ${initials.toUpperCase()}
+              </span>
+              <div>
+                <span class="font-extrabold text-[#0B2A2E] block text-[13px]">${name}</span>
+                <span class="text-[#3D5A5E] block">${phone}</span>
+              </div>
+            </div>
+          </td>
+          <td class="py-4 px-4 font-semibold text-[#0B2A2E]">
+            ${role}
+          </td>
+          <td class="py-4 px-4 text-[#3D5A5E]">
+            ${sector}
+          </td>
+          <td class="py-4 px-4 font-bold text-[#0B2A2E]">
+            ${missions} missions
+          </td>
+          <td class="py-4 px-4">
+            <span class="inline-flex items-center gap-1.5 text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+              <svg class="w-3.5 h-3.5 text-emerald-700 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              <span>${check}</span>
+            </span>
+          </td>
+          <td class="py-4 px-4 text-[#3D5A5E]">
+            Novembre 2026
+          </td>
+          <td class="py-4 px-4">
+            <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+              Actif
+            </span>
+          </td>
+          <td class="py-4 px-4 text-right">
+            <a
+              href="/admin/planning/"
+              class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-bold text-[#0E7C86] hover:bg-[#E3F4F5] transition-colors no-underline cursor-pointer"
+            >
+              <span>Planning préposé</span>
+              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+          </td>
+        `;
+        tbody.insertBefore(tr, tbody.firstChild);
+      }
+
+      hideModal(modalAddStaff);
+      window.showAdminToast?.(`Collaborateur ${name} ajouté avec succès !`);
     });
   </script>
 
