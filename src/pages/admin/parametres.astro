@@ -38,6 +38,132 @@ import config from '../../data/site-config.json';
     <!-- Colonne Gauche : Identité & Contact (7 cols) -->
     <div class="lg:col-span-7 space-y-8">
       
+      <!-- Bloc Grille Tarifaire & Paramètres Financiers -->
+      <div class="bg-white rounded-2xl border border-[#0E7C86]/12 p-6 sm:p-8 shadow-2xs space-y-6">
+        <div class="border-b border-[#0E7C86]/10 pb-4 flex items-center justify-between">
+          <div>
+            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#E3F4F5] text-[#0E7C86] text-[10px] font-black uppercase tracking-wider mb-1">
+              <span>Tarification & Calculs Automatiques</span>
+            </div>
+            <h2 class="text-base font-extrabold text-[#0B2A2E]">
+              Grille tarifaire & Devis en ligne
+            </h2>
+            <p class="text-xs text-[#3D5A5E]">
+              Définit les taux horaires et les règles appliquées dans le calculateur de soumissions et la facturation.
+            </p>
+          </div>
+          <span class="text-[10px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">
+            Devise : CAD ($)
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+          <div class="space-y-1.5">
+            <label class="font-bold text-[#0B2A2E]">Taux horaire Résidentiel ($/h)</label>
+            <div class="flex items-center gap-1.5">
+              <input
+                type="number"
+                id="pricing-rate-residential"
+                value="55"
+                step="1"
+                min="30"
+                max="150"
+                class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-extrabold text-sm"
+              />
+              <span class="text-xs text-[#3D5A5E] font-bold">$/h</span>
+            </div>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="font-bold text-[#0B2A2E]">Taux horaire Commercial ($/h)</label>
+            <div class="flex items-center gap-1.5">
+              <input
+                type="number"
+                id="pricing-rate-commercial"
+                value="65"
+                step="1"
+                min="35"
+                max="200"
+                class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-extrabold text-sm"
+              />
+              <span class="text-xs text-[#3D5A5E] font-bold">$/h</span>
+            </div>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="font-bold text-[#0B2A2E]">Taux horaire Spécialisé ($/h)</label>
+            <div class="flex items-center gap-1.5">
+              <input
+                type="number"
+                id="pricing-rate-specialized"
+                value="70"
+                step="1"
+                min="40"
+                max="250"
+                class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-extrabold text-sm"
+              />
+              <span class="text-xs text-[#3D5A5E] font-bold">$/h</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Options et Extras -->
+        <div class="pt-4 border-t border-[#0E7C86]/10 space-y-3">
+          <span class="text-xs font-bold text-[#0B2A2E] block">Tarifs des options supplémentaires (Extras) :</span>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+            <div class="p-3 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/12 space-y-1">
+              <span class="text-[11px] font-medium text-[#3D5A5E] block">Nettoyage du four ($)</span>
+              <div class="flex items-center gap-1">
+                <input
+                  type="number"
+                  id="pricing-extra-oven"
+                  value="45"
+                  step="5"
+                  class="w-full px-2.5 py-1.5 rounded-lg bg-white border border-[#0E7C86]/20 font-bold text-[#0B2A2E]"
+                />
+                <span class="text-xs font-bold text-[#3D5A5E]">$</span>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/12 space-y-1">
+              <span class="text-[11px] font-medium text-[#3D5A5E] block">Intérieur des vitres ($)</span>
+              <div class="flex items-center gap-1">
+                <input
+                  type="number"
+                  id="pricing-extra-windows"
+                  value="65"
+                  step="5"
+                  class="w-full px-2.5 py-1.5 rounded-lg bg-white border border-[#0E7C86]/20 font-bold text-[#0B2A2E]"
+                />
+                <span class="text-xs font-bold text-[#3D5A5E]">$</span>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/12 space-y-1">
+              <span class="text-[11px] font-medium text-[#3D5A5E] block">Réfrigérateur intérieur ($)</span>
+              <div class="flex items-center gap-1">
+                <input
+                  type="number"
+                  id="pricing-extra-fridge"
+                  value="35"
+                  step="5"
+                  class="w-full px-2.5 py-1.5 rounded-lg bg-white border border-[#0E7C86]/20 font-bold text-[#0B2A2E]"
+                />
+                <span class="text-xs font-bold text-[#3D5A5E]">$</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Règle d'estimation horaire selon superficie -->
+        <div class="p-4 rounded-xl bg-[#E3F4F5]/60 border border-[#0E7C86]/15 text-[11px] text-[#3D5A5E] space-y-1">
+          <span class="font-bold text-[#0E7C86] block">Formule d'estimation intelligente :</span>
+          <p>
+            Lorsque vous ouvrez une soumission, le système calcule automatiquement le nombre d'heures estimées à partir de la superficie (pi²) et du nombre de pièces saisies par le client, puis applique votre taux horaire ci-dessus.
+          </p>
+        </div>
+      </div>
+      
       <!-- Bloc Entreprise & Légal -->
       <div class="bg-white rounded-2xl border border-[#0E7C86]/12 p-6 sm:p-8 shadow-2xs space-y-6">
         <div class="border-b border-[#0E7C86]/10 pb-4">
@@ -372,6 +498,13 @@ import config from '../../data/site-config.json';
     const googleInput = document.getElementById('input-google-business') as HTMLInputElement | null;
     const testGoogleLink = document.getElementById('link-test-google') as HTMLAnchorElement | null;
 
+    const rateResEl = document.getElementById('pricing-rate-residential') as HTMLInputElement | null;
+    const rateComEl = document.getElementById('pricing-rate-commercial') as HTMLInputElement | null;
+    const rateSpeEl = document.getElementById('pricing-rate-specialized') as HTMLInputElement | null;
+    const ovenEl = document.getElementById('pricing-extra-oven') as HTMLInputElement | null;
+    const windowsEl = document.getElementById('pricing-extra-windows') as HTMLInputElement | null;
+    const fridgeEl = document.getElementById('pricing-extra-fridge') as HTMLInputElement | null;
+
     // 1. Charger les paramètres depuis Firestore au chargement
     async function initSettings() {
       try {
@@ -382,6 +515,17 @@ import config from '../../data/site-config.json';
             googleInput.value = data.googleBusiness;
             if (testGoogleLink) testGoogleLink.href = data.googleBusiness;
           }
+        }
+
+        const pricingSnap = await getDoc(doc(db, 'settings', 'pricing'));
+        if (pricingSnap.exists()) {
+          const p = pricingSnap.data();
+          if (rateResEl && p.rateResidential !== undefined) rateResEl.value = String(p.rateResidential);
+          if (rateComEl && p.rateCommercial !== undefined) rateComEl.value = String(p.rateCommercial);
+          if (rateSpeEl && p.rateSpecialized !== undefined) rateSpeEl.value = String(p.rateSpecialized);
+          if (ovenEl && p.extraOven !== undefined) ovenEl.value = String(p.extraOven);
+          if (windowsEl && p.extraWindows !== undefined) windowsEl.value = String(p.extraWindows);
+          if (fridgeEl && p.extraFridge !== undefined) fridgeEl.value = String(p.extraFridge);
         }
       } catch (e) {
         console.warn("[unilka Settings] Chargement Firestore:", e);
@@ -405,13 +549,24 @@ import config from '../../data/site-config.json';
       saveBtn.textContent = 'Enregistrement...';
 
       try {
-        await setDoc(doc(db, 'settings', 'general'), {
-          googleBusiness: gVal,
-          updatedAt: new Date().toISOString()
-        }, { merge: true });
+        await Promise.all([
+          setDoc(doc(db, 'settings', 'general'), {
+            googleBusiness: gVal,
+            updatedAt: new Date().toISOString()
+          }, { merge: true }),
+          setDoc(doc(db, 'settings', 'pricing'), {
+            rateResidential: parseFloat(rateResEl?.value || '55') || 55,
+            rateCommercial: parseFloat(rateComEl?.value || '65') || 65,
+            rateSpecialized: parseFloat(rateSpeEl?.value || '70') || 70,
+            extraOven: parseFloat(ovenEl?.value || '45') || 45,
+            extraWindows: parseFloat(windowsEl?.value || '65') || 65,
+            extraFridge: parseFloat(fridgeEl?.value || '35') || 35,
+            updatedAt: new Date().toISOString()
+          }, { merge: true })
+        ]);
 
         if ((window as any).showAdminToast) {
-          (window as any).showAdminToast("Paramètres et lien Google enregistrés avec succès !");
+          (window as any).showAdminToast("Grille tarifaire et paramètres enregistrés avec succès !");
         }
       } catch (err) {
         console.error("[unilka Settings] Erreur sauvegarde:", err);
