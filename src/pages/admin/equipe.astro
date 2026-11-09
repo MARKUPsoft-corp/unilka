@@ -4,7 +4,7 @@ export const prerender = false;
 import AdminLayout from '../../layouts/AdminLayout.astro';
 import AdminIcon from '../../components/admin/AdminIcon.astro';
 
-const activeStaff = [
+const defaultActiveStaff = [
   {
     id: "STF-01",
     name: "Fatou Diop",
@@ -119,13 +119,15 @@ const defaultCandidates = [
 ];
 
 let liveCandidates: any[] = [];
+let liveStaff: any[] = [];
 try {
   const { db } = await import('../../lib/firebase');
   const { collection, getDocs, query, orderBy, limit } = await import('firebase/firestore');
 
-  const q = query(collection(db, 'candidates'), orderBy('createdAt', 'desc'), limit(50));
-  const snap = await getDocs(q);
-  liveCandidates = snap.docs.map(doc => {
+  // Candidats récents
+  const qCand = query(collection(db, 'candidates'), orderBy('createdAt', 'desc'), limit(50));
+  const snapCand = await getDocs(qCand);
+  liveCandidates = snapCand.docs.map(doc => {
     const data = doc.data();
     const d = data.createdAt ? new Date(data.createdAt) : new Date();
     const formattedDate = d.toLocaleDateString('fr-CA', {
@@ -138,6 +140,7 @@ try {
 
     return {
       id: `CAN-${doc.id.substring(0, 5).toUpperCase()}`,
+      rawId: doc.id,
       name: data.candidateName || data.name || `${data.firstName || ''} ${data.lastName || ''}`.trim() || 'Candidat Unilka',
       date: formattedDate,
       phone: data.phone || '',
@@ -153,11 +156,37 @@ try {
       statusColor: data.statusColor || 'bg-amber-100 text-amber-900 border-amber-200'
     };
   });
+
+  // Collaborateurs actifs
+  const qStaff = query(collection(db, 'staff'), orderBy('createdAt', 'desc'), limit(50));
+  const snapStaff = await getDocs(qStaff);
+  liveStaff = snapStaff.docs.map(doc => {
+    const data = doc.data();
+    const parts = (data.name || 'Collaborateur').split(' ').filter(Boolean);
+    const initials = (parts[0]?.[0] || 'U') + (parts[1]?.[0] || 'N');
+    return {
+      id: doc.id.startsWith('STF-') ? doc.id : `STF-${doc.id.substring(0, 4).toUpperCase()}`,
+      rawId: doc.id,
+      name: data.name || 'Collaborateur',
+      role: data.role || 'Préposé(e) certifié(e)',
+      photo: data.photo || '',
+      initials: (data.initials || initials).toUpperCase(),
+      phone: data.phone || '(514) 000-0000',
+      email: data.email || 'equipe@unilka.ca',
+      sector: data.sector || 'Grand Montréal',
+      missionsPerWeek: data.missionsPerWeek || 7,
+      backgroundCheck: data.backgroundCheck || 'Validé (Novembre 2026)',
+      trainedDate: data.trainedDate || 'Novembre 2026',
+      status: data.status || 'Actif',
+      statusColor: 'bg-emerald-100 text-emerald-800'
+    };
+  });
 } catch (err: any) {
-  console.warn('[Admin Equipe] Chargement candidats Firestore échoué (mode démo actif) :', err?.message);
+  console.warn('[Admin Equipe] Chargement Firestore échoué (mode démo actif) :', err?.message);
 }
 
 const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCandidates;
+const activeStaff = [...liveStaff, ...defaultActiveStaff];
 ---
 
 <AdminLayout title="Équipe & Candidats" activeNav="equipe">
@@ -172,7 +201,7 @@ const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCa
         Équipe active & Candidatures
       </h1>
       <p class="text-xs sm:text-sm text-[#3D5A5E]">
-        12 collaborateurs actifs • <span id="candidates-count-badge">{pendingCandidates.length}</span> candidatures reçues via le formulaire carrières.
+        <span id="active-staff-count-badge">{activeStaff.length}</span> collaborateurs actifs • <span id="candidates-count-badge">{pendingCandidates.length}</span> candidatures reçues via le formulaire carrières.
       </p>
     </div>
 
@@ -203,7 +232,7 @@ const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCa
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       {pendingCandidates.map((can) => (
-        <div class="p-5 rounded-2xl bg-[#F5FAFA] border border-[#0E7C86]/12 space-y-3.5 flex flex-col justify-between shadow-2xs hover:border-[#0E7C86]/30 transition-all candidate-card" data-id={can.id} data-name={can.name} data-phone={can.phone} data-email={can.email}>
+        <div class="p-5 rounded-2xl bg-[#F5FAFA] border border-[#0E7C86]/12 space-y-3.5 flex flex-col justify-between shadow-2xs hover:border-[#0E7C86]/30 transition-all candidate-card" data-id={can.id} data-rawid={can.rawId || ''} data-name={can.name} data-phone={can.phone} data-email={can.email} data-city={can.city} data-availability={can.availability} data-experience={can.experience} data-training={can.trainingWish} data-status={can.status}>
           <div class="space-y-2.5">
             <div class="flex items-center justify-between">
               <span class={`status-badge text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border ${can.statusColor}`}>
@@ -236,28 +265,58 @@ const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCa
             </div>
           </div>
 
-          <div class="pt-3 border-t border-[#0E7C86]/10 flex items-center justify-between gap-2">
-            <button
-              type="button"
-              class="btn-call-candidate px-3 py-1.5 text-xs font-bold text-[#0E7C86] bg-white hover:bg-[#E3F4F5] border border-[#0E7C86]/20 rounded-full transition-colors cursor-pointer"
-              data-name={can.name}
-              data-phone={can.phone}
-            >
-              Appeler
-            </button>
-            <button
-              type="button"
-              class="btn-schedule-interview inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-[#0E7C86] hover:bg-[#0A5A62] rounded-full shadow-2xs transition-colors cursor-pointer"
-              data-id={can.id}
-              data-name={can.name}
-              data-phone={can.phone}
-              data-email={can.email}
-              data-city={can.city}
-              data-role={can.trainingWish}
-            >
-              <span>Planifier entretien</span>
-              <AdminIcon name="arrow-right" class="w-3 h-3" />
-            </button>
+          <div class="pt-3 border-t border-[#0E7C86]/10 space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <button
+                type="button"
+                class="btn-call-candidate flex-1 px-3 py-1.5 text-xs font-bold text-[#0E7C86] bg-white hover:bg-[#E3F4F5] border border-[#0E7C86]/20 rounded-full transition-colors cursor-pointer text-center"
+                data-name={can.name}
+                data-phone={can.phone}
+              >
+                Appeler
+              </button>
+              <button
+                type="button"
+                class="btn-schedule-interview flex-1 inline-flex items-center justify-center gap-1 px-3 py-1.5 text-xs font-bold text-[#0B2A2E] bg-white hover:bg-[#F5FAFA] border border-[#0E7C86]/20 rounded-full shadow-2xs transition-colors cursor-pointer text-center"
+                data-id={can.id}
+                data-rawid={can.rawId || ''}
+                data-name={can.name}
+                data-phone={can.phone}
+                data-email={can.email}
+                data-city={can.city}
+                data-role={can.trainingWish}
+                data-availability={can.availability}
+                data-experience={can.experience}
+              >
+                <span>Entretien</span>
+                <AdminIcon name="arrow-right" class="w-3 h-3" />
+              </button>
+            </div>
+
+            <!-- BOUTON DE CONFIRMATION AUTOMATIQUE EN COLLABORATEUR ACTIF -->
+            {can.status === 'Collaborateur actif' ? (
+              <div class="w-full py-2 px-3 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-800 font-extrabold text-xs text-center flex items-center justify-center gap-1.5 shadow-2xs">
+                <AdminIcon name="check" class="w-3.5 h-3.5 text-emerald-600" />
+                <span>Collaborateur actif</span>
+              </div>
+            ) : (
+              <button
+                type="button"
+                class="btn-confirm-collaborator w-full py-2 px-3 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs text-center flex items-center justify-center gap-1.5 shadow-sm hover:shadow transition-all cursor-pointer"
+                data-id={can.id}
+                data-rawid={can.rawId || ''}
+                data-name={can.name}
+                data-phone={can.phone}
+                data-email={can.email}
+                data-city={can.city}
+                data-availability={can.availability}
+                data-experience={can.experience}
+                data-training={can.trainingWish}
+              >
+                <AdminIcon name="shield-check" class="w-3.5 h-3.5 text-white" />
+                <span>Confirmer en collaborateur actif</span>
+              </button>
+            )}
           </div>
         </div>
       ))}
@@ -594,20 +653,185 @@ const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCa
     </div>
   </div>
 
-  <script is:inline>
+  <!-- 6. MODALE CONFIRMER EN COLLABORATEUR ACTIF (PASSERELLE CANDIDAT -> COLLABORATEUR) -->
+  <div
+    id="modal-confirm-collaborator"
+    class="fixed inset-0 z-[80] hidden items-center justify-center p-3 sm:p-5"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-confirm-title"
+  >
+    <div class="fixed inset-0 bg-[#0B2A2E]/60 backdrop-blur-sm -z-10 modal-backdrop-click"></div>
+    <div class="bg-white rounded-3xl border border-[#0E7C86]/20 shadow-2xl max-w-xl w-full max-h-[92vh] flex flex-col overflow-hidden transform scale-95 opacity-0 transition-all duration-200 modal-card">
+      
+      <div class="p-5 sm:p-6 border-b border-[#0E7C86]/10 flex items-center justify-between bg-white shrink-0">
+        <div class="flex items-center gap-3">
+          <span class="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center shadow-2xs">
+            <AdminIcon name="shield-check" class="w-5 h-5 text-emerald-700" />
+          </span>
+          <div>
+            <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-700 block">
+              Passerelle Recrutement Unilka
+            </span>
+            <h2 id="modal-confirm-title" class="text-base sm:text-lg font-extrabold text-[#0B2A2E]">
+              Confirmer en Collaborateur Actif
+            </h2>
+          </div>
+        </div>
+        <button
+          type="button"
+          id="close-confirm-modal-btn"
+          class="p-1.5 rounded-lg text-[#3D5A5E] hover:text-[#0B2A2E] hover:bg-[#F5FAFA] cursor-pointer"
+          aria-label="Fermer la boîte de dialogue"
+        >
+          <AdminIcon name="close" class="w-4 h-4" />
+        </button>
+      </div>
+
+      <form id="form-confirm-collaborator" class="flex-1 overflow-y-auto p-5 sm:p-6 space-y-4 text-xs">
+        
+        <!-- Récapitulatif automatique -->
+        <div class="p-3.5 rounded-2xl bg-[#E3F4F5]/60 border border-[#0E7C86]/15 flex items-center justify-between gap-3 text-xs">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-[#0E7C86] block">Candidat sélectionné :</span>
+            <span id="confirm-display-name" class="font-extrabold text-[#0B2A2E] text-sm sm:text-base">—</span>
+          </div>
+          <div class="text-right">
+            <span class="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full inline-block">
+              Loi 25 Validée
+            </span>
+            <span id="confirm-display-city" class="text-[11px] text-[#3D5A5E] block mt-0.5">Montréal</span>
+          </div>
+        </div>
+
+        <input type="hidden" id="confirm-candidate-id" value="" />
+        <input type="hidden" id="confirm-candidate-rawid" value="" />
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="space-y-1">
+            <label class="font-bold text-[#0B2A2E]">Nom et Prénom</label>
+            <input
+              type="text"
+              id="confirm-staff-name"
+              required
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-bold focus:border-[#0E7C86] focus:outline-none"
+            />
+          </div>
+          <div class="space-y-1">
+            <label class="font-bold text-[#0B2A2E]">Rôle / Titre officiel attribué</label>
+            <select
+              id="confirm-staff-role"
+              class="w-full px-3 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+            >
+              <option value="Préposée senior d'hôtellerie">Préposée senior d'hôtellerie</option>
+              <option value="Préposé(e) certifié(e) résidentiel">Préposé(e) certifié(e) résidentiel</option>
+              <option value="Technicien surfaces & textiles">Technicien surfaces & textiles</option>
+              <option value="Responsable entretien commercial">Responsable entretien commercial</option>
+              <option value="Préposé(e) polyvalent(e)">Préposé(e) polyvalent(e)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="space-y-1">
+            <label class="font-bold text-[#0B2A2E]">Téléphone direct</label>
+            <input
+              type="tel"
+              id="confirm-staff-phone"
+              required
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+            />
+          </div>
+          <div class="space-y-1">
+            <label class="font-bold text-[#0B2A2E]">Courriel professionnel Unilka</label>
+            <input
+              type="email"
+              id="confirm-staff-email"
+              required
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <label class="font-bold text-[#0B2A2E]">Secteurs d'intervention réguliers</label>
+          <input
+            type="text"
+            id="confirm-staff-sector"
+            required
+            class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="space-y-1">
+            <label class="font-bold text-[#0B2A2E]">Missions prévues / semaine</label>
+            <input
+              type="number"
+              id="confirm-staff-missions"
+              value="8"
+              min="1"
+              max="15"
+              class="w-full px-3.5 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-bold focus:border-[#0E7C86] focus:outline-none"
+            />
+          </div>
+          <div class="space-y-1">
+            <label class="font-bold text-[#0B2A2E]">Enquête antécédents judiciaires</label>
+            <select
+              id="confirm-staff-check"
+              class="w-full px-3 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/15 text-[#0B2A2E] font-medium focus:border-[#0E7C86] focus:outline-none"
+            >
+              <option value="Validé (Novembre 2026)">Validé (Novembre 2026)</option>
+              <option value="Enquête préliminaire validée">Enquête préliminaire validée</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-[11px] flex items-center gap-2">
+          <AdminIcon name="check" class="w-4 h-4 text-emerald-700 shrink-0" />
+          <span>Cette action active le préposé dans l'équipe terrain et lui permet d'être assigné directement dans le planning des interventions.</span>
+        </div>
+
+        <div class="p-5 -mx-5 sm:-mx-6 -mb-5 sm:-mb-6 bg-[#F5FAFA] border-t border-[#0E7C86]/10 flex items-center justify-between">
+          <button
+            type="button"
+            id="cancel-confirm-modal-btn"
+            class="text-xs font-bold text-[#3D5A5E] hover:text-[#0B2A2E] cursor-pointer"
+          >
+            Annuler
+          </button>
+          <button
+            type="submit"
+            id="btn-submit-confirm-collaborator"
+            class="px-5 py-2.5 rounded-full text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-800 shadow-sm transition-all cursor-pointer"
+          >
+            Valider et activer le collaborateur en 1 clic
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <script>
+    import { db } from '../../lib/firebase';
+    import { collection, addDoc, updateDoc, doc } from 'firebase/firestore';
+
     // 1. Téléportation des modales vers document.body
     const modalInterview = document.getElementById('modal-schedule-interview');
     const modalAddStaff = document.getElementById('modal-add-staff');
+    const modalConfirm = document.getElementById('modal-confirm-collaborator');
 
-    function teleportModal(m) {
+    function teleportModal(m: HTMLElement | null) {
       if (m && m.parentElement !== document.body) {
         document.body.appendChild(m);
       }
     }
     teleportModal(modalInterview);
     teleportModal(modalAddStaff);
+    teleportModal(modalConfirm);
 
-    function showModal(modalEl) {
+    function showModal(modalEl: HTMLElement | null) {
       if (!modalEl) return;
       teleportModal(modalEl);
       modalEl.classList.remove('hidden');
@@ -620,7 +844,7 @@ const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCa
       }, 10);
     }
 
-    function hideModal(modalEl) {
+    function hideModal(modalEl: HTMLElement | null) {
       if (!modalEl) return;
       const card = modalEl.querySelector('.modal-card');
       card?.classList.remove('scale-100', 'opacity-100');
@@ -636,6 +860,7 @@ const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCa
       if (e.key === 'Escape') {
         hideModal(modalInterview);
         hideModal(modalAddStaff);
+        hideModal(modalConfirm);
       }
     });
 
@@ -643,31 +868,32 @@ const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCa
       bd.addEventListener('click', () => {
         hideModal(modalInterview);
         hideModal(modalAddStaff);
+        hideModal(modalConfirm);
       });
     });
 
     // 2. Boutons Appeler Candidat (ouvre tel: et affiche toast)
     document.querySelectorAll('.btn-call-candidate').forEach((btn) => {
       btn.addEventListener('click', () => {
-        const name = btn.dataset.name || 'Candidat';
-        const phone = btn.dataset.phone || '';
+        const targetBtn = btn as HTMLElement;
+        const name = targetBtn.dataset.name || 'Candidat';
+        const phone = targetBtn.dataset.phone || '';
         if (phone) {
           window.location.href = `tel:${phone.replace(/[^0-9+]/g, '')}`;
         }
-        window.showAdminToast?.(`Appel vers ${name} (${phone}) initié…`);
+        (window as any).showAdminToast?.(`Appel vers ${name} (${phone}) initié…`);
       });
     });
 
     // 3. Planifier entretien
-    let currentInterviewCandidate = null;
+    let currentInterviewCandidate: any = null;
 
-    // Définir la date par défaut sur demain à 10h
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     const yyyy = tomorrow.getFullYear();
     const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
     const dd = String(tomorrow.getDate()).padStart(2, '0');
-    const interviewDateInput = document.getElementById('interview-date');
+    const interviewDateInput = document.getElementById('interview-date') as HTMLInputElement | null;
     if (interviewDateInput) {
       interviewDateInput.value = `${yyyy}-${mm}-${dd}`;
     }
@@ -676,8 +902,8 @@ const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCa
       if (!currentInterviewCandidate) return;
       const name = currentInterviewCandidate.name;
       const date = interviewDateInput?.value || `${yyyy}-${mm}-${dd}`;
-      const time = document.getElementById('interview-time')?.value || '10:00';
-      const format = document.getElementById('interview-format')?.value || 'visio';
+      const time = (document.getElementById('interview-time') as HTMLInputElement)?.value || '10:00';
+      const format = (document.getElementById('interview-format') as HTMLSelectElement)?.value || 'visio';
       const formatLabel = format === 'visio' ? 'en visioconférence Google Meet' : (format === 'phone' ? 'par téléphone' : 'dans nos locaux à Montréal');
 
       const text = `Bonjour ${name}, suite à l'analyse de votre candidature chez Unilka, nous avons le plaisir de vous inviter à un entretien officiel le ${date} à ${time} (${formatLabel}). Merci de nous confirmer votre disponibilité. L'équipe RH Unilka.`;
@@ -685,7 +911,7 @@ const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCa
       const previewEl = document.getElementById('interview-preview-text');
       if (previewEl) previewEl.textContent = text;
 
-      const emailLink = document.getElementById('btn-email-interview');
+      const emailLink = document.getElementById('btn-email-interview') as HTMLAnchorElement | null;
       if (emailLink && currentInterviewCandidate.email) {
         const subject = encodeURIComponent("Invitation à un entretien d'embauche — Unilka");
         const body = encodeURIComponent(text);
@@ -699,12 +925,14 @@ const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCa
 
     document.querySelectorAll('.btn-schedule-interview').forEach((btn) => {
       btn.addEventListener('click', () => {
+        const targetBtn = btn as HTMLElement;
         currentInterviewCandidate = {
-          id: btn.dataset.id,
-          name: btn.dataset.name,
-          phone: btn.dataset.phone,
-          email: btn.dataset.email,
-          card: btn.closest('.candidate-card')
+          id: targetBtn.dataset.id,
+          rawId: targetBtn.dataset.rawid,
+          name: targetBtn.dataset.name,
+          phone: targetBtn.dataset.phone,
+          email: targetBtn.dataset.email,
+          card: targetBtn.closest('.candidate-card')
         };
 
         const subEl = document.getElementById('interview-candidate-sub');
@@ -721,11 +949,11 @@ const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCa
     document.getElementById('btn-copy-interview-sms')?.addEventListener('click', () => {
       const text = document.getElementById('interview-preview-text')?.textContent || '';
       navigator.clipboard?.writeText(text).then(() => {
-        window.showAdminToast?.("Modèle SMS copié dans le presse-papier !");
+        (window as any).showAdminToast?.("Modèle SMS copié dans le presse-papier !");
       });
     });
 
-    document.getElementById('btn-confirm-interview-status')?.addEventListener('click', () => {
+    document.getElementById('btn-confirm-interview-status')?.addEventListener('click', async () => {
       if (currentInterviewCandidate?.card) {
         const badge = currentInterviewCandidate.card.querySelector('.status-badge');
         if (badge) {
@@ -733,90 +961,366 @@ const pendingCandidates = liveCandidates.length > 0 ? liveCandidates : defaultCa
           badge.textContent = 'Entrevue planifiée';
         }
       }
+
+      if (currentInterviewCandidate?.rawId) {
+        try {
+          await updateDoc(doc(db, 'candidates', currentInterviewCandidate.rawId), {
+            status: 'Entrevue planifiée',
+            statusColor: 'bg-blue-100 text-blue-800 border-blue-200'
+          });
+        } catch (err) {
+          console.warn('Erreur update statut Firestore :', err);
+        }
+      }
+
       hideModal(modalInterview);
-      window.showAdminToast?.(`Entrevue planifiée avec succès pour ${currentInterviewCandidate?.name} !`);
+      (window as any).showAdminToast?.(`Entrevue planifiée avec succès pour ${currentInterviewCandidate?.name} !`);
     });
 
-    // 4. Ajouter un préposé
+    // 4. CONFIRMATION AUTOMATIQUE DU PRÉPOSÉ EN COLLABORATEUR ACTIF
+    let activeCandidateToConfirm: any = null;
+
+    document.querySelectorAll('.btn-confirm-collaborator').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetBtn = btn as HTMLElement;
+        const card = targetBtn.closest('.candidate-card') as HTMLElement;
+        
+        const candidateId = targetBtn.dataset.id || '';
+        const rawId = targetBtn.dataset.rawid || '';
+        const name = targetBtn.dataset.name || '';
+        const phone = targetBtn.dataset.phone || '';
+        const email = targetBtn.dataset.email || '';
+        const city = targetBtn.dataset.city || 'Montréal';
+        const availability = targetBtn.dataset.availability || '';
+        const experience = targetBtn.dataset.experience || '';
+        const training = targetBtn.dataset.training || '';
+
+        activeCandidateToConfirm = {
+          candidateId,
+          rawId,
+          name,
+          phone,
+          email,
+          city,
+          availability,
+          experience,
+          training,
+          card
+        };
+
+        // Déduction intelligente du rôle selon profil
+        let role = "Préposé(e) certifié(e) résidentiel";
+        const combined = `${experience} ${training}`.toLowerCase();
+        if (combined.includes('commercial') || combined.includes('bureau')) {
+          role = "Responsable entretien commercial";
+        } else if (combined.includes('hôtel') || combined.includes('hôtellerie') || combined.includes('prestige') || combined.includes('omni')) {
+          role = "Préposée senior d'hôtellerie";
+        } else if (combined.includes('textile') || combined.includes('tapis') || combined.includes('spécialisé')) {
+          role = "Technicien surfaces & textiles";
+        }
+
+        // Déduction du volume de missions hebdomadaires
+        let missions = 8;
+        if (availability.toLowerCase().includes('partiel')) {
+          missions = 4;
+        }
+
+        // Génération du courriel d'équipe Unilka
+        const nameParts = name.trim().split(' ').filter(Boolean);
+        const firstName = nameParts[0] || 'collaborateur';
+        const lastInitial = nameParts[1]?.[0] || 'u';
+        const cleanFirst = firstName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const staffEmail = `${cleanFirst}.${lastInitial.toLowerCase()}@unilka.ca`;
+
+        const nameInput = document.getElementById('confirm-staff-name') as HTMLInputElement | null;
+        const roleSelect = document.getElementById('confirm-staff-role') as HTMLSelectElement | null;
+        const phoneInput = document.getElementById('confirm-staff-phone') as HTMLInputElement | null;
+        const emailInput = document.getElementById('confirm-staff-email') as HTMLInputElement | null;
+        const sectorInput = document.getElementById('confirm-staff-sector') as HTMLInputElement | null;
+        const missionsInput = document.getElementById('confirm-staff-missions') as HTMLInputElement | null;
+        const displayName = document.getElementById('confirm-display-name');
+        const displayCity = document.getElementById('confirm-display-city');
+
+        if (nameInput) nameInput.value = name;
+        if (roleSelect) roleSelect.value = role;
+        if (phoneInput) phoneInput.value = phone || '(514) 555-0199';
+        if (emailInput) emailInput.value = staffEmail;
+        if (sectorInput) sectorInput.value = city;
+        if (missionsInput) missionsInput.value = String(missions);
+        if (displayName) displayName.textContent = name;
+        if (displayCity) displayCity.textContent = city;
+
+        showModal(modalConfirm);
+      });
+    });
+
+    document.getElementById('close-confirm-modal-btn')?.addEventListener('click', () => hideModal(modalConfirm));
+    document.getElementById('cancel-confirm-modal-btn')?.addEventListener('click', () => hideModal(modalConfirm));
+
+    const formConfirm = document.getElementById('form-confirm-collaborator');
+    formConfirm?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('btn-submit-confirm-collaborator');
+      if (submitBtn) {
+        submitBtn.setAttribute('disabled', 'true');
+        submitBtn.textContent = 'Activation en cours…';
+      }
+
+      const name = (document.getElementById('confirm-staff-name') as HTMLInputElement)?.value.trim() || 'Collaborateur';
+      const role = (document.getElementById('confirm-staff-role') as HTMLSelectElement)?.value || "Préposé(e) certifié(e)";
+      const phone = (document.getElementById('confirm-staff-phone') as HTMLInputElement)?.value.trim() || '(514) 000-0000';
+      const email = (document.getElementById('confirm-staff-email') as HTMLInputElement)?.value.trim() || 'equipe@unilka.ca';
+      const sector = (document.getElementById('confirm-staff-sector') as HTMLInputElement)?.value.trim() || 'Montréal';
+      const missions = parseInt((document.getElementById('confirm-staff-missions') as HTMLInputElement)?.value || '8');
+      const check = (document.getElementById('confirm-staff-check') as HTMLSelectElement)?.value || 'Validé (Novembre 2026)';
+
+      const parts = name.split(' ').filter(Boolean);
+      const initials = (parts[0]?.[0] || 'U') + (parts[1]?.[0] || 'N');
+
+      try {
+        // 1. Ajouter dans la collection 'staff' de Firestore
+        await addDoc(collection(db, 'staff'), {
+          name,
+          role,
+          phone,
+          email,
+          sector,
+          missionsPerWeek: missions,
+          backgroundCheck: check,
+          trainedDate: 'Novembre 2026',
+          status: 'Actif',
+          statusColor: 'bg-emerald-100 text-emerald-800',
+          initials: initials.toUpperCase(),
+          sourceCandidateId: activeCandidateToConfirm?.rawId || activeCandidateToConfirm?.candidateId || '',
+          createdAt: new Date().toISOString()
+        });
+
+        // 2. Mettre à jour la candidature dans 'candidates' de Firestore
+        if (activeCandidateToConfirm?.rawId) {
+          try {
+            await updateDoc(doc(db, 'candidates', activeCandidateToConfirm.rawId), {
+              status: 'Collaborateur actif',
+              statusColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+              confirmedAt: new Date().toISOString()
+            });
+          } catch (updateErr) {
+            console.warn('Erreur mise à jour statut candidat Firestore :', updateErr);
+          }
+        }
+
+        // 3. Mettre à jour l'affichage de la carte candidat
+        if (activeCandidateToConfirm?.card) {
+          const badge = activeCandidateToConfirm.card.querySelector('.status-badge');
+          if (badge) {
+            badge.className = 'status-badge text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border bg-emerald-100 text-emerald-800 border-emerald-200';
+            badge.textContent = 'Collaborateur actif';
+          }
+          const confirmBtn = activeCandidateToConfirm.card.querySelector('.btn-confirm-collaborator');
+          if (confirmBtn) {
+            confirmBtn.outerHTML = `
+              <div class="w-full py-2 px-3 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-800 font-extrabold text-xs text-center flex items-center justify-center gap-1.5 shadow-2xs">
+                <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Collaborateur actif</span>
+              </div>
+            `;
+          }
+        }
+
+        // 4. Insérer visuellement dans la table d'équipe active
+        const tbody = document.getElementById('staff-table-body');
+        if (tbody) {
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-[#F5FAFA]/60 transition-colors staff-row bg-emerald-50/40 ring-1 ring-emerald-300';
+          tr.innerHTML = `
+            <td class="py-4 px-4">
+              <div class="flex items-center gap-3">
+                <span class="w-10 h-10 rounded-full bg-[#E3F4F5] text-[#0E7C86] font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs">
+                  ${initials.toUpperCase()}
+                </span>
+                <div>
+                  <span class="font-extrabold text-[#0B2A2E] block text-[13px]">${name}</span>
+                  <span class="text-[#3D5A5E] block">${phone}</span>
+                </div>
+              </div>
+            </td>
+            <td class="py-4 px-4 font-semibold text-[#0B2A2E]">
+              ${role}
+            </td>
+            <td class="py-4 px-4 text-[#3D5A5E]">
+              ${sector}
+            </td>
+            <td class="py-4 px-4 font-bold text-[#0B2A2E]">
+              ${missions} missions
+            </td>
+            <td class="py-4 px-4">
+              <span class="inline-flex items-center gap-1.5 text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                <svg class="w-3.5 h-3.5 text-emerald-700 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                <span>${check}</span>
+              </span>
+            </td>
+            <td class="py-4 px-4 text-[#3D5A5E]">
+              Novembre 2026
+            </td>
+            <td class="py-4 px-4">
+              <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                Actif
+              </span>
+            </td>
+            <td class="py-4 px-4 text-right">
+              <a
+                href="/admin/planning/"
+                class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-bold text-[#0E7C86] hover:bg-[#E3F4F5] transition-colors no-underline cursor-pointer"
+              >
+                <span>Planning préposé</span>
+                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </a>
+            </td>
+          `;
+          tbody.insertBefore(tr, tbody.firstChild);
+        }
+
+        // Mettre à jour le badge de compteur
+        const staffCountBadge = document.getElementById('active-staff-count-badge');
+        if (staffCountBadge) {
+          const currentCount = parseInt(staffCountBadge.textContent || '0');
+          staffCountBadge.textContent = String(currentCount + 1);
+        }
+
+        hideModal(modalConfirm);
+
+        if ((window as any).showAdminToast) {
+          (window as any).showAdminToast(`Félicitations ! ${name} est désormais collaborateur actif de l'équipe Unilka.`);
+        }
+      } catch (err) {
+        console.error('Erreur confirmation collaborateur :', err);
+        alert("Erreur lors de l'activation du collaborateur. Veuillez réessayer.");
+      } finally {
+        if (submitBtn) {
+          submitBtn.removeAttribute('disabled');
+          submitBtn.textContent = 'Valider et activer le collaborateur en 1 clic';
+        }
+      }
+    });
+
+    // 5. AJOUT MANUEL D'UN PRÉPOSÉ VIA BOUTON EN-TÊTE
     const btnOpenAddStaff = document.getElementById('btn-open-add-staff');
     const closeStaffModalBtn = document.getElementById('close-staff-modal-btn');
     const cancelStaffBtn = document.getElementById('cancel-staff-btn');
     const formAddStaff = document.getElementById('form-add-staff');
 
     btnOpenAddStaff?.addEventListener('click', () => {
-      formAddStaff?.reset();
+      (formAddStaff as HTMLFormElement)?.reset();
       showModal(modalAddStaff);
     });
 
     closeStaffModalBtn?.addEventListener('click', () => hideModal(modalAddStaff));
     cancelStaffBtn?.addEventListener('click', () => hideModal(modalAddStaff));
 
-    formAddStaff?.addEventListener('submit', (e) => {
+    formAddStaff?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const name = document.getElementById('new-staff-name')?.value.trim() || 'Collaborateur';
-      const role = document.getElementById('new-staff-role')?.value || 'Préposée certifiée';
-      const phone = document.getElementById('new-staff-phone')?.value.trim() || '(514) 000-0000';
-      const sector = document.getElementById('new-staff-sector')?.value.trim() || 'Montréal';
-      const missions = document.getElementById('new-staff-missions')?.value || '7';
-      const check = document.getElementById('new-staff-check')?.value || 'Validé';
+      const submitBtn = formAddStaff.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+      if (submitBtn) {
+        submitBtn.setAttribute('disabled', 'true');
+        submitBtn.textContent = 'Enregistrement…';
+      }
+
+      const name = (document.getElementById('new-staff-name') as HTMLInputElement)?.value.trim() || 'Collaborateur';
+      const role = (document.getElementById('new-staff-role') as HTMLSelectElement)?.value || 'Préposée certifiée';
+      const phone = (document.getElementById('new-staff-phone') as HTMLInputElement)?.value.trim() || '(514) 000-0000';
+      const email = (document.getElementById('new-staff-email') as HTMLInputElement)?.value.trim() || 'equipe@unilka.ca';
+      const sector = (document.getElementById('new-staff-sector') as HTMLInputElement)?.value.trim() || 'Montréal';
+      const missions = parseInt((document.getElementById('new-staff-missions') as HTMLInputElement)?.value || '7');
+      const check = (document.getElementById('new-staff-check') as HTMLSelectElement)?.value || 'Validé';
 
       const parts = name.split(' ').filter(Boolean);
       const initials = (parts[0]?.[0] || 'U') + (parts[1]?.[0] || 'N');
 
-      const tbody = document.getElementById('staff-table-body');
-      if (tbody) {
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-[#F5FAFA]/60 transition-colors staff-row bg-emerald-50/20';
-        tr.innerHTML = `
-          <td class="py-4 px-4">
-            <div class="flex items-center gap-3">
-              <span class="w-10 h-10 rounded-full bg-[#E3F4F5] text-[#0E7C86] font-bold text-xs flex items-center justify-center shrink-0">
-                ${initials.toUpperCase()}
-              </span>
-              <div>
-                <span class="font-extrabold text-[#0B2A2E] block text-[13px]">${name}</span>
-                <span class="text-[#3D5A5E] block">${phone}</span>
-              </div>
-            </div>
-          </td>
-          <td class="py-4 px-4 font-semibold text-[#0B2A2E]">
-            ${role}
-          </td>
-          <td class="py-4 px-4 text-[#3D5A5E]">
-            ${sector}
-          </td>
-          <td class="py-4 px-4 font-bold text-[#0B2A2E]">
-            ${missions} missions
-          </td>
-          <td class="py-4 px-4">
-            <span class="inline-flex items-center gap-1.5 text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-              <svg class="w-3.5 h-3.5 text-emerald-700 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-              <span>${check}</span>
-            </span>
-          </td>
-          <td class="py-4 px-4 text-[#3D5A5E]">
-            Novembre 2026
-          </td>
-          <td class="py-4 px-4">
-            <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
-              Actif
-            </span>
-          </td>
-          <td class="py-4 px-4 text-right">
-            <a
-              href="/admin/planning/"
-              class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-bold text-[#0E7C86] hover:bg-[#E3F4F5] transition-colors no-underline cursor-pointer"
-            >
-              <span>Planning préposé</span>
-              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-            </a>
-          </td>
-        `;
-        tbody.insertBefore(tr, tbody.firstChild);
-      }
+      try {
+        await addDoc(collection(db, 'staff'), {
+          name,
+          role,
+          phone,
+          email,
+          sector,
+          missionsPerWeek: missions,
+          backgroundCheck: check,
+          trainedDate: 'Novembre 2026',
+          status: 'Actif',
+          statusColor: 'bg-emerald-100 text-emerald-800',
+          initials: initials.toUpperCase(),
+          createdAt: new Date().toISOString()
+        });
 
-      hideModal(modalAddStaff);
-      window.showAdminToast?.(`Collaborateur ${name} ajouté avec succès !`);
+        const tbody = document.getElementById('staff-table-body');
+        if (tbody) {
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-[#F5FAFA]/60 transition-colors staff-row bg-emerald-50/20';
+          tr.innerHTML = `
+            <td class="py-4 px-4">
+              <div class="flex items-center gap-3">
+                <span class="w-10 h-10 rounded-full bg-[#E3F4F5] text-[#0E7C86] font-bold text-xs flex items-center justify-center shrink-0">
+                  ${initials.toUpperCase()}
+                </span>
+                <div>
+                  <span class="font-extrabold text-[#0B2A2E] block text-[13px]">${name}</span>
+                  <span class="text-[#3D5A5E] block">${phone}</span>
+                </div>
+              </div>
+            </td>
+            <td class="py-4 px-4 font-semibold text-[#0B2A2E]">
+              ${role}
+            </td>
+            <td class="py-4 px-4 text-[#3D5A5E]">
+              ${sector}
+            </td>
+            <td class="py-4 px-4 font-bold text-[#0B2A2E]">
+              ${missions} missions
+            </td>
+            <td class="py-4 px-4">
+              <span class="inline-flex items-center gap-1.5 text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                <svg class="w-3.5 h-3.5 text-emerald-700 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                <span>${check}</span>
+              </span>
+            </td>
+            <td class="py-4 px-4 text-[#3D5A5E]">
+              Novembre 2026
+            </td>
+            <td class="py-4 px-4">
+              <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                Actif
+              </span>
+            </td>
+            <td class="py-4 px-4 text-right">
+              <a
+                href="/admin/planning/"
+                class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-bold text-[#0E7C86] hover:bg-[#E3F4F5] transition-colors no-underline cursor-pointer"
+              >
+                <span>Planning préposé</span>
+                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </a>
+            </td>
+          `;
+          tbody.insertBefore(tr, tbody.firstChild);
+        }
+
+        const staffCountBadge = document.getElementById('active-staff-count-badge');
+        if (staffCountBadge) {
+          const currentCount = parseInt(staffCountBadge.textContent || '0');
+          staffCountBadge.textContent = String(currentCount + 1);
+        }
+
+        hideModal(modalAddStaff);
+        (window as any).showAdminToast?.(`Collaborateur ${name} ajouté avec succès !`);
+      } catch (err) {
+        console.error('Erreur ajout collaborateur :', err);
+        alert("Erreur lors de l'enregistrement. Veuillez réessayer.");
+      } finally {
+        if (submitBtn) {
+          submitBtn.removeAttribute('disabled');
+          submitBtn.textContent = 'Enregistrer le préposé';
+        }
+      }
     });
   </script>
 
