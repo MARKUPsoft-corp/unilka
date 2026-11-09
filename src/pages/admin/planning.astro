@@ -595,15 +595,110 @@ const staffAvailabilities = [
           </div>
         </div>
 
-        <div class="space-y-1">
-          <label for="new-client" class="font-bold text-[#0B2A2E] block">Nom du client ou établissement</label>
-          <input
-            type="text"
-            id="new-client"
-            required
-            placeholder="Ex : Résidence M. Gagnon, Agence Pixel..."
-            class="w-full px-3 py-2 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/20 font-bold text-[#0B2A2E] focus:border-[#0E7C86] outline-hidden"
-          />
+        <!-- SÉLECTION DU CLIENT AVEC LISTE DÉROULANTE RECHERCHABLE & AUTO-REMPLISSAGE -->
+        <div class="space-y-1.5 relative" id="client-select-wrapper">
+          <div class="flex items-center justify-between">
+            <label for="new-client" class="font-bold text-[#0B2A2E] flex items-center gap-1.5">
+              <span>Nom du client ou établissement</span>
+              <span class="text-[10px] font-semibold text-[#0E7C86] bg-[#E3F4F5] px-2 py-0.5 rounded-full">
+                Liste déroulante & recherche
+              </span>
+            </label>
+            <span class="text-[10px] text-[#3D5A5E]" id="clients-loaded-count">Chargement clients…</span>
+          </div>
+
+          <div class="relative">
+            <!-- Icône loupe -->
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#0E7C86]">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </div>
+
+            <!-- Input interactif (recherche + sélection) -->
+            <input
+              type="text"
+              id="new-client"
+              required
+              autocomplete="off"
+              placeholder="Cliquez pour choisir un client ou commencez à taper…"
+              class="w-full pl-9 pr-20 py-2.5 rounded-xl bg-[#F5FAFA] border border-[#0E7C86]/25 font-bold text-[#0B2A2E] focus:border-[#0E7C86] focus:bg-white outline-hidden cursor-pointer transition-all text-xs sm:text-sm"
+            />
+
+            <!-- Bouton vider + Bouton chevron liste déroulante -->
+            <div class="absolute inset-y-0 right-0 flex items-center pr-2 gap-1">
+              <button
+                type="button"
+                id="btn-clear-client"
+                class="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 hidden transition-colors"
+                title="Effacer la sélection"
+                aria-label="Effacer la sélection"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+              <button
+                type="button"
+                id="btn-toggle-client-dropdown"
+                class="p-1.5 rounded-lg text-[#0E7C86] hover:bg-[#E3F4F5] transition-colors cursor-pointer"
+                title="Afficher/Masquer la liste des clients"
+                aria-label="Afficher ou masquer la liste des clients"
+              >
+                <svg id="chevron-client-dropdown" class="w-4 h-4 transform transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Menu déroulant flottant des clients -->
+          <div
+            id="client-dropdown-menu"
+            class="absolute left-0 right-0 top-full mt-1.5 bg-white rounded-2xl border border-[#0E7C86]/25 shadow-2xl z-50 p-2 hidden flex-col max-h-60 overflow-y-auto divide-y divide-[#0E7C86]/5 transition-all"
+            role="listbox"
+          >
+            <!-- En-tête -->
+            <div class="flex items-center justify-between px-3 py-1.5 bg-[#F5FAFA] rounded-xl text-[10px] font-extrabold uppercase tracking-wider text-[#0E7C86] mb-1">
+              <span>Clients du portefeuille</span>
+              <span class="text-[#3D5A5E] font-medium">1 clic pour remplir</span>
+            </div>
+
+            <!-- Liste dynamique des clients -->
+            <div id="client-dropdown-items" class="space-y-1 pt-1">
+              <!-- Rempli dynamiquement en JS -->
+            </div>
+
+            <!-- Message si aucun client correspondant -->
+            <div id="client-dropdown-empty" class="hidden p-4 text-center text-xs text-[#3D5A5E]">
+              <p class="font-bold text-[#0B2A2E]">Aucun client trouvé pour cette recherche</p>
+              <p class="text-[11px] text-[#3D5A5E] mt-0.5">Vous pouvez saisir ce nom libre manuellement.</p>
+            </div>
+          </div>
+
+          <!-- Bandeau de confirmation de pré-remplissage automatique -->
+          <div
+            id="client-autofill-banner"
+            class="hidden items-center justify-between gap-2 px-3 py-2 rounded-xl bg-emerald-50 border border-emerald-200/80 text-emerald-900 text-[11px] font-medium animate-fadeIn"
+          >
+            <div class="flex items-center gap-2 truncate">
+              <div class="w-4 h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 text-[10px] font-bold">
+                ✓
+              </div>
+              <span id="client-autofill-text" class="truncate font-semibold">
+                Informations pré-remplies automatiquement
+              </span>
+            </div>
+            <button
+              type="button"
+              id="btn-reset-autofill"
+              class="text-[10px] font-extrabold text-emerald-800 hover:text-emerald-950 underline shrink-0 cursor-pointer"
+            >
+              Réinitialiser
+            </button>
+          </div>
         </div>
 
         <div class="space-y-1">
@@ -692,6 +787,7 @@ const staffAvailabilities = [
       setDoc,
       serverTimestamp
     } from 'firebase/firestore';
+    import { defaultClients, type ClientRecord } from '../../data/defaultClients';
 
     // 1. Initialisation de la date d'aujourd'hui en temps réel
     const now = new Date();
@@ -706,6 +802,11 @@ const staffAvailabilities = [
     let activeDayFullDate = todayDateStr;
     let missions: any[] = [];
     let isSeeding = false;
+
+    // Gestion du portefeuille clients pour le planning
+    let registeredClients: ClientRecord[] = [...defaultClients];
+    let selectedClient: ClientRecord | null = null;
+    let focusedDropdownIndex = -1;
 
     const MONTH_NAMES = [
       "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
@@ -1399,7 +1500,7 @@ const staffAvailabilities = [
       }
     });
 
-    // 8. Modale Nouvelle Intervention avec synchronisation Firebase
+    // 8. Modale Nouvelle Intervention avec synchronisation Firebase & Sélecteur Client Intelligent
     const newMissionModal = document.getElementById('new-mission-modal');
     const newMissionCard = document.getElementById('new-mission-card');
     const btnOpenNew = document.getElementById('btn-open-new-mission');
@@ -1407,10 +1508,294 @@ const staffAvailabilities = [
     const btnCancelNew = document.getElementById('btn-cancel-new-mission');
     const newMissionForm = document.getElementById('new-mission-form');
 
+    // Éléments du sélecteur interactif de clients
+    const clientInput = document.getElementById('new-client') as HTMLInputElement | null;
+    const clientSelectWrapper = document.getElementById('client-select-wrapper');
+    const clientDropdownMenu = document.getElementById('client-dropdown-menu');
+    const clientDropdownItems = document.getElementById('client-dropdown-items');
+    const clientDropdownEmpty = document.getElementById('client-dropdown-empty');
+    const btnToggleDropdown = document.getElementById('btn-toggle-client-dropdown');
+    const chevronClientDropdown = document.getElementById('chevron-client-dropdown');
+    const btnClearClient = document.getElementById('btn-clear-client');
+    const autofillBanner = document.getElementById('client-autofill-banner');
+    const autofillText = document.getElementById('client-autofill-text');
+    const btnResetAutofill = document.getElementById('btn-reset-autofill');
+    const clientsLoadedCount = document.getElementById('clients-loaded-count');
+
     // Téléportation vers document.body pour que le flou couvre 100% de la fenêtre (y compris le header supérieur)
     if (newMissionModal && newMissionModal.parentElement !== document.body) {
       document.body.appendChild(newMissionModal);
     }
+
+    function updateClientsLoadedCount() {
+      if (clientsLoadedCount) {
+        clientsLoadedCount.textContent = `${registeredClients.length} clients disponibles`;
+      }
+    }
+
+    function matchClientService(client: ClientRecord): string {
+      const cat = (client.category || '').toLowerCase();
+      const typ = (client.type || '').toLowerCase();
+      const freq = (client.frequency || '').toLowerCase();
+
+      if (cat.includes('commercial') || typ.includes('bureau') || typ.includes('commercial') || typ.includes('clinique') || typ.includes('commerce')) {
+        return 'Nettoyage bureaux & vitrages';
+      }
+      if (freq.includes('ponctuel') || typ.includes('grand') || typ.includes('déménagement') || typ.includes('approfondi')) {
+        return "Grand ménage d'automne";
+      }
+      if (typ.includes('spécialisé') || typ.includes('tapis') || typ.includes('velours')) {
+        return 'Nettoyage spécialisé tapis & velours';
+      }
+      if (freq.includes('bimensuel')) {
+        return 'Entretien régulier bimensuel';
+      }
+      return 'Entretien résidentiel régulier (Hebdo)';
+    }
+
+    function matchClientStaff(client: ClientRecord): string {
+      const staff = client.regularStaff || '';
+      if (!staff) return 'Fatou D.';
+
+      const availableStaff = ['Fatou D.', 'Khadija B.', 'Jean-Marc T.', 'Assane N.', 'Marie-Louise P.'];
+      for (const s of availableStaff) {
+        if (staff.includes(s) || s.includes(staff.split(' ')[0])) {
+          return s;
+        }
+      }
+      return 'Fatou D.';
+    }
+
+    function highlightAutofilledFields() {
+      const addressInput = document.getElementById('new-address');
+      const serviceSelect = document.getElementById('new-service');
+      const staffSelectEl = document.getElementById('new-staff');
+      const accessInput = document.getElementById('new-access');
+
+      const fields = [addressInput, serviceSelect, staffSelectEl, accessInput].filter(Boolean) as HTMLElement[];
+      fields.forEach(el => {
+        el.classList.add('ring-2', 'ring-emerald-400', 'bg-emerald-50/50');
+        setTimeout(() => {
+          el.classList.remove('ring-2', 'ring-emerald-400', 'bg-emerald-50/50');
+        }, 1200);
+      });
+    }
+
+    function selectClient(client: ClientRecord) {
+      selectedClient = client;
+      if (clientInput) clientInput.value = client.name;
+
+      const addressInput = document.getElementById('new-address') as HTMLInputElement | null;
+      const serviceSelect = document.getElementById('new-service') as HTMLSelectElement | null;
+      const staffSelectEl = document.getElementById('new-staff') as HTMLSelectElement | null;
+      const accessInput = document.getElementById('new-access') as HTMLInputElement | null;
+
+      if (addressInput) addressInput.value = client.address || client.sector;
+      if (serviceSelect) serviceSelect.value = matchClientService(client);
+      if (staffSelectEl) staffSelectEl.value = matchClientStaff(client);
+      if (accessInput) accessInput.value = client.accessNotes || 'Consignes standards remises.';
+
+      highlightAutofilledFields();
+
+      if (autofillBanner && autofillText) {
+        autofillText.textContent = `Fiche de ${client.name} chargée automatiquement (${client.frequency} • ${client.regularStaff})`;
+        autofillBanner.classList.remove('hidden');
+        autofillBanner.classList.add('flex');
+      }
+
+      btnClearClient?.classList.remove('hidden');
+      closeClientDropdown();
+    }
+
+    function clearSelectedClient() {
+      selectedClient = null;
+      if (clientInput) clientInput.value = '';
+
+      const addressInput = document.getElementById('new-address') as HTMLInputElement | null;
+      const serviceSelect = document.getElementById('new-service') as HTMLSelectElement | null;
+      const staffSelectEl = document.getElementById('new-staff') as HTMLSelectElement | null;
+      const accessInput = document.getElementById('new-access') as HTMLInputElement | null;
+
+      if (addressInput) addressInput.value = '';
+      if (serviceSelect) serviceSelect.value = 'Entretien résidentiel régulier (Hebdo)';
+      if (staffSelectEl) staffSelectEl.value = 'Fatou D.';
+      if (accessInput) accessInput.value = '';
+
+      autofillBanner?.classList.add('hidden');
+      autofillBanner?.classList.remove('flex');
+      btnClearClient?.classList.add('hidden');
+      renderClientDropdown('');
+      clientInput?.focus();
+    }
+
+    function renderClientDropdown(filterTerm = '') {
+      if (!clientDropdownItems) return;
+      clientDropdownItems.innerHTML = '';
+      focusedDropdownIndex = -1;
+
+      const term = filterTerm.toLowerCase().trim();
+      const filtered = registeredClients.filter(c => {
+        if (!term) return true;
+        const haystack = `${c.name} ${c.sector} ${c.address} ${c.frequency} ${c.regularStaff} ${c.phone} ${c.type}`.toLowerCase();
+        return haystack.includes(term);
+      });
+
+      if (filtered.length === 0) {
+        clientDropdownEmpty?.classList.remove('hidden');
+        return;
+      }
+
+      clientDropdownEmpty?.classList.add('hidden');
+
+      filtered.forEach((client, idx) => {
+        const isCommercial = client.category === 'commercial' || client.type.toLowerCase().includes('commercial');
+        const isPonctuel = client.category === 'ponctuel';
+        const badgeClass = isCommercial ? 'bg-blue-100 text-blue-800' : (isPonctuel ? 'bg-amber-100 text-amber-900' : 'bg-emerald-100 text-emerald-800');
+        const badgeLabel = isCommercial ? 'Commercial' : (isPonctuel ? 'Ponctuel' : 'Résidentiel');
+
+        const item = document.createElement('button');
+        item.type = 'button';
+        item.className = 'client-dropdown-item w-full text-left p-2.5 rounded-xl hover:bg-[#E3F4F5]/70 focus:bg-[#E3F4F5] transition-all flex flex-col gap-1 cursor-pointer border border-transparent hover:border-[#0E7C86]/20';
+        item.dataset.index = String(idx);
+
+        item.innerHTML = `
+          <div class="flex items-center justify-between gap-2">
+            <span class="font-extrabold text-[#0B2A2E] text-xs sm:text-sm truncate">${client.name}</span>
+            <span class="text-[9px] font-bold px-2 py-0.5 rounded-full ${badgeClass} shrink-0">
+              ${badgeLabel}
+            </span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-[#3D5A5E]">
+            <span class="flex items-center gap-1 truncate max-w-[220px]">
+              <svg class="w-3 h-3 text-[#0E7C86] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              <span class="truncate">${client.sector || client.address}</span>
+            </span>
+            <span class="font-semibold text-[#0E7C86] flex items-center gap-1">
+              <svg class="w-3 h-3 text-[#0E7C86] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              ${client.frequency}
+            </span>
+            <span class="text-[10px] text-gray-500 font-medium">
+              Attitré: <strong class="text-[#0B2A2E] font-bold">${client.regularStaff}</strong>
+            </span>
+          </div>
+        `;
+
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          selectClient(client);
+        });
+
+        clientDropdownItems.appendChild(item);
+      });
+    }
+
+    function openClientDropdown(showAll = false) {
+      if (!clientDropdownMenu) return;
+      clientDropdownMenu.classList.remove('hidden');
+      clientDropdownMenu.classList.add('flex');
+      chevronClientDropdown?.classList.add('rotate-180');
+      const term = showAll ? '' : (clientInput?.value.trim() || '');
+      renderClientDropdown(term);
+    }
+
+    function closeClientDropdown() {
+      if (!clientDropdownMenu) return;
+      clientDropdownMenu.classList.add('hidden');
+      clientDropdownMenu.classList.remove('flex');
+      chevronClientDropdown?.classList.remove('rotate-180');
+    }
+
+    function toggleClientDropdown() {
+      if (!clientDropdownMenu) return;
+      if (clientDropdownMenu.classList.contains('hidden')) {
+        openClientDropdown(true);
+      } else {
+        closeClientDropdown();
+      }
+    }
+
+    clientInput?.addEventListener('focus', () => openClientDropdown(true));
+    clientInput?.addEventListener('click', () => openClientDropdown(true));
+    btnToggleDropdown?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleClientDropdown();
+    });
+
+    clientInput?.addEventListener('input', () => {
+      const q = clientInput.value;
+      if (q.trim().length > 0) {
+        btnClearClient?.classList.remove('hidden');
+      } else {
+        btnClearClient?.classList.add('hidden');
+        selectedClient = null;
+        autofillBanner?.classList.add('hidden');
+        autofillBanner?.classList.remove('flex');
+      }
+      openClientDropdown(false);
+    });
+
+    btnClearClient?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      clearSelectedClient();
+    });
+
+    btnResetAutofill?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      clearSelectedClient();
+    });
+
+    // Clic en dehors pour fermer le menu déroulant
+    document.addEventListener('click', (e) => {
+      if (clientSelectWrapper && !clientSelectWrapper.contains(e.target as Node)) {
+        closeClientDropdown();
+      }
+    });
+
+    // Navigation clavier dans la liste
+    clientInput?.addEventListener('keydown', (e) => {
+      if (!clientDropdownMenu || clientDropdownMenu.classList.contains('hidden')) {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          openClientDropdown(true);
+        }
+        return;
+      }
+
+      const items = Array.from(clientDropdownItems?.querySelectorAll('.client-dropdown-item') || []) as HTMLElement[];
+      if (items.length === 0) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        focusedDropdownIndex = (focusedDropdownIndex + 1) % items.length;
+        items.forEach((it, i) => {
+          if (i === focusedDropdownIndex) {
+            it.classList.add('bg-[#E3F4F5]', 'border-[#0E7C86]/30');
+            it.scrollIntoView({ block: 'nearest' });
+          } else {
+            it.classList.remove('bg-[#E3F4F5]', 'border-[#0E7C86]/30');
+          }
+        });
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        focusedDropdownIndex = (focusedDropdownIndex - 1 + items.length) % items.length;
+        items.forEach((it, i) => {
+          if (i === focusedDropdownIndex) {
+            it.classList.add('bg-[#E3F4F5]', 'border-[#0E7C86]/30');
+            it.scrollIntoView({ block: 'nearest' });
+          } else {
+            it.classList.remove('bg-[#E3F4F5]', 'border-[#0E7C86]/30');
+          }
+        });
+      } else if (e.key === 'Enter') {
+        if (focusedDropdownIndex >= 0 && focusedDropdownIndex < items.length) {
+          e.preventDefault();
+          items[focusedDropdownIndex].click();
+        }
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        closeClientDropdown();
+      }
+    });
 
     function openNewMissionModal(prefillDate?: string) {
       if (!newMissionModal || !newMissionCard) return;
@@ -1421,6 +1806,9 @@ const staffAvailabilities = [
       if (dateInput) {
         dateInput.value = prefillDate || todayDateStr;
       }
+
+      closeClientDropdown();
+      updateClientsLoadedCount();
 
       newMissionModal.classList.remove('hidden');
       newMissionModal.classList.add('flex');
@@ -1436,6 +1824,7 @@ const staffAvailabilities = [
       if (!newMissionModal || !newMissionCard) return;
       newMissionCard.classList.remove('scale-100', 'opacity-100');
       newMissionCard.classList.add('scale-95', 'opacity-0');
+      closeClientDropdown();
       document.body.style.overflow = '';
       setTimeout(() => {
         newMissionModal.classList.add('hidden');
@@ -1455,7 +1844,6 @@ const staffAvailabilities = [
       e.preventDefault();
       const dateInput = document.getElementById('new-date') as HTMLInputElement | null;
       const timeSelect = document.getElementById('new-time') as HTMLSelectElement | null;
-      const clientInput = document.getElementById('new-client') as HTMLInputElement | null;
       const addressInput = document.getElementById('new-address') as HTMLInputElement | null;
       const serviceSelect = document.getElementById('new-service') as HTMLSelectElement | null;
       const staffSelectEl = document.getElementById('new-staff') as HTMLSelectElement | null;
@@ -1479,8 +1867,8 @@ const staffAvailabilities = [
         day: dayFormatted,
         time: time,
         client: client,
-        phone: "+1 514 555-0199",
-        email: "client@unilka.ca",
+        phone: selectedClient?.phone || "+1 514 555-0199",
+        email: selectedClient?.email || "client@unilka.ca",
         address: address,
         service: service,
         category: (service.toLowerCase().includes('bureau') || service.toLowerCase().includes('commercial')) ? 'commercial' : 'residentiel',
@@ -1499,10 +1887,15 @@ const staffAvailabilities = [
         const docRef = await addDoc(collection(db, 'interventions'), missionData);
         closeNewMissionModal();
         (newMissionForm as HTMLFormElement).reset();
+        selectedClient = null;
+        autofillBanner?.classList.add('hidden');
+        autofillBanner?.classList.remove('flex');
+        btnClearClient?.classList.add('hidden');
+        closeClientDropdown();
 
         activeDayFullDate = date;
         if ((window as any).showAdminToast) {
-          (window as any).showAdminToast(`Intervention #${newCode} enregistrée !`);
+          (window as any).showAdminToast(`Intervention #${newCode} enregistrée pour ${client} !`);
         }
       } catch (err) {
         console.error('Erreur ajout Firestore :', err);
@@ -1517,6 +1910,7 @@ const staffAvailabilities = [
       if (e.key === 'Escape') {
         closeMissionModal();
         closeNewMissionModal();
+        closeClientDropdown();
       }
     });
 
@@ -1905,6 +2299,52 @@ const staffAvailabilities = [
     }, (error) => {
       console.error('Erreur écoute Firestore interventions :', error);
     });
+
+    // 10.bis Écoute temps réel de la collection clients Firestore
+    try {
+      onSnapshot(collection(db, 'clients'), (snapshot) => {
+        const liveList: ClientRecord[] = snapshot.docs.map((docSnap) => {
+          const data = docSnap.data();
+          const isCommercial = data.category === 'commercial' || (data.type && data.type.toLowerCase().includes('commercial'));
+          const isPonctuel = data.category === 'ponctuel';
+          const badge = isCommercial ? 'bg-blue-100 text-blue-800' : (isPonctuel ? 'bg-amber-100 text-amber-900' : 'bg-emerald-100 text-emerald-800');
+          return {
+            id: docSnap.id.startsWith('CLI-') ? docSnap.id : `CLI-${docSnap.id.substring(0, 4).toUpperCase()}`,
+            rawId: docSnap.id,
+            name: data.name || 'Client Unilka',
+            type: data.type || (isCommercial ? 'Commercial & Bureaux' : 'Résidence privée'),
+            category: data.category || (isCommercial ? 'commercial' : 'residentiel'),
+            typeBadge: badge,
+            sector: data.sector || 'Montréal',
+            frequency: data.frequency || 'Hebdomadaire',
+            regularStaff: data.regularStaff || 'Fatou D.',
+            monthlyRevenue: data.monthlyRevenue || '',
+            since: data.since || '',
+            accessNotes: data.accessNotes || '',
+            status: data.status || 'Actif',
+            phone: data.phone || '',
+            email: data.email || '',
+            address: data.address || `${data.sector || 'Montréal'}, QC`
+          };
+        });
+
+        // Fusionner avec les defaultClients en évitant les doublons par nom
+        const merged = [...liveList];
+        defaultClients.forEach((dc) => {
+          if (!merged.some((m) => m.name.toLowerCase() === dc.name.toLowerCase())) {
+            merged.push(dc);
+          }
+        });
+
+        registeredClients = merged;
+        updateClientsLoadedCount();
+        renderClientDropdown(clientInput?.value || '');
+      }, (err) => {
+        console.warn('Erreur écoute Firestore clients :', err);
+      });
+    } catch (err) {
+      console.warn('Erreur initialisation listener clients :', err);
+    }
 
     // 11. Initialisation de la vue Mois par défaut
     setView('month');
