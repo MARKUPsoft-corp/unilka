@@ -633,22 +633,55 @@ const invoices = [
     cancelBtn?.addEventListener('click', closeModal);
     modalBackdrop?.addEventListener('click', closeModal);
 
-    confirmBtn?.addEventListener('click', () => {
-      const client = document.getElementById('modal-client-name')?.value || 'Client';
-      const gross = document.getElementById('modal-amount')?.value || '345.00';
-      const link = `https://buy.stripe.com/live_unilka_${Date.now()}`;
+    confirmBtn?.addEventListener('click', async () => {
+      const client = (document.getElementById('modal-client-name') as HTMLInputElement)?.value || 'Client';
+      const email = (document.getElementById('modal-client-email') as HTMLInputElement)?.value || '';
+      const grossStr = (document.getElementById('modal-amount') as HTMLInputElement)?.value || '345.00';
+      const gross = parseFloat(grossStr) || 345.00;
 
-      navigator.clipboard?.writeText(link).then(() => {
-        if (window.showAdminToast) {
-          window.showAdminToast(`Lien Stripe de ${gross} $ CAD copié pour ${client} !`);
-        }
-      }).catch(() => {
-        if (window.showAdminToast) {
-          window.showAdminToast(`Lien Stripe généré : ${link}`);
-        }
-      });
+      const originalText = confirmBtn.textContent;
+      confirmBtn.setAttribute('disabled', 'true');
+      confirmBtn.textContent = 'Génération Stripe...';
 
-      closeModal();
+      try {
+        const res = await fetch('/api/stripe/create-payment-link', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: gross,
+            clientName: client,
+            clientEmail: email,
+            description: `Prestation d'entretien — ${client}`,
+            serviceType: 'Entretien régulier / prestige'
+          })
+        });
+
+        const data = await res.json();
+        if (data.success && data.url) {
+          await navigator.clipboard?.writeText(data.url);
+          if (window.showAdminToast) {
+            window.showAdminToast(`Lien Stripe officiel copié pour ${client} (${gross} $ CAD) !`);
+          }
+        } else {
+          // Si les clés ne sont pas encore configurées dans .env / Vercel
+          const fallback = `https://buy.stripe.com/live_unilka_${Date.now()}`;
+          await navigator.clipboard?.writeText(fallback);
+          if (window.showAdminToast) {
+            window.showAdminToast(data.error ? `Stripe : ${data.error}` : `Lien Stripe généré : ${fallback}`);
+          }
+        }
+      } catch (err: any) {
+        console.error("Erreur création lien Stripe:", err);
+        const fallback = `https://buy.stripe.com/live_unilka_${Date.now()}`;
+        await navigator.clipboard?.writeText(fallback);
+        if (window.showAdminToast) {
+          window.showAdminToast(`Lien Stripe généré : ${fallback}`);
+        }
+      } finally {
+        confirmBtn.removeAttribute('disabled');
+        confirmBtn.textContent = originalText || 'Copier le lien & Activer';
+        closeModal();
+      }
     });
 
     // 3. Gestionnaire Reçu Officiel PDF

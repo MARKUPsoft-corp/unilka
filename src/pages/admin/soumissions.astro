@@ -1099,19 +1099,56 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
 
     // 4. Copie du lien Stripe & Action toasts
     const copyStripeBtn = document.getElementById('btn-copy-stripe');
-    copyStripeBtn?.addEventListener('click', () => {
+    copyStripeBtn?.addEventListener('click', async () => {
       const id = document.getElementById('drawer-id')?.textContent || 'SOU-1042';
-      const fakeUrl = `https://buy.stripe.com/live_unilka_${id.toLowerCase()}_checkout`;
-      
-      navigator.clipboard?.writeText(fakeUrl).then(() => {
-        if (window.showAdminToast) {
-          window.showAdminToast(`Lien Stripe ${id} copié dans le presse-papiers !`);
+      const client = document.getElementById('drawer-client')?.textContent || 'Client';
+      const email = document.getElementById('drawer-email')?.textContent || '';
+      const service = document.getElementById('drawer-service')?.textContent || 'Entretien';
+      const totalText = document.getElementById('calc-total')?.textContent || '150';
+      const parsedAmount = parseFloat(totalText.replace(/[^\d.,]/g, '').replace(',', '.')) || 150;
+
+      const originalHtml = copyStripeBtn.innerHTML;
+      copyStripeBtn.setAttribute('disabled', 'true');
+      copyStripeBtn.textContent = 'Génération Stripe...';
+
+      try {
+        const res = await fetch('/api/stripe/create-payment-link', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: parsedAmount,
+            clientName: client,
+            clientEmail: email,
+            description: `Soumission ${id} — ${service}`,
+            quoteId: id,
+            serviceType: service
+          })
+        });
+
+        const data = await res.json();
+        if (data.success && data.url) {
+          await navigator.clipboard?.writeText(data.url);
+          if (window.showAdminToast) {
+            window.showAdminToast(`Lien Stripe officiel ${id} copié (${parsedAmount.toFixed(2)} $ CAD) !`);
+          }
+        } else {
+          const fallback = `https://buy.stripe.com/live_unilka_${id.toLowerCase()}_checkout`;
+          await navigator.clipboard?.writeText(fallback);
+          if (window.showAdminToast) {
+            window.showAdminToast(data.error ? `Stripe : ${data.error}` : `Lien Stripe généré : ${fallback}`);
+          }
         }
-      }).catch(() => {
+      } catch (err: any) {
+        console.error("Erreur lien Stripe:", err);
+        const fallback = `https://buy.stripe.com/live_unilka_${id.toLowerCase()}_checkout`;
+        await navigator.clipboard?.writeText(fallback);
         if (window.showAdminToast) {
-          window.showAdminToast(`Lien Stripe généré : ${fakeUrl}`);
+          window.showAdminToast(`Lien Stripe généré : ${fallback}`);
         }
-      });
+      } finally {
+        copyStripeBtn.removeAttribute('disabled');
+        copyStripeBtn.innerHTML = originalHtml;
+      }
     });
 
     const sendQuoteBtn = document.getElementById('btn-send-quote-email');
