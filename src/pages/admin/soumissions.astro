@@ -661,6 +661,101 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
     </div>
   </div>
 
+  <!-- 5. MODALE DE CRÉATION DE SOUMISSION MANUELLE -->
+  <div
+    id="modal-create-soumission"
+    class="fixed inset-0 z-[80] items-center justify-center p-4 bg-[#0B2A2E]/60 backdrop-blur-sm hidden"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-[#0E7C86]/20 space-y-6 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-4 border-b border-[#0E7C86]/10">
+        <div class="flex items-center gap-3">
+          <span class="w-9 h-9 rounded-xl bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center">
+            <AdminIcon name="plus" class="w-5 h-5 text-[#0E7C86]" />
+          </span>
+          <div>
+            <h3 class="text-base font-extrabold text-[#0B2A2E]">Nouvelle soumission manuelle</h3>
+            <p class="text-xs text-[#3D5A5E]">Enregistrement direct dans Firestore</p>
+          </div>
+        </div>
+        <button type="button" id="close-create-modal" class="p-2 text-[#3D5A5E] hover:text-[#0B2A2E] rounded-xl hover:bg-[#F5FAFA] cursor-pointer" aria-label="Fermer">
+          <AdminIcon name="close" class="w-4 h-4" />
+        </button>
+      </div>
+
+      <form id="form-create-soumission" class="space-y-4 text-xs">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-[#0B2A2E] mb-1">Prénom</label>
+            <input type="text" name="firstName" required class="w-full px-3 py-2 rounded-xl border border-[#0E7C86]/20 focus:outline-none focus:border-[#0E7C86]" placeholder="Ex: Jean" />
+          </div>
+          <div>
+            <label class="block font-bold text-[#0B2A2E] mb-1">Nom</label>
+            <input type="text" name="lastName" required class="w-full px-3 py-2 rounded-xl border border-[#0E7C86]/20 focus:outline-none focus:border-[#0E7C86]" placeholder="Ex: Tremblay" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-[#0B2A2E] mb-1">Courriel</label>
+            <input type="email" name="email" required class="w-full px-3 py-2 rounded-xl border border-[#0E7C86]/20 focus:outline-none focus:border-[#0E7C86]" placeholder="client@exemple.ca" />
+          </div>
+          <div>
+            <label class="block font-bold text-[#0B2A2E] mb-1">Téléphone</label>
+            <input type="tel" name="phone" required class="w-full px-3 py-2 rounded-xl border border-[#0E7C86]/20 focus:outline-none focus:border-[#0E7C86]" placeholder="(514) 000-0000" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-[#0B2A2E] mb-1">Service</label>
+            <select name="service" class="w-full px-3 py-2 rounded-xl border border-[#0E7C86]/20 focus:outline-none focus:border-[#0E7C86] bg-white">
+              <option value="Nettoyage résidentiel">Nettoyage résidentiel</option>
+              <option value="Nettoyage commercial">Nettoyage commercial</option>
+              <option value="Grand ménage">Grand ménage d'automne/printemps</option>
+              <option value="Nettoyage spécialisé">Nettoyage spécialisé (tapis/canapés)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-[#0B2A2E] mb-1">Fréquence</label>
+            <select name="frequency" class="w-full px-3 py-2 rounded-xl border border-[#0E7C86]/20 focus:outline-none focus:border-[#0E7C86] bg-white">
+              <option value="Ponctuel">Ponctuel</option>
+              <option value="Hebdomadaire">Hebdomadaire</option>
+              <option value="Aux 2 semaines">Aux 2 semaines</option>
+              <option value="Mensuel">Mensuel</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-[#0B2A2E] mb-1">Ville</label>
+            <input type="text" name="city" required class="w-full px-3 py-2 rounded-xl border border-[#0E7C86]/20 focus:outline-none focus:border-[#0E7C86]" placeholder="Ex: Montréal" />
+          </div>
+          <div>
+            <label class="block font-bold text-[#0B2A2E] mb-1">Surface approximative</label>
+            <input type="text" name="surface" class="w-full px-3 py-2 rounded-xl border border-[#0E7C86]/20 focus:outline-none focus:border-[#0E7C86]" placeholder="Ex: 1 200 pi²" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-[#0B2A2E] mb-1">Notes / Instructions particulières</label>
+          <textarea name="notes" rows="2" class="w-full px-3 py-2 rounded-xl border border-[#0E7C86]/20 focus:outline-none focus:border-[#0E7C86]" placeholder="Besoins spécifiques du client..."></textarea>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-3 border-t border-[#0E7C86]/10">
+          <button type="button" id="cancel-create-modal" class="px-4 py-2 rounded-full border border-[#0E7C86]/20 text-[#3D5A5E] hover:bg-[#F5FAFA] cursor-pointer">
+            Annuler
+          </button>
+          <button type="submit" id="submit-create-btn" class="px-5 py-2 rounded-full bg-[#0E7C86] hover:bg-[#0A5A62] text-white font-bold shadow-sm transition-all cursor-pointer">
+            Créer la soumission
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- SCRIPT CLIENT INTERACTIF SOUMISSIONS -->
   <script is:inline>
     // 1. Filtrage dynamique par statut
@@ -836,8 +931,9 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
 
     // Fermeture avec la touche Échap
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && backdrop && !backdrop.classList.contains('hidden')) {
+      if (e.key === 'Escape') {
         closeDrawer();
+        closeCreateModal();
       }
     });
 
@@ -1013,24 +1109,61 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
     }
 
     function openCreateModal() {
-      if (createModal && createModal.parentElement !== document.body) {
-        document.body.appendChild(createModal);
+      const modal = document.getElementById('modal-create-soumission');
+      if (!modal) return;
+      if (modal.parentElement !== document.body) {
+        document.body.appendChild(modal);
       }
-      createModal?.classList.remove('hidden');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
     }
 
     function closeCreateModal() {
-      createModal?.classList.add('hidden');
+      const modal = document.getElementById('modal-create-soumission');
+      if (!modal) return;
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
     }
 
-    openCreateBtn?.addEventListener('click', openCreateModal);
-    closeCreateBtn?.addEventListener('click', closeCreateModal);
-    cancelCreateBtn?.addEventListener('click', closeCreateModal);
+    openCreateBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openCreateModal();
+    });
+
+    closeCreateBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeCreateModal();
+    });
+
+    cancelCreateBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeCreateModal();
+    });
+
+    // Fermeture si clic à l'extérieur de la modale
+    createModal?.addEventListener('click', (e) => {
+      if (e.target === createModal) {
+        closeCreateModal();
+      }
+    });
 
     // Auto-ouverture du formulaire de création si ?create=true
     if (urlParams.get('create') === 'true') {
       setTimeout(openCreateModal, 200);
     }
+
+    // Support des clics sur les liens "+ Devis" dans la page
+    document.querySelectorAll('a[href*="create=true"]').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        if (window.location.pathname.includes('/admin/soumissions')) {
+          e.preventDefault();
+          openCreateModal();
+        }
+      });
+    });
 
     // Auto-recherche si ?q=... dans l'URL
     const qParam = urlParams.get('q');
@@ -1046,7 +1179,7 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
       e.preventDefault();
       const submitBtn = document.getElementById('submit-create-btn');
       if (submitBtn) {
-        submitBtn.disabled = true;
+        submitBtn.setAttribute('disabled', 'true');
         submitBtn.textContent = 'Enregistrement…';
       }
 
@@ -1102,106 +1235,11 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
         alert('Erreur lors de la création de la soumission. Veuillez réessayer.');
       } finally {
         if (submitBtn) {
-          submitBtn.disabled = false;
+          submitBtn.removeAttribute('disabled');
           submitBtn.textContent = 'Créer la soumission';
         }
       }
     });
   </script>
-
-  <!-- MODAL DE CRÉATION DE SOUMISSION MANUELLE -->
-  <div
-    id="modal-create-soumission"
-    class="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-[#0B2A2E]/60 backdrop-blur-sm hidden"
-    role="dialog"
-    aria-modal="true"
-  >
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-[#0E7C86]/20 space-y-6 max-h-[90vh] overflow-y-auto">
-      <div class="flex items-center justify-between pb-4 border-b border-[#0E7C86]/10">
-        <div class="flex items-center gap-3">
-          <span class="w-9 h-9 rounded-xl bg-[#E3F4F5] text-[#0E7C86] flex items-center justify-center">
-            <AdminIcon name="plus" class="w-5 h-5 text-[#0E7C86]" />
-          </span>
-          <div>
-            <h3 class="text-base font-extrabold text-[#0B2A2E]">Nouvelle soumission manuelle</h3>
-            <p class="text-xs text-[#3D5A5E]">Enregistrement direct dans Firestore</p>
-          </div>
-        </div>
-        <button type="button" id="close-create-modal" class="p-2 text-[#3D5A5E] hover:text-[#0B2A2E] rounded-xl hover:bg-[#F5FAFA]">
-          <AdminIcon name="close" class="w-4 h-4" />
-        </button>
-      </div>
-
-      <form id="form-create-soumission" class="space-y-4 text-xs">
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block font-bold text-[#0B2A2E] mb-1">Prénom</label>
-            <input type="text" name="firstName" required class="w-full px-3 py-2 rounded-xl border border-[#0E7C86]/20 focus:outline-none focus:border-[#0E7C86]" placeholder="Ex: Jean" />
-          </div>
-          <div>
-            <label class="block font-bold text-[#0B2A2E] mb-1">Nom</label>
-            <input type="text" name="lastName" required class="w-full px-3 py-2 rounded-xl border border-[#0E7C86]/20 focus:outline-none focus:border-[#0E7C86]" placeholder="Ex: Tremblay" />
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block font-bold text-[#0B2A2E] mb-1">Courriel</label>
-            <input type="email" name="email" required class="w-full px-3 py-2 rounded-xl border border-[#0E7C86]/20 focus:outline-none focus:border-[#0E7C86]" placeholder="client@exemple.ca" />
-          </div>
-          <div>
-            <label class="block font-bold text-[#0B2A2E] mb-1">Téléphone</label>
-            <input type="tel" name="phone" required class="w-full px-3 py-2 rounded-xl border border-[#0E7C86]/20 focus:outline-none focus:border-[#0E7C86]" placeholder="(514) 000-0000" />
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block font-bold text-[#0B2A2E] mb-1">Service</label>
-            <select name="service" class="w-full px-3 py-2 rounded-xl border border-[#0E7C86]/20 focus:outline-none focus:border-[#0E7C86] bg-white">
-              <option value="Nettoyage résidentiel">Nettoyage résidentiel</option>
-              <option value="Nettoyage commercial">Nettoyage commercial</option>
-              <option value="Grand ménage">Grand ménage d'automne/printemps</option>
-              <option value="Nettoyage spécialisé">Nettoyage spécialisé (tapis/canapés)</option>
-            </select>
-          </div>
-          <div>
-            <label class="block font-bold text-[#0B2A2E] mb-1">Fréquence</label>
-            <select name="frequency" class="w-full px-3 py-2 rounded-xl border border-[#0E7C86]/20 focus:outline-none focus:border-[#0E7C86] bg-white">
-              <option value="Ponctuel">Ponctuel</option>
-              <option value="Hebdomadaire">Hebdomadaire</option>
-              <option value="Aux 2 semaines">Aux 2 semaines</option>
-              <option value="Mensuel">Mensuel</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block font-bold text-[#0B2A2E] mb-1">Ville</label>
-            <input type="text" name="city" required class="w-full px-3 py-2 rounded-xl border border-[#0E7C86]/20 focus:outline-none focus:border-[#0E7C86]" placeholder="Ex: Montréal" />
-          </div>
-          <div>
-            <label class="block font-bold text-[#0B2A2E] mb-1">Surface approximative</label>
-            <input type="text" name="surface" class="w-full px-3 py-2 rounded-xl border border-[#0E7C86]/20 focus:outline-none focus:border-[#0E7C86]" placeholder="Ex: 1 200 pi²" />
-          </div>
-        </div>
-
-        <div>
-          <label class="block font-bold text-[#0B2A2E] mb-1">Notes / Instructions particulières</label>
-          <textarea name="notes" rows="2" class="w-full px-3 py-2 rounded-xl border border-[#0E7C86]/20 focus:outline-none focus:border-[#0E7C86]" placeholder="Besoins spécifiques du client..."></textarea>
-        </div>
-
-        <div class="flex items-center justify-end gap-3 pt-3 border-t border-[#0E7C86]/10">
-          <button type="button" id="cancel-create-modal" class="px-4 py-2 rounded-full border border-[#0E7C86]/20 text-[#3D5A5E] hover:bg-[#F5FAFA]">
-            Annuler
-          </button>
-          <button type="submit" id="submit-create-btn" class="px-5 py-2 rounded-full bg-[#0E7C86] hover:bg-[#0A5A62] text-white font-bold shadow-sm transition-all">
-            Créer la soumission
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
 
 </AdminLayout>
