@@ -306,6 +306,9 @@ const googleLink = config.social.googleBusiness || "https://maps.google.com/?q=u
 
     // Modale gestion
     openBtn?.addEventListener('click', () => {
+      if (modal && modal.parentElement !== document.body) {
+        document.body.appendChild(modal);
+      }
       modal?.classList.remove('hidden');
       modal?.classList.add('flex');
     });

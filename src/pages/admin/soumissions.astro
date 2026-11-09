@@ -722,10 +722,18 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
     const closeDrawerBtn = document.getElementById('close-drawer-btn');
     const cancelDrawerBtn = document.getElementById('btn-cancel-drawer');
 
+    // Téléportation vers document.body pour que le flou couvre 100% de la fenêtre (y compris le header supérieur)
+    if (backdrop && backdrop.parentElement !== document.body) {
+      document.body.appendChild(backdrop);
+    }
+
     let currentOpenRow = null;
 
     function openDrawer(row) {
       if (!drawer || !backdrop) return;
+      if (backdrop.parentElement !== document.body) {
+        document.body.appendChild(backdrop);
+      }
       currentOpenRow = row;
 
       const id = row.dataset.id;
@@ -999,7 +1007,15 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
     const cancelCreateBtn = document.getElementById('cancel-create-modal');
     const formCreate = document.getElementById('form-create-soumission');
 
+    // Téléportation vers document.body
+    if (createModal && createModal.parentElement !== document.body) {
+      document.body.appendChild(createModal);
+    }
+
     function openCreateModal() {
+      if (createModal && createModal.parentElement !== document.body) {
+        document.body.appendChild(createModal);
+      }
       createModal?.classList.remove('hidden');
     }
 
@@ -1096,7 +1112,7 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
   <!-- MODAL DE CRÉATION DE SOUMISSION MANUELLE -->
   <div
     id="modal-create-soumission"
-    class="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-[#0B2A2E]/60 backdrop-blur-xs hidden"
+    class="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-[#0B2A2E]/60 backdrop-blur-sm hidden"
     role="dialog"
     aria-modal="true"
   >

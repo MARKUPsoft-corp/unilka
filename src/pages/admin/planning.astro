@@ -1211,6 +1211,9 @@ const staffAvailabilities = [
 
     function openMissionModal(mis: any) {
       if (!detailModal || !detailCard || !mis) return;
+      if (detailModal.parentElement !== document.body) {
+        document.body.appendChild(detailModal);
+      }
       currentSelectedMission = mis;
 
       // Assignation ultra-sécurisée avec vérification d'existence
@@ -1411,6 +1414,9 @@ const staffAvailabilities = [
 
     function openNewMissionModal(prefillDate?: string) {
       if (!newMissionModal || !newMissionCard) return;
+      if (newMissionModal.parentElement !== document.body) {
+        document.body.appendChild(newMissionModal);
+      }
       const dateInput = document.getElementById('new-date') as HTMLInputElement | null;
       if (dateInput) {
         dateInput.value = prefillDate || todayDateStr;

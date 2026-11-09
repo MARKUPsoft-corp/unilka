@@ -539,6 +539,29 @@ const navItems = [
           console.error("[unilka Auth Error] Erreur déconnexion :", err);
         }
       });
+
+      // Téléportation universelle de toutes les modales vers document.body
+      // Garantit que le flou (backdrop-blur) et le voile sombre recouvrent 100% de la fenêtre, y compris le header supérieur
+      function autoTeleportAdminModals() {
+        const modalElements = document.querySelectorAll(
+          '#drawer-backdrop, #modal-create-soumission, #payment-modal-backdrop, #payment-modal, #modal-add-review, #mission-detail-modal, #new-mission-modal, [role="dialog"]'
+        );
+        modalElements.forEach((el) => {
+          let rootModal = el;
+          if (!rootModal.classList.contains('fixed') && rootModal.parentElement && rootModal.parentElement.classList.contains('fixed')) {
+            rootModal = rootModal.parentElement;
+          }
+          if (rootModal && rootModal.parentElement && rootModal.parentElement !== document.body) {
+            document.body.appendChild(rootModal);
+          }
+        });
+      }
+
+      autoTeleportAdminModals();
+      window.addEventListener('DOMContentLoaded', autoTeleportAdminModals);
+      setTimeout(autoTeleportAdminModals, 50);
+      setTimeout(autoTeleportAdminModals, 250);
+      setTimeout(autoTeleportAdminModals, 700);
     </script>
 
   </body>

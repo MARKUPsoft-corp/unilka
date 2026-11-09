@@ -262,7 +262,7 @@ const invoices = [
   <!-- 5. MODAL DE CRÉATION DE LIEN DE PAIEMENT STRIPE -->
   <div
     id="payment-modal-backdrop"
-    class="fixed inset-0 bg-[#0B2A2E]/50 backdrop-blur-xs z-[80] hidden transition-opacity duration-200"
+    class="fixed inset-0 bg-[#0B2A2E]/60 backdrop-blur-sm z-[80] hidden transition-opacity duration-200"
   ></div>
 
   <div
@@ -382,6 +382,14 @@ const invoices = [
     const feeEl = document.getElementById('modal-stripe-fee');
     const netEl = document.getElementById('modal-net-amount');
 
+    // Téléportation vers document.body pour que le flou couvre 100% de la fenêtre (y compris le header supérieur)
+    if (modalBackdrop && modalBackdrop.parentElement !== document.body) {
+      document.body.appendChild(modalBackdrop);
+    }
+    if (modal && modal.parentElement !== document.body) {
+      document.body.appendChild(modal);
+    }
+
     function calculateStripeFee() {
       const gross = parseFloat(amountInput?.value || 0);
       const fee = (gross * 0.029) + 0.30;
@@ -395,6 +403,12 @@ const invoices = [
 
     function openModal() {
       if (!modal || !modalBackdrop || !modalCard) return;
+      if (modalBackdrop.parentElement !== document.body) {
+        document.body.appendChild(modalBackdrop);
+      }
+      if (modal.parentElement !== document.body) {
+        document.body.appendChild(modal);
+      }
       calculateStripeFee();
       modal.classList.remove('hidden');
       modalBackdrop.classList.remove('hidden');
