@@ -757,12 +757,15 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
   </div>
 
   <!-- SCRIPT CLIENT INTERACTIF SOUMISSIONS -->
-  <script is:inline>
+  <script>
+    import { db } from '../../lib/firebase';
+    import { collection, addDoc, doc, updateDoc } from 'firebase/firestore';
+
     // 1. Filtrage dynamique par statut
     const filterTabs = document.querySelectorAll('.filter-tab');
-    const rows = document.querySelectorAll('.submission-row');
-    const serviceSelect = document.getElementById('service-select');
-    const zoneSelect = document.getElementById('zone-select');
+    const rows = document.querySelectorAll<HTMLElement>('.submission-row');
+    const serviceSelect = document.getElementById('service-select') as HTMLSelectElement | null;
+    const zoneSelect = document.getElementById('zone-select') as HTMLSelectElement | null;
     const countLabel = document.getElementById('rows-count-label');
 
     let currentStatus = 'all';
@@ -1013,8 +1016,6 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
       const client = document.getElementById('drawer-client')?.textContent || 'Client';
 
       try {
-        const { db } = await import('../../lib/firebase');
-        const { doc, updateDoc } = await import('firebase/firestore');
         const rawId = currentOpenRow?.dataset.rawid;
         if (rawId) {
           await updateDoc(doc(db, 'submissions', rawId), {
@@ -1034,8 +1035,8 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
         console.warn('Mise à jour statut Firestore :', e);
       }
 
-      if (window.showAdminToast) {
-        window.showAdminToast(`Devis ${id} officiellement transmis à ${client} !`);
+      if ((window as any).showAdminToast) {
+        (window as any).showAdminToast(`Devis ${id} officiellement transmis à ${client} !`);
       }
     });
 
@@ -1183,7 +1184,7 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
         submitBtn.textContent = 'Enregistrement…';
       }
 
-      const formData = new FormData(formCreate);
+      const formData = new FormData(formCreate as HTMLFormElement);
       const firstName = formData.get('firstName')?.toString().trim() || '';
       const lastName = formData.get('lastName')?.toString().trim() || '';
       const email = formData.get('email')?.toString().trim() || '';
@@ -1195,9 +1196,6 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
       const notes = formData.get('notes')?.toString().trim() || '';
 
       try {
-        const { db } = await import('../../lib/firebase');
-        const { collection, addDoc } = await import('firebase/firestore');
-
         await addDoc(collection(db, 'submissions'), {
           firstName,
           lastName,
@@ -1221,10 +1219,10 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
         });
 
         closeCreateModal();
-        formCreate.reset();
+        (formCreate as HTMLFormElement).reset();
 
-        if (window.showAdminToast) {
-          window.showAdminToast(`Soumission créée pour ${firstName} ${lastName} !`);
+        if ((window as any).showAdminToast) {
+          (window as any).showAdminToast(`Soumission créée pour ${firstName} ${lastName} !`);
         }
 
         setTimeout(() => {
@@ -1243,13 +1241,13 @@ const countConfirmed = submissions.filter(s => s.status === 'Confirmé & Payé' 
 
     // Pagination
     document.getElementById('btn-pagination-prev')?.addEventListener('click', () => {
-      if (window.showAdminToast) {
-        window.showAdminToast("Page 1 sur 1 — Toutes les soumissions sont déjà affichées.");
+      if ((window as any).showAdminToast) {
+        (window as any).showAdminToast("Page 1 sur 1 — Toutes les soumissions sont déjà affichées.");
       }
     });
     document.getElementById('btn-pagination-next')?.addEventListener('click', () => {
-      if (window.showAdminToast) {
-        window.showAdminToast("Page 1 sur 1 — Toutes les soumissions sont déjà affichées.");
+      if ((window as any).showAdminToast) {
+        (window as any).showAdminToast("Page 1 sur 1 — Toutes les soumissions sont déjà affichées.");
       }
     });
   </script>

@@ -368,96 +368,98 @@ const navItems = [
     </div>
 
     <script is:inline>
-      // 1. Mobile Sidebar toggle
-      const sidebar = document.getElementById('admin-sidebar');
-      const backdrop = document.getElementById('sidebar-backdrop');
-      const toggleBtn = document.getElementById('toggle-sidebar-btn');
-      const closeBtn = document.getElementById('close-sidebar-btn');
+      (function() {
+        // 1. Mobile Sidebar toggle
+        const sidebar = document.getElementById('admin-sidebar');
+        const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+        const toggleBtn = document.getElementById('toggle-sidebar-btn');
+        const closeBtn = document.getElementById('close-sidebar-btn');
 
-      function openSidebar() {
-        if (sidebar && backdrop) {
-          sidebar.classList.remove('-translate-x-full');
-          backdrop.classList.remove('hidden');
+        function openSidebar() {
+          if (sidebar && sidebarBackdrop) {
+            sidebar.classList.remove('-translate-x-full');
+            sidebarBackdrop.classList.remove('hidden');
+          }
         }
-      }
 
-      function closeSidebar() {
-        if (sidebar && backdrop) {
-          sidebar.classList.add('-translate-x-full');
-          backdrop.classList.add('hidden');
+        function closeSidebar() {
+          if (sidebar && sidebarBackdrop) {
+            sidebar.classList.add('-translate-x-full');
+            sidebarBackdrop.classList.add('hidden');
+          }
         }
-      }
 
-      toggleBtn?.addEventListener('click', openSidebar);
-      closeBtn?.addEventListener('click', closeSidebar);
-      backdrop?.addEventListener('click', closeSidebar);
+        toggleBtn?.addEventListener('click', openSidebar);
+        closeBtn?.addEventListener('click', closeSidebar);
+        sidebarBackdrop?.addEventListener('click', closeSidebar);
 
-      // 2. Global Toast Notification helper
-      window.showAdminToast = function(message) {
-        const toast = document.getElementById('admin-toast');
-        const msgEl = document.getElementById('admin-toast-message');
+        // 2. Global Toast Notification helper
+        window.showAdminToast = function(message) {
+          const toast = document.getElementById('admin-toast');
+          const msgEl = document.getElementById('admin-toast-message');
 
-        if (!toast || !msgEl) return;
+          if (!toast || !msgEl) return;
 
-        msgEl.textContent = message;
+          msgEl.textContent = message;
 
-        toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
-        toast.classList.add('translate-y-0', 'opacity-100');
+          toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+          toast.classList.add('translate-y-0', 'opacity-100');
 
-        setTimeout(() => {
-          toast.classList.remove('translate-y-0', 'opacity-100');
-          toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
-        }, 3000);
-      };
+          setTimeout(() => {
+            toast.classList.remove('translate-y-0', 'opacity-100');
+            toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+          }, 3000);
+        };
 
-      // 3. Téléportation automatique des modales vers <body> pour garantir un flou total (couvre 100% de la fenêtre, y compris la barre supérieure)
-      function teleportModalsToBody() {
-        document.querySelectorAll('[role="dialog"].fixed, [id*="modal"].fixed, [id*="drawer"].fixed').forEach((el) => {
-          if (el.parentElement && el.parentElement !== document.body) {
-            document.body.appendChild(el);
+        // 3. Téléportation automatique des modales vers <body> pour garantir un flou total (couvre 100% de la fenêtre, y compris la barre supérieure)
+        function teleportModalsToBody() {
+          document.querySelectorAll('[role="dialog"].fixed, [id*="modal"].fixed, [id*="drawer"].fixed').forEach((el) => {
+            if (el.parentElement && el.parentElement !== document.body) {
+              document.body.appendChild(el);
+            }
+          });
+        }
+        teleportModalsToBody();
+        window.addEventListener('DOMContentLoaded', teleportModalsToBody);
+        setTimeout(teleportModalsToBody, 150);
+
+        // 4. Recherche globale instantanée
+        const searchInput = document.getElementById('admin-search-input');
+        searchInput?.addEventListener('input', (e) => {
+          const query = (e.target.value || '').toLowerCase().trim();
+
+          const subRows = document.querySelectorAll('.submission-row');
+          if (subRows.length > 0) {
+            let matched = 0;
+            subRows.forEach(row => {
+              const text = (row.textContent || '').toLowerCase();
+              const show = text.includes(query);
+              row.style.display = show ? '' : 'none';
+              if (show) matched++;
+            });
+            const countEl = document.getElementById('rows-count-label');
+            if (countEl) countEl.textContent = `Affichage de ${matched} sur ${subRows.length} soumissions`;
+            return;
+          }
+
+          const subItems = document.querySelectorAll('.submission-item');
+          if (subItems.length > 0) {
+            subItems.forEach(item => {
+              const text = (item.textContent || '').toLowerCase();
+              item.style.display = text.includes(query) ? '' : 'none';
+            });
           }
         });
-      }
-      teleportModalsToBody();
-      window.addEventListener('DOMContentLoaded', teleportModalsToBody);
-      setTimeout(teleportModalsToBody, 150);
 
-      // 4. Recherche globale instantanée
-      const searchInput = document.getElementById('admin-search-input');
-      searchInput?.addEventListener('input', (e) => {
-        const query = (e.target.value || '').toLowerCase().trim();
-
-        const subRows = document.querySelectorAll('.submission-row');
-        if (subRows.length > 0) {
-          let matched = 0;
-          subRows.forEach(row => {
-            const text = (row.textContent || '').toLowerCase();
-            const show = text.includes(query);
-            row.style.display = show ? '' : 'none';
-            if (show) matched++;
-          });
-          const countEl = document.getElementById('rows-count-label');
-          if (countEl) countEl.textContent = `Affichage de ${matched} sur ${subRows.length} soumissions`;
-          return;
-        }
-
-        const subItems = document.querySelectorAll('.submission-item');
-        if (subItems.length > 0) {
-          subItems.forEach(item => {
-            const text = (item.textContent || '').toLowerCase();
-            item.style.display = text.includes(query) ? '' : 'none';
-          });
-        }
-      });
-
-      searchInput?.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          const val = (searchInput.value || '').trim();
-          if (val && !window.location.pathname.includes('/admin/soumissions')) {
-            window.location.href = `/admin/soumissions/?q=${encodeURIComponent(val)}`;
+        searchInput?.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            const val = (searchInput.value || '').trim();
+            if (val && !window.location.pathname.includes('/admin/soumissions')) {
+              window.location.href = `/admin/soumissions/?q=${encodeURIComponent(val)}`;
+            }
           }
-        }
-      });
+        });
+      })();
     </script>
 
     <!-- 3. AUTH GUARD & GESTION DU COMPTE GOOGLE -->
